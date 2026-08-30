@@ -16,9 +16,13 @@
 #'   for both chromosomes and ribbons unless `chr_palette` / `ribbon_palette`
 #'   override it.
 #' @param tier_spacing Numeric, vertical spacing between species tiers (default 18)
-#' @param chr_fill Chromosome coloring mode: "per_species", "uniform", "per_chr", or "custom"
+#' @param chr_fill Chromosome coloring mode: "uniform" (default), "per_species",
+#'   "per_chr", or "custom"
 #' @param chr_palette Color palette for chromosomes: a built-in palette name,
 #'   an unnamed color vector, or a named vector mapping keys to colors (see Details)
+#' @param chr_color Chromosome outline color (default "white", which reads as
+#'   a clean seam between adjacent chromosomes; use "black" for the classic
+#'   outlined look)
 #' @param ribbon_fill Ribbon coloring mode: "source_chr", "target_chr", "species_pair", "uniform", or "custom"
 #' @param ribbon_palette Color palette for ribbons: a built-in palette name,
 #'   an unnamed color vector, or a named vector mapping keys to colors (see Details)
@@ -40,10 +44,15 @@
 #'   widget when `interactive = TRUE`)
 #'
 #' @details
+#' \strong{Defaults:} with nothing specified, chromosomes are drawn as quiet
+#' dark boxes (`"#333333"` with white seams) and the ribbons take their
+#' colors from the `alger` palette — the ribbons carry the signal. Any
+#' `palette`, `chr_palette`, or `ribbon_palette` overrides this.
+#'
 #' \strong{Chromosome Coloring (chr_fill):}
 #' \itemize{
+#'   \item "uniform" — all chromosomes same color. Default "#333333"; set chr_palette = "#E8E4DF" for light boxes
 #'   \item "per_species" — one color per species. chr_palette = "casa_natal" or c("Human" = "#4477AA", ...)
-#'   \item "uniform" — all chromosomes same color. chr_palette = "#E8E4DF"
 #'   \item "per_chr" — one color per chromosome label. chr_palette = "casa_natal" or c("1" = "#4477AA", ...)
 #'   \item "custom" — full control. chr_palette as named vector with "species__chr" keys
 #' }
@@ -68,7 +77,7 @@
 #' syn <- example_synteny_data()
 #' sp_order <- c("Arabidopsis", "Grape", "Rice")
 #'
-#' # Default: per-species chromosomes + source-chr ribbons
+#' # Default: dark chromosomes with white seams, alger-colored ribbons
 #' p <- plot_synteny(syn, sp_order)
 #'
 #' # One ltc palette for the whole plot
@@ -89,8 +98,9 @@ plot_synteny <- function(syn_data, species_order,
                          palette = NULL,
                          tier_spacing = 18,
                          # Chromosome coloring
-                         chr_fill = "per_species",
+                         chr_fill = "uniform",
                          chr_palette = NULL,
+                         chr_color = "white",
                          # Ribbon coloring
                          ribbon_fill = "source_chr",
                          ribbon_palette = NULL,
@@ -103,7 +113,7 @@ plot_synteny <- function(syn_data, species_order,
                          interactive = FALSE,
                          title = NULL) {
 
-  chr_fill    <- match.arg(chr_fill, c("per_species", "uniform", "per_chr", "custom"))
+  chr_fill    <- match.arg(chr_fill, c("uniform", "per_species", "per_chr", "custom"))
   ribbon_fill <- match.arg(ribbon_fill,
                            c("source_chr", "target_chr", "species_pair", "uniform", "custom"))
 
@@ -171,21 +181,14 @@ plot_synteny <- function(syn_data, species_order,
   chr_spec <- chr_palette %||% palette
 
   if (chr_fill == "uniform") {
-    fill_val <- if (is.null(chr_spec)) "#E8E4DF"
+    # Default look: quiet dark chromosomes; the ribbons carry the colour
+    fill_val <- if (is.null(chr_spec)) "#333333"
                 else if (is_palette_name(chr_spec)) syn_pal(chr_spec, 1)
                 else chr_spec
     chr_layout$fill_color <- fill_val
 
   } else if (chr_fill == "per_species") {
-    if (is.null(chr_spec)) {
-      pal <- stats::setNames(
-        grDevices::hcl(h = seq(15, 375, length.out = length(species_order) + 1)[1:length(species_order)],
-            c = 30, l = 80),
-        species_order
-      )
-    } else {
-      pal <- keyed_colors(chr_spec, species_order)
-    }
+    pal <- keyed_colors(chr_spec, species_order)
     chr_layout$fill_color <- pal[chr_layout$species]
 
   } else if (chr_fill == "per_chr") {
@@ -342,8 +345,8 @@ plot_synteny <- function(syn_data, species_order,
       data = chr_layout,
       aes(xmin = xmin, xmax = xmax, ymin = y - h, ymax = y + h,
           tooltip = tooltip, data_id = paste0(species, "__", chr)),
-      fill = chr_layout$fill_color, color = "black",
-      linewidth = 0.4, alpha = 0.95
+      fill = chr_layout$fill_color, color = chr_color,
+      linewidth = 0.5, alpha = 0.95
     )
   } else if (chr_radius > 0) {
     # Rounded corners via ggforce::geom_shape (radius in absolute mm, so the
@@ -358,16 +361,16 @@ plot_synteny <- function(syn_data, species_order,
     p <- p + ggforce::geom_shape(
       data = chr_poly,
       aes(x = x, y = y, group = chr_id),
-      fill = rep(chr_layout$fill_color, each = 4), color = "black",
-      linewidth = 0.4, alpha = 0.95,
+      fill = rep(chr_layout$fill_color, each = 4), color = chr_color,
+      linewidth = 0.5, alpha = 0.95,
       radius = grid::unit(chr_radius, "mm")
     )
   } else {
     p <- p + geom_rect(
       data = chr_layout,
       aes(xmin = xmin, xmax = xmax, ymin = y - h, ymax = y + h),
-      fill = chr_layout$fill_color, color = "black",
-      linewidth = 0.4, alpha = 0.95
+      fill = chr_layout$fill_color, color = chr_color,
+      linewidth = 0.5, alpha = 0.95
     )
   }
 

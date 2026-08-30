@@ -103,7 +103,8 @@ and `blocks` data frames (see the input formats below).
 | `syn_data` | — | List with `chromosomes` and `blocks` data frames |
 | `species_order` | — | Display order, top to bottom |
 | `palette` | `NULL` | One palette for the whole plot: an ltc name (`"casa_natal"`), `"Okabe-Ito"`, or a colour vector |
-| `chr_fill` | `"per_species"` | Chromosome colouring: `"per_species"`, `"uniform"`, `"per_chr"`, or `"custom"` |
+| `chr_fill` | `"uniform"` | Chromosome colouring: `"uniform"` (dark `#333333` default), `"per_species"`, `"per_chr"`, or `"custom"` |
+| `chr_color` | `"white"` | Chromosome outline — white seams by default; `"black"` for the classic outlined look |
 | `chr_palette` | `NULL` | Overrides `palette` for chromosomes: a palette name, colour vector, or *named* key-to-colour vector |
 | `ribbon_fill` | `"source_chr"` | Ribbon colouring: `"source_chr"`, `"target_chr"`, `"species_pair"`, `"uniform"`, or `"custom"` |
 | `ribbon_palette` | `NULL` | Overrides `palette` for ribbons; same forms as `chr_palette` |
@@ -113,8 +114,10 @@ and `blocks` data frames (see the input formats below).
 | `chr_radius` | `0` | Corner radius in mm — `1.5` gives karyotype-style capsules (needs ggforce) |
 | `interactive` | `FALSE` | Build ggiraph-interactive layers — render with `syn_girafe()` |
 
-With no colours at all you get soft per-species pastels and auto-generated
-ribbon hues:
+With nothing specified you get the house default: quiet dark chromosomes
+(`"#333333"` with white seams) and ribbons coloured from the `alger`
+palette — the ribbons carry the signal, the chromosomes stay out of the
+way:
 
 ``` r
 plot_synteny(syn, species_order = c("Arabidopsis", "Grape", "Rice"))

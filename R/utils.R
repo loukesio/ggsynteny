@@ -6,15 +6,6 @@
 #' @noRd
 `%||%` <- function(a, b) if (is.null(a)) b else a
 
-#' Auto-generate color palette
-#'
-#' @param n Number of colors to generate
-#' @return Character vector of hex color codes
-#' @keywords internal
-auto_palette <- function(n) {
-  grDevices::hcl(h = seq(15, 375, length.out = n + 1)[1:n], c = 70, l = 60)
-}
-
 #' Create bezier curve ribbon polygon
 #'
 #' Generates coordinates for a curved ribbon connecting two horizontal segments

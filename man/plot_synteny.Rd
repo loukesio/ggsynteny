@@ -9,8 +9,9 @@ plot_synteny(
   species_order,
   palette = NULL,
   tier_spacing = 18,
-  chr_fill = "per_species",
+  chr_fill = "uniform",
   chr_palette = NULL,
+  chr_color = "white",
   ribbon_fill = "source_chr",
   ribbon_palette = NULL,
   ribbon_alpha = 0.3,
@@ -36,10 +37,15 @@ override it.}
 
 \item{tier_spacing}{Numeric, vertical spacing between species tiers (default 18)}
 
-\item{chr_fill}{Chromosome coloring mode: "per_species", "uniform", "per_chr", or "custom"}
+\item{chr_fill}{Chromosome coloring mode: "uniform" (default), "per_species",
+"per_chr", or "custom"}
 
 \item{chr_palette}{Color palette for chromosomes: a built-in palette name,
 an unnamed color vector, or a named vector mapping keys to colors (see Details)}
+
+\item{chr_color}{Chromosome outline color (default "white", which reads as
+a clean seam between adjacent chromosomes; use "black" for the classic
+outlined look)}
 
 \item{ribbon_fill}{Ribbon coloring mode: "source_chr", "target_chr", "species_pair", "uniform", or "custom"}
 
@@ -75,10 +81,15 @@ Creates publication-quality synteny plots showing chromosomal relationships
 across multiple species with flexible coloring options.
 }
 \details{
+\strong{Defaults:} with nothing specified, chromosomes are drawn as quiet
+dark boxes (\code{"#333333"} with white seams) and the ribbons take their
+colors from the \code{alger} palette — the ribbons carry the signal. Any
+\code{palette}, \code{chr_palette}, or \code{ribbon_palette} overrides this.
+
 \strong{Chromosome Coloring (chr_fill):}
 \itemize{
+\item "uniform" — all chromosomes same color. Default "#333333"; set chr_palette = "#E8E4DF" for light boxes
 \item "per_species" — one color per species. chr_palette = "casa_natal" or c("Human" = "#4477AA", ...)
-\item "uniform" — all chromosomes same color. chr_palette = "#E8E4DF"
 \item "per_chr" — one color per chromosome label. chr_palette = "casa_natal" or c("1" = "#4477AA", ...)
 \item "custom" — full control. chr_palette as named vector with "species__chr" keys
 }
@@ -103,7 +114,7 @@ explicit key-to-color mappings, exactly as before.
 syn <- example_synteny_data()
 sp_order <- c("Arabidopsis", "Grape", "Rice")
 
-# Default: per-species chromosomes + source-chr ribbons
+# Default: dark chromosomes with white seams, alger-colored ribbons
 p <- plot_synteny(syn, sp_order)
 
 # One ltc palette for the whole plot

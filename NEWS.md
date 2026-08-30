@@ -1,5 +1,11 @@
 # ggsynteny 0.3.0
 
+* New default look for `plot_synteny()`: with nothing specified,
+  chromosomes are quiet dark boxes ("#333333", `chr_fill = "uniform"`) with
+  white seams (new `chr_color` argument), and ribbons take their colors
+  from the `alger` palette. The old auto-generated HCL hues are gone;
+  `alger` is now the fallback palette wherever no palette is given.
+
 * New `chr_radius` (in `plot_synteny()`) and `gene_radius` (in
   `plot_microsynteny()`): corner rounding in millimetres via ggforce —
   `chr_radius = 1.5` turns chromosomes into karyotype-style capsules.

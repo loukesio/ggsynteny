@@ -150,11 +150,12 @@ syn_pal <- function(palette, n, continuous = FALSE) {
 #'
 #' A named vector is used as an explicit key-to-colour mapping (as before);
 #' anything else (a palette name, an unnamed colour vector, NULL) is resolved
-#' to one colour per key.
+#' to one colour per key. With no spec at all, the `alger` palette is the
+#' package default (interpolated when there are more keys than colours).
 #' @noRd
 keyed_colors <- function(spec, keys) {
   if (is.null(spec)) {
-    return(stats::setNames(auto_palette(length(keys)), keys))
+    return(stats::setNames(syn_pal("alger", length(keys)), keys))
   }
   if (!is.null(names(spec))) {
     return(spec)
