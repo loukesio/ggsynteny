@@ -1,0 +1,35 @@
+Package: ggsynteny
+Type: Package
+Title: Publication-Quality Synteny Plots with 'ggplot2'
+Version: 0.2.0
+Authors@R:
+    person("Loukas", "Theodosiou", email = "theodosiou@evolbio.mpg.de",
+           role = c("aut", "cre"), comment = c(ORCID = "0000-0001-6418-4652"))
+Description: Create publication-quality synteny plots for comparative genomics.
+    Supports both macro-synteny (chromosome-level) and micro-synteny (gene-level)
+    visualizations with flexible coloring schemes, including the 32 palettes of
+    the 'ltc' package usable by name (e.g. palette = "casa_natal"). Includes
+    parsers for common synteny file formats including MCScanX, GENESPACE, and
+    custom TSV formats.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Depends:
+    R (>= 3.5.0)
+Imports:
+    ggplot2 (>= 3.3.0),
+    dplyr (>= 1.0.0),
+    readr (>= 2.0.0),
+    tibble (>= 3.0.0),
+    grDevices,
+    stats
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+URL: https://github.com/loukesio/ggsynteny
+BugReports: https://github.com/loukesio/ggsynteny/issues

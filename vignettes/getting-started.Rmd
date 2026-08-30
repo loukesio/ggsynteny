@@ -1,0 +1,249 @@
+---
+title: "Getting Started with ggsynteny"
+author: "Your Name"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with ggsynteny}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 10,
+  fig.height = 6,
+  fig.align = "center"
+)
+```
+
+## Introduction
+
+`ggsynteny` provides tools for creating publication-quality synteny plots for comparative genomics. This vignette demonstrates the basic usage of the package.
+
+## Installation
+
+```{r eval=FALSE}
+# Install from GitHub
+devtools::install_github("yourusername/ggsynteny")
+```
+
+```{r}
+library(ggsynteny)
+library(ggplot2)
+```
+
+## Macro-Synteny Plots
+
+### Basic Example
+
+Let's start with the bundled example data showing synteny between Arabidopsis, Grape, and Rice:
+
+```{r}
+# Load example data
+syn <- example_synteny_data()
+
+# Inspect structure
+str(syn)
+```
+
+The data contains two data frames:
+- `chromosomes`: chromosome sizes for each species
+- `blocks`: syntenic block coordinates
+
+### Creating a Basic Plot
+
+```{r fig.height=8}
+# Define species order (top to bottom)
+sp_order <- c("Arabidopsis", "Grape", "Rice")
+
+# Create plot
+p1 <- plot_synteny(syn,
+                   species_order = sp_order,
+                   title = "Plant Genome Synteny")
+print(p1)
+```
+
+### Using the Built-in Palettes
+
+Every `palette` argument accepts, by name, all 32 palettes of the
+[ltc package](https://github.com/loukesio/ltc-color-palettes) (vendored, so
+ltc need not be installed). One palette can drive the whole plot:
+
+```{r fig.height=8}
+p_pal <- plot_synteny(syn, sp_order, palette = "casa_natal")
+print(p_pal)
+```
+
+List them all with `syn_palettes()`; names match case-insensitively and
+ignore spaces, underscores, and dashes:
+
+```{r}
+names(syn_palettes())
+```
+
+### Customizing Colors
+
+#### Per-Species Chromosome Colors
+
+```{r fig.height=8}
+p2 <- plot_synteny(syn, sp_order,
+                   chr_fill = "per_species",
+                   chr_palette = c(
+                     "Arabidopsis" = "#B8D4E3",
+                     "Grape"       = "#C5B4E3",
+                     "Rice"        = "#B8E3C5"
+                   ),
+                   ribbon_fill = "uniform",
+                   ribbon_palette = "#50B88E",
+                   ribbon_alpha = 0.25,
+                   title = "Custom Species Colors")
+print(p2)
+```
+
+#### Per-Chromosome Colors
+
+```{r fig.height=8}
+# Define color palette for chromosomes 1-12
+chr_pal <- c("1"="#1B3A8C", "2"="#3B7DD8", "3"="#00BCD4", "4"="#4CAF50",
+             "5"="#8BC34A", "6"="#CDDC39", "7"="#9C27B0", "8"="#E91E63",
+             "9"="#FF5722", "10"="#FF9800", "11"="#795548", "12"="#F44336")
+
+p3 <- plot_synteny(syn, sp_order,
+                   chr_fill = "per_chr",
+                   chr_palette = chr_pal,
+                   ribbon_fill = "source_chr",
+                   ribbon_palette = chr_pal,
+                   title = "Per-Chromosome Coloring")
+print(p3)
+```
+
+### Species-Pair Ribbon Colors
+
+```{r fig.height=8}
+p4 <- plot_synteny(syn, sp_order,
+                   chr_fill = "uniform",
+                   chr_palette = "#E8E4DF",
+                   ribbon_fill = "species_pair",
+                   ribbon_palette = c(
+                     "Arabidopsis_Grape" = "#3A6EA5",
+                     "Grape_Rice"        = "#E8573A"
+                   ),
+                   title = "Species-Pair Ribbon Colors")
+print(p4)
+```
+
+## Micro-Synteny Plots
+
+### Basic Example
+
+Micro-synteny plots show gene-level conservation:
+
+```{r fig.height=6}
+# Load microsynteny example
+micro <- demo_microsynteny_data()
+
+# Inspect structure
+str(micro)
+```
+
+The data contains:
+- `features`: gene coordinates, strand, and names
+- `links`: homology relationships with identity scores
+
+### Creating a Gene-Level Plot
+
+```{r fig.height=6}
+p5 <- plot_microsynteny(micro$features,
+                        micro$links,
+                        bin_order = c("ZONMW-30", "ZONMW-20", "ZONMW-10"),
+                        gene_fill = "per_name",
+                        ribbon_fill = "identity",
+                        title = "Micro-synteny: moa/moe Cluster")
+print(p5)
+```
+
+### Custom Gene Colors
+
+```{r fig.height=6}
+# Define custom gene colors
+gene_pal <- c(
+  moaE   = "#E06C75",
+  moaC2  = "#61AFEF",
+  moaA   = "#98C379",
+  moeA   = "#E5C07B",
+  mobA   = "#C678DD",
+  spacer = "#DDDDDD"
+)
+
+p6 <- plot_microsynteny(micro$features,
+                        micro$links,
+                        bin_order = c("ZONMW-30", "ZONMW-20", "ZONMW-10"),
+                        gene_fill = "per_name",
+                        gene_palette = gene_pal,
+                        ribbon_fill = "identity",
+                        ribbon_alpha = 0.40,
+                        title = "Custom Gene Colors")
+print(p6)
+```
+
+## Reading Your Own Data
+
+### TSV Format
+
+```{r eval=FALSE}
+# Read your own TSV files
+syn <- read_synteny_tsv("my_chromosomes.tsv", "my_blocks.tsv")
+p <- plot_synteny(syn, species_order = c("SpeciesA", "SpeciesB", "SpeciesC"))
+```
+
+### MCScanX Format
+
+```{r eval=FALSE}
+# Parse MCScanX output
+syn <- read_mcscanx("output.collinearity", "output.gff")
+p <- plot_synteny(syn, species_order = c("Species1", "Species2"))
+```
+
+### GENESPACE Format
+
+```{r eval=FALSE}
+# Parse GENESPACE output
+syn <- read_genespace("synHits.tsv")
+p <- plot_synteny(syn, species_order = c("genome1", "genome2", "genome3"))
+```
+
+## Saving Plots
+
+```{r eval=FALSE}
+# Save as high-resolution PNG
+ggsave("synteny.png", p1, width = 20, height = 10, dpi = 300, bg = "white")
+
+# Save as PDF for publications
+ggsave("synteny.pdf", p1, width = 20, height = 10)
+
+# Save as SVG for editing in Inkscape/Illustrator
+ggsave("synteny.svg", p1, width = 20, height = 10)
+```
+
+## Advanced Customization
+
+Since `ggsynteny` returns ggplot2 objects, you can further customize them:
+
+```{r fig.height=8}
+p7 <- plot_synteny(syn, sp_order,
+                   chr_fill = "per_species",
+                   ribbon_fill = "source_chr") +
+  theme(plot.background = element_rect(fill = "white", color = NA)) +
+  labs(caption = "Data source: Example synteny data")
+
+print(p7)
+```
+
+## Session Info
+
+```{r}
+sessionInfo()
+```
