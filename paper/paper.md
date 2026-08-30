@@ -38,7 +38,13 @@ pipelines — MCScanX [@Wang2012] collinearity files and GENESPACE
 [@Lovell2022] synteny hits — plus a minimal two-table TSV format, and it
 bundles a real dataset: the rice–sorghum collinearity produced by running
 MCScanX on its own example data and parsing the result with the package's
-own reader (\autoref{fig:macro}). Every colour argument accepts, by name,
+own reader. \autoref{fig:macro} is one function call:
+
+```r
+data(rice_sorghum)
+plot_synteny(rice_sorghum, c("Rice", "Sorghum"),
+             palette = "casa_natal", chr_fill = "per_chr")
+``` Every colour argument accepts, by name,
 the 32 palettes of the `ltc` package [@ltc] (vendored, so no extra
 dependency), chromosomes can be rounded into karyotype-style capsules (via
 `ggforce` [@ggforce]), and `interactive = TRUE` turns any plot into a
