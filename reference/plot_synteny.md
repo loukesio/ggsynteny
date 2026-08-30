@@ -11,8 +11,9 @@ plot_synteny(
   species_order,
   palette = NULL,
   tier_spacing = 18,
-  chr_fill = "per_species",
+  chr_fill = "uniform",
   chr_palette = NULL,
+  chr_color = "white",
   ribbon_fill = "source_chr",
   ribbon_palette = NULL,
   ribbon_alpha = 0.3,
@@ -51,13 +52,19 @@ plot_synteny(
 
 - chr_fill:
 
-  Chromosome coloring mode: "per_species", "uniform", "per_chr", or
-  "custom"
+  Chromosome coloring mode: "uniform" (default), "per_species",
+  "per_chr", or "custom"
 
 - chr_palette:
 
   Color palette for chromosomes: a built-in palette name, an unnamed
   color vector, or a named vector mapping keys to colors (see Details)
+
+- chr_color:
+
+  Chromosome outline color (default "white", which reads as a clean seam
+  between adjacent chromosomes; use "black" for the classic outlined
+  look)
 
 - ribbon_fill:
 
@@ -112,12 +119,18 @@ to render an interactive widget when `interactive = TRUE`)
 
 ## Details
 
+**Defaults:** with nothing specified, chromosomes are drawn as quiet
+dark boxes (`"#333333"` with white seams) and the ribbons take their
+colors from the `alger` palette — the ribbons carry the signal. Any
+`palette`, `chr_palette`, or `ribbon_palette` overrides this.
+
 **Chromosome Coloring (chr_fill):**
+
+- "uniform" — all chromosomes same color. Default "#333333"; set
+  chr_palette = "#E8E4DF" for light boxes
 
 - "per_species" — one color per species. chr_palette = "casa_natal" or
   c("Human" = "#4477AA", ...)
-
-- "uniform" — all chromosomes same color. chr_palette = "#E8E4DF"
 
 - "per_chr" — one color per chromosome label. chr_palette = "casa_natal"
   or c("1" = "#4477AA", ...)
@@ -151,7 +164,7 @@ explicit key-to-color mappings, exactly as before.
 syn <- example_synteny_data()
 sp_order <- c("Arabidopsis", "Grape", "Rice")
 
-# Default: per-species chromosomes + source-chr ribbons
+# Default: dark chromosomes with white seams, alger-colored ribbons
 p <- plot_synteny(syn, sp_order)
 
 # One ltc palette for the whole plot

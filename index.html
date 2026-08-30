@@ -151,9 +151,14 @@
 </tr>
 <tr>
 <td><code>chr_fill</code></td>
-<td><code>"per_species"</code></td>
-<td>Chromosome colouring: <code>"per_species"</code>, <code>"uniform"</code>, <code>"per_chr"</code>, or <code>"custom"</code>
+<td><code>"uniform"</code></td>
+<td>Chromosome colouring: <code>"uniform"</code> (dark <code>#333333</code> default), <code>"per_species"</code>, <code>"per_chr"</code>, or <code>"custom"</code>
 </td>
+</tr>
+<tr>
+<td><code>chr_color</code></td>
+<td><code>"white"</code></td>
+<td>Chromosome outline — white seams by default; <code>"black"</code> for the classic outlined look</td>
 </tr>
 <tr>
 <td><code>chr_palette</code></td>
@@ -200,7 +205,7 @@
 </tr>
 </tbody>
 </table>
-<p>With no colours at all you get soft per-species pastels and auto-generated ribbon hues:</p>
+<p>With nothing specified you get the house default: quiet dark chromosomes (<code>"#333333"</code> with white seams) and ribbons coloured from the <code>alger</code> palette — the ribbons carry the signal, the chromosomes stay out of the way:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/plot_synteny.html">plot_synteny</a></span><span class="op">(</span><span class="va">syn</span>, species_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Arabidopsis"</span>, <span class="st">"Grape"</span>, <span class="st">"Rice"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-macro-default.png" alt="" width="80%"></p>

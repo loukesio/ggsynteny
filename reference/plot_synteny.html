@@ -47,8 +47,9 @@ across multiple species with flexible coloring options.</p>
 <span>  <span class="va">species_order</span>,</span>
 <span>  palette <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  tier_spacing <span class="op">=</span> <span class="fl">18</span>,</span>
-<span>  chr_fill <span class="op">=</span> <span class="st">"per_species"</span>,</span>
+<span>  chr_fill <span class="op">=</span> <span class="st">"uniform"</span>,</span>
 <span>  chr_palette <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  chr_color <span class="op">=</span> <span class="st">"white"</span>,</span>
 <span>  ribbon_fill <span class="op">=</span> <span class="st">"source_chr"</span>,</span>
 <span>  ribbon_palette <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ribbon_alpha <span class="op">=</span> <span class="fl">0.3</span>,</span>
@@ -87,12 +88,19 @@ override it.</p></dd>
 
 
 <dt id="arg-chr-fill">chr_fill<a class="anchor" aria-label="anchor" href="#arg-chr-fill"></a></dt>
-<dd><p>Chromosome coloring mode: "per_species", "uniform", "per_chr", or "custom"</p></dd>
+<dd><p>Chromosome coloring mode: "uniform" (default), "per_species",
+"per_chr", or "custom"</p></dd>
 
 
 <dt id="arg-chr-palette">chr_palette<a class="anchor" aria-label="anchor" href="#arg-chr-palette"></a></dt>
 <dd><p>Color palette for chromosomes: a built-in palette name,
 an unnamed color vector, or a named vector mapping keys to colors (see Details)</p></dd>
+
+
+<dt id="arg-chr-color">chr_color<a class="anchor" aria-label="anchor" href="#arg-chr-color"></a></dt>
+<dd><p>Chromosome outline color (default "white", which reads as
+a clean seam between adjacent chromosomes; use "black" for the classic
+outlined look)</p></dd>
 
 
 <dt id="arg-ribbon-fill">ribbon_fill<a class="anchor" aria-label="anchor" href="#arg-ribbon-fill"></a></dt>
@@ -145,8 +153,12 @@ widget when <code>interactive = TRUE</code>)</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p><strong>Chromosome Coloring (chr_fill):</strong></p><ul><li><p>"per_species" — one color per species. chr_palette = "casa_natal" or c("Human" = "#4477AA", ...)</p></li>
-<li><p>"uniform" — all chromosomes same color. chr_palette = "#E8E4DF"</p></li>
+    <p><strong>Defaults:</strong> with nothing specified, chromosomes are drawn as quiet
+dark boxes (<code>"#333333"</code> with white seams) and the ribbons take their
+colors from the <code>alger</code> palette — the ribbons carry the signal. Any
+<code>palette</code>, <code>chr_palette</code>, or <code>ribbon_palette</code> overrides this.</p>
+<p><strong>Chromosome Coloring (chr_fill):</strong></p><ul><li><p>"uniform" — all chromosomes same color. Default "#333333"; set chr_palette = "#E8E4DF" for light boxes</p></li>
+<li><p>"per_species" — one color per species. chr_palette = "casa_natal" or c("Human" = "#4477AA", ...)</p></li>
 <li><p>"per_chr" — one color per chromosome label. chr_palette = "casa_natal" or c("1" = "#4477AA", ...)</p></li>
 <li><p>"custom" — full control. chr_palette as named vector with "species__chr" keys</p></li>
 </ul><p><strong>Ribbon Coloring (ribbon_fill):</strong></p><ul><li><p>"source_chr" — colored by the source (top) chromosome</p></li>
@@ -167,7 +179,7 @@ explicit key-to-color mappings, exactly as before.</p>
 <span class="r-in"><span><span class="va">syn</span> <span class="op">&lt;-</span> <span class="fu"><a href="example_synteny_data.html">example_synteny_data</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sp_order</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Arabidopsis"</span>, <span class="st">"Grape"</span>, <span class="st">"Rice"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Default: per-species chromosomes + source-chr ribbons</span></span></span>
+<span class="r-in"><span><span class="co"># Default: dark chromosomes with white seams, alger-colored ribbons</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">plot_synteny</span><span class="op">(</span><span class="va">syn</span>, <span class="va">sp_order</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># One ltc palette for the whole plot</span></span></span>
