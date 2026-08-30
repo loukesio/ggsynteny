@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/loukesio/ggsynteny/blob/HEAD/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/loukesio/ggsynteny/blob/main/DESCRIPTION)
 
 Theodosiou L (2026). *ggsynteny: Publication-Quality Synteny Plots with
 'ggplot2'*. R package version 0.2.0,
