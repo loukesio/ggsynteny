@@ -1,0 +1,25 @@
+url: https://loukesio.github.io/ggsynteny/
+
+template:
+  bootstrap: 5
+
+reference:
+  - title: Plot
+    desc: Macro- and micro-synteny visualisation.
+    contents:
+      - plot_synteny
+      - plot_microsynteny
+  - title: Colours
+    desc: The 32 built-in ltc palettes.
+    contents:
+      - syn_palettes
+  - title: Data input
+    desc: Parsers for common synteny file formats.
+    contents:
+      - read_synteny_tsv
+      - read_mcscanx
+      - read_genespace
+  - title: Example data
+    contents:
+      - example_synteny_data
+      - demo_microsynteny_data

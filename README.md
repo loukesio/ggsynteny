@@ -8,6 +8,8 @@
 
 > Publication-quality synteny plots with ggplot2
 
+📖 **Website & full documentation:** <https://loukesio.github.io/ggsynteny/>
+
 **ggsynteny** draws comparative-genomics figures in **pure ggplot2**: both
 **macro-synteny** (chromosome-level ribbons across any number of species) and
 **micro-synteny** (gene-level arrows connected by homology ribbons). It ships
@@ -17,6 +19,8 @@ argument accepts the 32 palettes of the
 `palette = "casa_natal"` just works.
 
 ## Installation
+
+<img align="right" src="man/figures/logo.png" alt="ggsynteny logo: crossing synteny ribbons in a hexagon" width="220">
 
 ``` r
 # with remotes (lightweight)

@@ -7,3 +7,6 @@
 ^\.claude$
 ^dev$
 ^NEWS\.md$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

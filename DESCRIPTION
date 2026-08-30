@@ -31,5 +31,5 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 VignetteBuilder: knitr
-URL: https://github.com/loukesio/ggsynteny
+URL: https://github.com/loukesio/ggsynteny, https://loukesio.github.io/ggsynteny/
 BugReports: https://github.com/loukesio/ggsynteny/issues
