@@ -13,7 +13,7 @@ authors:
     corresponding: true
     affiliation: 1
 affiliations:
-  - name: Max Planck Institute for Evolutionary Biology, Plön, Germany
+  - name: KWS SAAT SE & Co. KGaA, Einbeck, Germany
     index: 1
 date: 30 August 2026
 bibliography: paper.bib
@@ -122,14 +122,16 @@ ribbon plotting or leaves the ggplot2 ecosystem to obtain it.
 
 # AI usage disclosure
 
-The package and this manuscript were developed with substantial assistance
-from Claude (Anthropic), used as a coding and writing assistant under the
-author's direction: code, documentation, and manuscript drafts were
-AI-generated in an interactive session, then reviewed, tested, and edited
-by the author. All design decisions, the underlying comparative-genomics
-use cases, and the final content are the author's responsibility. The
-package's automated test suite and `R CMD check` pass cleanly across
-platforms.
+The core plotting logic originated as the author's prototype code. Claude
+(Anthropic) was then used, under the author's direction, to validate and
+review that prototype and to create the package around it — the package
+infrastructure, documentation, test suite, and additional features (the
+file parsers, palette system, and interactivity), as well as drafts of
+this manuscript. All AI-assisted output was reviewed, tested, and edited
+by the author, and all design decisions, the underlying
+comparative-genomics use cases, and the final content are the author's
+responsibility. The package's automated test suite and `R CMD check` pass
+cleanly across platforms.
 
 # Acknowledgements
 
