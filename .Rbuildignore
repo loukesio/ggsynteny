@@ -11,3 +11,5 @@
 ^docs$
 ^pkgdown$
 ^vignettes/articles$
+^paper$
+^CONTRIBUTING\.md$
