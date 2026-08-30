@@ -17,8 +17,10 @@ plot_synteny(
   ribbon_palette = NULL,
   ribbon_alpha = 0.3,
   curvature = 0.55,
+  chr_radius = 0,
   label_size = 2.5,
   species_label_size = 4.5,
+  interactive = FALSE,
   title = NULL
 )
 ```
@@ -75,6 +77,14 @@ plot_synteny(
 
   Ribbon curve strength (0-1, default 0.55)
 
+- chr_radius:
+
+  Corner radius of the chromosome boxes in millimetres (default 0 =
+  square corners). Try 1-2 mm for gently rounded chromosomes; rounding
+  uses ggforce, so it looks right at any figure size. Not available
+  together with `interactive = TRUE` (square corners are drawn instead,
+  with a warning).
+
 - label_size:
 
   Chromosome label size (default 2.5)
@@ -83,13 +93,22 @@ plot_synteny(
 
   Species label size (default 4.5)
 
+- interactive:
+
+  Logical; make chromosomes and ribbons interactive (hover highlight and
+  tooltips) using ggiraph? Render the result with
+  [`syn_girafe()`](https://loukesio.github.io/ggsynteny/reference/syn_girafe.md).
+  Default `FALSE`.
+
 - title:
 
   Optional plot title
 
 ## Value
 
-A ggplot2 object
+A ggplot2 object (pass to
+[`syn_girafe()`](https://loukesio.github.io/ggsynteny/reference/syn_girafe.md)
+to render an interactive widget when `interactive = TRUE`)
 
 ## Details
 

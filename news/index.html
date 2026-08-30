@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggsynteny</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,10 +16,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started with ggsynteny</a></li>
-  </ul></li>
+<li class="nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -35,6 +32,16 @@
       <small>Source: <a href="https://github.com/loukesio/ggsynteny/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.3.0" id="ggsynteny-030">ggsynteny 0.3.0<a class="anchor" aria-label="anchor" href="#ggsynteny-030"></a></h2>
+<ul><li>New <code>chr_radius</code> (in <code><a href="../reference/plot_synteny.html">plot_synteny()</a></code>) and <code>gene_radius</code> (in <code><a href="../reference/plot_microsynteny.html">plot_microsynteny()</a></code>): corner rounding in millimetres via ggforce — <code>chr_radius = 1.5</code> turns chromosomes into karyotype-style capsules. Corners stay square/crisp by default.</li>
+<li>Interactive plots: <code><a href="../reference/plot_synteny.html">plot_synteny()</a></code> and <code><a href="../reference/plot_microsynteny.html">plot_microsynteny()</a></code> gain <code>interactive = TRUE</code> (hover highlighting and tooltips via ggiraph), and the new <code><a href="../reference/syn_girafe.html">syn_girafe()</a></code> renders the widget — see the <a href="https://loukesio.github.io/ggsynteny/articles/interactive.html">Interactive article</a>.</li>
+<li>New bundled dataset <code>rice_sorghum</code>: real macro-synteny between rice and sorghum, produced by running MCScanX on its own example data and parsing the output with <code><a href="../reference/read_mcscanx.html">read_mcscanx()</a></code> — see the <a href="https://loukesio.github.io/ggsynteny/articles/real-data.html">Real data article</a>.</li>
+<li>New <code>ribbon_anchor</code> argument in <code><a href="../reference/plot_microsynteny.html">plot_microsynteny()</a></code>: <code>"body"</code> (default) keeps arrowheads clear of ribbons so strand direction stays readable; <code>"full"</code> spans the whole gene including the tip (the clinker/gggenomes convention).</li>
+<li>Fixed <code><a href="../reference/read_mcscanx.html">read_mcscanx()</a></code>: real MCScanX output writes alignment blocks back-to-back with no blank line between them, and every block except the last was silently dropped. Block coordinates now also trust each alignment header’s chromosome pair, and blocks carry <code>score</code> and <code>n_genes</code> columns.</li>
+<li>With <code>ribbon_fill = "identity"</code>, the top-level <code>palette</code> no longer restyles the identity ramp (a qualitative palette makes a misleading ramp); pass an ordered palette as <code>ribbon_palette</code> explicitly.</li>
+<li>Tooltip-free plots are unchanged; interactive layers are only built when <code>interactive = TRUE</code> and ggiraph is installed (Suggests).</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="ggsynteny-020">ggsynteny 0.2.0<a class="anchor" aria-label="anchor" href="#ggsynteny-020"></a></h2>
 <ul><li>New <code>palette</code> argument in <code><a href="../reference/plot_synteny.html">plot_synteny()</a></code> and <code><a href="../reference/plot_microsynteny.html">plot_microsynteny()</a></code>: all 32 palettes of the <a href="https://github.com/loukesio/ltc-color-palettes" class="external-link">ltc package</a> now work by name, e.g. <code>palette = "casa_natal"</code> (vendored — ltc need not be installed). Names match case-insensitively and ignore spaces, underscores, and dashes. <code>"Okabe-Ito"</code>, colour vectors, and <code><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">hcl.colors()</a></code> names are accepted too.</li>

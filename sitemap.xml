@@ -4,6 +4,8 @@
 <url><loc>https://loukesio.github.io/ggsynteny/LICENSE.html</loc></url>
 <url><loc>https://loukesio.github.io/ggsynteny/articles/getting-started.html</loc></url>
 <url><loc>https://loukesio.github.io/ggsynteny/articles/index.html</loc></url>
+<url><loc>https://loukesio.github.io/ggsynteny/articles/interactive.html</loc></url>
+<url><loc>https://loukesio.github.io/ggsynteny/articles/real-data.html</loc></url>
 <url><loc>https://loukesio.github.io/ggsynteny/authors.html</loc></url>
 <url><loc>https://loukesio.github.io/ggsynteny/index.html</loc></url>
 <url><loc>https://loukesio.github.io/ggsynteny/news/index.html</loc></url>
@@ -20,6 +22,8 @@
 <url><loc>https://loukesio.github.io/ggsynteny/reference/read_genespace.html</loc></url>
 <url><loc>https://loukesio.github.io/ggsynteny/reference/read_mcscanx.html</loc></url>
 <url><loc>https://loukesio.github.io/ggsynteny/reference/read_synteny_tsv.html</loc></url>
+<url><loc>https://loukesio.github.io/ggsynteny/reference/rice_sorghum.html</loc></url>
+<url><loc>https://loukesio.github.io/ggsynteny/reference/syn_girafe.html</loc></url>
 <url><loc>https://loukesio.github.io/ggsynteny/reference/syn_palettes.html</loc></url>
 </urlset>
 

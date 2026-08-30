@@ -3,7 +3,9 @@ pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   getting-started: getting-started.html
-last_built: 2026-08-30T19:02Z
+  articles/interactive: interactive.html
+  articles/real-data: real-data.html
+last_built: 2026-08-30T19:36Z
 urls:
   reference: https://loukesio.github.io/ggsynteny/reference
   article: https://loukesio.github.io/ggsynteny/articles

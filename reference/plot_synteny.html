@@ -9,7 +9,7 @@ across multiple species with flexible coloring options."><meta property="og:imag
 
     <a class="navbar-brand me-2" href="../index.html">ggsynteny</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,10 +18,7 @@ across multiple species with flexible coloring options."><meta property="og:imag
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started with ggsynteny</a></li>
-  </ul></li>
+<li class="nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -56,8 +53,10 @@ across multiple species with flexible coloring options.</p>
 <span>  ribbon_palette <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ribbon_alpha <span class="op">=</span> <span class="fl">0.3</span>,</span>
 <span>  curvature <span class="op">=</span> <span class="fl">0.55</span>,</span>
+<span>  chr_radius <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  label_size <span class="op">=</span> <span class="fl">2.5</span>,</span>
 <span>  species_label_size <span class="op">=</span> <span class="fl">4.5</span>,</span>
+<span>  interactive <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  title <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -113,6 +112,14 @@ an unnamed color vector, or a named vector mapping keys to colors (see Details)<
 <dd><p>Ribbon curve strength (0-1, default 0.55)</p></dd>
 
 
+<dt id="arg-chr-radius">chr_radius<a class="anchor" aria-label="anchor" href="#arg-chr-radius"></a></dt>
+<dd><p>Corner radius of the chromosome boxes in millimetres
+(default 0 = square corners). Try 1-2 mm for gently rounded
+chromosomes; rounding uses <span class="pkg">ggforce</span>, so it looks right at any
+figure size. Not available together with <code>interactive = TRUE</code>
+(square corners are drawn instead, with a warning).</p></dd>
+
+
 <dt id="arg-label-size">label_size<a class="anchor" aria-label="anchor" href="#arg-label-size"></a></dt>
 <dd><p>Chromosome label size (default 2.5)</p></dd>
 
@@ -121,13 +128,20 @@ an unnamed color vector, or a named vector mapping keys to colors (see Details)<
 <dd><p>Species label size (default 4.5)</p></dd>
 
 
+<dt id="arg-interactive">interactive<a class="anchor" aria-label="anchor" href="#arg-interactive"></a></dt>
+<dd><p>Logical; make chromosomes and ribbons interactive
+(hover highlight and tooltips) using <span class="pkg">ggiraph</span>? Render the result
+with <code><a href="syn_girafe.html">syn_girafe()</a></code>. Default <code>FALSE</code>.</p></dd>
+
+
 <dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
 <dd><p>Optional plot title</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A ggplot2 object</p>
+    <p>A ggplot2 object (pass to <code><a href="syn_girafe.html">syn_girafe()</a></code> to render an interactive
+widget when <code>interactive = TRUE</code>)</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>

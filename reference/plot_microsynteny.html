@@ -9,7 +9,7 @@ with ribbons connecting homologous genes across genomes."><meta property="og:ima
 
     <a class="navbar-brand me-2" href="../index.html">ggsynteny</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,10 +18,7 @@ with ribbons connecting homologous genes across genomes."><meta property="og:ima
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/getting-started.html">Getting Started with ggsynteny</a></li>
-  </ul></li>
+<li class="nav-item"><a class="nav-link" href="../articles/index.html">Articles</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -55,6 +52,8 @@ with ribbons connecting homologous genes across genomes.</p>
 <span>  arrowhead_frac <span class="op">=</span> <span class="fl">0.18</span>,</span>
 <span>  contig_gap_frac <span class="op">=</span> <span class="fl">0.04</span>,</span>
 <span>  curvature <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  ribbon_anchor <span class="op">=</span> <span class="st">"body"</span>,</span>
+<span>  gene_radius <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  gene_fill <span class="op">=</span> <span class="st">"per_name"</span>,</span>
 <span>  gene_palette <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  gene_color <span class="op">=</span> <span class="st">"#333333"</span>,</span>
@@ -68,6 +67,7 @@ with ribbons connecting homologous genes across genomes.</p>
 <span>  label_size <span class="op">=</span> <span class="fl">2.5</span>,</span>
 <span>  bin_label_size <span class="op">=</span> <span class="fl">4.5</span>,</span>
 <span>  label_offset <span class="op">=</span> <span class="fl">0.25</span>,</span>
+<span>  interactive <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  title <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -93,8 +93,9 @@ with ribbons connecting homologous genes across genomes.</p>
 (all 32 ltc palettes, e.g. <code>"casa_natal"</code> or <code>"minou"</code>; list them with
 <code><a href="syn_palettes.html">syn_palettes</a></code>), <code>"Okabe-Ito"</code>, or a vector of colors. Used
 for genes and ribbons unless <code>gene_palette</code> / <code>ribbon_palette</code> override
-it. With <code>ribbon_fill = "identity"</code>, it becomes the identity color ramp
-(try an ordered palette such as <code>"heatmap0"</code>).</p></dd>
+it. With <code>ribbon_fill = "identity"</code>, ribbons keep their default blue
+ramp; pass an ordered palette (e.g. <code>"heatmap0"</code>) as <code>ribbon_palette</code>
+to restyle the ramp explicitly.</p></dd>
 
 
 <dt id="arg-tier-spacing">tier_spacing<a class="anchor" aria-label="anchor" href="#arg-tier-spacing"></a></dt>
@@ -115,6 +116,21 @@ it. With <code>ribbon_fill = "identity"</code>, it becomes the identity color ra
 
 <dt id="arg-curvature">curvature<a class="anchor" aria-label="anchor" href="#arg-curvature"></a></dt>
 <dd><p>Numeric, ribbon curve strength 0-1 (default 0.5)</p></dd>
+
+
+<dt id="arg-ribbon-anchor">ribbon_anchor<a class="anchor" aria-label="anchor" href="#arg-ribbon-anchor"></a></dt>
+<dd><p>Where ribbons attach to a gene: <code>"body"</code> (default)
+anchors them to the rectangular body only, leaving the arrowhead free so
+the strand direction stays readable; <code>"full"</code> anchors them to the entire
+gene extent including the tip, the convention of clinker and gggenomes,
+so a fully-linked gene is visibly covered end-to-end. See Details.</p></dd>
+
+
+<dt id="arg-gene-radius">gene_radius<a class="anchor" aria-label="anchor" href="#arg-gene-radius"></a></dt>
+<dd><p>Corner radius of the gene arrows in millimetres
+(default 0 = crisp corners). Try 0.5-1 mm to soften the arrows;
+rounding uses <span class="pkg">ggforce</span>. Not available together with
+<code>interactive = TRUE</code> (crisp corners are drawn instead, with a warning).</p></dd>
 
 
 <dt id="arg-gene-fill">gene_fill<a class="anchor" aria-label="anchor" href="#arg-gene-fill"></a></dt>
@@ -169,13 +185,20 @@ it. With <code>ribbon_fill = "identity"</code>, it becomes the identity color ra
 <dd><p>Vertical offset for gene labels (default 0.25)</p></dd>
 
 
+<dt id="arg-interactive">interactive<a class="anchor" aria-label="anchor" href="#arg-interactive"></a></dt>
+<dd><p>Logical; make genes and ribbons interactive (hover
+highlight and tooltips) using <span class="pkg">ggiraph</span>? Render the result with
+<code><a href="syn_girafe.html">syn_girafe()</a></code>. Default <code>FALSE</code>.</p></dd>
+
+
 <dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
 <dd><p>Optional plot title</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A ggplot2 object</p>
+    <p>A ggplot2 object (pass to <code><a href="syn_girafe.html">syn_girafe()</a></code> to render an interactive
+widget when <code>interactive = TRUE</code>)</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -190,7 +213,16 @@ it. With <code>ribbon_fill = "identity"</code>, it becomes the identity color ra
 </ul><p>The <code>links</code> data frame must contain:</p><ul><li><p>feat_id_a: gene in top genome</p></li>
 <li><p>feat_id_b: gene in bottom genome</p></li>
 <li><p>identity: optional 0-100 (for ribbon color intensity)</p></li>
-</ul></div>
+</ul><p><strong>Ribbon anchoring (ribbon_anchor):</strong></p>
+<p>A gene arrow has a rectangular body and a pointed tip. With
+<code>ribbon_anchor = "body"</code> (the default), ribbons attach to the body only —
+the tip stays clear of every ribbon, so strand direction remains readable
+even under dense links, at the cost that a fully-linked gene is not
+covered wall-to-wall. With <code>ribbon_anchor = "full"</code>, ribbons span the
+entire gene including the tip — the convention of clinker, gggenomes and
+pyGenomeViz — which reads as "this whole gene is part of the link" but
+lets ribbons run underneath the arrowheads.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

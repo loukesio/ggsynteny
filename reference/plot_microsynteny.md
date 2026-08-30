@@ -16,6 +16,8 @@ plot_microsynteny(
   arrowhead_frac = 0.18,
   contig_gap_frac = 0.04,
   curvature = 0.5,
+  ribbon_anchor = "body",
+  gene_radius = 0,
   gene_fill = "per_name",
   gene_palette = NULL,
   gene_color = "#333333",
@@ -29,6 +31,7 @@ plot_microsynteny(
   label_size = 2.5,
   bin_label_size = 4.5,
   label_offset = 0.25,
+  interactive = FALSE,
   title = NULL
 )
 ```
@@ -55,8 +58,9 @@ plot_microsynteny(
   [`syn_palettes`](https://loukesio.github.io/ggsynteny/reference/syn_palettes.md)),
   `"Okabe-Ito"`, or a vector of colors. Used for genes and ribbons
   unless `gene_palette` / `ribbon_palette` override it. With
-  `ribbon_fill = "identity"`, it becomes the identity color ramp (try an
-  ordered palette such as `"heatmap0"`).
+  `ribbon_fill = "identity"`, ribbons keep their default blue ramp; pass
+  an ordered palette (e.g. `"heatmap0"`) as `ribbon_palette` to restyle
+  the ramp explicitly.
 
 - tier_spacing:
 
@@ -78,6 +82,21 @@ plot_microsynteny(
 - curvature:
 
   Numeric, ribbon curve strength 0-1 (default 0.5)
+
+- ribbon_anchor:
+
+  Where ribbons attach to a gene: `"body"` (default) anchors them to the
+  rectangular body only, leaving the arrowhead free so the strand
+  direction stays readable; `"full"` anchors them to the entire gene
+  extent including the tip, the convention of clinker and gggenomes, so
+  a fully-linked gene is visibly covered end-to-end. See Details.
+
+- gene_radius:
+
+  Corner radius of the gene arrows in millimetres (default 0 = crisp
+  corners). Try 0.5-1 mm to soften the arrows; rounding uses ggforce.
+  Not available together with `interactive = TRUE` (crisp corners are
+  drawn instead, with a warning).
 
 - gene_fill:
 
@@ -131,13 +150,22 @@ plot_microsynteny(
 
   Vertical offset for gene labels (default 0.25)
 
+- interactive:
+
+  Logical; make genes and ribbons interactive (hover highlight and
+  tooltips) using ggiraph? Render the result with
+  [`syn_girafe()`](https://loukesio.github.io/ggsynteny/reference/syn_girafe.md).
+  Default `FALSE`.
+
 - title:
 
   Optional plot title
 
 ## Value
 
-A ggplot2 object
+A ggplot2 object (pass to
+[`syn_girafe()`](https://loukesio.github.io/ggsynteny/reference/syn_girafe.md)
+to render an interactive widget when `interactive = TRUE`)
 
 ## Details
 
@@ -166,6 +194,17 @@ The `links` data frame must contain:
 - feat_id_b: gene in bottom genome
 
 - identity: optional 0-100 (for ribbon color intensity)
+
+**Ribbon anchoring (ribbon_anchor):**
+
+A gene arrow has a rectangular body and a pointed tip. With
+`ribbon_anchor = "body"` (the default), ribbons attach to the body only
+— the tip stays clear of every ribbon, so strand direction remains
+readable even under dense links, at the cost that a fully-linked gene is
+not covered wall-to-wall. With `ribbon_anchor = "full"`, ribbons span
+the entire gene including the tip — the convention of clinker, gggenomes
+and pyGenomeViz — which reads as "this whole gene is part of the link"
+but lets ribbons run underneath the arrowheads.
 
 ## Examples
 

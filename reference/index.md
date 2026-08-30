@@ -9,6 +9,13 @@ Macro- and micro-synteny visualisation.
 - [`plot_microsynteny()`](https://loukesio.github.io/ggsynteny/reference/plot_microsynteny.md)
   : Plot micro-synteny across multiple genomes/bins
 
+## Interactive
+
+ggiraph rendering with hover highlights and tooltips.
+
+- [`syn_girafe()`](https://loukesio.github.io/ggsynteny/reference/syn_girafe.md)
+  : Render an interactive synteny plot
+
 ## Colours
 
 The 32 built-in ltc palettes.
@@ -29,6 +36,8 @@ Parsers for common synteny file formats.
 
 ## Example data
 
+- [`rice_sorghum`](https://loukesio.github.io/ggsynteny/reference/rice_sorghum.md)
+  : Rice-sorghum macro-synteny (real MCScanX output)
 - [`example_synteny_data()`](https://loukesio.github.io/ggsynteny/reference/example_synteny_data.md)
   : Example synteny data (Arabidopsis, Grape, Rice)
 - [`demo_microsynteny_data()`](https://loukesio.github.io/ggsynteny/reference/demo_microsynteny_data.md)

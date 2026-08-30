@@ -1,5 +1,46 @@
 # Changelog
 
+## ggsynteny 0.3.0
+
+- New `chr_radius` (in
+  [`plot_synteny()`](https://loukesio.github.io/ggsynteny/reference/plot_synteny.md))
+  and `gene_radius` (in
+  [`plot_microsynteny()`](https://loukesio.github.io/ggsynteny/reference/plot_microsynteny.md)):
+  corner rounding in millimetres via ggforce — `chr_radius = 1.5` turns
+  chromosomes into karyotype-style capsules. Corners stay square/crisp
+  by default.
+- Interactive plots:
+  [`plot_synteny()`](https://loukesio.github.io/ggsynteny/reference/plot_synteny.md)
+  and
+  [`plot_microsynteny()`](https://loukesio.github.io/ggsynteny/reference/plot_microsynteny.md)
+  gain `interactive = TRUE` (hover highlighting and tooltips via
+  ggiraph), and the new
+  [`syn_girafe()`](https://loukesio.github.io/ggsynteny/reference/syn_girafe.md)
+  renders the widget — see the [Interactive
+  article](https://loukesio.github.io/ggsynteny/articles/interactive.html).
+- New bundled dataset `rice_sorghum`: real macro-synteny between rice
+  and sorghum, produced by running MCScanX on its own example data and
+  parsing the output with
+  [`read_mcscanx()`](https://loukesio.github.io/ggsynteny/reference/read_mcscanx.md)
+  — see the [Real data
+  article](https://loukesio.github.io/ggsynteny/articles/real-data.html).
+- New `ribbon_anchor` argument in
+  [`plot_microsynteny()`](https://loukesio.github.io/ggsynteny/reference/plot_microsynteny.md):
+  `"body"` (default) keeps arrowheads clear of ribbons so strand
+  direction stays readable; `"full"` spans the whole gene including the
+  tip (the clinker/gggenomes convention).
+- Fixed
+  [`read_mcscanx()`](https://loukesio.github.io/ggsynteny/reference/read_mcscanx.md):
+  real MCScanX output writes alignment blocks back-to-back with no blank
+  line between them, and every block except the last was silently
+  dropped. Block coordinates now also trust each alignment header’s
+  chromosome pair, and blocks carry `score` and `n_genes` columns.
+- With `ribbon_fill = "identity"`, the top-level `palette` no longer
+  restyles the identity ramp (a qualitative palette makes a misleading
+  ramp); pass an ordered palette as `ribbon_palette` explicitly.
+- Tooltip-free plots are unchanged; interactive layers are only built
+  when `interactive = TRUE` and ggiraph is installed (Suggests).
+
 ## ggsynteny 0.2.0
 
 - New `palette` argument in

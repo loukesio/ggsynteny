@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ggsynteny</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,12 +38,7 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/getting-started.html">Getting Started with ggsynteny</a></li>
-  </ul>
-</li>
+<li class="nav-item"><a class="nav-link" href="articles/index.html">Articles</a></li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -69,7 +64,7 @@
 <p>Publication-quality synteny plots with ggplot2</p>
 </blockquote>
 <p>📖 <strong>Website &amp; full documentation:</strong> <a href="https://loukesio.github.io/ggsynteny/" class="uri">https://loukesio.github.io/ggsynteny/</a></p>
-<p><strong>ggsynteny</strong> draws comparative-genomics figures in <strong>pure ggplot2</strong>: both <strong>macro-synteny</strong> (chromosome-level ribbons across any number of species) and <strong>micro-synteny</strong> (gene-level arrows connected by homology ribbons). It ships parsers for MCScanX, GENESPACE, and plain TSV input, and every colour argument accepts the 32 palettes of the <a href="https://github.com/loukesio/ltc-color-palettes" class="external-link">ltc package</a> by name — <code>palette = "casa_natal"</code> just works.</p>
+<p><strong>ggsynteny</strong> draws comparative-genomics figures in <strong>pure ggplot2</strong>: both <strong>macro-synteny</strong> (chromosome-level ribbons across any number of species) and <strong>micro-synteny</strong> (gene-level arrows connected by homology ribbons). It ships parsers for MCScanX, GENESPACE, and plain TSV input, a real rice-sorghum dataset, interactive hover-and-tooltip plots via <strong>ggiraph</strong>, and every colour argument accepts the 32 palettes of the <a href="https://github.com/loukesio/ltc-color-palettes" class="external-link">ltc package</a> by name — <code>palette = "casa_natal"</code> just works.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -98,6 +93,25 @@
 <span>             species_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Arabidopsis"</span>, <span class="st">"Grape"</span>, <span class="st">"Rice"</span><span class="op">)</span>,</span>
 <span>             palette <span class="op">=</span> <span class="st">"casa_natal"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-hero.png" alt="Macro-synteny of Arabidopsis, Grape and Rice with the casa_natal palette" width="92%" style="display: block; margin: auto;"></p>
+</div>
+<div class="section level2">
+<h2 id="real-data-rice-vs-sorghum">Real data: rice vs sorghum<a class="anchor" aria-label="anchor" href="#real-data-rice-vs-sorghum"></a>
+</h2>
+<p>The bundled <code>rice_sorghum</code> dataset is genuine MCScanX output — the rice-sorghum example data shipped with MCScanX itself, run through the tool and parsed with ggsynteny’s own <code><a href="reference/read_mcscanx.html">read_mcscanx()</a></code> (full pipeline in <code>data-raw/rice_sorghum.R</code>). Two grasses, ~50 million years of divergence, and the textbook conserved blocks are all there — rice 1 mapping almost entirely to sorghum 3, rice 11/12 to sorghum 5/8:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">rice_sorghum</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/plot_synteny.html">plot_synteny</a></span><span class="op">(</span><span class="va">rice_sorghum</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Rice"</span>, <span class="st">"Sorghum"</span><span class="op">)</span>,</span>
+<span>             palette <span class="op">=</span> <span class="st">"casa_natal"</span>,</span>
+<span>             chr_fill <span class="op">=</span> <span class="st">"per_chr"</span>, ribbon_fill <span class="op">=</span> <span class="st">"source_chr"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-rice-sorghum.png" alt="Rice vs sorghum macro-synteny from real MCScanX output" width="92%" style="display: block; margin: auto;"></p>
+<p>The full worked example — including a real bacterial gene cluster at the micro scale — is in the <a href="https://loukesio.github.io/ggsynteny/articles/real-data.html">Real data article</a>.</p>
+<p>Chromosomes are square-cornered by default; <code>chr_radius</code> (in millimetres, via ggforce) rounds them into karyotype-style capsules — <code>gene_radius</code> does the same for gene arrows in micro-synteny:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_synteny.html">plot_synteny</a></span><span class="op">(</span><span class="va">rice_sorghum</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Rice"</span>, <span class="st">"Sorghum"</span><span class="op">)</span>,</span>
+<span>             palette <span class="op">=</span> <span class="st">"casa_natal"</span>,</span>
+<span>             chr_fill <span class="op">=</span> <span class="st">"per_chr"</span>, chr_radius <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-rounded.png" alt="Rounded chromosome corners" width="92%" style="display: block; margin: auto;"></p>
 <p>Every function below follows the same pattern: what it is for, the arguments that matter (with their defaults), and a worked example.</p>
 </div>
 <div class="section level2">
@@ -173,26 +187,37 @@
 <td><code>18</code></td>
 <td>Vertical distance between species</td>
 </tr>
+<tr>
+<td><code>chr_radius</code></td>
+<td><code>0</code></td>
+<td>Corner radius in mm — <code>1.5</code> gives karyotype-style capsules (needs ggforce)</td>
+</tr>
+<tr>
+<td><code>interactive</code></td>
+<td><code>FALSE</code></td>
+<td>Build ggiraph-interactive layers — render with <code><a href="reference/syn_girafe.html">syn_girafe()</a></code>
+</td>
+</tr>
 </tbody>
 </table>
 <p>With no colours at all you get soft per-species pastels and auto-generated ribbon hues:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/plot_synteny.html">plot_synteny</a></span><span class="op">(</span><span class="va">syn</span>, species_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Arabidopsis"</span>, <span class="st">"Grape"</span>, <span class="st">"Rice"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-macro-default.png" alt="" width="80%"></p>
 <p><code>chr_fill = "per_chr"</code> colours each chromosome label separately — here from the <code>minou</code> palette (interpolated when there are more chromosomes than colours):</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/plot_synteny.html">plot_synteny</a></span><span class="op">(</span><span class="va">syn</span>, species_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Arabidopsis"</span>, <span class="st">"Grape"</span>, <span class="st">"Rice"</span><span class="op">)</span>,</span>
 <span>             chr_fill <span class="op">=</span> <span class="st">"per_chr"</span>, palette <span class="op">=</span> <span class="st">"minou"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-macro-perchr.png" alt="" width="80%"></p>
 <p>And quiet chromosomes with one ribbon colour per species pair, from <code>trio1</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/plot_synteny.html">plot_synteny</a></span><span class="op">(</span><span class="va">syn</span>, species_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Arabidopsis"</span>, <span class="st">"Grape"</span>, <span class="st">"Rice"</span><span class="op">)</span>,</span>
 <span>             chr_fill <span class="op">=</span> <span class="st">"uniform"</span>,       chr_palette <span class="op">=</span> <span class="st">"#E8E4DF"</span>,</span>
 <span>             ribbon_fill <span class="op">=</span> <span class="st">"species_pair"</span>, ribbon_palette <span class="op">=</span> <span class="st">"trio1"</span>,</span>
 <span>             ribbon_alpha <span class="op">=</span> <span class="fl">0.35</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-macro-pairs.png" alt="" width="80%"></p>
 <p>Named vectors keep working as explicit mappings whenever you need full control:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/plot_synteny.html">plot_synteny</a></span><span class="op">(</span><span class="va">syn</span>, species_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Arabidopsis"</span>, <span class="st">"Grape"</span>, <span class="st">"Rice"</span><span class="op">)</span>,</span>
 <span>             chr_fill <span class="op">=</span> <span class="st">"per_species"</span>,</span>
 <span>             chr_palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Arabidopsis"</span> <span class="op">=</span> <span class="st">"#B8D4E3"</span>,</span>
@@ -261,33 +286,72 @@
 <td>Overrides <code>palette</code> for ribbons; with <code>"identity"</code>, used as the colour ramp</td>
 </tr>
 <tr>
+<td><code>gene_radius</code></td>
+<td><code>0</code></td>
+<td>Corner radius in mm — softens the arrows (needs ggforce)</td>
+</tr>
+<tr>
+<td><code>ribbon_anchor</code></td>
+<td><code>"body"</code></td>
+<td>Where ribbons attach: <code>"body"</code> keeps arrowheads clear; <code>"full"</code> spans the whole gene (see below)</td>
+</tr>
+<tr>
 <td><code>label_genes</code></td>
 <td><code>TRUE</code></td>
 <td>Italic gene-name labels above/below the arrows</td>
 </tr>
+<tr>
+<td><code>interactive</code></td>
+<td><code>FALSE</code></td>
+<td>Build ggiraph-interactive layers — render with <code><a href="reference/syn_girafe.html">syn_girafe()</a></code>
+</td>
+</tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">micro</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/demo_microsynteny_data.html">demo_microsynteny_data</a></span><span class="op">(</span><span class="op">)</span>   <span class="co"># a moa/moe gene cluster, three strains</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/plot_microsynteny.html">plot_microsynteny</a></span><span class="op">(</span><span class="va">micro</span><span class="op">$</span><span class="va">features</span>, <span class="va">micro</span><span class="op">$</span><span class="va">links</span>,</span>
 <span>                  bin_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ZONMW-30"</span>, <span class="st">"ZONMW-20"</span>, <span class="st">"ZONMW-10"</span><span class="op">)</span>,</span>
 <span>                  palette <span class="op">=</span> <span class="st">"casa_natal"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-micro.png" alt="" width="85%"></p>
-<p>With <code>ribbon_fill = "identity"</code> the ribbon colour encodes percent identity. By default that is a light-to-dark blue ramp; name an ordered palette (<code>heatmap0</code>–<code>heatmap3</code>) to restyle it:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<p>With <code>ribbon_fill = "identity"</code> the ribbon colour encodes percent identity. By default that is a light-to-dark blue ramp; pass an ordered palette (<code>heatmap0</code>–<code>heatmap3</code>) as <code>ribbon_palette</code> to restyle it:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/plot_microsynteny.html">plot_microsynteny</a></span><span class="op">(</span><span class="va">micro</span><span class="op">$</span><span class="va">features</span>, <span class="va">micro</span><span class="op">$</span><span class="va">links</span>,</span>
 <span>                  bin_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ZONMW-30"</span>, <span class="st">"ZONMW-20"</span>, <span class="st">"ZONMW-10"</span><span class="op">)</span>,</span>
 <span>                  gene_fill <span class="op">=</span> <span class="st">"per_name"</span>,  gene_palette <span class="op">=</span> <span class="st">"casa_natal"</span>,</span>
 <span>                  ribbon_fill <span class="op">=</span> <span class="st">"identity"</span>, ribbon_palette <span class="op">=</span> <span class="st">"heatmap0"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-micro-ramp.png" alt="" width="85%"></p>
+<div class="section level4">
+<h4 id="where-ribbons-attach-ribbon_anchor">Where ribbons attach: <code>ribbon_anchor</code>
+<a class="anchor" aria-label="anchor" href="#where-ribbons-attach-ribbon_anchor"></a>
+</h4>
+<p>A gene arrow has a rectangular body and a pointed tip, and there are two defensible places for a ribbon to end. <code>ribbon_anchor = "body"</code> (the default) attaches ribbons to the body only, so every arrowhead stays clear and strand direction remains readable even under dense links. <code>ribbon_anchor = "full"</code> spans the whole gene, tip included — the convention of clinker, gggenomes and pyGenomeViz — which reads as “this entire gene is part of the link”:</p>
+<p float="left">
+<img src="reference/figures/README-anchor-body.png" width="49%"><img src="reference/figures/README-anchor-full.png" width="49%"></p>
+<p>Use <code>"body"</code> when the figure is about gene order and orientation (the tips carry the information); switch to <code>"full"</code> when the links represent alignments over entire genes and coverage is the message.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="syn_girafe--interactive-plots">
+<code>syn_girafe()</code> — interactive plots<a class="anchor" aria-label="anchor" href="#syn_girafe--interactive-plots"></a>
+</h3>
+<p><strong>What it’s for:</strong> hover highlighting and tooltips in HTML output (R Markdown, Quarto, Shiny, pkgdown) via <strong>ggiraph</strong>. Build the plot with <code>interactive = TRUE</code>, then render the widget with <code><a href="reference/syn_girafe.html">syn_girafe()</a></code> — hovering a ribbon fades all the others and shows the block coordinates (or the gene pair and its identity in micro-synteny):</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">rice_sorghum</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/plot_synteny.html">plot_synteny</a></span><span class="op">(</span><span class="va">rice_sorghum</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Rice"</span>, <span class="st">"Sorghum"</span><span class="op">)</span>,</span>
+<span>                  palette <span class="op">=</span> <span class="st">"casa_natal"</span>, chr_fill <span class="op">=</span> <span class="st">"per_chr"</span>,</span>
+<span>                  interactive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/syn_girafe.html">syn_girafe</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span></code></pre></div>
+<p>Try it live (hover it yourself) in the <a href="https://loukesio.github.io/ggsynteny/articles/interactive.html">Interactive article</a>.</p>
 </div>
 <div class="section level3">
 <h3 id="syn_palettes--the-built-in-colours">
 <code>syn_palettes()</code> — the built-in colours<a class="anchor" aria-label="anchor" href="#syn_palettes--the-built-in-colours"></a>
 </h3>
 <p><strong>What it’s for:</strong> every <code>palette</code> argument accepts, by name, all 32 palettes of the <a href="https://github.com/loukesio/ltc-color-palettes" class="external-link">ltc package</a> (vendored — ltc need not be installed; a few are curated for use as fills on a white background, dropping pure-black and near-white entries). Names match case-insensitively and ignore spaces, underscores and dashes, so <code>"casa_natal"</code>, <code>"Casa Natal"</code> and <code>"casanatal"</code> are the same palette. <code>"Okabe-Ito"</code>, any colour vector, and <code><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">grDevices::hcl.colors()</a></code> names work too. <code><a href="reference/syn_palettes.html">syn_palettes()</a></code> returns them all as a named list:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="reference/syn_palettes.html">syn_palettes</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>      <span class="co"># all 32 names</span></span>
 <span><span class="fu"><a href="reference/syn_palettes.html">syn_palettes</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">casa_natal</span>  <span class="co"># the hex colours of one palette</span></span></code></pre></div>
 <p><img src="reference/figures/README-palettes.png" alt="All 32 built-in palettes" width="70%" style="display: block; margin: auto;"></p>
@@ -300,28 +364,28 @@
 <div class="section level3">
 <h3 id="id_1-native-tsv-format">1. Native TSV format<a class="anchor" aria-label="anchor" href="#id_1-native-tsv-format"></a>
 </h3>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">syn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_synteny_tsv.html">read_synteny_tsv</a></span><span class="op">(</span><span class="st">"chromosomes.tsv"</span>, <span class="st">"synteny_blocks.tsv"</span><span class="op">)</span></span></code></pre></div>
 <p><strong>chromosomes.tsv</strong> (sizes in any consistent unit, e.g. Mb):</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>species  chr  size</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>Human    <span class="dv">1</span>    <span class="dv">249</span></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>Human    <span class="dv">2</span>    <span class="dv">243</span></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>Mouse    <span class="dv">1</span>    <span class="dv">195</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>species  chr  size</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>Human    <span class="dv">1</span>    <span class="dv">249</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>Human    <span class="dv">2</span>    <span class="dv">243</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>Mouse    <span class="dv">1</span>    <span class="dv">195</span></span></code></pre></div>
 <p><strong>synteny_blocks.tsv:</strong></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>species1  chr1  start1  end1  species2  chr2  start2  end2</span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>Human     <span class="dv">1</span>     <span class="dv">10</span>      <span class="dv">25</span>    Mouse     <span class="dv">4</span>     <span class="dv">80</span>      <span class="dv">95</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>species1  chr1  start1  end1  species2  chr2  start2  end2</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>Human     <span class="dv">1</span>     <span class="dv">10</span>      <span class="dv">25</span>    Mouse     <span class="dv">4</span>     <span class="dv">80</span>      <span class="dv">95</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="id_2-mcscanx">2. MCScanX<a class="anchor" aria-label="anchor" href="#id_2-mcscanx"></a>
 </h3>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">syn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_mcscanx.html">read_mcscanx</a></span><span class="op">(</span><span class="st">"output.collinearity"</span>, <span class="st">"output.gff"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/plot_synteny.html">plot_synteny</a></span><span class="op">(</span><span class="va">syn</span>, species_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SpeciesA"</span>, <span class="st">"SpeciesB"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="id_3-genespace">3. GENESPACE<a class="anchor" aria-label="anchor" href="#id_3-genespace"></a>
 </h3>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">syn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_genespace.html">read_genespace</a></span><span class="op">(</span><span class="st">"synHits.tsv"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/plot_synteny.html">plot_synteny</a></span><span class="op">(</span><span class="va">syn</span>, species_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"genome1"</span>, <span class="st">"genome2"</span>, <span class="st">"genome3"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -330,7 +394,7 @@
 <h2 id="saving-your-plot">Saving your plot<a class="anchor" aria-label="anchor" href="#saving-your-plot"></a>
 </h2>
 <p>Two independent knobs control a saved PNG: <code>width</code>/<code>height</code> in pixels decide how big (and how sharp) the image is; <code>dpi</code> decides how big the <em>letters</em> are relative to the plot. Letters too small → raise <code>dpi</code>; labels overlapping → lower it.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/plot_synteny.html">plot_synteny</a></span><span class="op">(</span><span class="va">syn</span>, species_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Arabidopsis"</span>, <span class="st">"Grape"</span>, <span class="st">"Rice"</span><span class="op">)</span>,</span>
 <span>                  palette <span class="op">=</span> <span class="st">"casa_natal"</span><span class="op">)</span></span>
 <span></span>
@@ -358,7 +422,11 @@
 </tr>
 <tr>
 <td><code><a href="reference/plot_microsynteny.html">plot_microsynteny()</a></code></td>
-<td>Micro-synteny: gene arrows + homology ribbons (<code>palette</code>, <code>gene_fill</code>, <code>ribbon_fill = "identity"</code>)</td>
+<td>Micro-synteny: gene arrows + homology ribbons (<code>palette</code>, <code>gene_fill</code>, <code>ribbon_fill = "identity"</code>, <code>ribbon_anchor</code>)</td>
+</tr>
+<tr>
+<td><code><a href="reference/syn_girafe.html">syn_girafe()</a></code></td>
+<td>Render an <code>interactive = TRUE</code> plot as a hoverable widget</td>
 </tr>
 <tr>
 <td><code><a href="reference/syn_palettes.html">syn_palettes()</a></code></td>
@@ -378,6 +446,11 @@
 <td>Parse a GENESPACE <code>synHits</code> file</td>
 </tr>
 <tr>
+<td><code>rice_sorghum</code></td>
+<td>Real rice-sorghum macro-synteny (MCScanX output) — <code>data(rice_sorghum)</code>
+</td>
+</tr>
+<tr>
 <td><code><a href="reference/example_synteny_data.html">example_synteny_data()</a></code></td>
 <td>Bundled macro-synteny example (Arabidopsis, Grape, Rice)</td>
 </tr>
@@ -392,7 +465,7 @@
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
 <p>If you use ggsynteny in your research, please cite the package:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"ggsynteny"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -403,7 +476,7 @@
 <div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
 </h2>
-<p>MIT</p>
+<p>MIT © 2026 Loukas Theodosiou — see <a href="LICENSE.html">LICENSE.md</a> for the full text. (The two-line <a href="LICENSE">LICENSE</a> file is the CRAN-required stub that points to the same terms.)</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

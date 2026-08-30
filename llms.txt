@@ -9,8 +9,9 @@
 both **macro-synteny** (chromosome-level ribbons across any number of
 species) and **micro-synteny** (gene-level arrows connected by homology
 ribbons). It ships parsers for MCScanX, GENESPACE, and plain TSV input,
-and every colour argument accepts the 32 palettes of the [ltc
-package](https://github.com/loukesio/ltc-color-palettes) by name —
+a real rice-sorghum dataset, interactive hover-and-tooltip plots via
+**ggiraph**, and every colour argument accepts the 32 palettes of the
+[ltc package](https://github.com/loukesio/ltc-color-palettes) by name —
 `palette = "casa_natal"` just works.
 
 ## Installation
@@ -51,6 +52,45 @@ plot_synteny(syn,
 ![Macro-synteny of Arabidopsis, Grape and Rice with the casa_natal
 palette](reference/figures/README-hero.png)
 
+## Real data: rice vs sorghum
+
+The bundled `rice_sorghum` dataset is genuine MCScanX output — the
+rice-sorghum example data shipped with MCScanX itself, run through the
+tool and parsed with ggsynteny’s own
+[`read_mcscanx()`](https://loukesio.github.io/ggsynteny/reference/read_mcscanx.md)
+(full pipeline in `data-raw/rice_sorghum.R`). Two grasses, ~50 million
+years of divergence, and the textbook conserved blocks are all there —
+rice 1 mapping almost entirely to sorghum 3, rice 11/12 to sorghum 5/8:
+
+``` r
+
+data(rice_sorghum)
+
+plot_synteny(rice_sorghum, c("Rice", "Sorghum"),
+             palette = "casa_natal",
+             chr_fill = "per_chr", ribbon_fill = "source_chr")
+```
+
+![Rice vs sorghum macro-synteny from real MCScanX
+output](reference/figures/README-rice-sorghum.png)
+
+The full worked example — including a real bacterial gene cluster at the
+micro scale — is in the [Real data
+article](https://loukesio.github.io/ggsynteny/articles/real-data.html).
+
+Chromosomes are square-cornered by default; `chr_radius` (in
+millimetres, via ggforce) rounds them into karyotype-style capsules —
+`gene_radius` does the same for gene arrows in micro-synteny:
+
+``` r
+
+plot_synteny(rice_sorghum, c("Rice", "Sorghum"),
+             palette = "casa_natal",
+             chr_fill = "per_chr", chr_radius = 1.5)
+```
+
+![Rounded chromosome corners](reference/figures/README-rounded.png)
+
 Every function below follows the same pattern: what it is for, the
 arguments that matter (with their defaults), and a worked example.
 
@@ -74,6 +114,8 @@ connecting their syntenic blocks with curved ribbons. Takes a list with
 | `ribbon_alpha` | `0.30` | Ribbon transparency |
 | `curvature` | `0.55` | Ribbon curve strength (0–1) |
 | `tier_spacing` | `18` | Vertical distance between species |
+| `chr_radius` | `0` | Corner radius in mm — `1.5` gives karyotype-style capsules (needs ggforce) |
+| `interactive` | `FALSE` | Build ggiraph-interactive layers — render with [`syn_girafe()`](https://loukesio.github.io/ggsynteny/reference/syn_girafe.md) |
 
 With no colours at all you get soft per-species pastels and
 auto-generated ribbon hues:
@@ -138,7 +180,10 @@ figure.
 | `gene_palette` | `NULL` | Overrides `palette` for genes |
 | `ribbon_fill` | `"identity"` | Ribbon colouring: `"identity"`, `"per_name"`, or `"uniform"` |
 | `ribbon_palette` | `NULL` | Overrides `palette` for ribbons; with `"identity"`, used as the colour ramp |
+| `gene_radius` | `0` | Corner radius in mm — softens the arrows (needs ggforce) |
+| `ribbon_anchor` | `"body"` | Where ribbons attach: `"body"` keeps arrowheads clear; `"full"` spans the whole gene (see below) |
 | `label_genes` | `TRUE` | Italic gene-name labels above/below the arrows |
+| `interactive` | `FALSE` | Build ggiraph-interactive layers — render with [`syn_girafe()`](https://loukesio.github.io/ggsynteny/reference/syn_girafe.md) |
 
 ``` r
 
@@ -152,8 +197,8 @@ plot_microsynteny(micro$features, micro$links,
 ![](reference/figures/README-micro.png)
 
 With `ribbon_fill = "identity"` the ribbon colour encodes percent
-identity. By default that is a light-to-dark blue ramp; name an ordered
-palette (`heatmap0`–`heatmap3`) to restyle it:
+identity. By default that is a light-to-dark blue ramp; pass an ordered
+palette (`heatmap0`–`heatmap3`) as `ribbon_palette` to restyle it:
 
 ``` r
 
@@ -164,6 +209,44 @@ plot_microsynteny(micro$features, micro$links,
 ```
 
 ![](reference/figures/README-micro-ramp.png)
+
+#### Where ribbons attach: `ribbon_anchor`
+
+A gene arrow has a rectangular body and a pointed tip, and there are two
+defensible places for a ribbon to end. `ribbon_anchor = "body"` (the
+default) attaches ribbons to the body only, so every arrowhead stays
+clear and strand direction remains readable even under dense links.
+`ribbon_anchor = "full"` spans the whole gene, tip included — the
+convention of clinker, gggenomes and pyGenomeViz — which reads as “this
+entire gene is part of the link”:
+
+![](reference/figures/README-anchor-body.png)![](reference/figures/README-anchor-full.png)
+
+Use `"body"` when the figure is about gene order and orientation (the
+tips carry the information); switch to `"full"` when the links represent
+alignments over entire genes and coverage is the message.
+
+### `syn_girafe()` — interactive plots
+
+**What it’s for:** hover highlighting and tooltips in HTML output (R
+Markdown, Quarto, Shiny, pkgdown) via **ggiraph**. Build the plot with
+`interactive = TRUE`, then render the widget with
+[`syn_girafe()`](https://loukesio.github.io/ggsynteny/reference/syn_girafe.md)
+— hovering a ribbon fades all the others and shows the block coordinates
+(or the gene pair and its identity in micro-synteny):
+
+``` r
+
+data(rice_sorghum)
+
+p <- plot_synteny(rice_sorghum, c("Rice", "Sorghum"),
+                  palette = "casa_natal", chr_fill = "per_chr",
+                  interactive = TRUE)
+syn_girafe(p)
+```
+
+Try it live (hover it yourself) in the [Interactive
+article](https://loukesio.github.io/ggsynteny/articles/interactive.html).
 
 ### `syn_palettes()` — the built-in colours
 
@@ -257,11 +340,13 @@ ggsave("synteny.pdf", p, width = 12, height = 7)   # vector, for journals
 | Function | Purpose |
 |----|----|
 | [`plot_synteny()`](https://loukesio.github.io/ggsynteny/reference/plot_synteny.md) | Macro-synteny: chromosome tiers + block ribbons (`palette`, `chr_fill`, `ribbon_fill`, `curvature`) |
-| [`plot_microsynteny()`](https://loukesio.github.io/ggsynteny/reference/plot_microsynteny.md) | Micro-synteny: gene arrows + homology ribbons (`palette`, `gene_fill`, `ribbon_fill = "identity"`) |
+| [`plot_microsynteny()`](https://loukesio.github.io/ggsynteny/reference/plot_microsynteny.md) | Micro-synteny: gene arrows + homology ribbons (`palette`, `gene_fill`, `ribbon_fill = "identity"`, `ribbon_anchor`) |
+| [`syn_girafe()`](https://loukesio.github.io/ggsynteny/reference/syn_girafe.md) | Render an `interactive = TRUE` plot as a hoverable widget |
 | [`syn_palettes()`](https://loukesio.github.io/ggsynteny/reference/syn_palettes.md) | List the 32 built-in colour palettes |
 | [`read_synteny_tsv()`](https://loukesio.github.io/ggsynteny/reference/read_synteny_tsv.md) | Read the native two-TSV format |
 | [`read_mcscanx()`](https://loukesio.github.io/ggsynteny/reference/read_mcscanx.md) | Parse MCScanX `.collinearity` + `.gff` |
 | [`read_genespace()`](https://loukesio.github.io/ggsynteny/reference/read_genespace.md) | Parse a GENESPACE `synHits` file |
+| `rice_sorghum` | Real rice-sorghum macro-synteny (MCScanX output) — `data(rice_sorghum)` |
 | [`example_synteny_data()`](https://loukesio.github.io/ggsynteny/reference/example_synteny_data.md) | Bundled macro-synteny example (Arabidopsis, Grape, Rice) |
 | [`demo_microsynteny_data()`](https://loukesio.github.io/ggsynteny/reference/demo_microsynteny_data.md) | Bundled micro-synteny example (moa/moe cluster) |
 
@@ -286,7 +371,11 @@ treemaps).
 
 ## License
 
-MIT
+MIT © 2026 Loukas Theodosiou — see
+[LICENSE.md](https://loukesio.github.io/ggsynteny/LICENSE.md) for the
+full text. (The two-line
+[LICENSE](https://loukesio.github.io/ggsynteny/LICENSE) file is the
+CRAN-required stub that points to the same terms.)
 
 # Package index
 
@@ -298,6 +387,13 @@ Macro- and micro-synteny visualisation.
   : Plot macro-synteny across multiple species
 - [`plot_microsynteny()`](https://loukesio.github.io/ggsynteny/reference/plot_microsynteny.md)
   : Plot micro-synteny across multiple genomes/bins
+
+## Interactive
+
+ggiraph rendering with hover highlights and tooltips.
+
+- [`syn_girafe()`](https://loukesio.github.io/ggsynteny/reference/syn_girafe.md)
+  : Render an interactive synteny plot
 
 ## Colours
 
@@ -319,6 +415,8 @@ Parsers for common synteny file formats.
 
 ## Example data
 
+- [`rice_sorghum`](https://loukesio.github.io/ggsynteny/reference/rice_sorghum.md)
+  : Rice-sorghum macro-synteny (real MCScanX output)
 - [`example_synteny_data()`](https://loukesio.github.io/ggsynteny/reference/example_synteny_data.md)
   : Example synteny data (Arabidopsis, Grape, Rice)
 - [`demo_microsynteny_data()`](https://loukesio.github.io/ggsynteny/reference/demo_microsynteny_data.md)
@@ -326,7 +424,11 @@ Parsers for common synteny file formats.
 
 # Articles
 
-### All vignettes
+### Guides
 
 - [Getting Started with
   ggsynteny](https://loukesio.github.io/ggsynteny/articles/getting-started.md):
+- [Real data: rice-sorghum and a bacterial gene
+  cluster](https://loukesio.github.io/ggsynteny/articles/real-data.md):
+- [Interactive synteny
+  plots](https://loukesio.github.io/ggsynteny/articles/interactive.md):

@@ -45,6 +45,8 @@ Useful links:
 
 - <https://github.com/loukesio/ggsynteny>
 
+- <https://loukesio.github.io/ggsynteny/>
+
 - Report bugs at <https://github.com/loukesio/ggsynteny/issues>
 
 ## Author
