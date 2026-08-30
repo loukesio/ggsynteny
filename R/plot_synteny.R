@@ -24,11 +24,20 @@
 #'   an unnamed color vector, or a named vector mapping keys to colors (see Details)
 #' @param ribbon_alpha Ribbon transparency (0-1, default 0.30)
 #' @param curvature Ribbon curve strength (0-1, default 0.55)
+#' @param chr_radius Corner radius of the chromosome boxes in millimetres
+#'   (default 0 = square corners). Try 1-2 mm for gently rounded
+#'   chromosomes; rounding uses \pkg{ggforce}, so it looks right at any
+#'   figure size. Not available together with `interactive = TRUE`
+#'   (square corners are drawn instead, with a warning).
 #' @param label_size Chromosome label size (default 2.5)
 #' @param species_label_size Species label size (default 4.5)
+#' @param interactive Logical; make chromosomes and ribbons interactive
+#'   (hover highlight and tooltips) using \pkg{ggiraph}? Render the result
+#'   with [syn_girafe()]. Default `FALSE`.
 #' @param title Optional plot title
 #'
-#' @return A ggplot2 object
+#' @return A ggplot2 object (pass to [syn_girafe()] to render an interactive
+#'   widget when `interactive = TRUE`)
 #'
 #' @details
 #' \strong{Chromosome Coloring (chr_fill):}
@@ -88,13 +97,29 @@ plot_synteny <- function(syn_data, species_order,
                          ribbon_alpha = 0.30,
                          # Layout
                          curvature = 0.55,
+                         chr_radius = 0,
                          label_size = 2.5,
                          species_label_size = 4.5,
+                         interactive = FALSE,
                          title = NULL) {
 
   chr_fill    <- match.arg(chr_fill, c("per_species", "uniform", "per_chr", "custom"))
   ribbon_fill <- match.arg(ribbon_fill,
                            c("source_chr", "target_chr", "species_pair", "uniform", "custom"))
+
+  if (interactive && !requireNamespace("ggiraph", quietly = TRUE)) {
+    stop("interactive = TRUE requires the 'ggiraph' package. ",
+         "Install it with install.packages('ggiraph').", call. = FALSE)
+  }
+  if (chr_radius > 0 && interactive) {
+    warning("chr_radius is not available for interactive layers; ",
+            "drawing square corners.", call. = FALSE)
+    chr_radius <- 0
+  }
+  if (chr_radius > 0 && !requireNamespace("ggforce", quietly = TRUE)) {
+    stop("chr_radius > 0 requires the 'ggforce' package. ",
+         "Install it with install.packages('ggforce').", call. = FALSE)
+  }
 
   CHR_HEIGHT <- 0.9
   LABEL_OFF <- 1.5
@@ -214,6 +239,9 @@ plot_synteny <- function(syn_data, species_order,
         chr_a = row$chr_a,
         chr_b = row$chr_b,
         pair  = pair_key,
+        tooltip = paste0(row$sp_a, " ", row$chr_a, ": ", row$s_a, "\u2013", row$e_a,
+                         " \u2194 ",
+                         row$sp_b, " ", row$chr_b, ": ", row$s_b, "\u2013", row$e_b),
         stringsAsFactors = FALSE
       )
     }
@@ -263,6 +291,7 @@ plot_synteny <- function(syn_data, species_order,
                             curvature = curvature)
       poly$conn_id <- i
       poly$ribbon_color <- row$ribbon_color
+      poly$tooltip <- row$tooltip
       poly
     })
     ribbon_df <- bind_rows(ribbon_list)
@@ -287,21 +316,60 @@ plot_synteny <- function(syn_data, species_order,
 
   # Layer 1: ribbons (background)
   if (!is.null(ribbon_df)) {
-    p <- p + geom_polygon(
-      data = ribbon_df,
-      aes(x = x, y = y, group = conn_id),
-      fill = ribbon_df$ribbon_color, alpha = ribbon_alpha,
-      color = NA
-    )
+    if (interactive) {
+      p <- p + ggiraph::geom_polygon_interactive(
+        data = ribbon_df,
+        aes(x = x, y = y, group = conn_id,
+            tooltip = tooltip, data_id = paste0("block_", conn_id)),
+        fill = ribbon_df$ribbon_color, alpha = ribbon_alpha,
+        color = NA
+      )
+    } else {
+      p <- p + geom_polygon(
+        data = ribbon_df,
+        aes(x = x, y = y, group = conn_id),
+        fill = ribbon_df$ribbon_color, alpha = ribbon_alpha,
+        color = NA
+      )
+    }
   }
 
   # Layer 2: chromosomes (foreground)
-  p <- p + geom_rect(
-    data = chr_layout,
-    aes(xmin = xmin, xmax = xmax, ymin = y - h, ymax = y + h),
-    fill = chr_layout$fill_color, color = "black",
-    linewidth = 0.4, alpha = 0.95
-  )
+  if (interactive) {
+    chr_layout$tooltip <- paste0(chr_layout$species, " \u2014 chr ", chr_layout$chr,
+                                 " (", chr_layout$size, ")")
+    p <- p + ggiraph::geom_rect_interactive(
+      data = chr_layout,
+      aes(xmin = xmin, xmax = xmax, ymin = y - h, ymax = y + h,
+          tooltip = tooltip, data_id = paste0(species, "__", chr)),
+      fill = chr_layout$fill_color, color = "black",
+      linewidth = 0.4, alpha = 0.95
+    )
+  } else if (chr_radius > 0) {
+    # Rounded corners via ggforce::geom_shape (radius in absolute mm, so the
+    # rounding is consistent whatever the data scales are)
+    chr_poly <- data.frame(
+      x = as.vector(rbind(chr_layout$xmin, chr_layout$xmax,
+                          chr_layout$xmax, chr_layout$xmin)),
+      y = as.vector(rbind(chr_layout$y - h, chr_layout$y - h,
+                          chr_layout$y + h, chr_layout$y + h)),
+      chr_id = rep(seq_len(nrow(chr_layout)), each = 4)
+    )
+    p <- p + ggforce::geom_shape(
+      data = chr_poly,
+      aes(x = x, y = y, group = chr_id),
+      fill = rep(chr_layout$fill_color, each = 4), color = "black",
+      linewidth = 0.4, alpha = 0.95,
+      radius = grid::unit(chr_radius, "mm")
+    )
+  } else {
+    p <- p + geom_rect(
+      data = chr_layout,
+      aes(xmin = xmin, xmax = xmax, ymin = y - h, ymax = y + h),
+      fill = chr_layout$fill_color, color = "black",
+      linewidth = 0.4, alpha = 0.95
+    )
+  }
 
   # Layer 3: labels
   max_label_chars <- max(nchar(names(species_y)))

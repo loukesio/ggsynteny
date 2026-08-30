@@ -37,9 +37,9 @@
 # Data-frame column names used with dplyr non-standard evaluation
 utils::globalVariables(c(
   ".chr_num", "bin_id", "body_x0", "body_x1", "bw", "chr", "chr1", "chr2",
-  "chr_num", "conn_id", "cumstart", "end", "end1", "end2", "feat_id", "gene",
+  "chr_id", "chr_num", "conn_id", "cumstart", "end", "end1", "end2", "feat_id", "gene",
   "genome1", "genome2", "head_w", "label", "link_id", "lx", "ly", "name",
   "offset", "seq_id", "size", "size_mb", "species", "species1", "species2",
-  "start", "start1", "start2", "strand", "total_width", "vjust", "x", "x0",
-  "x1", "x_right", "x_sep", "xa0", "xb0", "xmax", "xmin", "y"
+  "start", "start1", "start2", "strand", "tooltip", "total_width", "vjust",
+  "x", "x0", "x1", "x_right", "x_sep", "xa0", "xb0", "xmax", "xmin", "y"
 ))

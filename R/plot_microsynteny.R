@@ -14,13 +14,23 @@
 #'   (all 32 ltc palettes, e.g. `"casa_natal"` or `"minou"`; list them with
 #'   \code{\link{syn_palettes}}), `"Okabe-Ito"`, or a vector of colors. Used
 #'   for genes and ribbons unless `gene_palette` / `ribbon_palette` override
-#'   it. With `ribbon_fill = "identity"`, it becomes the identity color ramp
-#'   (try an ordered palette such as `"heatmap0"`).
+#'   it. With `ribbon_fill = "identity"`, ribbons keep their default blue
+#'   ramp; pass an ordered palette (e.g. `"heatmap0"`) as `ribbon_palette`
+#'   to restyle the ramp explicitly.
 #' @param tier_spacing Numeric, vertical spacing between bins (default 6)
 #' @param gene_height Numeric, gene arrow half-height (default 0.35)
 #' @param arrowhead_frac Numeric, arrowhead size as fraction of gene length (default 0.18)
 #' @param contig_gap_frac Numeric, gap between contigs as fraction of max gene size (default 0.04)
 #' @param curvature Numeric, ribbon curve strength 0-1 (default 0.5)
+#' @param ribbon_anchor Where ribbons attach to a gene: `"body"` (default)
+#'   anchors them to the rectangular body only, leaving the arrowhead free so
+#'   the strand direction stays readable; `"full"` anchors them to the entire
+#'   gene extent including the tip, the convention of clinker and gggenomes,
+#'   so a fully-linked gene is visibly covered end-to-end. See Details.
+#' @param gene_radius Corner radius of the gene arrows in millimetres
+#'   (default 0 = crisp corners). Try 0.5-1 mm to soften the arrows;
+#'   rounding uses \pkg{ggforce}. Not available together with
+#'   `interactive = TRUE` (crisp corners are drawn instead, with a warning).
 #' @param gene_fill Gene coloring mode: "per_name", "per_feat", or "uniform"
 #' @param gene_palette Named vector of colors for genes
 #' @param gene_color Gene outline color (default "#333333")
@@ -34,9 +44,13 @@
 #' @param label_size Gene label size (default 2.5)
 #' @param bin_label_size Bin label size (default 4.5)
 #' @param label_offset Vertical offset for gene labels (default 0.25)
+#' @param interactive Logical; make genes and ribbons interactive (hover
+#'   highlight and tooltips) using \pkg{ggiraph}? Render the result with
+#'   [syn_girafe()]. Default `FALSE`.
 #' @param title Optional plot title
 #'
-#' @return A ggplot2 object
+#' @return A ggplot2 object (pass to [syn_girafe()] to render an interactive
+#'   widget when `interactive = TRUE`)
 #'
 #' @details
 #' \strong{Input Requirements:}
@@ -58,6 +72,17 @@
 #'   \item feat_id_b: gene in bottom genome
 #'   \item identity: optional 0-100 (for ribbon color intensity)
 #' }
+#'
+#' \strong{Ribbon anchoring (ribbon_anchor):}
+#'
+#' A gene arrow has a rectangular body and a pointed tip. With
+#' `ribbon_anchor = "body"` (the default), ribbons attach to the body only —
+#' the tip stays clear of every ribbon, so strand direction remains readable
+#' even under dense links, at the cost that a fully-linked gene is not
+#' covered wall-to-wall. With `ribbon_anchor = "full"`, ribbons span the
+#' entire gene including the tip — the convention of clinker, gggenomes and
+#' pyGenomeViz — which reads as "this whole gene is part of the link" but
+#' lets ribbons run underneath the arrowheads.
 #'
 #' @examples
 #' \dontrun{
@@ -82,8 +107,10 @@ plot_microsynteny <- function(features,
                               arrowhead_frac  = 0.18,
                               contig_gap_frac = 0.04,
                               curvature       = 0.5,
+                              ribbon_anchor   = "body",
 
                               # Gene coloring
+                              gene_radius     = 0,
                               gene_fill       = "per_name",
                               gene_palette    = NULL,
                               gene_color      = "#333333",
@@ -102,11 +129,27 @@ plot_microsynteny <- function(features,
                               bin_label_size  = 4.5,
                               label_offset    = 0.25,
 
+                              interactive     = FALSE,
                               title           = NULL) {
 
   # ── Validate ──
-  gene_fill   <- match.arg(gene_fill, c("per_name", "per_feat", "uniform"))
-  ribbon_fill <- match.arg(ribbon_fill, c("identity", "per_name", "uniform"))
+  gene_fill     <- match.arg(gene_fill, c("per_name", "per_feat", "uniform"))
+  ribbon_fill   <- match.arg(ribbon_fill, c("identity", "per_name", "uniform"))
+  ribbon_anchor <- match.arg(ribbon_anchor, c("body", "full"))
+
+  if (interactive && !requireNamespace("ggiraph", quietly = TRUE)) {
+    stop("interactive = TRUE requires the 'ggiraph' package. ",
+         "Install it with install.packages('ggiraph').", call. = FALSE)
+  }
+  if (gene_radius > 0 && interactive) {
+    warning("gene_radius is not available for interactive layers; ",
+            "drawing crisp corners.", call. = FALSE)
+    gene_radius <- 0
+  }
+  if (gene_radius > 0 && !requireNamespace("ggforce", quietly = TRUE)) {
+    stop("gene_radius > 0 requires the 'ggforce' package. ",
+         "Install it with install.packages('ggforce').", call. = FALSE)
+  }
 
   req_f <- c("bin_id","seq_id","start","end","strand","feat_id","name")
   req_l <- c("feat_id_a","feat_id_b")
@@ -116,7 +159,8 @@ plot_microsynteny <- function(features,
   if (length(miss_l) > 0) stop("links missing: ",    paste(miss_l, collapse=", "))
 
   if (is.null(bin_order)) bin_order <- unique(features$bin_id)
-  if (!"identity" %in% names(links)) links$identity <- 80
+  has_identity <- "identity" %in% names(links)
+  if (!has_identity) links$identity <- 80
 
   h <- gene_height
 
@@ -190,13 +234,21 @@ plot_microsynteny <- function(features,
 
   layout$fill_color[is.na(layout$fill_color)] <- "#CCCCCC"
 
-  # ── Body coordinates (ribbon anchors exclude the arrowhead) ──
-  layout <- layout %>%
-    mutate(
-      head_w  = (x1 - x0) * arrowhead_frac,
-      body_x0 = ifelse(strand == "+", x0,          x0 + head_w),
-      body_x1 = ifelse(strand == "+", x1 - head_w, x1)
-    )
+  # ── Ribbon anchor coordinates ──
+  # "body": exclude the arrowhead so the tip stays clear of ribbons.
+  # "full": span the whole gene, tip included (clinker/gggenomes convention).
+  if (ribbon_anchor == "body") {
+    layout <- layout %>%
+      mutate(
+        head_w  = (x1 - x0) * arrowhead_frac,
+        body_x0 = ifelse(strand == "+", x0,          x0 + head_w),
+        body_x1 = ifelse(strand == "+", x1 - head_w, x1)
+      )
+  } else {
+    layout <- layout %>%
+      mutate(head_w = (x1 - x0) * arrowhead_frac,
+             body_x0 = x0, body_x1 = x1)
+  }
 
   # ── Ribbon colors ──
   feat_pos <- layout %>% select(feat_id, body_x0, body_x1, y)
@@ -211,9 +263,11 @@ plot_microsynteny <- function(features,
   ribbon_spec <- ribbon_palette %||% palette
 
   if (ribbon_fill == "identity") {
-    if (!is.null(ribbon_spec) && (is_palette_name(ribbon_spec) || length(ribbon_spec) > 1)) {
-      # Use the palette as the identity ramp (interpolated end-to-end)
-      ramp <- syn_pal(ribbon_spec, 101, continuous = TRUE)
+    # Only an explicit ribbon_palette restyles the identity ramp: the
+    # top-level `palette` is qualitative and would make a misleading ramp.
+    if (!is.null(ribbon_palette) &&
+        (is_palette_name(ribbon_palette) || length(ribbon_palette) > 1)) {
+      ramp <- syn_pal(ribbon_palette, 101, continuous = TRUE)
       idx  <- round(pmin(pmax(links_xy$identity, 0), 100)) + 1
       links_xy$ribbon_color <- ramp[idx]
     } else {
@@ -235,6 +289,11 @@ plot_microsynteny <- function(features,
 
   links_xy$ribbon_color[is.na(links_xy$ribbon_color)] <- "#888888"
 
+  links_xy$tooltip <- paste0(
+    links_xy$feat_id_a, " \u2194 ", links_xy$feat_id_b,
+    if (has_identity) paste0("\n", links_xy$identity, "% identity") else ""
+  )
+
   # ── Build ribbon polygons ──
   ribbon_df <- lapply(seq_len(nrow(links_xy)), function(i) {
     row  <- links_xy[i, ]
@@ -243,10 +302,16 @@ plot_microsynteny <- function(features,
                            curvature = curvature)
     poly$link_id      <- i
     poly$ribbon_color <- row$ribbon_color
+    poly$tooltip      <- row$tooltip
     poly
   }) %>% bind_rows()
 
   # ── Build gene arrow polygons ──
+  layout$tooltip <- paste0(
+    layout$name, "\n", layout$bin_id, " \u00b7 ", layout$seq_id, ":",
+    layout$start, "\u2013", layout$end, " (", layout$strand, ")"
+  )
+
   arrow_df <- lapply(seq_len(nrow(layout)), function(i) {
     row  <- layout[i, ]
     poly <- arrow_poly(row$x0, row$x1, row$y, h,
@@ -254,6 +319,7 @@ plot_microsynteny <- function(features,
                         strand = row$strand)
     poly$feat_id    <- row$feat_id
     poly$fill_color <- row$fill_color
+    poly$tooltip    <- row$tooltip
     poly
   }) %>% bind_rows()
 
@@ -290,20 +356,49 @@ plot_microsynteny <- function(features,
 
   # Layer 1: ribbons
   if (nrow(ribbon_df) > 0) {
-    p <- p + geom_polygon(data  = ribbon_df,
-                          aes(x = x, y = y, group = link_id),
-                          fill  = ribbon_df$ribbon_color,
-                          alpha = ribbon_alpha,
-                          color = NA)
+    if (interactive) {
+      p <- p + ggiraph::geom_polygon_interactive(
+        data  = ribbon_df,
+        aes(x = x, y = y, group = link_id,
+            tooltip = tooltip, data_id = paste0("link_", link_id)),
+        fill  = ribbon_df$ribbon_color,
+        alpha = ribbon_alpha,
+        color = NA)
+    } else {
+      p <- p + geom_polygon(data  = ribbon_df,
+                            aes(x = x, y = y, group = link_id),
+                            fill  = ribbon_df$ribbon_color,
+                            alpha = ribbon_alpha,
+                            color = NA)
+    }
   }
 
   # Layer 2: gene arrows
-  p <- p + geom_polygon(data      = arrow_df,
-                        aes(x = x, y = y, group = feat_id),
-                        fill      = arrow_df$fill_color,
-                        color     = gene_color,
-                        linewidth = 0.3,
-                        alpha     = gene_alpha)
+  if (interactive) {
+    p <- p + ggiraph::geom_polygon_interactive(
+      data      = arrow_df,
+      aes(x = x, y = y, group = feat_id,
+          tooltip = tooltip, data_id = feat_id),
+      fill      = arrow_df$fill_color,
+      color     = gene_color,
+      linewidth = 0.3,
+      alpha     = gene_alpha)
+  } else if (gene_radius > 0) {
+    p <- p + ggforce::geom_shape(data      = arrow_df,
+                                 aes(x = x, y = y, group = feat_id),
+                                 fill      = arrow_df$fill_color,
+                                 color     = gene_color,
+                                 linewidth = 0.3,
+                                 alpha     = gene_alpha,
+                                 radius    = grid::unit(gene_radius, "mm"))
+  } else {
+    p <- p + geom_polygon(data      = arrow_df,
+                          aes(x = x, y = y, group = feat_id),
+                          fill      = arrow_df$fill_color,
+                          color     = gene_color,
+                          linewidth = 0.3,
+                          alpha     = gene_alpha)
+  }
 
   # Layer 3: contig separators
   if (nrow(sep_df) > 0) {

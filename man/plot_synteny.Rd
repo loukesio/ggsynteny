@@ -15,8 +15,10 @@ plot_synteny(
   ribbon_palette = NULL,
   ribbon_alpha = 0.3,
   curvature = 0.55,
+  chr_radius = 0,
   label_size = 2.5,
   species_label_size = 4.5,
+  interactive = FALSE,
   title = NULL
 )
 }
@@ -48,14 +50,25 @@ an unnamed color vector, or a named vector mapping keys to colors (see Details)}
 
 \item{curvature}{Ribbon curve strength (0-1, default 0.55)}
 
+\item{chr_radius}{Corner radius of the chromosome boxes in millimetres
+(default 0 = square corners). Try 1-2 mm for gently rounded
+chromosomes; rounding uses \pkg{ggforce}, so it looks right at any
+figure size. Not available together with \code{interactive = TRUE}
+(square corners are drawn instead, with a warning).}
+
 \item{label_size}{Chromosome label size (default 2.5)}
 
 \item{species_label_size}{Species label size (default 4.5)}
 
+\item{interactive}{Logical; make chromosomes and ribbons interactive
+(hover highlight and tooltips) using \pkg{ggiraph}? Render the result
+with \code{\link[=syn_girafe]{syn_girafe()}}. Default \code{FALSE}.}
+
 \item{title}{Optional plot title}
 }
 \value{
-A ggplot2 object
+A ggplot2 object (pass to \code{\link[=syn_girafe]{syn_girafe()}} to render an interactive
+widget when \code{interactive = TRUE})
 }
 \description{
 Creates publication-quality synteny plots showing chromosomal relationships

@@ -1,7 +1,7 @@
 Package: ggsynteny
 Type: Package
 Title: Publication-Quality Synteny Plots with 'ggplot2'
-Version: 0.2.0
+Version: 0.3.0
 Authors@R:
     person("Loukas", "Theodosiou", email = "theodosiou@evolbio.mpg.de",
            role = c("aut", "cre"), comment = c(ORCID = "0000-0001-6418-4652"))
@@ -26,6 +26,8 @@ Imports:
     grDevices,
     stats
 Suggests:
+    ggforce,
+    ggiraph,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)

@@ -75,6 +75,11 @@ read_mcscanx <- function(collinearity_file, gff_file) {
   for (line in lines) {
     line <- trimws(line)
     if (grepl("^## Alignment", line)) {
+      # A new alignment header also closes the previous block: MCScanX writes
+      # blocks back-to-back with no blank line between them.
+      if (!is.null(current_block)) {
+        blocks[[length(blocks) + 1]] <- current_block
+      }
       score  <- as.numeric(sub(".*score=([0-9.]+).*", "\\1", line))
       chrs   <- sub(".*\\s(\\S+&\\S+)\\s.*", "\\1", line)
       chr_pair <- strsplit(chrs, "&")[[1]]
@@ -90,9 +95,6 @@ read_mcscanx <- function(collinearity_file, gff_file) {
           gene1 = parts[1], gene2 = parts[2]
         )
       }
-    } else if (line == "" && !is.null(current_block)) {
-      blocks[[length(blocks) + 1]] <- current_block
-      current_block <- NULL
     }
   }
   if (!is.null(current_block)) {
@@ -107,21 +109,24 @@ read_mcscanx <- function(collinearity_file, gff_file) {
     gene1_ids <- sapply(b$genes, function(g) g$gene1)
     gene2_ids <- sapply(b$genes, function(g) g$gene2)
 
-    g1_info <- gff %>% filter(gene %in% gene1_ids)
-    g2_info <- gff %>% filter(gene %in% gene2_ids)
+    g1_info <- gff[stats::na.omit(match(gene1_ids, gff$gene)), ]
+    g2_info <- gff[stats::na.omit(match(gene2_ids, gff$gene)), ]
 
     if (nrow(g1_info) == 0 || nrow(g2_info) == 0) next
 
+    # The alignment header names the chromosome pair; trust it over the
+    # (possibly ambiguous) per-gene lookup.
     block_rows[[length(block_rows) + 1]] <- data.frame(
-      species1 = g1_info$species[1],
-      chr1     = g1_info$chr_num[1],
+      species1 = sub("[0-9]+$", "", b$chr1),
+      chr1     = sub("^[A-Za-z]+", "", b$chr1),
       start1   = min(g1_info$start) / 1e6,
       end1     = max(g1_info$end) / 1e6,
-      species2 = g2_info$species[1],
-      chr2     = g2_info$chr_num[1],
+      species2 = sub("[0-9]+$", "", b$chr2),
+      chr2     = sub("^[A-Za-z]+", "", b$chr2),
       start2   = min(g2_info$start) / 1e6,
       end2     = max(g2_info$end) / 1e6,
       score    = b$score,
+      n_genes  = length(b$genes),
       stringsAsFactors = FALSE
     )
   }

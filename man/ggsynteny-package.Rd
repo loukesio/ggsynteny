@@ -48,6 +48,7 @@ List them with \code{\link{syn_palettes}}.
 Useful links:
 \itemize{
   \item \url{https://github.com/loukesio/ggsynteny}
+  \item \url{https://loukesio.github.io/ggsynteny/}
   \item Report bugs at \url{https://github.com/loukesio/ggsynteny/issues}
 }
 

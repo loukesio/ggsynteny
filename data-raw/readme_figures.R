@@ -51,6 +51,31 @@ save_fig("README-micro-ramp.png",
                            ribbon_fill = "identity", ribbon_palette = "heatmap0"),
          height = 1400)
 
+# ── Real data: rice vs sorghum (MCScanX) ──
+data(rice_sorghum)
+save_fig("README-rice-sorghum.png",
+         plot_synteny(rice_sorghum, c("Rice", "Sorghum"),
+                      palette = "casa_natal",
+                      chr_fill = "per_chr", ribbon_fill = "source_chr"),
+         height = 1250)
+
+# ── Rounded chromosome corners ──
+save_fig("README-rounded.png",
+         plot_synteny(rice_sorghum, c("Rice", "Sorghum"),
+                      palette = "casa_natal",
+                      chr_fill = "per_chr", chr_radius = 1.5),
+         height = 1250)
+
+# ── Ribbon anchoring: body vs full ──
+for (anchor in c("body", "full")) {
+  p_a <- plot_microsynteny(micro$features, micro$links, bins,
+                           palette = "casa_natal", ribbon_anchor = anchor,
+                           title = paste0('ribbon_anchor = "', anchor, '"')) +
+    theme(plot.title = element_text(hjust = 0.5, family = "mono", size = 11))
+  ggsave(paste0("man/figures/README-anchor-", anchor, ".png"), p_a,
+         width = 1900, height = 1100, units = "px", dpi = 260, bg = "white")
+}
+
 # ── Palette gallery ──
 pals <- syn_palettes()
 gal <- do.call(rbind, lapply(seq_along(pals), function(i) {

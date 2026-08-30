@@ -1,0 +1,67 @@
+---
+title: "Interactive synteny plots"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE, comment = "#>",
+  out.width = "100%"
+)
+```
+
+Every ggsynteny plot can be made interactive with
+[ggiraph](https://davidgohel.github.io/ggiraph/): build the plot with
+`interactive = TRUE`, then render it with `syn_girafe()`. Hovering a
+ribbon fades everything else and shows a tooltip with the block (or link)
+coordinates; hovering a chromosome or gene shows what it is. The widgets
+work anywhere HTML does — R Markdown, Quarto, Shiny, pkgdown.
+
+```{r setup}
+library(ggsynteny)
+```
+
+## Macro-synteny: hover the rice-sorghum blocks
+
+*Hover a ribbon* to isolate one collinear block and read its coordinates;
+*hover a chromosome* for its size. Scroll/pinch to zoom (up to 4x).
+
+```{r interactive-macro}
+data(rice_sorghum)
+
+p <- plot_synteny(rice_sorghum, c("Rice", "Sorghum"),
+                  palette = "casa_natal",
+                  chr_fill = "per_chr", ribbon_fill = "source_chr",
+                  interactive = TRUE)
+syn_girafe(p, width_svg = 10, height_svg = 5)
+```
+
+## Micro-synteny: hover genes and homology links
+
+Gene tooltips show name, contig, coordinates and strand; link tooltips show
+the connected gene pair and its percent identity:
+
+```{r interactive-micro}
+micro <- demo_microsynteny_data()
+
+p <- plot_microsynteny(micro$features, micro$links,
+                       bin_order = c("ZONMW-30", "ZONMW-20", "ZONMW-10"),
+                       palette = "casa_natal",
+                       interactive = TRUE)
+syn_girafe(p, width_svg = 10, height_svg = 4.5)
+```
+
+## Styling the widget
+
+`syn_girafe()` exposes the SVG size, the hover CSS, and takes any extra
+`ggiraph::opts_*()` through `opts`:
+
+```{r interactive-styled, eval = FALSE}
+syn_girafe(p,
+           width_svg = 12, height_svg = 5,
+           hover_css = "fill-opacity:1;stroke:#000;stroke-width:1.5px;",
+           opts = list(ggiraph::opts_toolbar(position = "topright")))
+```
+
+Everything else about the plot — palettes, fills, curvature — is exactly
+as in the static version, so `interactive = TRUE` can be flipped on at the
+very end of your workflow.

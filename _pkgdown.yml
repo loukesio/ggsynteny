@@ -9,6 +9,10 @@ reference:
     contents:
       - plot_synteny
       - plot_microsynteny
+  - title: Interactive
+    desc: ggiraph rendering with hover highlights and tooltips.
+    contents:
+      - syn_girafe
   - title: Colours
     desc: The 32 built-in ltc palettes.
     contents:
@@ -21,5 +25,13 @@ reference:
       - read_genespace
   - title: Example data
     contents:
+      - rice_sorghum
       - example_synteny_data
       - demo_microsynteny_data
+
+articles:
+  - title: Guides
+    contents:
+      - "getting-started"
+      - "articles/real-data"
+      - "articles/interactive"
