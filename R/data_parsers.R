@@ -39,6 +39,9 @@ read_synteny_tsv <- function(chr_file, blocks_file) {
 #' @details
 #' MCScanX convention: chromosome names are prefixed with species abbreviation
 #' (e.g., "Hs1" for Human chromosome 1).
+#' Block coordinates are in Mb. The `orientation` column preserves MCScanX's
+#' `"plus"` or `"minus"` alignment direction. [plot_synteny()] shows coverage
+#' by default; set `show_inversions = TRUE` to encode inversions in the ribbons.
 #'
 #' @examples
 #' \dontrun{
@@ -127,6 +130,7 @@ read_mcscanx <- function(collinearity_file, gff_file) {
       end2     = max(g2_info$end) / 1e6,
       score    = b$score,
       n_genes  = length(b$genes),
+      orientation = b$orient,
       stringsAsFactors = FALSE
     )
   }

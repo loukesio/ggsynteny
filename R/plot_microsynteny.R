@@ -8,7 +8,8 @@
 #' with ribbons connecting homologous genes across genomes.
 #'
 #' @param features Data frame with columns: bin_id, seq_id, start, end, strand, feat_id, name
-#' @param links Data frame with columns: feat_id_a, feat_id_b, identity (optional)
+#' @param links Data frame with columns: feat_id_a, feat_id_b, identity (optional).
+#'   An empty table draws genes without ribbons.
 #' @param bin_order Character vector, top to bottom display order
 #' @param palette A palette for the whole plot: the name of a built-in palette
 #'   (all 32 ltc palettes, e.g. `"casa_natal"` or `"minou"`; list them with
@@ -32,11 +33,13 @@
 #'   rounding uses \pkg{ggforce}. Not available together with
 #'   `interactive = TRUE` (crisp corners are drawn instead, with a warning).
 #' @param gene_fill Gene coloring mode: "per_name", "per_feat", or "uniform"
-#' @param gene_palette Named vector of colors for genes
+#' @param gene_palette Palette name, color vector, or named mapping for genes.
+#'   Uniform fills use one color from the resolved palette.
 #' @param gene_color Gene outline color (default "#333333")
 #' @param gene_alpha Gene transparency 0-1 (default 0.95)
 #' @param ribbon_fill Ribbon coloring mode: "identity", "per_name", or "uniform"
-#' @param ribbon_palette Named vector of colors for ribbons
+#' @param ribbon_palette Palette name, color vector, or named mapping for ribbons.
+#'   HCL names (e.g. `"Viridis"`) also work for identity ramps.
 #' @param ribbon_alpha Ribbon transparency 0-1 (default 0.35)
 #' @param identity_low Color for low identity ribbons (default "#DCEEFF")
 #' @param identity_high Color for high identity ribbons (default "#08519C")
@@ -68,8 +71,8 @@
 #'
 #' The \code{links} data frame must contain:
 #' \itemize{
-#'   \item feat_id_a: gene in top genome
-#'   \item feat_id_b: gene in bottom genome
+#'   \item feat_id_a: first linked gene
+#'   \item feat_id_b: second linked gene (either display order is supported)
 #'   \item identity: optional 0-100 (for ribbon color intensity)
 #' }
 #'
@@ -160,7 +163,7 @@ plot_microsynteny <- function(features,
 
   if (is.null(bin_order)) bin_order <- unique(features$bin_id)
   has_identity <- "identity" %in% names(links)
-  if (!has_identity) links$identity <- 80
+  if (!has_identity) links$identity <- rep(80, nrow(links))
 
   h <- gene_height
 
@@ -217,19 +220,17 @@ plot_microsynteny <- function(features,
   gene_spec <- gene_palette %||% palette
 
   if (gene_fill == "uniform") {
-    layout$fill_color <- if (is.null(gene_spec)) "#AEC6CF"
-                         else if (is_palette_name(gene_spec)) syn_pal(gene_spec, 1)
-                         else gene_spec
+    layout$fill_color <- unname(syn_pal(gene_spec %||% "#AEC6CF", 1))
 
   } else if (gene_fill == "per_name") {
     keys <- unique(layout$name)
-    pal <- keyed_colors(gene_spec, keys)
-    layout$fill_color <- pal[layout$name]
+    gene_name_colors <- keyed_colors(gene_spec, keys)
+    layout$fill_color <- gene_name_colors[as.character(layout$name)]
 
   } else {
     keys <- unique(layout$feat_id)
     pal <- keyed_colors(gene_spec, keys)
-    layout$fill_color <- pal[layout$feat_id]
+    layout$fill_color <- pal[as.character(layout$feat_id)]
   }
 
   layout$fill_color[is.na(layout$fill_color)] <- "#CCCCCC"
@@ -265,8 +266,7 @@ plot_microsynteny <- function(features,
   if (ribbon_fill == "identity") {
     # Only an explicit ribbon_palette restyles the identity ramp: the
     # top-level `palette` is qualitative and would make a misleading ramp.
-    if (!is.null(ribbon_palette) &&
-        (is_palette_name(ribbon_palette) || length(ribbon_palette) > 1)) {
+    if (!is.null(ribbon_palette)) {
       ramp <- syn_pal(ribbon_palette, 101, continuous = TRUE)
       idx  <- round(pmin(pmax(links_xy$identity, 0), 100)) + 1
       links_xy$ribbon_color <- ramp[idx]
@@ -278,27 +278,34 @@ plot_microsynteny <- function(features,
     name_lu <- layout %>% select(feat_id, name)
     links_xy <- links_xy %>% left_join(name_lu, by = c("feat_id_a" = "feat_id"))
     keys <- unique(links_xy$name)
-    pal <- keyed_colors(ribbon_spec, keys)
-    links_xy$ribbon_color <- pal[links_xy$name]
+    # The same palette must identify the same names across genes and ribbons,
+    # even when some gene families have no links. Explicit overrides still work.
+    if (gene_fill == "per_name" &&
+        identical(keyed_colors(ribbon_spec, unique(layout$name)), gene_name_colors)) {
+      pal <- gene_name_colors
+    } else {
+      pal <- keyed_colors(ribbon_spec, keys)
+    }
+    links_xy$ribbon_color <- pal[as.character(links_xy$name)]
 
   } else {
-    links_xy$ribbon_color <- if (is.null(ribbon_spec)) "#6688AA"
-                             else if (is_palette_name(ribbon_spec)) syn_pal(ribbon_spec, 1)
-                             else ribbon_spec
+    links_xy$ribbon_color <- rep(unname(syn_pal(ribbon_spec %||% "#6688AA", 1)),
+                                 nrow(links_xy))
   }
 
   links_xy$ribbon_color[is.na(links_xy$ribbon_color)] <- "#888888"
 
-  links_xy$tooltip <- paste0(
+  links_xy$tooltip <- if (nrow(links_xy) > 0) paste0(
     links_xy$feat_id_a, " \u2194 ", links_xy$feat_id_b,
     if (has_identity) paste0("\n", links_xy$identity, "% identity") else ""
-  )
+  ) else character()
 
   # ── Build ribbon polygons ──
   ribbon_df <- lapply(seq_len(nrow(links_xy)), function(i) {
     row  <- links_xy[i, ]
-    poly <- bezier_ribbon(row$xa0, row$xa1, row$ya - h,
-                           row$xb0, row$xb1, row$yb + h,
+    direction <- if (row$ya >= row$yb) 1 else -1
+    poly <- bezier_ribbon(row$xa0, row$xa1, row$ya - direction * h,
+                           row$xb0, row$xb1, row$yb + direction * h,
                            curvature = curvature)
     poly$link_id      <- i
     poly$ribbon_color <- row$ribbon_color

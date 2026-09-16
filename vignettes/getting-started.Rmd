@@ -1,6 +1,6 @@
 ---
 title: "Getting Started with ggsynteny"
-author: "Your Name"
+author: "Loukas Theodosiou"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -27,7 +27,7 @@ knitr::opts_chunk$set(
 
 ```{r eval=FALSE}
 # Install from GitHub
-devtools::install_github("yourusername/ggsynteny")
+devtools::install_github("loukesio/ggsynteny")
 ```
 
 ```{r}

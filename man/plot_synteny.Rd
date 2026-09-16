@@ -20,7 +20,8 @@ plot_synteny(
   label_size = 2.5,
   species_label_size = 4.5,
   interactive = FALSE,
-  title = NULL
+  title = NULL,
+  show_inversions = FALSE
 )
 }
 \arguments{
@@ -33,7 +34,8 @@ See \code{\link{example_synteny_data}} for format.}
 (all 32 ltc palettes, e.g. \code{"casa_natal"} or \code{"minou"}; list them with
 \code{\link{syn_palettes}}), \code{"Okabe-Ito"}, or a vector of colors. Used
 for both chromosomes and ribbons unless \code{chr_palette} / \code{ribbon_palette}
-override it.}
+override it. HCL palette names (e.g. \code{"Viridis"}) are also accepted.
+Uniform fills use one color from the resolved palette.}
 
 \item{tier_spacing}{Numeric, vertical spacing between species tiers (default 18)}
 
@@ -71,6 +73,11 @@ figure size. Not available together with \code{interactive = TRUE}
 with \code{\link[=syn_girafe]{syn_girafe()}}. Default \code{FALSE}.}
 
 \item{title}{Optional plot title}
+
+\item{show_inversions}{Logical; twist ribbons for blocks whose \code{orientation}
+is \code{"minus"}? Default \code{FALSE}, showing block coverage without encoding
+orientation. When \code{TRUE}, every block must have an \code{orientation} of
+\code{"plus"} or \code{"minus"}, as returned by \code{\link[=read_mcscanx]{read_mcscanx()}}.}
 }
 \value{
 A ggplot2 object (pass to \code{\link[=syn_girafe]{syn_girafe()}} to render an interactive

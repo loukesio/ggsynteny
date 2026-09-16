@@ -14,7 +14,8 @@
 #'   (all 32 ltc palettes, e.g. `"casa_natal"` or `"minou"`; list them with
 #'   \code{\link{syn_palettes}}), `"Okabe-Ito"`, or a vector of colors. Used
 #'   for both chromosomes and ribbons unless `chr_palette` / `ribbon_palette`
-#'   override it.
+#'   override it. HCL palette names (e.g. `"Viridis"`) are also accepted.
+#'   Uniform fills use one color from the resolved palette.
 #' @param tier_spacing Numeric, vertical spacing between species tiers (default 18)
 #' @param chr_fill Chromosome coloring mode: "uniform" (default), "per_species",
 #'   "per_chr", or "custom"
@@ -39,6 +40,10 @@
 #'   (hover highlight and tooltips) using \pkg{ggiraph}? Render the result
 #'   with [syn_girafe()]. Default `FALSE`.
 #' @param title Optional plot title
+#' @param show_inversions Logical; twist ribbons for blocks whose `orientation`
+#'   is `"minus"`? Default `FALSE`, showing block coverage without encoding
+#'   orientation. When `TRUE`, every block must have an `orientation` of
+#'   `"plus"` or `"minus"`, as returned by [read_mcscanx()].
 #'
 #' @return A ggplot2 object (pass to [syn_girafe()] to render an interactive
 #'   widget when `interactive = TRUE`)
@@ -111,7 +116,8 @@ plot_synteny <- function(syn_data, species_order,
                          label_size = 2.5,
                          species_label_size = 4.5,
                          interactive = FALSE,
-                         title = NULL) {
+                         title = NULL,
+                         show_inversions = FALSE) {
 
   chr_fill    <- match.arg(chr_fill, c("uniform", "per_species", "per_chr", "custom"))
   ribbon_fill <- match.arg(ribbon_fill,
@@ -137,6 +143,16 @@ plot_synteny <- function(syn_data, species_order,
   chrs   <- syn_data$chromosomes
   blocks <- syn_data$blocks
   h      <- CHR_HEIGHT
+
+  if (!is.logical(show_inversions) || length(show_inversions) != 1L || is.na(show_inversions)) {
+    stop("show_inversions must be TRUE or FALSE.", call. = FALSE)
+  }
+  if (show_inversions &&
+      (!"orientation" %in% names(blocks) ||
+       any(!blocks$orientation %in% c("plus", "minus")))) {
+    stop("show_inversions = TRUE requires blocks$orientation to contain 'plus' or 'minus'. ",
+         "Read MCScanX output with read_mcscanx() to preserve orientation.", call. = FALSE)
+  }
 
   # ── Y positions ──
   species_y <- stats::setNames(
@@ -182,19 +198,16 @@ plot_synteny <- function(syn_data, species_order,
 
   if (chr_fill == "uniform") {
     # Default look: quiet dark chromosomes; the ribbons carry the colour
-    fill_val <- if (is.null(chr_spec)) "#333333"
-                else if (is_palette_name(chr_spec)) syn_pal(chr_spec, 1)
-                else chr_spec
-    chr_layout$fill_color <- fill_val
+    chr_layout$fill_color <- unname(syn_pal(chr_spec %||% "#333333", 1))
 
   } else if (chr_fill == "per_species") {
     pal <- keyed_colors(chr_spec, species_order)
-    chr_layout$fill_color <- pal[chr_layout$species]
+    chr_layout$fill_color <- pal[as.character(chr_layout$species)]
 
   } else if (chr_fill == "per_chr") {
     all_labels <- sort(unique(chr_layout$chr))
     pal <- keyed_colors(chr_spec, all_labels)
-    chr_layout$fill_color <- pal[chr_layout$chr]
+    chr_layout$fill_color <- pal[as.character(chr_layout$chr)]
 
   } else if (chr_fill == "custom") {
     chr_layout$fill_color <- chr_spec[paste0(chr_layout$species, "__", chr_layout$chr)]
@@ -232,6 +245,14 @@ plot_synteny <- function(syn_data, species_order,
 
       pair_key <- paste0(row$sp_a, "_", row$sp_b)
 
+      # Reverse only the lower ribbon endpoint; chromosome coordinates and
+      # the default coverage view retain their original orientation.
+      if (show_inversions && row$orientation == "minus") {
+        target_start <- row$s_b
+        row$s_b <- row$e_b
+        row$e_b <- target_start
+      }
+
       conn_list[[length(conn_list) + 1]] <- data.frame(
         sx0 = top_chr$xmin + row$s_a,
         sx1 = top_chr$xmin + row$e_a,
@@ -258,20 +279,17 @@ plot_synteny <- function(syn_data, species_order,
     connections$conn_id <- seq_len(nrow(connections))
 
     if (ribbon_fill == "uniform") {
-      fill_val <- if (is.null(ribbon_spec)) "#6688AA"
-                  else if (is_palette_name(ribbon_spec)) syn_pal(ribbon_spec, 1)
-                  else ribbon_spec
-      connections$ribbon_color <- fill_val
+      connections$ribbon_color <- unname(syn_pal(ribbon_spec %||% "#6688AA", 1))
 
     } else if (ribbon_fill == "source_chr") {
       all_src <- sort(unique(connections$chr_a))
       pal <- keyed_colors(ribbon_spec, all_src)
-      connections$ribbon_color <- pal[connections$chr_a]
+      connections$ribbon_color <- pal[as.character(connections$chr_a)]
 
     } else if (ribbon_fill == "target_chr") {
       all_tgt <- sort(unique(connections$chr_b))
       pal <- keyed_colors(ribbon_spec, all_tgt)
-      connections$ribbon_color <- pal[connections$chr_b]
+      connections$ribbon_color <- pal[as.character(connections$chr_b)]
 
     } else if (ribbon_fill == "species_pair") {
       pair_keys <- unique(connections$pair)

@@ -36,7 +36,8 @@ plot_microsynteny(
 \arguments{
 \item{features}{Data frame with columns: bin_id, seq_id, start, end, strand, feat_id, name}
 
-\item{links}{Data frame with columns: feat_id_a, feat_id_b, identity (optional)}
+\item{links}{Data frame with columns: feat_id_a, feat_id_b, identity (optional).
+An empty table draws genes without ribbons.}
 
 \item{bin_order}{Character vector, top to bottom display order}
 
@@ -71,7 +72,8 @@ rounding uses \pkg{ggforce}. Not available together with
 
 \item{gene_fill}{Gene coloring mode: "per_name", "per_feat", or "uniform"}
 
-\item{gene_palette}{Named vector of colors for genes}
+\item{gene_palette}{Palette name, color vector, or named mapping for genes.
+Uniform fills use one color from the resolved palette.}
 
 \item{gene_color}{Gene outline color (default "#333333")}
 
@@ -79,7 +81,8 @@ rounding uses \pkg{ggforce}. Not available together with
 
 \item{ribbon_fill}{Ribbon coloring mode: "identity", "per_name", or "uniform"}
 
-\item{ribbon_palette}{Named vector of colors for ribbons}
+\item{ribbon_palette}{Palette name, color vector, or named mapping for ribbons.
+HCL names (e.g. \code{"Viridis"}) also work for identity ramps.}
 
 \item{ribbon_alpha}{Ribbon transparency 0-1 (default 0.35)}
 
@@ -125,8 +128,8 @@ The \code{features} data frame must contain:
 
 The \code{links} data frame must contain:
 \itemize{
-\item feat_id_a: gene in top genome
-\item feat_id_b: gene in bottom genome
+\item feat_id_a: first linked gene
+\item feat_id_b: second linked gene (either display order is supported)
 \item identity: optional 0-100 (for ribbon color intensity)
 }
 

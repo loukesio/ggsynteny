@@ -3,7 +3,7 @@ Type: Package
 Title: Publication-Quality Synteny Plots with 'ggplot2'
 Version: 0.3.0
 Authors@R:
-    person("Loukas", "Theodosiou", email = "theodosiou@evolbio.mpg.de",
+    person("Loukas", "Theodosiou", email = "loukesio@gmail.com",
            role = c("aut", "cre"), comment = c(ORCID = "0000-0001-6418-4652"))
 Description: Create publication-quality synteny plots for comparative genomics.
     Supports both macro-synteny (chromosome-level) and micro-synteny (gene-level)

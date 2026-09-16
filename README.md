@@ -264,10 +264,17 @@ are qualitative sets for species, chromosomes, and genes.
 
 ## Data input formats
 
+Each format below ships with a small simulated example under
+`system.file("extdata", ..., package = "ggsynteny")` — run the snippets
+as-is to try each parser.
+
 ### 1. Native TSV format
 
 ``` r
-syn <- read_synteny_tsv("chromosomes.tsv", "synteny_blocks.tsv")
+chr_file    <- system.file("extdata", "chromosomes.tsv",    package = "ggsynteny")
+blocks_file <- system.file("extdata", "synteny_blocks.tsv", package = "ggsynteny")
+syn <- read_synteny_tsv(chr_file, blocks_file)
+plot_synteny(syn, species_order = c("Human", "Mouse"))
 ```
 
 **chromosomes.tsv** (sizes in any consistent unit, e.g. Mb):
@@ -276,24 +283,36 @@ syn <- read_synteny_tsv("chromosomes.tsv", "synteny_blocks.tsv")
     Human    1    249
     Human    2    243
     Mouse    1    195
+    Mouse    2    182
 
 **synteny_blocks.tsv:**
 
     species1  chr1  start1  end1  species2  chr2  start2  end2
-    Human     1     10      25    Mouse     4     80      95
+    Human     1     10      25    Mouse     1     80      95
+    Human     1     100     120   Mouse     2     30      50
+    Human     2     5       40    Mouse     2     60      100
 
 ### 2. MCScanX
 
 ``` r
-syn <- read_mcscanx("output.collinearity", "output.gff")
-plot_synteny(syn, species_order = c("SpeciesA", "SpeciesB"))
+coll_file <- system.file("extdata", "mcscanx_output.collinearity", package = "ggsynteny")
+gff_file  <- system.file("extdata", "mcscanx_output.gff",          package = "ggsynteny")
+syn <- read_mcscanx(coll_file, gff_file)
+plot_synteny(syn, species_order = c("Wheat", "Barley"))
 ```
+
+The parser preserves `plus`/`minus` in `syn$blocks$orientation`. Ribbons show
+block coverage by default. To show inverted blocks as twisted ribbons, use
+`plot_synteny(syn, c("Wheat", "Barley"), show_inversions = TRUE)`.
+This requires orientation metadata; the previously bundled `rice_sorghum`
+dataset does not contain that field.
 
 ### 3. GENESPACE
 
 ``` r
-syn <- read_genespace("synHits.tsv")
-plot_synteny(syn, species_order = c("genome1", "genome2", "genome3"))
+synhits_file <- system.file("extdata", "genespace_synHits.tsv", package = "ggsynteny")
+syn <- read_genespace(synhits_file)
+plot_synteny(syn, species_order = c("Maize", "Teosinte"))
 ```
 
 ## Saving your plot
@@ -304,13 +323,14 @@ are relative to the plot. Letters too small → raise `dpi`; labels
 overlapping → lower it.
 
 ``` r
+syn <- example_synteny_data()
 p <- plot_synteny(syn, species_order = c("Arabidopsis", "Grape", "Rice"),
                   palette = "casa_natal")
 
-ggsave("synteny.png", p, width = 2600, height = 1500, units = "px",
+ggplot2::ggsave("synteny.png", p, width = 2600, height = 1500, units = "px",
        dpi = 300, bg = "white")   # bg = "white": otherwise the PNG is transparent
 
-ggsave("synteny.pdf", p, width = 12, height = 7)   # vector, for journals
+ggplot2::ggsave("synteny.pdf", p, width = 12, height = 7)   # vector, for journals
 ```
 
 ## API reference
@@ -339,7 +359,7 @@ citation("ggsynteny")
 ## Contributions
 
 ggsynteny is developed and maintained by Loukas Theodosiou
-(theodosiou@evolbio.mpg.de). Issues and pull requests are welcome at
+(loukesio@gmail.com). Issues and pull requests are welcome at
 <https://github.com/loukesio/ggsynteny/issues>. It pairs naturally with its
 sibling packages [ltc](https://github.com/loukesio/ltc-color-palettes)
 (the colour palettes) and [ggvmap](https://github.com/loukesio/ggvmap)

@@ -120,6 +120,7 @@ is_palette_name <- function(palette) {
 #' continuous use the colours are interpolated into a smooth ramp.
 #' @noRd
 syn_pal <- function(palette, n, continuous = FALSE) {
+  if (n == 0L) return(character())
   key <- if (length(palette) == 1L) .pal_key(palette) else ""
   if (key %in% .okabe_aliases) {
     return(if (continuous) grDevices::colorRampPalette(.okabe_ito)(n)
@@ -137,6 +138,12 @@ syn_pal <- function(palette, n, continuous = FALSE) {
     if (!continuous && n <= length(palette)) return(palette[seq_len(n)])
     return(grDevices::colorRampPalette(palette)(n))
   }
+  # A single literal color is also a valid one-color palette.
+  is_color <- tryCatch({
+    grDevices::col2rgb(palette)
+    TRUE
+  }, error = function(e) FALSE)
+  if (is_color) return(rep(palette, n))
   tryCatch(
     grDevices::hcl.colors(n, palette = palette),
     error = function(e) stop(

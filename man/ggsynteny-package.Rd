@@ -54,7 +54,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Loukas Theodosiou \email{theodosiou@evolbio.mpg.de} (\href{https://orcid.org/0000-0001-6418-4652}{ORCID})
+\strong{Maintainer}: Loukas Theodosiou \email{loukesio@gmail.com} (\href{https://orcid.org/0000-0001-6418-4652}{ORCID})
 
 }
 \keyword{internal}

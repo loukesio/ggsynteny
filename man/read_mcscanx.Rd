@@ -20,6 +20,9 @@ Parses MCScanX collinearity and GFF files into ggsynteny format.
 \details{
 MCScanX convention: chromosome names are prefixed with species abbreviation
 (e.g., "Hs1" for Human chromosome 1).
+Block coordinates are in Mb. The \code{orientation} column preserves MCScanX's
+\code{"plus"} or \code{"minus"} alignment direction. \code{\link[=plot_synteny]{plot_synteny()}} shows coverage
+by default; set \code{show_inversions = TRUE} to encode inversions in the ribbons.
 }
 \examples{
 \dontrun{

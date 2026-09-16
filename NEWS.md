@@ -1,3 +1,18 @@
+# ggsynteny (development version)
+
+* Preserve MCScanX block orientation. `plot_synteny(show_inversions = TRUE)`
+  optionally displays inverted blocks as twisted ribbons; the default coverage
+  view is unchanged. This option requires `blocks$orientation` metadata.
+* Fix uniform fills with color vectors and HCL palette names, and honor HCL
+  palettes for micro-synteny identity ribbons. All 32 ltc palette definitions
+  and their name aliases are unchanged.
+* Match numeric chromosome identifiers to named color keys and share gene-name
+  colors between genes and ribbons when the same palette is used.
+* Draw genes without ribbons when no links remain; attach micro-synteny ribbons
+  to the facing gene edges when bins are reordered.
+* Exclude local ZIP archives from package builds and repair the README saving
+  example and vignette placeholders.
+
 # ggsynteny 0.3.0
 
 * New default look for `plot_synteny()`: with nothing specified,
