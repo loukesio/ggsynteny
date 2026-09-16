@@ -2,10 +2,11 @@ pandoc: 3.8.3
 pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
+  articles/circular-synteny: circular-synteny.html
   getting-started: getting-started.html
   articles/interactive: interactive.html
   articles/real-data: real-data.html
-last_built: 2026-08-30T21:03Z
+last_built: 2026-09-16T22:42Z
 urls:
   reference: https://loukesio.github.io/ggsynteny/reference
   article: https://loukesio.github.io/ggsynteny/articles

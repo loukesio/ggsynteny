@@ -25,7 +25,12 @@ List with elements `chromosomes` and `blocks`
 ## Details
 
 MCScanX convention: chromosome names are prefixed with species
-abbreviation (e.g., "Hs1" for Human chromosome 1).
+abbreviation (e.g., "Hs1" for Human chromosome 1). Block coordinates are
+in Mb. The `orientation` column preserves MCScanX's `"plus"` or
+`"minus"` alignment direction.
+[`plot_synteny()`](https://loukesio.github.io/ggsynteny/reference/plot_synteny.md)
+shows coverage by default; set `show_inversions = TRUE` to encode
+inversions in the ribbons.
 
 ## Examples
 

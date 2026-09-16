@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggsynteny</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,10 @@
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>MCScanX convention: chromosome names are prefixed with species abbreviation
-(e.g., "Hs1" for Human chromosome 1).</p>
+(e.g., "Hs1" for Human chromosome 1).
+Block coordinates are in Mb. The <code>orientation</code> column preserves MCScanX's
+<code>"plus"</code> or <code>"minus"</code> alignment direction. <code><a href="plot_synteny.html">plot_synteny()</a></code> shows coverage
+by default; set <code>show_inversions = TRUE</code> to encode inversions in the ribbons.</p>
     </div>
 
     <div class="section level2">

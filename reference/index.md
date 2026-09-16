@@ -9,12 +9,23 @@ Macro- and micro-synteny visualisation.
 - [`plot_microsynteny()`](https://loukesio.github.io/ggsynteny/reference/plot_microsynteny.md)
   : Plot micro-synteny across multiple genomes/bins
 
+## Circular plots
+
+Genomic-coordinate chord views built with ggplot2 layers.
+
+- [`plot_circular_synteny()`](https://loukesio.github.io/ggsynteny/reference/plot_circular_synteny.md)
+  : Plot chromosome-level synteny around a circle
+- [`plot_circular_microsynteny()`](https://loukesio.github.io/ggsynteny/reference/plot_circular_microsynteny.md)
+  : Plot gene-level synteny around a circle
+
 ## Interactive
 
 ggiraph rendering with hover highlights and tooltips.
 
 - [`syn_girafe()`](https://loukesio.github.io/ggsynteny/reference/syn_girafe.md)
   : Render an interactive synteny plot
+- [`ggsynteny_app()`](https://loukesio.github.io/ggsynteny/reference/ggsynteny_app.md)
+  : Launch the ggsynteny Shiny app
 
 ## Colours
 
