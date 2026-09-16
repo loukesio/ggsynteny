@@ -20,6 +20,10 @@ colour argument accepts the 32 palettes of the
 [ltc package](https://github.com/loukesio/ltc-color-palettes) by name —
 `palette = "casa_natal"` just works.
 
+Version **0.5.0** adds circular views and **ggsynteny Studio**, a local Shiny
+app for uploading results, previewing data, and exporting figures and tables.
+The previous [0.3.0 source is preserved](https://github.com/loukesio/ggsynteny/releases/tag/v0.3.0).
+
 ## Installation
 
 <img align="right" src="man/figures/logo.png" alt="ggsynteny logo: crossing synteny ribbons in a hexagon" width="220">
@@ -228,10 +232,8 @@ and connecting their syntenic blocks with ribbons. Takes the same `chromosomes`
 and `blocks` tables as `plot_synteny()`. All supplied relationships among the
 selected species are drawn, including non-adjacent species.
 
-The circular functions are available on the experimental
-`feature/circular-synteny` branch. From that checkout's package root, run
-`devtools::load_all(".")` to try the examples below, or
-`remotes::install_local(".")` to install it.
+The circular functions are included in ggsynteny 0.5.0. They use native
+ggplot2 layers and the same ltc palette names as the linear views.
 
 | Argument | Default | What it does |
 |----|----|----|
@@ -361,6 +363,47 @@ Visual inspiration: [gbdraw's circular genome maps](https://github.com/satoshika
 and [circlize's chord diagrams](https://jokergoo.github.io/circlize_book/book/the-chorddiagram-function.html).
 The rendering implementation uses ggplot2 throughout.
 
+### `ggsynteny_app()` — upload, preview and export with Shiny
+
+**What it's for:** exploring existing synteny results in a browser. Select the
+software or table format, upload its files, and see the data and plot preview.
+Switch between linear and circular views, choose an ltc palette, reorder or
+subset genomes, adjust ribbons, and download the figure or displayed records.
+
+| Argument | Default | What it does |
+|----|----|----|
+| `host` | `"127.0.0.1"` | Runs locally on your computer |
+| `port` | `NULL` | Optional server port; Shiny chooses one by default |
+| `launch.browser` | `interactive()` | Opens the app in your browser |
+
+``` r
+install.packages("shiny")   # optional; needed only for the app
+library(ggsynteny)
+ggsynteny_app()
+```
+
+<img src="man/figures/README-studio.png" alt="ggsynteny Studio with a three-bacterium circular preview, format selector, ltc palette controls and data export buttons" width="100%" />
+
+| Results from | Upload | Available views |
+|----|----|----|
+| Native chromosome tables | Chromosome sizes and syntenic blocks, TSV or CSV | Linear / circular chromosome synteny |
+| MCScanX | `.collinearity` and its four-column gene-position GFF | Linear / circular chromosome synteny |
+| GENESPACE | `synHits` TSV with genome, chromosome and interval columns | Linear / circular chromosome synteny |
+| Gene / link tables | Gene features and homology links, TSV or CSV | Linear / circular microsynteny |
+
+Every format includes example data. Uploaded tables are checked for required
+columns, valid intervals and matching identifiers. The app previews the first
+50 rows of each displayed table and reports the number of links drawn. The
+explicit link limit defaults to 1,000, keeping larger inputs manageable; raise
+it to display more. Linear chromosome views retain adjacent-genome links;
+circular views include all supplied relationships among selected genomes.
+
+Download **PDF or PNG**, the **displayed data tables**, **pair counts**, or an
+**R script** that recreates the figure from those tables. No identity scores
+or missing homology links are inferred. The software selector reads existing
+results; it does not run MCScanX, GENESPACE or an alignment pipeline. Shiny is
+optional and is not required to use the plotting functions.
+
 ### `syn_girafe()` — interactive plots
 
 **What it's for:** hover highlighting and tooltips in HTML output
@@ -482,6 +525,7 @@ ggplot2::ggsave("synteny.pdf", p, width = 12, height = 7)   # vector, for journa
 | `plot_microsynteny()` | Micro-synteny: gene arrows + homology ribbons (`palette`, `gene_fill`, `ribbon_fill = "identity"`, `ribbon_anchor`) |
 | `plot_circular_synteny()` | Chromosome arcs with synteny ribbons, grouped by species |
 | `plot_circular_microsynteny()` | Curved gene arrows with homology ribbons, grouped by bin |
+| `ggsynteny_app()` | Local Shiny app: upload results, preview plots, and export figures/data |
 | `syn_girafe()` | Render an `interactive = TRUE` plot as a hoverable widget |
 | `syn_palettes()` | List the 32 built-in colour palettes |
 | `read_synteny_tsv()` | Read the native two-TSV format |

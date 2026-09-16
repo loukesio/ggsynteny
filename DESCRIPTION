@@ -1,7 +1,7 @@
 Package: ggsynteny
 Type: Package
 Title: Publication-Quality Synteny Plots with 'ggplot2'
-Version: 0.3.0
+Version: 0.5.0
 Authors@R:
     person("Loukas", "Theodosiou", email = "loukesio@gmail.com",
            role = c("aut", "cre"), comment = c(ORCID = "0000-0001-6418-4652"))
@@ -11,7 +11,9 @@ Description: Create publication-quality synteny plots for comparative genomics.
     the 'ltc' package usable by name (e.g. palette = "casa_natal"). Includes
     parsers for common synteny file formats including MCScanX, GENESPACE, and
     custom TSV formats. Circular chromosome and gene views use native 'ggplot2'
-    layers to connect genomic intervals with chord ribbons.
+    layers to connect genomic intervals with chord ribbons. An optional Shiny
+    app previews uploaded results, draws all four plot types, and exports
+    figures and the displayed data.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -27,6 +29,7 @@ Imports:
     grDevices,
     stats
 Suggests:
+    shiny (>= 1.7.0),
     ggforce,
     ggiraph,
     knitr,

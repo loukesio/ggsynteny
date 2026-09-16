@@ -1,0 +1,1 @@
+ggsynteny:::.studio_app()

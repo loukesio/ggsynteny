@@ -18,6 +18,7 @@ reference:
     desc: ggiraph rendering with hover highlights and tooltips.
     contents:
       - syn_girafe
+      - ggsynteny_app
   - title: Colours
     desc: The 32 built-in ltc palettes.
     contents:

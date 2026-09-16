@@ -136,7 +136,7 @@ plot_circular_synteny <- function(syn_data, species_order = NULL, palette = NULL
     blocks$fill_color <- rep_len(ribbon_spec, input_count)[blocks$block_id]
   } else {
     keys <- switch(ribbon_fill, source_chr = blocks$chr1, target_chr = blocks$chr2,
-                   species_pair = paste0(blocks$species1, "_", blocks$species2))
+                   species_pair = if (nrow(blocks)) paste0(blocks$species1, "_", blocks$species2) else character())
     if (chr_fill == "per_chr" && ribbon_fill %in% c("source_chr", "target_chr") &&
         identical(keyed_colors(ribbon_spec, unique(layout$sector_name)), chr_colors)) {
       pal <- chr_colors

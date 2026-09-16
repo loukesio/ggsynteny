@@ -1,6 +1,10 @@
-# ggsynteny (development version)
+# ggsynteny 0.5.0
 
-* Experimental `plot_circular_synteny()` and `plot_circular_microsynteny()`
+* Add `ggsynteny_app()`, an optional Shiny app for MCScanX, GENESPACE,
+  native chromosome/block tables, and gene/link tables. It previews inputs
+  and plots, supports linear and circular layouts, and exports figures,
+  displayed records, pair summaries and a reproducible R script.
+* `plot_circular_synteny()` and `plot_circular_microsynteny()`
   draw chromosome arcs and strand-aware gene arrows with internal homology
   ribbons, using native ggplot2 polygon/text layers and fixed-aspect coordinates.
   Both accept existing package data formats, ltc palette names, and optional

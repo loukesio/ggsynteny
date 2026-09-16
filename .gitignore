@@ -29,3 +29,6 @@ HANDOFF.md
 
 # Local documentation validation artifacts
 /dev/circular/validation/
+
+/dev/app/validation/
+/dev/releases/

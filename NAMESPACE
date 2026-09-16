@@ -2,6 +2,7 @@
 
 export(demo_microsynteny_data)
 export(example_synteny_data)
+export(ggsynteny_app)
 export(plot_circular_microsynteny)
 export(plot_circular_synteny)
 export(plot_microsynteny)
