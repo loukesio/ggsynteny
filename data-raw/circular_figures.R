@@ -11,6 +11,11 @@ for (name in c("macro", "micro")) {
   plot <- if (name == "macro") macro else genes
   ggplot2::ggsave(paste0("man/figures/README-circular-", name, ".png"), plot,
                   width = 8, height = 8, dpi = 180, bg = "white")
-  ggplot2::ggsave(paste0("dev/circular/circular-", name, ".pdf"), plot,
+  ggplot2::ggsave(paste0("man/figures/circular-", name, ".pdf"), plot,
                   width = 8, height = 8)
 }
+
+# Keep repository-relative PDF download links valid on the pkgdown site.
+dir.create("pkgdown/assets/man/figures", recursive = TRUE, showWarnings = FALSE)
+stopifnot(all(file.copy(paste0("man/figures/circular-", c("macro", "micro"), ".pdf"),
+                        "pkgdown/assets/man/figures", overwrite = TRUE)))

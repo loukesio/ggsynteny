@@ -6,6 +6,12 @@
   skips (223 baseline expectations plus 99 circular-view expectations).
 - The circular article renders independently and as part of the full pkgdown
   site. Both new functions have generated reference pages and runnable examples.
+- After relocation and the README update, the package build/check and full
+  pkgdown build were rerun successfully. All three circular README code blocks
+  ran against the package's private installed copy, including `system.file()`
+  access to the new bacterial tables.
+- PDF downloads and image links in the local gallery and generated homepage
+  resolve. The three mirrored PDF assets match their source PDFs byte for byte.
 - The full pkgdown build finishes. It reports two existing missing-alt-text
   notices for the linear `README-anchor-body.png` / `README-anchor-full.png`
   images; those unrelated images were preserved.
@@ -25,6 +31,13 @@
   not run. Remote repository indices were unavailable during the package check;
   the installed dependencies were used.
 
-External artifacts for this run are under `/tmp/ggsynteny-circular-qefiIw/`:
-`check-final.log`, `ggsynteny.Rcheck/tests/testthat.Rout`, `tests.log`,
-`pkgdown.log`, the generated `site/`, and `ggsynteny_0.3.0.tar.gz`.
+All artifacts are now in this permanent worktree. Logs and local build products
+are under `dev/circular/validation/`; the generated documentation is under
+`docs/`. Vector PDFs and README PNGs are under `man/figures/`. None of the
+rendering scripts require a temporary directory.
+
+The three-bacterium example adds 21 prepared gene records, four contigs and
+nine input links (four ZONMW-30–ZONMW-20; five ZONMW-20–HI1). Its reproducible
+script checks unique feature IDs, exactly one feature per link endpoint, and
+agreement between input and plotted record counts. The original CSV inputs
+are unchanged. No biological inference is made from matching names alone.

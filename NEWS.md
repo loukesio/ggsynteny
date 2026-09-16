@@ -8,6 +8,9 @@
 * Circular layouts retain genomic interval widths, expose their layout data,
   and display all supplied relationships among selected genomes, including
   non-adjacent genomes. They do not aggregate interval widths into coverage.
+* Document both circular functions with argument tables, runnable examples,
+  and vector PDFs. Add prepared three-bacterium feature/link tables and a
+  reproducible moa/moe-region example for ZONMW-30, ZONMW-20 and HI1.
 
 * Preserve MCScanX block orientation. `plot_synteny(show_inversions = TRUE)`
   optionally displays inverted blocks as twisted ribbons; the default coverage

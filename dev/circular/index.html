@@ -21,6 +21,29 @@
   <p class="intro">Chromosome arcs and curved gene arrows, connected by synteny ribbons. Built from native ggplot2 layers, with the familiar <code>casa_natal</code> palette.</p>
   <div class="grid">
     <article>
+      <header><div class="eyebrow">Three bacterial genomes · gene regions</div><h2>ZONMW-30, ZONMW-20 &amp; HI1</h2></header>
+      <a href="../../man/figures/README-circular-bacteria.png"><img src="../../man/figures/README-circular-bacteria.png" alt="21 bacterial genes across four contigs joined by nine supplied homology links"></a>
+      <footer>
+        <p>21 genes · 4 contigs · 9 supplied links. Arrows show strand, and matching gene names share colours. The input contains no direct ZONMW-30–HI1 links; none are inferred.</p>
+        <pre><code>features &lt;- read.delim(system.file(
+  "extdata", "circular_bacterial_features.tsv",
+  package = "ggsynteny"))
+links &lt;- read.delim(system.file(
+  "extdata", "circular_bacterial_links.tsv",
+  package = "ggsynteny"))
+plot_circular_microsynteny(
+  features, links,
+  bin_order = c("ZONMW-30", "ZONMW-20", "HI1"),
+  palette = "casa_natal", ribbon_fill = "per_name",
+  ribbon_alpha = 0.36, group_gap = 15, gap = 5,
+  track_width = 0.055, label_size = 2.3,
+  bin_label_size = 4.5
+)</code></pre>
+        <a href="../../man/figures/circular-bacteria.pdf">Open annotated vector PDF</a>
+        · <a href="../../data-raw/circular_bacteria.R">Preparation and rendering script</a>
+      </footer>
+    </article>
+    <article>
       <header><div class="eyebrow">Chromosome-level synteny</div><h2>Rice &amp; sorghum</h2></header>
       <a href="../../man/figures/README-circular-macro.png"><img src="../../man/figures/README-circular-macro.png" alt="22 rice and sorghum chromosome arcs joined by 100 syntenic block ribbons"></a>
       <footer>
@@ -31,7 +54,7 @@ plot_circular_synteny(
   palette = "casa_natal",
   chr_fill = "per_species"
 )</code></pre>
-        <a href="circular-macro.pdf">Download vector PDF</a>
+        <a href="../../man/figures/circular-macro.pdf">Download vector PDF</a>
       </footer>
     </article>
     <article>
@@ -45,12 +68,12 @@ plot_circular_microsynteny(
   palette = "casa_natal",
   ribbon_fill = "per_name"
 )</code></pre>
-        <a href="circular-micro.pdf">Download vector PDF</a>
+        <a href="../../man/figures/circular-micro.pdf">Download vector PDF</a>
       </footer>
     </article>
   </div>
   <p class="note">Both functions return ordinary ggplot objects. Add themes, labels, or annotations with <code>+</code>, export with <code>ggplot2::ggsave()</code>, or use <code>interactive = TRUE</code> and <code>syn_girafe(p, width_svg = 8, height_svg = 8)</code> for tooltips. Layout data and displayed links remain inspectable.</p>
   <p class="note">The circular arrangement does not assert circular chromosomes. Micro contigs span the supplied gene region; unannotated flanks are not inferred. Ribbon widths represent intervals and are not summed estimates of unique coverage.</p>
-  <nav><a href="../../vignettes/articles/circular-synteny.Rmd">Worked guide</a><a href="https://github.com/satoshikawato/gbdraw/blob/main/docs/GALLERY.md">Inspiration: gbdraw</a><a href="https://jokergoo.github.io/circlize_book/book/the-chorddiagram-function.html">Inspiration: circlize</a></nav>
+  <nav><a href="../../README.md">Package README</a><a href="../../docs/index.html">Rendered documentation</a><a href="../../vignettes/articles/circular-synteny.Rmd">Worked guide</a><a href="https://github.com/satoshikawato/gbdraw/blob/main/docs/GALLERY.md">Inspiration: gbdraw</a><a href="https://jokergoo.github.io/circlize_book/book/the-chorddiagram-function.html">Inspiration: circlize</a></nav>
 </main>
 </html>

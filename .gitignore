@@ -26,3 +26,6 @@ docs/
 paper/paper.pdf
 HANDOFF.md
 *.zip
+
+# Local documentation validation artifacts
+/dev/circular/validation/

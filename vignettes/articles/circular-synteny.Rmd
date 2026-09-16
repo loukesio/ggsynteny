@@ -81,6 +81,49 @@ plot_circular_microsynteny(micro$features, micro$links,
                            palette = "casa_natal", ribbon_palette = "Viridis")
 ```
 
+## Three bacterial gene regions
+
+The bundled bacterial inputs also provide a worked comparison of ZONMW-30,
+ZONMW-20 and HI1: 21 genes on four contigs and nine supplied homology links.
+These prepared tables can be used with either the circular or linear gene
+view. The feature IDs are unique across all selected contigs.
+
+```{r bacteria, fig.width=10, fig.height=10.5}
+features <- read.delim(system.file("extdata", "circular_bacterial_features.tsv",
+                                   package = "ggsynteny"))
+links <- read.delim(system.file("extdata", "circular_bacterial_links.tsv",
+                                package = "ggsynteny"))
+pb <- plot_circular_microsynteny(
+  features, links,
+  bin_order = c("ZONMW-30", "ZONMW-20", "HI1"),
+  palette = "casa_natal", ribbon_fill = "per_name",
+  ribbon_alpha = 0.36, group_gap = 15, gap = 5,
+  track_width = 0.055, label_size = 2.3, bin_label_size = 4.5
+)
+pb
+```
+
+The selection covers ZONMW-30 contig 4, ZONMW-20 contigs 10 and 17, and HI1
+contig 1. Placeholder `z_spacer` rows are removed; retained gene coordinates
+and intervening genomic gaps are unchanged. ZONMW-30's other contigs reuse
+feature IDs and are outside this selected region. Each retained feature gets
+a unique ID made from its bin, contig, coordinates and original ID; the latter
+is retained in `source_feat_id`. Link endpoints must resolve to exactly one
+feature, otherwise the preparation script stops.
+
+Four input links connect ZONMW-30 to ZONMW-20, and five connect ZONMW-20 to
+HI1. The input contains no direct ZONMW-30–HI1 links, and none are inferred.
+It also has no identity scores, so ribbons are coloured by gene name. This
+is a comparison of selected gene regions, not a whole-genome alignment.
+
+From a source checkout, `Rscript data-raw/circular_bacteria.R` rebuilds the
+prepared TSVs, the README PNG and the annotated vector PDF. The original
+`bacterial_genes.csv` and `bacterial_links.csv` inputs are preserved.
+
+```{r bacteria-export, eval=FALSE}
+ggplot2::ggsave("three-bacteria.pdf", pb, width = 10, height = 10.5)
+```
+
 ## Inspect, export, and interact
 
 The macro plot's `data` holds its sector layout. Genomic bounds remain in the

@@ -12,7 +12,8 @@
 
 **ggsynteny** draws comparative-genomics figures in **pure ggplot2**: both
 **macro-synteny** (chromosome-level ribbons across any number of species) and
-**micro-synteny** (gene-level arrows connected by homology ribbons). It ships
+**micro-synteny** (gene-level arrows connected by homology ribbons), in linear
+or circular layouts. It ships
 parsers for MCScanX, GENESPACE, and plain TSV input, a real rice-sorghum
 dataset, interactive hover-and-tooltip plots via **ggiraph**, and every
 colour argument accepts the 32 palettes of the
@@ -220,43 +221,141 @@ Use `"body"` when the figure is about gene order and orientation (the
 tips carry the information); switch to `"full"` when the links represent
 alignments over entire genes and coverage is the message.
 
-### Circular synteny — ggplot2 chord views
+### `plot_circular_synteny()` — circular chromosome-level synteny
 
-The experimental circular views use the same input tables and palette names.
-They return ordinary ggplot2 objects: add `labs()`, themes or annotations, and
-export with `ggplot2::ggsave()`. Chromosome/contig arcs retain a common genomic
-scale; ribbons attach at the supplied intervals. All relationships among the
-selected genomes can be shown, including non-adjacent genomes.
+**What it's for:** arranging chromosomes as proportional arcs around a circle
+and connecting their syntenic blocks with ribbons. Takes the same `chromosomes`
+and `blocks` tables as `plot_synteny()`. All supplied relationships among the
+selected species are drawn, including non-adjacent species.
+
+The circular functions are available on the experimental
+`feature/circular-synteny` branch. From that checkout's package root, run
+`devtools::load_all(".")` to try the examples below, or
+`remotes::install_local(".")` to install it.
+
+| Argument | Default | What it does |
+|----|----|----|
+| `syn_data` | — | List with `chromosomes` and `blocks` data frames |
+| `species_order` | first appearance | Selects species and their order around the circle |
+| `palette` | `NULL` | An ltc name (`"casa_natal"`), `"Okabe-Ito"`, an HCL palette name, or a colour vector |
+| `chr_fill` | `"uniform"` | Chromosome colouring: `"uniform"`, `"per_species"`, `"per_chr"`, or `"custom"` |
+| `chr_palette` | `NULL` | Overrides `palette` for chromosomes; named vectors provide explicit mappings |
+| `ribbon_fill` | `"source_chr"` | Ribbon colouring: `"source_chr"`, `"target_chr"`, `"species_pair"`, `"uniform"`, or `"custom"` |
+| `ribbon_palette` | `NULL` | Overrides `palette` for ribbons |
+| `ribbon_alpha` | `0.30` | Ribbon transparency |
+| `gap` / `group_gap` | `1` / `10` | Gaps between chromosomes / species, in degrees |
+| `start_angle` / `clockwise` | `90` / `TRUE` | Starts at the top, with genomic coordinates increasing clockwise |
+| `curvature` | `0.65` | Pull of ribbon control points towards the centre (0–1) |
+| `track_width` | `0.055` | Chromosome thickness as a fraction of the outer radius |
+| `show_orientation` | `FALSE` | Connects endpoints using the block's `plus` / `minus` orientation metadata |
+| `interactive` | `FALSE` | Build ggiraph-interactive layers — render with `syn_girafe()` |
+
+The same rice-sorghum dataset now becomes 22 chromosome arcs connected by
+100 block ribbons. Chromosomes use one colour per species; ribbons are
+coloured by source chromosome:
 
 ``` r
 data(rice_sorghum)
 plot_circular_synteny(rice_sorghum, c("Rice", "Sorghum"),
                       palette = "casa_natal", chr_fill = "per_species")
+```
 
+<img src="man/figures/README-circular-macro.png" alt="22 rice and sorghum chromosome arcs joined by 100 syntenic block ribbons, using casa_natal" width="85%" style="display: block; margin: auto;" />
+
+[Download the vector PDF](man/figures/circular-macro.pdf).
+
+Chromosome arc lengths share a common genomic scale. Ribbons retain their
+original block coordinates; their widths are not summed estimates of unique
+coverage. With `show_orientation = TRUE`, starts connect to starts for `plus`
+and to ends for `minus`. A twist alone does not identify an inversion around
+a circle; use the supplied orientation metadata when interpreting direction.
+
+### `plot_circular_microsynteny()` — circular gene-level synteny
+
+**What it's for:** drawing gene regions from multiple genomes as curved,
+strand-aware arrows, with homology ribbons inside the circle. Takes the same
+feature and link tables as `plot_microsynteny()`.
+
+| Argument | Default | What it does |
+|----|----|----|
+| `features` | — | Data frame: `bin_id`, `seq_id`, `start`, `end`, `strand`, unique `feat_id`, `name` |
+| `links` | — | Data frame: `feat_id_a`, `feat_id_b`, optional `identity` (0–100) |
+| `bin_order` | first appearance | Selects bins and their order around the circle |
+| `palette` | `NULL` | One palette for genes and categorical ribbons, including every ltc name |
+| `gene_fill` | `"per_name"` | Gene colouring: `"per_name"`, `"per_feat"`, or `"uniform"` |
+| `gene_palette` | `NULL` | Overrides `palette` for genes; named vectors map names or IDs |
+| `ribbon_fill` | `"identity"` | Ribbon colouring: `"identity"`, `"per_name"`, or `"uniform"` |
+| `ribbon_palette` | `NULL` | Overrides categorical ribbon colours or sets the identity ramp |
+| `ribbon_alpha` | `0.35` | Ribbon transparency |
+| `ribbon_anchor` | `"body"` | `"body"` keeps arrowheads clear; `"full"` spans the whole gene |
+| `gap` / `group_gap` | `2` / `10` | Gaps between contigs / bins, in degrees |
+| `start_angle` / `clockwise` | `90` / `TRUE` | Starts at the top, with genomic coordinates increasing clockwise |
+| `curvature` | `0.65` | Pull of ribbon control points towards the centre (0–1) |
+| `track_width` | `0.065` | Gene-arrow thickness as a fraction of the outer radius |
+| `arrowhead_frac` | `0.18` | Fraction of each gene used for its arrowhead, capped at 6 degrees |
+| `label_genes` | `TRUE` | Italic gene-name labels outside the arrows |
+| `interactive` | `FALSE` | Build ggiraph-interactive layers — render with `syn_girafe()` |
+
+Matching gene names and their ribbons share colours when
+`ribbon_fill = "per_name"`:
+
+``` r
 micro <- demo_microsynteny_data()
 plot_circular_microsynteny(micro$features, micro$links,
                            palette = "casa_natal", ribbon_fill = "per_name")
 ```
 
-<p>
-  <img src="man/figures/README-circular-macro.png" alt="Rice and sorghum chromosome arcs connected by synteny ribbons" width="49%" />
-  <img src="man/figures/README-circular-micro.png" alt="Curved gene arrows connected by homology ribbons, colored by gene name" width="49%" />
-</p>
+<img src="man/figures/README-circular-micro.png" alt="16 curved gene arrows connected by 11 homology ribbons across three bins, coloured by gene name" width="85%" style="display: block; margin: auto;" />
 
-`gap` and `group_gap` control spacing in degrees; `start_angle` and `clockwise`
-control the orientation of the layout. In microsynteny, arrow direction encodes
-strand, and `ribbon_anchor = "body"` keeps the tips clear. Its default
-`ribbon_fill = "identity"` retains the blue identity ramp; an explicit
-`ribbon_palette = "heatmap0"` or `"Viridis"` changes the ramp. Use
-`interactive = TRUE` and `syn_girafe(p, width_svg = 8, height_svg = 8)` for hover
-tooltips.
+[Download the vector PDF](man/figures/circular-micro.pdf).
 
-The circular arrangement does not imply biologically circular chromosomes.
-Micro contigs span their first to last supplied feature; unannotated flanks
-are not inferred. These views show genomic intervals, so ribbon widths should
-not be interpreted as summed or unique genome coverage. See the
-[circular guide](https://loukesio.github.io/ggsynteny/articles/circular-synteny.html) for coordinate and
-orientation details.
+Arrow direction shows strand. The default `ribbon_fill = "identity"` uses the
+same blue ramp as the linear view; set `ribbon_palette = "heatmap0"` or
+`"Viridis"` explicitly to change it. Contigs span their first to last supplied
+feature; unannotated flanks are not inferred. A circular layout does not imply
+that the underlying chromosomes are biologically circular.
+
+#### Three bacteria: ZONMW-30, ZONMW-20 and HI1
+
+This worked example uses the bundled bacterial CSV inputs: **21 genes across
+four contigs, connected by nine supplied homology links**. The prepared TSVs
+have unique feature IDs and can be read directly:
+
+``` r
+features <- read.delim(system.file("extdata", "circular_bacterial_features.tsv",
+                                   package = "ggsynteny"))
+links <- read.delim(system.file("extdata", "circular_bacterial_links.tsv",
+                                package = "ggsynteny"))
+
+p <- plot_circular_microsynteny(
+  features, links,
+  bin_order = c("ZONMW-30", "ZONMW-20", "HI1"),
+  palette = "casa_natal", ribbon_fill = "per_name",
+  ribbon_alpha = 0.36, group_gap = 15, gap = 5,
+  track_width = 0.055, label_size = 2.3, bin_label_size = 4.5
+)
+p
+
+ggplot2::ggsave("three-bacteria.pdf", p, width = 10, height = 10.5)
+```
+
+<img src="man/figures/README-circular-bacteria.png" alt="Circular microsynteny of ZONMW-30, ZONMW-20 and HI1: 21 genes across four contigs connected by nine supplied homology links" width="85%" style="display: block; margin: auto;" />
+
+[Download the annotated vector PDF](man/figures/circular-bacteria.pdf).
+
+The selected regions are ZONMW-30 contig 4, ZONMW-20 contigs 10 and 17, and
+HI1 contig 1. Placeholder spacer rows are omitted while genomic coordinates
+and gaps are retained. ZONMW-30's other contigs reuse feature IDs and are
+outside this selected region. The input has four ZONMW-30–ZONMW-20 links and
+five ZONMW-20–HI1 links; no direct ZONMW-30–HI1 links or identity scores are
+inferred. Preparation and figure generation are reproducible with
+`Rscript data-raw/circular_bacteria.R` from the package root.
+
+Both circular functions return ordinary ggplot2 objects. Add `labs()`, themes
+or annotations with `+`; use `interactive = TRUE` and
+`syn_girafe(p, width_svg = 8, height_svg = 8)` for hover tooltips. The
+[circular guide](https://loukesio.github.io/ggsynteny/articles/circular-synteny.html)
+has more on coordinates, orientation, export and interactivity.
 
 Visual inspiration: [gbdraw's circular genome maps](https://github.com/satoshikawato/gbdraw/blob/main/docs/GALLERY.md)
 and [circlize's chord diagrams](https://jokergoo.github.io/circlize_book/book/the-chorddiagram-function.html).
