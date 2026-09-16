@@ -1,5 +1,14 @@
 # ggsynteny (development version)
 
+* Experimental `plot_circular_synteny()` and `plot_circular_microsynteny()`
+  draw chromosome arcs and strand-aware gene arrows with internal homology
+  ribbons, using native ggplot2 polygon/text layers and fixed-aspect coordinates.
+  Both accept existing package data formats, ltc palette names, and optional
+  ggiraph rendering. No new dependencies are introduced.
+* Circular layouts retain genomic interval widths, expose their layout data,
+  and display all supplied relationships among selected genomes, including
+  non-adjacent genomes. They do not aggregate interval widths into coverage.
+
 * Preserve MCScanX block orientation. `plot_synteny(show_inversions = TRUE)`
   optionally displays inverted blocks as twisted ribbons; the default coverage
   view is unchanged. This option requires `blocks$orientation` metadata.

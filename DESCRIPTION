@@ -10,7 +10,8 @@ Description: Create publication-quality synteny plots for comparative genomics.
     visualizations with flexible coloring schemes, including the 32 palettes of
     the 'ltc' package usable by name (e.g. palette = "casa_natal"). Includes
     parsers for common synteny file formats including MCScanX, GENESPACE, and
-    custom TSV formats.
+    custom TSV formats. Circular chromosome and gene views use native 'ggplot2'
+    layers to connect genomic intervals with chord ribbons.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

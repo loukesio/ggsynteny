@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ggsynteny · Circular views</title>
+<style>
+  :root{color-scheme:light;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#253e39;background:#f7f8f5}
+  *{box-sizing:border-box}body{margin:0}main{max-width:1320px;margin:auto;padding:48px 32px 60px}
+  .eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#61746c}h1{font-size:clamp(32px,5vw,56px);letter-spacing:-.04em;font-weight:620;margin:12px 0}
+  .intro{max-width:780px;color:#52645d;font-size:18px;line-height:1.6}code{font-family:ui-monospace,monospace;font-size:.88em}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin:36px 0}
+  article{background:white;border:1px solid #dce4de;border-radius:16px;overflow:hidden}article header{padding:24px 26px 0}h2{font-size:24px;margin:5px 0 8px}p{line-height:1.6}
+  article img{display:block;width:100%;height:auto}article footer{padding:0 26px 24px}article footer p{color:#596961;margin-top:0;font-size:14px}
+  a{color:#245e55;text-underline-offset:3px}pre{background:#f1f5f1;border-radius:8px;padding:16px;overflow:auto;line-height:1.7;color:#304b42;font-size:12px}
+  .note{max-width:900px;color:#596961;font-size:14px}nav{display:flex;gap:20px;flex-wrap:wrap;margin-top:16px}
+  @media(max-width:800px){main{padding:28px 16px}.grid{grid-template-columns:1fr}}
+</style>
+<main>
+  <div class="eyebrow">ggsynteny · experimental circular views</div>
+  <h1>Genomes, around a circle.</h1>
+  <p class="intro">Chromosome arcs and curved gene arrows, connected by synteny ribbons. Built from native ggplot2 layers, with the familiar <code>casa_natal</code> palette.</p>
+  <div class="grid">
+    <article>
+      <header><div class="eyebrow">Chromosome-level synteny</div><h2>Rice &amp; sorghum</h2></header>
+      <a href="../../man/figures/README-circular-macro.png"><img src="../../man/figures/README-circular-macro.png" alt="22 rice and sorghum chromosome arcs joined by 100 syntenic block ribbons"></a>
+      <footer>
+        <p>22 chromosomes · 100 MCScanX blocks. Arc lengths share a genomic scale; ribbons attach at their original intervals.</p>
+        <pre><code>data(rice_sorghum)
+plot_circular_synteny(
+  rice_sorghum, c("Rice", "Sorghum"),
+  palette = "casa_natal",
+  chr_fill = "per_species"
+)</code></pre>
+        <a href="circular-macro.pdf">Download vector PDF</a>
+      </footer>
+    </article>
+    <article>
+      <header><div class="eyebrow">Gene-level synteny</div><h2>The moa/moe cluster</h2></header>
+      <a href="../../man/figures/README-circular-micro.png"><img src="../../man/figures/README-circular-micro.png" alt="Curved, strand-aware gene arrows and colored homology ribbons across three genomic bins"></a>
+      <footer>
+        <p>16 genes · 3 bins · 11 homology links. Matching gene names share colors with their ribbons. Arrow direction shows strand.</p>
+        <pre><code>micro &lt;- demo_microsynteny_data()
+plot_circular_microsynteny(
+  micro$features, micro$links,
+  palette = "casa_natal",
+  ribbon_fill = "per_name"
+)</code></pre>
+        <a href="circular-micro.pdf">Download vector PDF</a>
+      </footer>
+    </article>
+  </div>
+  <p class="note">Both functions return ordinary ggplot objects. Add themes, labels, or annotations with <code>+</code>, export with <code>ggplot2::ggsave()</code>, or use <code>interactive = TRUE</code> and <code>syn_girafe(p, width_svg = 8, height_svg = 8)</code> for tooltips. Layout data and displayed links remain inspectable.</p>
+  <p class="note">The circular arrangement does not assert circular chromosomes. Micro contigs span the supplied gene region; unannotated flanks are not inferred. Ribbon widths represent intervals and are not summed estimates of unique coverage.</p>
+  <nav><a href="../../vignettes/articles/circular-synteny.Rmd">Worked guide</a><a href="https://github.com/satoshikawato/gbdraw/blob/main/docs/GALLERY.md">Inspiration: gbdraw</a><a href="https://jokergoo.github.io/circlize_book/book/the-chorddiagram-function.html">Inspiration: circlize</a></nav>
+</main>
+</html>

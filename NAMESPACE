@@ -2,6 +2,8 @@
 
 export(demo_microsynteny_data)
 export(example_synteny_data)
+export(plot_circular_microsynteny)
+export(plot_circular_synteny)
 export(plot_microsynteny)
 export(plot_synteny)
 export(read_genespace)

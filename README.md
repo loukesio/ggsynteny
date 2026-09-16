@@ -220,6 +220,48 @@ Use `"body"` when the figure is about gene order and orientation (the
 tips carry the information); switch to `"full"` when the links represent
 alignments over entire genes and coverage is the message.
 
+### Circular synteny — ggplot2 chord views
+
+The experimental circular views use the same input tables and palette names.
+They return ordinary ggplot2 objects: add `labs()`, themes or annotations, and
+export with `ggplot2::ggsave()`. Chromosome/contig arcs retain a common genomic
+scale; ribbons attach at the supplied intervals. All relationships among the
+selected genomes can be shown, including non-adjacent genomes.
+
+``` r
+data(rice_sorghum)
+plot_circular_synteny(rice_sorghum, c("Rice", "Sorghum"),
+                      palette = "casa_natal", chr_fill = "per_species")
+
+micro <- demo_microsynteny_data()
+plot_circular_microsynteny(micro$features, micro$links,
+                           palette = "casa_natal", ribbon_fill = "per_name")
+```
+
+<p>
+  <img src="man/figures/README-circular-macro.png" alt="Rice and sorghum chromosome arcs connected by synteny ribbons" width="49%" />
+  <img src="man/figures/README-circular-micro.png" alt="Curved gene arrows connected by homology ribbons, colored by gene name" width="49%" />
+</p>
+
+`gap` and `group_gap` control spacing in degrees; `start_angle` and `clockwise`
+control the orientation of the layout. In microsynteny, arrow direction encodes
+strand, and `ribbon_anchor = "body"` keeps the tips clear. Its default
+`ribbon_fill = "identity"` retains the blue identity ramp; an explicit
+`ribbon_palette = "heatmap0"` or `"Viridis"` changes the ramp. Use
+`interactive = TRUE` and `syn_girafe(p, width_svg = 8, height_svg = 8)` for hover
+tooltips.
+
+The circular arrangement does not imply biologically circular chromosomes.
+Micro contigs span their first to last supplied feature; unannotated flanks
+are not inferred. These views show genomic intervals, so ribbon widths should
+not be interpreted as summed or unique genome coverage. See the
+[circular guide](https://loukesio.github.io/ggsynteny/articles/circular-synteny.html) for coordinate and
+orientation details.
+
+Visual inspiration: [gbdraw's circular genome maps](https://github.com/satoshikawato/gbdraw/blob/main/docs/GALLERY.md)
+and [circlize's chord diagrams](https://jokergoo.github.io/circlize_book/book/the-chorddiagram-function.html).
+The rendering implementation uses ggplot2 throughout.
+
 ### `syn_girafe()` — interactive plots
 
 **What it's for:** hover highlighting and tooltips in HTML output
@@ -339,6 +381,8 @@ ggplot2::ggsave("synteny.pdf", p, width = 12, height = 7)   # vector, for journa
 |----|----|
 | `plot_synteny()` | Macro-synteny: chromosome tiers + block ribbons (`palette`, `chr_fill`, `ribbon_fill`, `curvature`) |
 | `plot_microsynteny()` | Micro-synteny: gene arrows + homology ribbons (`palette`, `gene_fill`, `ribbon_fill = "identity"`, `ribbon_anchor`) |
+| `plot_circular_synteny()` | Chromosome arcs with synteny ribbons, grouped by species |
+| `plot_circular_microsynteny()` | Curved gene arrows with homology ribbons, grouped by bin |
 | `syn_girafe()` | Render an `interactive = TRUE` plot as a hoverable widget |
 | `syn_palettes()` | List the 32 built-in colour palettes |
 | `read_synteny_tsv()` | Read the native two-TSV format |

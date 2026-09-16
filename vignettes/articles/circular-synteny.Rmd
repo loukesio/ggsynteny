@@ -1,0 +1,116 @@
+---
+title: "Circular synteny with ggplot2"
+output: rmarkdown::html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.width = 8, fig.height = 8, collapse = TRUE,
+                      comment = "#>", fig.align = "center")
+library(ggsynteny)
+```
+
+The circular functions use the same tables as the linear functions and return
+ordinary ggplot objects. Their arcs, curved arrows and ribbons are polygon
+layers in Cartesian coordinates, with a fixed aspect ratio to keep the ring
+circular. There is no graphics capture or external plotting backend.
+
+## Chromosome-level synteny
+
+```{r macro}
+data(rice_sorghum)
+p <- plot_circular_synteny(rice_sorghum, c("Rice", "Sorghum"),
+                           palette = "casa_natal", chr_fill = "per_species")
+p
+```
+
+Chromosome arc widths are proportional to chromosome lengths, using the same
+scale across species. Ribbons attach at the supplied block coordinates. All
+pairs among selected species are included, including within-species and
+non-adjacent comparisons. Overlapping or repeated blocks remain separate
+observations; their widths are not summed into a unique-coverage estimate.
+
+`chr_fill` and `ribbon_fill` follow the linear function's coloring modes.
+`gap = 1` separates chromosomes within species and `group_gap = 10` separates
+species (degrees). `species_order` selects and orders genomes. Repeated
+chromosome labels in different species are kept separate.
+
+```{r customize}
+p + ggplot2::labs(title = "Rice and sorghum",
+                  caption = "Chromosome lengths inferred from MCScanX gene annotations") +
+  ggplot2::theme(plot.title = ggplot2::element_text(face = "bold"))
+```
+
+The default coverage ribbons join opposite interval boundaries for clarity.
+When `blocks$orientation` is available, `show_orientation = TRUE` connects
+genomic start/end coordinates according to `plus` or `minus`. For a plus
+alignment, starts connect to starts; for a minus alignment, starts connect to
+ends. Because both chromosomes may run clockwise around different portions
+of a circle, a twist alone is not an inversion indicator. Read the orientation
+metadata or interactive tooltip when interpreting alignment direction.
+The previously bundled `rice_sorghum` object lacks orientation metadata;
+newly parsed MCScanX input retains it.
+
+## Gene-level synteny
+
+```{r micro}
+micro <- demo_microsynteny_data()
+pm <- plot_circular_microsynteny(micro$features, micro$links,
+                                palette = "casa_natal", ribbon_fill = "per_name")
+pm
+```
+
+Contigs span the first supplied feature start through the last feature end.
+Lengths share a scale across bins. This is an observed gene-region view;
+unknown chromosome ends are not inferred. Each contig has its own coordinate
+system and gap. The circular arrangement does not assert that an organism's
+chromosomes are biologically circular. A feature crossing an origin needs to
+be split into valid intervals before plotting.
+
+Arrows show strand; ribbons represent homology. Gene strand alone is not used
+to infer an alignment inversion. `ribbon_anchor = "body"` keeps arrowheads
+clear. `ribbon_anchor = "full"` connects the entire gene span.
+
+For the default identity coloring, the ramp spans 0 to 100 percent. Missing
+identity values are gray. With no identity column, links use the same default
+80-percent shade as the linear plot, without claiming a measured identity in
+the tooltip. `palette` colors genes; set `ribbon_palette` explicitly to change
+the identity ramp.
+
+```{r identity}
+plot_circular_microsynteny(micro$features, micro$links,
+                           palette = "casa_natal", ribbon_palette = "Viridis")
+```
+
+## Inspect, export, and interact
+
+The macro plot's `data` holds its sector layout. Genomic bounds remain in the
+original unit; `theta_start` and `theta_end` are radians. Metadata attributes
+record displayed links and features, so positions and filtering are inspectable.
+
+```{r inspect}
+p$data[, c("group_name", "sector_name", "start", "end")]
+head(attr(pm, "circular_features")[, c("bin_id", "seq_id", "feat_id", "strand")])
+```
+
+```{r export, eval=FALSE}
+ggplot2::ggsave("circular-synteny.pdf", p, width = 8, height = 8)
+ggplot2::ggsave("circular-microsynteny.png", pm, width = 8, height = 8,
+                dpi = 300, bg = "white")
+```
+
+```{r interactive, eval=requireNamespace("ggiraph", quietly=TRUE)}
+pi <- plot_circular_microsynteny(micro$features, micro$links,
+                                palette = "casa_natal", interactive = TRUE)
+syn_girafe(pi, width_svg = 8, height_svg = 8)
+```
+
+The new functions introduce no dependencies. Optional interactivity uses the
+same suggested ggiraph dependency as the linear views. Dense annotations can
+be exported at a larger physical size or drawn with `label_genes = FALSE`;
+labels are not silently discarded.
+
+The visual references for this experiment are
+[gbdraw's circular genome maps](https://github.com/satoshikawato/gbdraw/blob/main/docs/GALLERY.md)
+and [circlize's chord diagrams](https://jokergoo.github.io/circlize_book/book/the-chorddiagram-function.html).
+The latter uses relation strength for sector/link widths; ggsynteny's circular
+functions instead retain genomic coordinate spans.
