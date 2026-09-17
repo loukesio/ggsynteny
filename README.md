@@ -369,7 +369,7 @@ The rendering implementation uses ggplot2 throughout.
 software or table format, upload its files, and see the data and plot preview.
 Switch between linear and circular views, choose an ltc palette, reorder or
 subset genomes, adjust ribbons, and download the figure or displayed records.
-Turn on **Interactive plot (hover and zoom)** to inspect ribbons and features
+Turn on the **Interactive plot** switch to inspect ribbons and features
 with tooltips, highlight relationships, and zoom into either layout. This
 uses optional `ggiraph` 0.9.2 or later (`install.packages("ggiraph")`). PDF and
 PNG downloads remain static; the R-script download also includes the

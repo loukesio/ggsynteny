@@ -49,3 +49,8 @@ The original main source and local changes are preserved under
   notices for the linear anchor images.
 - Logs, exported files and screenshots are in `dev/app/validation/`.
   The existing release tags and archives are preserved.
+
+The interactive checkbox now appears as an animated Off/On switch. A focused
+Chrome check verified mouse and keyboard operation, the two visual states,
+reduced-motion support and mobile layout without JavaScript errors. The
+README screenshot shows the updated control.

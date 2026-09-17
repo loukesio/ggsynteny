@@ -21,7 +21,7 @@ identity colouring when supplied, and an explicit link limit. Export PDF/PNG,
 displayed records and links, pair counts, or R code reproducing the figure.
 The gene-region example does not infer missing links or identity scores.
 
-Turn on **Interactive plot (hover and zoom)** for ggiraph tooltips,
+Turn on the **Interactive plot** switch for ggiraph tooltips,
 highlighting and zoom in all layouts. This requires optional `ggiraph` 0.9.2
 or later.
 Scroll to zoom, drag to pan, and use the toolbar to reset the view.
