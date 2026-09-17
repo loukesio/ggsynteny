@@ -26,7 +26,7 @@ The previous [0.3.0 source is preserved](https://github.com/loukesio/ggsynteny/r
 
 ## Installation
 
-<img align="right" src="man/figures/logo.png" alt="ggsynteny logo: crossing synteny ribbons in a hexagon" width="220">
+<img align="right" src="man/figures/logo.png" alt="ggsynteny logo: genomics for R" width="320">
 
 ``` r
 # with remotes (lightweight)
