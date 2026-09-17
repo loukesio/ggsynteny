@@ -45,3 +45,12 @@ the package root. It requires Playwright and a local Google Chrome. Set
 all downloads, invalid-file recovery and mobile layout. Generated validation
 files stay under `dev/app/validation/` and are ignored by Git/package builds.
 The README screenshot is generated from the tested app.
+
+## Hosting
+
+The Posit Connect Cloud entry point and dependency manifest are in
+[`deploy/posit-connect-cloud/`](../../deploy/posit-connect-cloud/README.md).
+Prepare updates with `Rscript dev/app/prepare_connect_cloud.R` from the
+package root, then publish using the documented GitHub or R workflow.
+The hosting setup uses the installed package app and is excluded from
+package builds.

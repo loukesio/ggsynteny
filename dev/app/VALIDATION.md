@@ -54,3 +54,19 @@ The interactive checkbox now appears as an animated Off/On switch. A focused
 Chrome check verified mouse and keyboard operation, the two visual states,
 reduced-motion support and mobile layout without JavaScript errors. The
 README screenshot shows the updated control.
+
+## Posit Connect Cloud deployment preparation — 2026-09-17
+
+- The standalone entry point loads the installed ggsynteny app, Shiny and
+  ggiraph. The generated manifest records R 4.5.1 and 75 package dependencies
+  from CRAN/GitHub, with ggsynteny pinned to commit
+  `d64538309689c66bb4091c005a5ac7e54583367b`.
+- The installed entry point and interactive rendering of all eight
+  format/layout combinations pass. A Chrome check of the deployment folder
+  verifies startup, the switch, 240-block MCScanX and 384-match GENESPACE
+  previews, interactive SVGs and a valid PDF download without JavaScript errors.
+- The deployment bundle includes only `app.R` and its generated manifest.
+  The hosting directory is excluded from R package builds. Package code,
+  data, palettes and the existing releases are unchanged by this setup.
+- These checks validate the local deployment bundle. A remote URL and cloud
+  build still need to be verified after publishing under the owner's account.
