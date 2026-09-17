@@ -32,3 +32,7 @@ HANDOFF.md
 
 /dev/app/validation/
 /dev/releases/
+/dev/public-health/cache/
+/dev/public-health/validation/
+/dev/public-health/gallery/widget-libs/
+/dev/public-health/gallery/index-source.html

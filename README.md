@@ -95,6 +95,26 @@ plot_synteny(rice_sorghum, c("Rice", "Sorghum"),
 Every function below follows the same pattern: what it is for, the arguments
 that matter (with their defaults), and a worked example.
 
+## Public bacterial examples
+
+The `examples/public-health-bacteria` branch adds two reproducible comparisons:
+four **Bartonella** genomes using the existing genoPlotR Mauve alignment, and
+three **hospital-associated plasmids** from Conlan et al. (2014), with new
+sequence alignments. Each includes linear and circular whole-sequence views,
+gene-level close-ups, and native TSV files for ggsynteny Studio.
+
+<p float="left">
+  <img src="man/figures/public-health/bartonella-macro-circular.png" alt="Circular comparison of four Bartonella genomes using retained Mauve alignment blocks" width="49%" />
+  <img src="man/figures/public-health/plasmids-macro-circular.png" alt="Circular comparison of three related plasmids from E. coli, K. pneumoniae and Enterobacter ECNIH3" width="49%" />
+</p>
+
+Read the [worked examples and source records](dev/public-health/README.md),
+open the [eight-figure PDF](man/figures/public-health/public-health-examples.pdf),
+or download the [interactive HTML gallery](https://raw.githubusercontent.com/loukesio/ggsynteny/examples/public-health-bacteria/dev/public-health/gallery/index.html)
+and open it in a browser. All figures use the existing plotting functions and
+`palette = "casa_natal"`. Gene links are computed from protein alignments;
+matching annotation names alone do not create links.
+
 ## The functions
 
 ### `plot_synteny()` — chromosome-level (macro) synteny

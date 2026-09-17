@@ -1,0 +1,16 @@
+{
+  "bartonella": {
+    "sequences": 4,
+    "blocks": 215,
+    "inverted_blocks": 62,
+    "features": 36,
+    "links": 46
+  },
+  "plasmids": {
+    "sequences": 3,
+    "blocks": 8,
+    "inverted_blocks": 0,
+    "features": 33,
+    "links": 31
+  }
+}

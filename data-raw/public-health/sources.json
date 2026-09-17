@@ -1,0 +1,17 @@
+[
+  {
+    "file": "dev/public-health/cache/bartonella.gb",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=NC_008783.1,NC_012846.1,NC_005956.1,NC_005955.1&rettype=gbwithparts&retmode=text",
+    "sha256": "f52b0cf0bde86fc1f7e2419fcb17e5d37498dec7198af31b351e236fe96bd28d"
+  },
+  {
+    "file": "dev/public-health/cache/plasmids.gb",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=CP009862.1,CP009864.1,CP008901.1&rettype=gbwithparts&retmode=text",
+    "sha256": "59a5c360ebf076c3c2950952c141c52123efea9e2f693c387efc515aa1da8a52"
+  },
+  {
+    "file": "data-raw/public-health/sources/barto.backbone",
+    "url": "https://raw.githubusercontent.com/cran/genoPlotR/3887f91ed718b7df935c11d1a84e9276f4f6b01c/inst/extdata/barto.backbone",
+    "sha256": "094aaaf46193bed3b8607a21629487309d08aa418a30a8fb2e8504396525d247"
+  }
+]
