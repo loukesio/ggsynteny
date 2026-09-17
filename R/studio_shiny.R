@@ -92,17 +92,18 @@
   })
   current_interactive_plot <- shiny::reactive({
     shiny::req(isTRUE(input$interactive))
-    shiny::validate(shiny::need(requireNamespace("ggiraph", quietly = TRUE),
-      "Install ggiraph to enable interactive plots: install.packages('ggiraph')."))
+    shiny::validate(shiny::need(requireNamespace("ggiraph", quietly = TRUE) &&
+      utils::packageVersion("ggiraph") >= "0.9.2",
+      "Install ggiraph 0.9.2 or later to enable interactive plots: install.packages('ggiraph')."))
     tryCatch(do.call(.studio_plot, c(list(d = selected_data(), interactive = TRUE), settings())), error = function(e) {
       shiny::validate(shiny::need(FALSE, conditionMessage(e)))
     })
   })
   output$interactive_ui <- shiny::renderUI({
     shiny::req(isTRUE(input$interactive))
-    if (!requireNamespace("ggiraph", quietly = TRUE))
+    if (!requireNamespace("ggiraph", quietly = TRUE) || utils::packageVersion("ggiraph") < "0.9.2")
       return(shiny::div(class = "shiny-output-error-validation",
-        "Install ggiraph to enable interactive plots: install.packages('ggiraph'). PDF and PNG downloads remain available."))
+        "Install ggiraph 0.9.2 or later to enable interactive plots: install.packages('ggiraph'). PDF and PNG downloads remain available."))
     preview <- tryCatch(current_interactive_plot(), error = function(e) e)
     if (inherits(preview, "error"))
       return(shiny::div(class = "shiny-output-error-validation", conditionMessage(preview)))

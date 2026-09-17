@@ -38,6 +38,8 @@ The original main source and local changes are preserved under
   validation message. Enabling interaction also enables pan/zoom directly;
   the redundant ggiraph toolbar toggle is hidden, avoiding its click-handler
   error in the locally installed ggiraph 0.9.6.
+  The optional dependency declares ggiraph >= 0.9.2, which introduced
+  automatic zoom activation; older installations receive an update message.
 - PDF/PNG downloads remain static while interaction is enabled. The
   downloaded R script reproduces both versions from the downloaded tables
   using the installed source package.

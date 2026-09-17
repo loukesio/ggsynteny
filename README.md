@@ -371,7 +371,7 @@ Switch between linear and circular views, choose an ltc palette, reorder or
 subset genomes, adjust ribbons, and download the figure or displayed records.
 Turn on **Interactive plot (hover and zoom)** to inspect ribbons and features
 with tooltips, highlight relationships, and zoom into either layout. This
-uses the optional `ggiraph` package (`install.packages("ggiraph")`). PDF and
+uses optional `ggiraph` 0.9.2 or later (`install.packages("ggiraph")`). PDF and
 PNG downloads remain static; the R-script download also includes the
 interactive version when the toggle is enabled.
 Scroll to zoom, drag to pan, and use the toolbar to reset the view.

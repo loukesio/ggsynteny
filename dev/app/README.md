@@ -22,7 +22,8 @@ displayed records and links, pair counts, or R code reproducing the figure.
 The gene-region example does not infer missing links or identity scores.
 
 Turn on **Interactive plot (hover and zoom)** for ggiraph tooltips,
-highlighting and zoom in all layouts. The optional dependency is `ggiraph`.
+highlighting and zoom in all layouts. This requires optional `ggiraph` 0.9.2
+or later.
 Scroll to zoom, drag to pan, and use the toolbar to reset the view.
 PDF/PNG downloads use static plots; the R download includes both static and
 interactive code when enabled. Invalid data clears both types of preview.
