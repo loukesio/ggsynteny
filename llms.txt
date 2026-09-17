@@ -22,8 +22,7 @@ preserved](https://github.com/loukesio/ggsynteny/releases/tag/v0.3.0).
 
 ## Installation
 
-![ggsynteny logo: crossing synteny ribbons in a
-hexagon](reference/figures/logo.png)
+![ggsynteny logo: genomics for R](reference/figures/logo.png)
 
 ``` r
 
