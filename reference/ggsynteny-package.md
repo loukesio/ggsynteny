@@ -51,5 +51,5 @@ Useful links:
 
 ## Author
 
-**Maintainer**: Loukas Theodosiou <theodosiou@evolbio.mpg.de>
+**Maintainer**: Loukas Theodosiou <loukesio@gmail.com>
 ([ORCID](https://orcid.org/0000-0001-6418-4652))

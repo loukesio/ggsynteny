@@ -9,7 +9,7 @@ across multiple species with flexible coloring options."><meta property="og:imag
 
     <a class="navbar-brand me-2" href="../index.html">ggsynteny</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,7 +31,7 @@ across multiple species with flexible coloring options."><meta property="og:imag
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Plot macro-synteny across multiple species</h1>
-      <small class="dont-index">Source: <a href="https://github.com/loukesio/ggsynteny/blob/v0.3.0/R/plot_synteny.R" class="external-link"><code>R/plot_synteny.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/loukesio/ggsynteny/blob/v0.5.0/R/plot_synteny.R" class="external-link"><code>R/plot_synteny.R</code></a></small>
       <div class="d-none name"><code>plot_synteny.Rd</code></div>
     </div>
 
@@ -58,7 +58,8 @@ across multiple species with flexible coloring options.</p>
 <span>  label_size <span class="op">=</span> <span class="fl">2.5</span>,</span>
 <span>  species_label_size <span class="op">=</span> <span class="fl">4.5</span>,</span>
 <span>  interactive <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  title <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  show_inversions <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -80,7 +81,8 @@ See <code><a href="example_synteny_data.html">example_synteny_data</a></code> fo
 (all 32 ltc palettes, e.g. <code>"casa_natal"</code> or <code>"minou"</code>; list them with
 <code><a href="syn_palettes.html">syn_palettes</a></code>), <code>"Okabe-Ito"</code>, or a vector of colors. Used
 for both chromosomes and ribbons unless <code>chr_palette</code> / <code>ribbon_palette</code>
-override it.</p></dd>
+override it. HCL palette names (e.g. <code>"Viridis"</code>) are also accepted.
+Uniform fills use one color from the resolved palette.</p></dd>
 
 
 <dt id="arg-tier-spacing">tier_spacing<a class="anchor" aria-label="anchor" href="#arg-tier-spacing"></a></dt>
@@ -144,6 +146,13 @@ with <code><a href="syn_girafe.html">syn_girafe()</a></code>. Default <code>FALS
 
 <dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
 <dd><p>Optional plot title</p></dd>
+
+
+<dt id="arg-show-inversions">show_inversions<a class="anchor" aria-label="anchor" href="#arg-show-inversions"></a></dt>
+<dd><p>Logical; twist ribbons for blocks whose <code>orientation</code>
+is <code>"minus"</code>? Default <code>FALSE</code>, showing block coverage without encoding
+orientation. When <code>TRUE</code>, every block must have an <code>orientation</code> of
+<code>"plus"</code> or <code>"minus"</code>, as returned by <code><a href="read_mcscanx.html">read_mcscanx()</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
