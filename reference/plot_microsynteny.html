@@ -9,7 +9,7 @@ with ribbons connecting homologous genes across genomes."><meta property="og:ima
 
     <a class="navbar-brand me-2" href="../index.html">ggsynteny</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,7 +31,7 @@ with ribbons connecting homologous genes across genomes."><meta property="og:ima
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Plot micro-synteny across multiple genomes/bins</h1>
-      <small class="dont-index">Source: <a href="https://github.com/loukesio/ggsynteny/blob/main/R/plot_microsynteny.R" class="external-link"><code>R/plot_microsynteny.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/loukesio/ggsynteny/blob/v0.3.0/R/plot_microsynteny.R" class="external-link"><code>R/plot_microsynteny.R</code></a></small>
       <div class="d-none name"><code>plot_microsynteny.Rd</code></div>
     </div>
 
@@ -81,8 +81,7 @@ with ribbons connecting homologous genes across genomes.</p>
 
 
 <dt id="arg-links">links<a class="anchor" aria-label="anchor" href="#arg-links"></a></dt>
-<dd><p>Data frame with columns: feat_id_a, feat_id_b, identity (optional).
-An empty table draws genes without ribbons.</p></dd>
+<dd><p>Data frame with columns: feat_id_a, feat_id_b, identity (optional)</p></dd>
 
 
 <dt id="arg-bin-order">bin_order<a class="anchor" aria-label="anchor" href="#arg-bin-order"></a></dt>
@@ -139,8 +138,7 @@ rounding uses <span class="pkg">ggforce</span>. Not available together with
 
 
 <dt id="arg-gene-palette">gene_palette<a class="anchor" aria-label="anchor" href="#arg-gene-palette"></a></dt>
-<dd><p>Palette name, color vector, or named mapping for genes.
-Uniform fills use one color from the resolved palette.</p></dd>
+<dd><p>Named vector of colors for genes</p></dd>
 
 
 <dt id="arg-gene-color">gene_color<a class="anchor" aria-label="anchor" href="#arg-gene-color"></a></dt>
@@ -156,8 +154,7 @@ Uniform fills use one color from the resolved palette.</p></dd>
 
 
 <dt id="arg-ribbon-palette">ribbon_palette<a class="anchor" aria-label="anchor" href="#arg-ribbon-palette"></a></dt>
-<dd><p>Palette name, color vector, or named mapping for ribbons.
-HCL names (e.g. <code>"Viridis"</code>) also work for identity ramps.</p></dd>
+<dd><p>Named vector of colors for ribbons</p></dd>
 
 
 <dt id="arg-ribbon-alpha">ribbon_alpha<a class="anchor" aria-label="anchor" href="#arg-ribbon-alpha"></a></dt>
@@ -213,8 +210,8 @@ widget when <code>interactive = TRUE</code>)</p>
 <li><p>strand: "+" or "-"</p></li>
 <li><p>feat_id: unique gene identifier</p></li>
 <li><p>name: gene name (for labels and coloring)</p></li>
-</ul><p>The <code>links</code> data frame must contain:</p><ul><li><p>feat_id_a: first linked gene</p></li>
-<li><p>feat_id_b: second linked gene (either display order is supported)</p></li>
+</ul><p>The <code>links</code> data frame must contain:</p><ul><li><p>feat_id_a: gene in top genome</p></li>
+<li><p>feat_id_b: gene in bottom genome</p></li>
 <li><p>identity: optional 0-100 (for ribbon color intensity)</p></li>
 </ul><p><strong>Ribbon anchoring (ribbon_anchor):</strong></p>
 <p>A gene arrow has a rectangular body and a pointed tip. With

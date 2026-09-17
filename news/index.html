@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggsynteny</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,21 +29,9 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/loukesio/ggsynteny/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/loukesio/ggsynteny/blob/v0.3.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.5.0" id="ggsynteny-050">ggsynteny 0.5.0<a class="anchor" aria-label="anchor" href="#ggsynteny-050"></a></h2>
-<ul><li><p>Add <code><a href="../reference/ggsynteny_app.html">ggsynteny_app()</a></code>, an optional Shiny app for MCScanX, GENESPACE, native chromosome/block tables, and gene/link tables. It previews inputs and plots, supports linear and circular layouts, and exports figures, displayed records, pair summaries and a reproducible R script.</p></li>
-<li><p><code><a href="../reference/plot_circular_synteny.html">plot_circular_synteny()</a></code> and <code><a href="../reference/plot_circular_microsynteny.html">plot_circular_microsynteny()</a></code> draw chromosome arcs and strand-aware gene arrows with internal homology ribbons, using native ggplot2 polygon/text layers and fixed-aspect coordinates. Both accept existing package data formats, ltc palette names, and optional ggiraph rendering. No new dependencies are introduced.</p></li>
-<li><p>Circular layouts retain genomic interval widths, expose their layout data, and display all supplied relationships among selected genomes, including non-adjacent genomes. They do not aggregate interval widths into coverage.</p></li>
-<li><p>Document both circular functions with argument tables, runnable examples, and vector PDFs. Add prepared three-bacterium feature/link tables and a reproducible moa/moe-region example for ZONMW-30, ZONMW-20 and HI1.</p></li>
-<li><p>Preserve MCScanX block orientation. <code>plot_synteny(show_inversions = TRUE)</code> optionally displays inverted blocks as twisted ribbons; the default coverage view is unchanged. This option requires <code>blocks$orientation</code> metadata.</p></li>
-<li><p>Fix uniform fills with color vectors and HCL palette names, and honor HCL palettes for micro-synteny identity ribbons. All 32 ltc palette definitions and their name aliases are unchanged.</p></li>
-<li><p>Match numeric chromosome identifiers to named color keys and share gene-name colors between genes and ribbons when the same palette is used.</p></li>
-<li><p>Draw genes without ribbons when no links remain; attach micro-synteny ribbons to the facing gene edges when bins are reordered.</p></li>
-<li><p>Exclude local ZIP archives from package builds and repair the README saving example and vignette placeholders.</p></li>
-</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="ggsynteny-030">ggsynteny 0.3.0<a class="anchor" aria-label="anchor" href="#ggsynteny-030"></a></h2>
 <ul><li><p>New default look for <code><a href="../reference/plot_synteny.html">plot_synteny()</a></code>: with nothing specified, chromosomes are quiet dark boxes (“#333333”, <code>chr_fill = "uniform"</code>) with white seams (new <code>chr_color</code> argument), and ribbons take their colors from the <code>alger</code> palette. The old auto-generated HCL hues are gone; <code>alger</code> is now the fallback palette wherever no palette is given.</p></li>

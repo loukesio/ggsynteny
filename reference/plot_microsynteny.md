@@ -45,8 +45,7 @@ plot_microsynteny(
 
 - links:
 
-  Data frame with columns: feat_id_a, feat_id_b, identity (optional). An
-  empty table draws genes without ribbons.
+  Data frame with columns: feat_id_a, feat_id_b, identity (optional)
 
 - bin_order:
 
@@ -105,8 +104,7 @@ plot_microsynteny(
 
 - gene_palette:
 
-  Palette name, color vector, or named mapping for genes. Uniform fills
-  use one color from the resolved palette.
+  Named vector of colors for genes
 
 - gene_color:
 
@@ -122,8 +120,7 @@ plot_microsynteny(
 
 - ribbon_palette:
 
-  Palette name, color vector, or named mapping for ribbons. HCL names
-  (e.g. `"Viridis"`) also work for identity ramps.
+  Named vector of colors for ribbons
 
 - ribbon_alpha:
 
@@ -192,9 +189,9 @@ The `features` data frame must contain:
 
 The `links` data frame must contain:
 
-- feat_id_a: first linked gene
+- feat_id_a: gene in top genome
 
-- feat_id_b: second linked gene (either display order is supported)
+- feat_id_b: gene in bottom genome
 
 - identity: optional 0-100 (for ribbon color intensity)
 

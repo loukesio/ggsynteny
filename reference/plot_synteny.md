@@ -22,8 +22,7 @@ plot_synteny(
   label_size = 2.5,
   species_label_size = 4.5,
   interactive = FALSE,
-  title = NULL,
-  show_inversions = FALSE
+  title = NULL
 )
 ```
 
@@ -45,9 +44,7 @@ plot_synteny(
   ltc palettes, e.g. `"casa_natal"` or `"minou"`; list them with
   [`syn_palettes`](https://loukesio.github.io/ggsynteny/reference/syn_palettes.md)),
   `"Okabe-Ito"`, or a vector of colors. Used for both chromosomes and
-  ribbons unless `chr_palette` / `ribbon_palette` override it. HCL
-  palette names (e.g. `"Viridis"`) are also accepted. Uniform fills use
-  one color from the resolved palette.
+  ribbons unless `chr_palette` / `ribbon_palette` override it.
 
 - tier_spacing:
 
@@ -113,14 +110,6 @@ plot_synteny(
 - title:
 
   Optional plot title
-
-- show_inversions:
-
-  Logical; twist ribbons for blocks whose `orientation` is `"minus"`?
-  Default `FALSE`, showing block coverage without encoding orientation.
-  When `TRUE`, every block must have an `orientation` of `"plus"` or
-  `"minus"`, as returned by
-  [`read_mcscanx()`](https://loukesio.github.io/ggsynteny/reference/read_mcscanx.md).
 
 ## Value
 
