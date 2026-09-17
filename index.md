@@ -407,6 +407,11 @@ the R-script download also includes the interactive version when the
 toggle is enabled. Scroll to zoom, drag to pan, and use the toolbar to
 reset the view.
 
+To host Studio on Posit Connect Cloud, use the dedicated [deployment
+entry point and
+guide](https://github.com/loukesio/ggsynteny/blob/main/deploy/posit-connect-cloud/README.md).
+Its manifest pins the package and dependencies used by the hosted app.
+
 | Argument | Default | What it does |
 |----|----|----|
 | `host` | `"127.0.0.1"` | Runs locally on your computer |
