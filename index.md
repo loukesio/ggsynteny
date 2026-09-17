@@ -395,6 +395,10 @@ The rendering implementation uses ggplot2 throughout.
 
 ### `ggsynteny_app()` — upload, preview and export with Shiny
 
+**[Open ggsynteny Studio in your
+browser](https://01a0ae1e-adb1-a4f8-1ced-261952037ebf.share.connect.posit.cloud/)**
+— no installation or sign-in required.
+
 **What it’s for:** exploring existing synteny results in a browser.
 Select the software or table format, upload its files, and see the data
 and plot preview. Switch between linear and circular views, choose an
