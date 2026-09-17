@@ -17,6 +17,7 @@
         shiny::div(class = "section-divider"),
         shiny::div(class = "section-kicker", "02 / YOUR FIGURE"),
         shiny::radioButtons("layout", "Layout", c("Circular" = "circular", "Linear" = "linear"), inline = TRUE),
+        shiny::checkboxInput("interactive", "Interactive plot (hover and zoom)", FALSE),
         shiny::selectizeInput("organisms", "Genomes / bins in display order", choices = NULL, multiple = TRUE),
         shiny::selectInput("palette", "Palette", choices = names(syn_palettes()), selected = "casa_natal"),
         shiny::uiOutput("palette_preview"),
@@ -34,7 +35,9 @@
           shiny::div(class = "card-heading", shiny::div(shiny::span(class = "section-kicker", "LIVE PREVIEW"),
             shiny::h2(shiny::textOutput("plot_heading", inline = TRUE))),
             shiny::div(class = "download-row", shiny::downloadButton("pdf", "PDF"), shiny::downloadButton("png", "PNG"))),
-          shiny::plotOutput("plot", height = "640px"), shiny::uiOutput("plot_note")),
+          shiny::conditionalPanel("!input.interactive", shiny::plotOutput("plot", height = "640px")),
+          shiny::conditionalPanel("input.interactive", shiny::uiOutput("interactive_ui")),
+          shiny::uiOutput("plot_note")),
         shiny::div(class = "data-card",
           shiny::div(class = "card-heading", shiny::div(shiny::span(class = "section-kicker", "INSPECT & EXTRACT"),
             shiny::h2("The data behind the figure")), shiny::downloadButton("code", "R script")),
@@ -87,12 +90,45 @@
       shiny::validate(shiny::need(FALSE, conditionMessage(e)))
     })
   })
+  current_interactive_plot <- shiny::reactive({
+    shiny::req(isTRUE(input$interactive))
+    shiny::validate(shiny::need(requireNamespace("ggiraph", quietly = TRUE),
+      "Install ggiraph to enable interactive plots: install.packages('ggiraph')."))
+    tryCatch(do.call(.studio_plot, c(list(d = selected_data(), interactive = TRUE), settings())), error = function(e) {
+      shiny::validate(shiny::need(FALSE, conditionMessage(e)))
+    })
+  })
+  output$interactive_ui <- shiny::renderUI({
+    shiny::req(isTRUE(input$interactive))
+    if (!requireNamespace("ggiraph", quietly = TRUE))
+      return(shiny::div(class = "shiny-output-error-validation",
+        "Install ggiraph to enable interactive plots: install.packages('ggiraph'). PDF and PNG downloads remain available."))
+    preview <- tryCatch(current_interactive_plot(), error = function(e) e)
+    if (inherits(preview, "error"))
+      return(shiny::div(class = "shiny-output-error-validation", conditionMessage(preview)))
+    ggiraph::girafeOutput("interactive_plot", width = "100%", height = "640px")
+  })
+  if (requireNamespace("ggiraph", quietly = TRUE)) {
+    output$interactive_plot <- ggiraph::renderGirafe({
+      shiny::req(isTRUE(input$interactive))
+      syn_girafe(current_interactive_plot(), width_svg = 10,
+                  height_svg = if (input$layout == "circular") 10 else 7,
+                  opts = list(ggiraph::opts_zoom(max = 4, default_on = TRUE),
+                              ggiraph::opts_toolbar(hidden = "zoom_onoff")))
+    })
+  }
   output$format_help <- shiny::renderUI({
     shiny::req(input$format)
     shiny::div(class = "format-help", lapply(.studio_schema(input$format), shiny::p))
   })
   output$upload_controls <- shiny::renderUI({
-    if (!identical(input$source, "upload")) return(shiny::p(class = "example-note", "Example loaded. Switch to Upload results to use your own files."))
+    if (!identical(input$source, "upload")) {
+      note <- switch(input$format,
+        mcscanx = "Simulated example: 4 genomes, 32 chromosomes and 240 blocks.",
+        genespace = "Simulated example: 4 genomes, 32 chromosomes and 384 interval matches.",
+        "Example loaded.")
+      return(shiny::p(class = "example-note", note, " Switch to Upload results to use your own files."))
+    }
     labels <- switch(input$format, native = c("Chromosome table", "Block table"),
                       mcscanx = c("Collinearity output", "MCScanX GFF"),
                       genespace = "synHits TSV", genes = c("Gene features", "Homology links"))
@@ -122,6 +158,8 @@
       mcscanx = "MCScanX coordinates are shown in Mb. Chromosome spans end at the last annotated gene.",
       genespace = "GENESPACE coordinates are shown in Mb. Chromosome spans are inferred from supplied blocks.",
       genes = "Gene regions use the supplied coordinate scale. Contig spans cover the first to last gene; no flanks or homology are inferred.")
+    if (identical(input$source, "demo") && d$format %in% c("mcscanx", "genespace"))
+      note <- paste("Simulated example data.", note)
     shiny::div(class = "data-status ready", role = "status", shiny::strong("Data ready. "), note)
   })
   output$metrics <- shiny::renderUI({
@@ -143,6 +181,8 @@
     if (d$matching_links > nrow(d$second)) notes <- paste(notes, "The first rows in input order are shown; increase the limit to display more.")
     if (d$type == "macro" && input$layout == "linear")
       notes <- paste(notes, d$layout_omitted, "other links are omitted by the linear layout. Use circular view to include non-adjacent and within-genome pairs.")
+    if (isTRUE(input$interactive))
+      notes <- paste(notes, "Hover over a ribbon or feature for details. Scroll to zoom, drag to pan, and use the toolbar to reset. PDF and PNG downloads are static figures.")
     shiny::p(class = "plot-note", notes)
   })
   output$first_preview <- shiny::renderTable(utils::head(selected_data()$first, 50), striped = TRUE, bordered = FALSE, digits = 6)
@@ -170,7 +210,7 @@
   output$first_tsv <- table_download("first"); output$second_tsv <- table_download("second")
   output$summary_tsv <- table_download("summary")
   output$code <- shiny::downloadHandler(filename = "reproduce-synteny.R", content = function(file) {
-    writeLines(.studio_code(selected_data(), settings()), file)
+    writeLines(.studio_code(selected_data(), settings(), interactive = isTRUE(input$interactive)), file)
   })
 }
 

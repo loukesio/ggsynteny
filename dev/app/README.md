@@ -9,11 +9,23 @@ gene/link tables. It does not run the external analysis programs. Each format
 includes a bundled example. Source data is validated before plotting; invalid
 or incomplete uploads clear the old preview and explain what needs attention.
 
+The MCScanX and GENESPACE examples are explicitly simulated: four genomes,
+32 chromosomes and all six genome pairs. MCScanX contains 240 blocks and
+2,644 anchor pairs (180 plus / 60 minus blocks); GENESPACE contains 384
+synHits-compatible interval matches. Run `Rscript data-raw/studio_simulated.R`
+to regenerate them. The small parser fixtures are preserved.
+
 The live figure supports linear/circular layouts, genome selection and order,
 ltc palettes, ribbon opacity, labels, orientation when supplied, gene anchoring,
 identity colouring when supplied, and an explicit link limit. Export PDF/PNG,
 displayed records and links, pair counts, or R code reproducing the figure.
 The gene-region example does not infer missing links or identity scores.
+
+Turn on **Interactive plot (hover and zoom)** for ggiraph tooltips,
+highlighting and zoom in all layouts. The optional dependency is `ggiraph`.
+Scroll to zoom, drag to pan, and use the toolbar to reset the view.
+PDF/PNG downloads use static plots; the R download includes both static and
+interactive code when enabled. Invalid data clears both types of preview.
 
 The app code is additive (`R/studio.R`, `R/studio_shiny.R`, `inst/shiny/`).
 Existing linear plotting code and ltc definitions are unchanged. A circular

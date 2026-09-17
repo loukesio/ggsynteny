@@ -112,8 +112,8 @@ ggsynteny_app <- function(host = "127.0.0.1", port = NULL,
     syn <- e$rice_sorghum
   } else {
     if (demo) paths <- switch(format,
-      mcscanx = list(ext("mcscanx_output.collinearity"), ext("mcscanx_output.gff")),
-      genespace = list(ext("genespace_synHits.tsv")),
+      mcscanx = list(ext("studio_mcscanx.collinearity"), ext("studio_mcscanx.gff")),
+      genespace = list(ext("studio_genespace_synHits.tsv")),
       genes = list(ext("circular_bacterial_features.tsv"), ext("circular_bacterial_links.tsv")))
     expected <- if (format == "genespace") 1L else 2L
     if (length(paths) != expected || any(!vapply(paths, function(p) length(p) == 1L && file.exists(p), logical(1))))
@@ -169,12 +169,12 @@ ggsynteny_app <- function(host = "127.0.0.1", port = NULL,
 
 .studio_plot <- function(d, layout = "circular", palette = "casa_natal", alpha = 0.35,
                           labels = TRUE, orientation = FALSE, identity = FALSE,
-                          anchor = "body", gap = 10, title = NULL) {
+                          anchor = "body", gap = 10, title = NULL, interactive = FALSE) {
   circular <- identical(layout, "circular")
   if (d$type == "macro") {
     args <- list(syn_data = list(chromosomes = d$first, blocks = d$second),
                  species_order = d$organisms, palette = palette, chr_fill = "per_species",
-                 ribbon_fill = "species_pair", ribbon_alpha = alpha, title = title,
+                 ribbon_fill = "species_pair", ribbon_alpha = alpha, title = title, interactive = interactive,
                  label_size = if (labels) 2.5 else 0)
     args[[if (circular) "show_orientation" else "show_inversions"]] <- orientation
     if (circular) args$group_gap <- gap
@@ -184,7 +184,8 @@ ggsynteny_app <- function(host = "127.0.0.1", port = NULL,
       stop("The uploaded links have no identity scores. Choose gene-name colours.", call. = FALSE)
     args <- list(features = d$first, links = d$second, bin_order = d$organisms,
                  palette = palette, ribbon_fill = if (identity) "identity" else "per_name",
-                 ribbon_alpha = alpha, label_genes = labels, ribbon_anchor = anchor, title = title)
+                 ribbon_alpha = alpha, label_genes = labels, ribbon_anchor = anchor, title = title,
+                 interactive = interactive)
     if (circular) args$group_gap <- gap
     do.call(if (circular) plot_circular_microsynteny else plot_microsynteny, args)
   }
@@ -202,7 +203,7 @@ ggsynteny_app <- function(host = "127.0.0.1", port = NULL,
   stats::aggregate(list(links = rep(1L, nrow(key))), key, sum)
 }
 
-.studio_code <- function(d, settings) {
+.studio_code <- function(d, settings, interactive = FALSE) {
   quote_r <- function(x) paste(utils::capture.output(dput(x)), collapse = "\n")
   args <- list()
   if (d$type == "macro") {
@@ -224,9 +225,15 @@ ggsynteny_app <- function(host = "127.0.0.1", port = NULL,
   args$palette <- quote_r(settings$palette); args$ribbon_alpha <- quote_r(settings$alpha)
   args$title <- quote_r(settings$title)
   if (settings$layout == "circular") args$group_gap <- quote_r(settings$gap)
+  extra <- if (interactive) c('', '# Optional hover and zoom view (requires ggiraph).',
+    paste0('p_interactive <- ', fun, '(\n  ', paste(paste(names(args), unlist(args), sep = " = "), collapse = ",\n  "),
+           ',\n  interactive = TRUE\n)'),
+    paste0('syn_girafe(p_interactive, width_svg = 10, height_svg = ', if (settings$layout == "circular") 10 else 7, ',\n',
+      '  opts = list(ggiraph::opts_zoom(max = 4, default_on = TRUE),\n',
+      '              ggiraph::opts_toolbar(hidden = "zoom_onoff")))')) else character()
   paste(c('# Save the two displayed-table downloads beside this script.',
           '# The tables contain exactly the records displayed in the app.',
           'library(ggsynteny)', start, '',
           paste0('p <- ', fun, '(\n  ', paste(paste(names(args), unlist(args), sep = " = "), collapse = ",\n  "), '\n)'),
-          'print(p)', 'ggplot2::ggsave("synteny.pdf", p, width = 10, height = 8)'), collapse = "\n")
+          'print(p)', 'ggplot2::ggsave("synteny.pdf", p, width = 10, height = 8)', extra), collapse = "\n")
 }

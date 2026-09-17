@@ -14,13 +14,16 @@ with sync_playwright() as p:
     browser = p.chromium.launch(channel="chrome", headless=True)
     page = browser.new_page(viewport={"width": 1440, "height": 1120}, device_scale_factor=1)
     errors = []
-    page.on("pageerror", lambda e: errors.append(str(e)))
+    page.on("pageerror", lambda e: errors.append({"message": str(e), "stack": e.stack, "after": checks[-1:]}))
     page.goto(os.environ.get("GG_SYNTENY_URL", "http://127.0.0.1:3876"), wait_until="networkidle")
 
     def ready(links=None):
         page.wait_for_function("!document.documentElement.classList.contains('shiny-busy')")
         expect(page.locator("#data_status")).to_contain_text("Data ready")
-        page.wait_for_function("document.querySelector('#plot img')?.naturalWidth > 0")
+        if page.locator("#interactive").is_checked():
+            page.wait_for_selector("#interactive_plot svg [data-id]", state="visible")
+        else:
+            page.wait_for_function("document.querySelector('#plot img')?.naturalWidth > 0")
         if links is not None:
             expect(page.locator(".metric").nth(2).locator("strong")).to_have_text(str(links))
         assert not page.locator(".shiny-output-error").all_text_contents()
@@ -52,14 +55,55 @@ with sync_playwright() as p:
         assert len(list(csv.DictReader(f, delimiter="\t"))) == 9
     checks.append("PDF, PNG, tables, pair summary and R-script downloads")
 
-    for format, count in [("native", 100), ("mcscanx", 2), ("genespace", 4), ("genes", 9)]:
+    page.locator("#interactive").check()
+    ready(9)
+    gene = page.locator('#interactive_plot polygon[data-id^="gene_"]').first
+    gene.hover(force=True)
+    page.wait_for_function("Array.from(document.querySelectorAll('div[class^=tooltip_svg_]')).some(e => parseFloat(getComputedStyle(e).opacity) > 0 && e.textContent.length > 0)")
+    assert page.locator('div[class^="tooltip_svg_"]').last.inner_text()
+    expect(page.locator('#interactive_plot a[title="activate pan/zoom"]')).to_have_count(0)
+    transforms = "JSON.stringify((m => ['a','b','c','d','e','f'].map(k => Number(m[k].toFixed(5))))(document.querySelector('#interactive_plot g[id$=\"_rootg\"]').getCTM()))"
+    before = page.evaluate(transforms)
+    box = page.locator("#interactive_plot svg.ggiraph-svg").bounding_box()
+    page.mouse.move(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
+    page.mouse.wheel(0, -400)
+    page.wait_for_function("before => " + transforms + " !== before", arg=before)
+    zoomed = page.evaluate(transforms)
+    page.mouse.down()
+    page.mouse.move(box["x"] + box["width"] / 2 + 60, box["y"] + box["height"] / 2 + 40, steps=5)
+    page.mouse.up()
+    page.wait_for_function("before => " + transforms + " !== before", arg=zoomed)
+    page.locator('#interactive_plot a[title="reset pan/zoom"]').click()
+    page.wait_for_function("before => " + transforms + " === before", arg=before)
+    download("pdf", "interactive-static-export.pdf")
+    download("png", "interactive-static-export.png")
+    download("code", "reproduce-interactive.R")
+    assert "syn_girafe(p_interactive" in (out / "reproduce-interactive.R").read_text()
+    assert (out / "interactive-static-export.pdf").read_bytes().startswith(b"%PDF-")
+    page.locator("#interactive").uncheck()
+    ready(9)
+    checks.append("hover tooltips, pan/zoom, static exports while interactive, and toggle off")
+
+    for format, circular_count, linear_count in [("native", 100, 100), ("mcscanx", 240, 120), ("genespace", 384, 192), ("genes", 9, 9)]:
         select("format", format)
-        ready(count)
+        ready(circular_count)
+        if format in ("mcscanx", "genespace"):
+            expect(page.locator("#data_status")).to_contain_text("Simulated example data")
+            expect(page.locator(".metric").nth(0).locator("strong")).to_have_text("4")
+            expect(page.locator(".metric").nth(1).locator("strong")).to_have_text("32")
         for layout in ["linear", "circular"]:
             page.locator(f'input[name="layout"][value="{layout}"]').check()
             expect(page.locator("#plot_heading")).to_contain_text(layout.capitalize())
+            count = circular_count if layout == "circular" else linear_count
             ready(count)
-        checks.append(format + " example in both layouts")
+            page.locator("#interactive").check()
+            ready(count)
+            expect(page.locator("#plot")).not_to_be_visible()
+            page.locator("#interactive").uncheck()
+            ready(count)
+        if format in ("mcscanx", "genespace"):
+            page.screenshot(path=str(out / (format + "-larger-example.png")))
+        checks.append(format + " example in static and interactive linear/circular layouts")
 
     select("palette", "minou")
     expect(page.locator(".palette-preview")).to_have_attribute("aria-label", "minou palette")
@@ -78,12 +122,17 @@ with sync_playwright() as p:
     page.locator("#limit").fill("1000")
     page.locator("#limit").press("Tab")
     ready(9)
+    page.locator("#interactive").check()
+    ready(9)
     bad = out / "bad-links.tsv"
     bad.write_text("feat_id_a\tfeat_id_b\nunknown\tmissing\n")
     page.locator("#file_genes_2").set_input_files(bad)
     expect(page.locator("#data_status")).to_contain_text("unknown gene")
-    expect(page.locator("#plot")).to_contain_text("unknown gene")
+    expect(page.locator("#interactive_ui")).to_contain_text("unknown gene")
+    expect(page.locator("#interactive_plot svg.ggiraph-svg")).to_have_count(0)
     page.locator("#file_genes_2").set_input_files(root / "inst/extdata/circular_bacterial_links.tsv")
+    ready(9)
+    page.locator("#interactive").uncheck()
     ready(9)
     checks.append("gene uploads, invalid upload clears old plot, and recovery")
 
@@ -107,6 +156,9 @@ with sync_playwright() as p:
     page.wait_for_function("!document.documentElement.classList.contains('shiny-busy')")
     assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth + 1")
     page.screenshot(path=str(out / "mobile.png"), full_page=True)
+    page.locator("#interactive").check()
+    ready(9)
+    assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth + 1")
     checks.append("mobile layout has no page-wide horizontal overflow")
     assert not errors, errors
     browser.close()

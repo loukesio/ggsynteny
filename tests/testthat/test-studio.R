@@ -13,6 +13,51 @@ test_that("all app examples validate and draw in both layouts", {
   }
 })
 
+test_that("larger simulated examples retain all pairs, bounds and orientation", {
+  truth <- read.delim(system.file("extdata", "studio_simulated_chromosomes.tsv", package = "ggsynteny"))
+  for (format in c("mcscanx", "genespace")) {
+    d <- .studio_load(format)
+    total <- if (format == "mcscanx") 240L else 384L
+    expect_equal(length(d$organisms), 4)
+    expect_equal(nrow(d$first), 32)
+    expect_equal(nrow(d$second), total)
+    view <- .studio_select(d, d$organisms)
+    expect_equal(nrow(.studio_pairs(view)), 6)
+    expect_equal(.studio_pairs(view)$links, rep(total / 6, 6))
+    linear <- .studio_select(d, d$organisms, layout = "linear")
+    expect_equal(nrow(linear$second), total / 2)
+    expect_equal(linear$layout_omitted, total / 2)
+    expect_true(any(d$second$chr1 != d$second$chr2))
+    sizes <- truth$size[match(.circ_key(d$first$species, d$first$chr), .circ_key(truth$species, truth$chr))] / 1e6
+    expect_true(all(d$first$size <= sizes))
+    if (format == "mcscanx") {
+      expect_equal(sum(d$second$n_genes), 2644)
+      expect_equal(sum(d$second$orientation == "minus"), 60)
+      expect_equal(sum(d$second$orientation == "plus"), 180)
+    }
+  }
+})
+
+test_that("interactive Studio views keep data and exports reproducible", {
+  skip_if_not_installed("ggiraph")
+  for (format in c("native", "genes")) {
+    d <- .studio_load(format); d <- .studio_select(d, d$organisms, 4)
+    for (layout in c("circular", "linear")) {
+      p <- .studio_plot(d, layout = layout, interactive = TRUE)
+      expect_s3_class(p, "ggplot")
+      widget <- syn_girafe(p)
+      expect_s3_class(widget, "girafe")
+      expect_match(widget$x$html, "data-id=")
+      settings <- list(layout = layout, palette = "casa_natal", alpha = 0.35,
+        labels = TRUE, orientation = FALSE, identity = FALSE, anchor = "body", gap = 10, title = NULL)
+      code <- .studio_code(d, settings, interactive = TRUE)
+      expect_match(code, "interactive = TRUE", fixed = TRUE)
+      expect_match(code, "syn_girafe(p_interactive", fixed = TRUE)
+      expect_silent(parse(text = code))
+    }
+  }
+})
+
 test_that("app validation rejects ambiguous, malformed, and unmatched data", {
   d <- .studio_load("genes")
   bad <- d; bad$first$feat_id[2] <- bad$first$feat_id[1]
@@ -108,9 +153,20 @@ test_that("app clears invalid data when the source or format changes", {
                      labels = TRUE, gap = 10, title = "")
     expect_equal(nrow(dataset()$first), 21)
     expect_s3_class(current_plot(), "ggplot")
+    if (requireNamespace("ggiraph", quietly = TRUE)) {
+      session$setInputs(interactive = TRUE)
+      expect_s3_class(current_interactive_plot(), "ggplot")
+      expect_false(inherits(current_plot()$layers[[1]]$geom, "GeomInteractivePolygon"))
+      session$setInputs(interactive = FALSE)
+    }
     session$setInputs(source = "upload")
     expect_match(dataset()$problem, "Upload")
     expect_error(selected_data(), "Upload")
+    if (requireNamespace("ggiraph", quietly = TRUE)) {
+      session$setInputs(interactive = TRUE)
+      expect_match(output$interactive_ui$html, "Upload")
+      session$setInputs(interactive = FALSE)
+    }
     session$setInputs(format = "mcscanx", source = "demo")
     expect_equal(dataset()$type, "macro")
     expect_true("orientation" %in% names(dataset()$second))

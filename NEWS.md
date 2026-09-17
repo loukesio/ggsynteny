@@ -1,3 +1,13 @@
+# ggsynteny (development version)
+
+* Add a Studio interactive-plot toggle for hover tooltips, highlighting and
+  zoom across all four plot types, using optional ggiraph. Figure exports
+  remain static; exported R code can also recreate the interactive view.
+* Enlarge the registered MCScanX and GENESPACE Studio examples to four
+  simulated genomes and 32 chromosomes, with 240 blocks and 384 compatible
+  interval matches respectively. Label the examples as simulated and include
+  their reproducible generator; preserve the small parser fixtures.
+
 # ggsynteny 0.5.0
 
 * Add `ggsynteny_app()`, an optional Shiny app for MCScanX, GENESPACE,
