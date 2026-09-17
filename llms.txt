@@ -37,6 +37,8 @@ devtools::install_github("loukesio/ggsynteny")
 library(ggsynteny)
 ```
 
+  
+
 ## The one-glance demo
 
 Three plant genomes, one bundled dataset, one ltc palette driving the
