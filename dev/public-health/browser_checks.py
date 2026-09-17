@@ -18,13 +18,17 @@ with sync_playwright() as pw:
     page = browser.new_page(viewport={"width": 1400, "height": 1050})
     page.on("pageerror", lambda e: errors.append(str(e)))
     page.goto((ROOT / "dev/public-health/gallery/index.html").as_uri())
-    expect(page.locator("svg.ggiraph-svg")).to_have_count(4)
-    for i in range(4):
+    expect(page.locator("svg.ggiraph-svg")).to_have_count(7)
+    for i in range(7):
         svg = page.locator("svg.ggiraph-svg").nth(i)
         svg.scroll_into_view_if_needed()
         assert svg.locator("[data-id]").count() > 5
-        svg.locator('[data-id^="gene_"], [data-id^="chr_"]').first.hover(force=True)
+        svg.locator('[data-id^="gene_"], [data-id^="chr_"], rect[data-id]').first.hover(force=True)
         page.wait_for_function("Array.from(document.querySelectorAll('div[class^=tooltip_svg_]')).some(e => parseFloat(getComputedStyle(e).opacity) > 0 && e.textContent.length > 0)")
+        if i >= 4:
+            visible_tooltips = page.locator('div[class^="tooltip_svg_"]').evaluate_all(
+                "els => els.filter(e => parseFloat(getComputedStyle(e).opacity) > 0).map(e => e.textContent)")
+            assert any("Block ranks (not bp)" in t for t in visible_tooltips)
         matrix = "el => {const m=el.querySelector('g[id$=\"_rootg\"]').getCTM();return [m.a,m.b,m.c,m.d,m.e,m.f].join(',')}"
         before = svg.evaluate(matrix)
         box = svg.bounding_box()
@@ -33,6 +37,7 @@ with sync_playwright() as pw:
         page.wait_for_timeout(400)
         assert svg.evaluate(matrix) != before, "Zoom did not change the viewport"
         checks.append(f"standalone gallery panel {i+1}: SVG, tooltip and zoom")
+        print(checks[-1], flush=True)
     page.screenshot(path=str(OUT / "gallery.png"))
 
     page.goto(os.environ.get("GG_SYNTENY_URL", "http://127.0.0.1:3876"), wait_until="networkidle")
@@ -50,7 +55,8 @@ with sync_playwright() as pw:
     # Studio retains non-adjacent gene links in linear views. The curated
     # figure script restricts these explicitly, while macro selection is built in.
     for dataset, counts in [("bartonella", {"native": (111, 215), "genes": (46, 46)}),
-                            ("plasmids", {"native": (6, 8), "genes": (31, 31)})]:
+                            ("plasmids", {"native": (6, 8), "genes": (31, 31)}),
+                            ("anopheles", {"native": (380, 380)})]:
         for format, pair_counts in counts.items():
             select("format", format)
             names = ["chromosomes.tsv", "blocks.tsv"] if format == "native" else ["features.tsv", "links.tsv"]

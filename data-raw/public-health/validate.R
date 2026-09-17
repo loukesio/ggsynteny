@@ -43,3 +43,21 @@ for (dataset in c("bartonella", "plasmids")) {
 }
 cat("Validated source lengths, coordinate bounds, pair coverage and link endpoints;",
     checked, "Studio plot combinations passed.\n")
+
+# Anopheles uses ordinal block positions, so sequence-length checks do not apply.
+folder <- file.path(root, "anopheles")
+d <- ggsynteny:::.studio_load("native", FALSE,
+       as.list(file.path(folder, c("chromosomes.tsv", "blocks.tsv"))))
+stopifnot(nrow(d$first) == 10L, nrow(d$second) == 380L,
+          sum(d$second$orientation == "minus") == 198L)
+order <- unique(d$first$species)
+for (layout in c("linear", "circular")) for (interactive in c(FALSE, TRUE)) {
+  selected <- ggsynteny:::.studio_select(d, order, limit = 1000, layout = layout)
+  stopifnot(nrow(selected$second) == 380L)
+  p <- ggsynteny:::.studio_plot(selected, layout = layout,
+       palette = "casa_natal", orientation = TRUE, interactive = interactive)
+  ggplot2::ggplot_build(p)
+  if (interactive) stopifnot(inherits(syn_girafe(p), "girafe"))
+  checked <- checked + 1L
+}
+cat("Anopheles: four additional Studio render combinations passed;", checked, "total.\n")

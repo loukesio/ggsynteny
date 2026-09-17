@@ -1,11 +1,11 @@
-# Public bacterial examples
+# Public-health examples
 
-Two real-data comparisons for ggsynteny, published on
+Three real-data comparisons for ggsynteny, published on
 `examples/public-health-bacteria`. The examples use the existing ggplot2
 functions and `casa_natal` palette. No package plotting, parser or palette
 implementation is changed.
 
-**View:** [all eight figures as a PDF](../../man/figures/public-health/public-health-examples.pdf).
+**View:** [all eleven views as a PDF](../../man/figures/public-health/public-health-examples.pdf).
 **Interact:** download [the standalone HTML gallery](https://raw.githubusercontent.com/loukesio/ggsynteny/examples/public-health-bacteria/dev/public-health/gallery/index.html)
 and open it in a browser. Hover for identifiers and coordinates, scroll to
 zoom, drag to pan, and reset with the toolbar. GitHub's file viewer does not
@@ -82,6 +82,31 @@ and gene-order differences. It is not the complete resistance region, and an
 absent arrow means no retained CDS annotation at that position, not necessarily
 absence of the underlying sequence.
 
+## Two Anopheles malaria vectors
+
+The *An. gambiae*–*An. stephensi* comparison reuses **380 published synteny
+blocks across five arms per species** from
+[Jiang et al. (2014)](https://doi.org/10.1186/s13059-014-0459-2).
+It adds a eukaryotic example with different 2L/3L arm correspondences and
+extensive changes in block order. *An. stephensi* is an urban malaria vector
+whose spread prompted a [WHO vector alert](https://www.who.int/publications/b/67602).
+
+![Anopheles block-order comparison](../../man/figures/public-health/anopheles-block-order.png)
+
+**These are block ranks, not base-pair coordinates.** Each block has equal
+width, and track lengths count blocks. All 380 source links are shown in both
+overviews; the X detail shows 66. The 198 opposite-orientation blocks are not
+an estimate of evolutionary inversion events. The source's stephensi physical
+map covered about 62% of the assembly, and only 32 of 86 mapped scaffolds had
+experimentally assigned orientation. These limitations are retained in the
+plots and documentation. The figure does not establish effects on transmission
+or insecticide resistance.
+
+[Download the native tables, original spreadsheet and provenance](../../inst/extdata/public-health/anopheles),
+read the [full methods](../../inst/extdata/public-health/anopheles/README.md),
+or open the [composite PDF](../../man/figures/public-health/anopheles-block-order.pdf).
+The gallery includes interactive versions of all three Anopheles views.
+
 ## Plot from the committed tables
 
 Install this branch to make its data available through `system.file()`:
@@ -104,8 +129,12 @@ plot_circular_microsynteny(features, links, palette = "casa_natal",
                           ribbon_fill = "uniform")
 ```
 
-Replace `"bartonella"` with `"plasmids"` for the second dataset. Use
-`plot_synteny(syn, syn$chromosomes$species, show_inversions = TRUE)` or
+Replace `"bartonella"` with `"plasmids"` for the second dataset.
+For Anopheles, use `"anopheles"` and read only `chromosomes` and `blocks`;
+there are no gene-feature or protein-link tables. Use
+`unique(syn$chromosomes$species)` as the species order and label the coordinate
+unit as block rank. Use
+`plot_synteny(syn, unique(syn$chromosomes$species), show_inversions = TRUE)` or
 `plot_microsynteny(features, links)` for linear views. The prepared figure
 script explicitly restricts linear gene links to adjacent genomes for clarity.
 For an interactive plot, supply `interactive = TRUE` and pass the result to
@@ -116,11 +145,13 @@ For an interactive plot, supply `interactive = TRUE` and pass the result to
 Open [the public app](https://01a0ae1e-adb1-a4f8-1ced-261952037ebf.share.connect.posit.cloud/)
 or run `ggsynteny_app()` locally. Download the four relevant TSV files from
 [Bartonella](../../inst/extdata/public-health/bartonella) or
-[plasmids](../../inst/extdata/public-health/plasmids).
+[plasmids](../../inst/extdata/public-health/plasmids). For
+[Anopheles](../../inst/extdata/public-health/anopheles), download its two native
+chromosome/block tables; the values are block ranks, not base pairs.
 
 | View | Input format | First upload | Second upload |
 |---|---|---|---|
-| Whole sequences | Native chromosome tables | `chromosomes.tsv` | `blocks.tsv` |
+| Whole sequences / block orders | Native chromosome tables | `chromosomes.tsv` | `blocks.tsv` |
 | Gene windows | Gene / link tables | `features.tsv` | `links.tsv` |
 
 Select Upload, choose the format and files, and select Linear or Circular.
@@ -139,17 +170,25 @@ Rscript data-raw/public-health/render.R
 ```
 
 Rendering requires the package's dependencies, devtools, ggiraph, htmlwidgets,
-htmltools, rmarkdown, and Pandoc. The output is eight PNG/PDF figures, a combined
-PDF, and one standalone interactive HTML page. To rebuild the input tables as
+htmltools, rmarkdown, and Pandoc. The output is eleven individual PNG/PDF views, an eleven-page combined
+PDF, the three-panel Anopheles composite, and one standalone HTML page
+containing seven interactive views. To rebuild the input tables as
 well, use Python 3.10+, Biopython and NCBI BLAST+:
 
 ```sh
 python3 data-raw/public-health/prepare.py
+python3 data-raw/public-health/prepare_anopheles.py
 Rscript data-raw/public-health/render.R
 Rscript data-raw/public-health/validate.R
 ```
 
-The preparation script pins accession versions, verifies SHA-256 hashes of the
+The Anopheles conversion additionally needs Python's `openpyxl`; it reads the
+bundled spreadsheet offline, verifies its checksum and reconstructs every
+signed block order. Pass `--download-source` to `prepare_anopheles.py` to
+re-fetch the original publisher archive. Its separate source lock and table
+hashes are in `anopheles/provenance.json` in the data directory.
+
+The bacterial preparation script pins accession versions, verifies SHA-256 hashes of the
 downloaded GenBank records, and records sequence hashes and software versions.
 It stops if an upstream record changes, including annotation changes under an
 unchanged accession version. Review such changes before updating the source
@@ -157,6 +196,8 @@ lock. Raw downloads and intermediate FASTA files stay in the ignored cache.
 
 - **Coordinates:** all intervals are zero-based, half-open. Whole-sequence
   tables use **kb**, including sequence lengths; gene tables use **bp**.
+  Anopheles whole-arm tables instead use ordinal block positions: the interval
+  for rank r is [r-1, r), and sequence sizes are block counts.
   Mauve's signed one-based coordinates are converted while preserving relative
   orientation. Protein strands come directly from the sequence annotations.
 - **Plasmid matches:** BLASTn, task `blastn`, E-value ≤1e-20, dust and soft
@@ -177,8 +218,9 @@ lock. Raw downloads and intermediate FASTA files stay in the ignored cache.
   Mob = mobilization protein; Tnp = transposase; reg. = transcriptional regulator.
   Full products, locus tags, protein accessions and coordinates remain in the
   feature tables. Equal colors identify equal labels, not proven orthology.
-- **Circular views:** whole-sequence sectors represent complete circular
-  replicons. Gene sectors span only the selected features. The latter are local
+- **Circular views:** bacterial whole-sequence sectors represent complete circular
+  replicons. Anopheles sectors represent published block orders along linear
+  chromosome arms, not complete chromosome lengths. Gene sectors span only the selected features. The latter are local
   windows displayed around a circle; unannotated flanks are not inferred.
 
 The reuse notice and GPL license for the upstream Bartonella alignment and

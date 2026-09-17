@@ -7,3 +7,6 @@ plasmids	macro	linear	plasmids-macro-linear
 plasmids	macro	circular	plasmids-macro-circular
 plasmids	micro	linear	plasmids-micro-linear
 plasmids	micro	circular	plasmids-micro-circular
+anopheles	macro	linear	anopheles-macro-linear
+anopheles	macro	circular	anopheles-macro-circular
+anopheles	x	linear	anopheles-x-linear

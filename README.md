@@ -95,21 +95,28 @@ plot_synteny(rice_sorghum, c("Rice", "Sorghum"),
 Every function below follows the same pattern: what it is for, the arguments
 that matter (with their defaults), and a worked example.
 
-## Public bacterial examples
+## Public-health examples
 
-The `examples/public-health-bacteria` branch adds two reproducible comparisons:
-four **Bartonella** genomes using the existing genoPlotR Mauve alignment, and
-three **hospital-associated plasmids** from Conlan et al. (2014), with new
-sequence alignments. Each includes linear and circular whole-sequence views,
-gene-level close-ups, and native TSV files for ggsynteny Studio.
+The `examples/public-health-bacteria` branch adds three reproducible comparisons.
+The bacterial examples cover four **Bartonella** genomes using the existing
+genoPlotR Mauve alignment and three **hospital-associated plasmids** from
+Conlan et al. (2014), with new sequence alignments. Both include linear and
+circular whole-sequence views, gene-level close-ups, and native Studio TSVs.
+The **Anopheles** example adds 380 published synteny blocks across five arms
+in two malaria vectors, with linear, circular and X-chromosome detail views.
+Its coordinates represent **block order, not base-pair distances**.
 
 <p float="left">
   <img src="man/figures/public-health/bartonella-macro-circular.png" alt="Circular comparison of four Bartonella genomes using retained Mauve alignment blocks" width="49%" />
   <img src="man/figures/public-health/plasmids-macro-circular.png" alt="Circular comparison of three related plasmids from E. coli, K. pneumoniae and Enterobacter ECNIH3" width="49%" />
 </p>
 
+<img src="man/figures/public-health/anopheles-block-order.png" alt="Published Anopheles gambiae and Anopheles stephensi block orders, with five chromosome arms and an X-chromosome detail; coordinates are block ranks, not base pairs" width="92%" style="display: block; margin: auto;" />
+
+Download the [Anopheles data and source notes](inst/extdata/public-health/anopheles)
+or open its [figure PDF](man/figures/public-health/anopheles-block-order.pdf).
 Read the [worked examples and source records](dev/public-health/README.md),
-open the [eight-figure PDF](man/figures/public-health/public-health-examples.pdf),
+open the [eleven-view PDF](man/figures/public-health/public-health-examples.pdf),
 or download the [interactive HTML gallery](https://raw.githubusercontent.com/loukesio/ggsynteny/examples/public-health-bacteria/dev/public-health/gallery/index.html)
 and open it in a browser. All figures use the existing plotting functions and
 `palette = "casa_natal"`. Gene links are computed from protein alignments;

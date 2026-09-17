@@ -4,13 +4,24 @@ Sources retrieved on 2026-09-17. Full instructions and figures are in
 `dev/public-health/README.md` in the source repository. The source lock is
 `data-raw/public-health/sources.json`; rebuild with `prepare.py` in that directory.
 
-Each dataset has chromosomes.tsv and blocks.tsv for whole-sequence views,
+Each bacterial dataset has chromosomes.tsv and blocks.tsv for whole-sequence views,
 and features.tsv and links.tsv for gene-level views. Whole-sequence units are
 kb; gene units are bp. Intervals are zero-based and half-open. `windows.tsv`
 records displayed feature spans. `protein_matches.tsv` contains the unfiltered
 regional BLASTp output. The plasmid alignment audit contains unfiltered BLASTn
 hits and their retention decisions. `sequences.tsv` gives record versions,
 lengths, original organism names, source links and sequence hashes.
+
+The **Anopheles** dataset adds `anopheles/chromosomes.tsv` and `blocks.tsv`
+for 380 published synteny blocks in two malaria-vector species. Its coordinates
+are **block ranks, not base pairs**; sequence sizes count blocks. There are no
+Anopheles gene-feature tables. Its original source spreadsheet, signed
+permutations, per-arm summary, source lock and checksums are included in that
+subdirectory. See [Anopheles methods and attribution](anopheles/README.md).
+Rebuild it with `python3 data-raw/public-health/prepare_anopheles.py`.
+The source article is CC BY 4.0 and states its data are CC0 unless otherwise
+noted; the source spreadsheet is retained unchanged with attribution to Jiang
+et al. (2014), doi:10.1186/s13059-014-0459-2.
 
 ## Provenance and third-party data
 

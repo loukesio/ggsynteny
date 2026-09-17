@@ -167,18 +167,56 @@ for (dataset in c("bartonella", "plasmids")) {
   }
 }
 
+# Published mosquito block orders: the coordinate unit is block rank, not bp.
+source("data-raw/public-health/anopheles_plots.R")
+ano_plots <- make_anopheles_plots()
+ano_widgets <- make_anopheles_plots(interactive = TRUE)
+ano_caption <- paste(
+  "Jiang et al. (2014), doi:10.1186/s13059-014-0459-2; published signed block orders.",
+  "Equal-width blocks; track lengths count blocks, not base pairs. Circular placement does not imply circular chromosomes.",
+  "Source stephensi map covers ~62% of the assembly; only 32/86 mapped scaffolds had experimental orientation.",
+  "Opposite-orientation blocks are not inversion-event counts or evidence of effects on malaria transmission.", sep = "\n")
+for (key in names(ano_plots)) {
+  type <- if (key == "x") "x" else "macro"
+  layout <- if (key == "circular") "circular" else "linear"
+  stem <- paste("anopheles", type, layout, sep = "-")
+  p <- ano_plots[[key]] + labs(caption = ano_caption) +
+    theme(plot.caption = element_text(size = 9, hjust = 0, lineheight = 1.2,
+                                     margin = margin(t = 12)))
+  ggplot_build(p)
+  height <- if (layout == "circular") 12 else 7.5
+  ggsave(file.path(figures, paste0(stem, ".png")), p, width = 12, height = height,
+         dpi = 150, bg = "white")
+  ggsave(file.path(figures, paste0(stem, ".pdf")), p, width = 12, height = height,
+         device = cairo_pdf, bg = "white")
+  all_plots[[stem]] <- p
+  plot_index[[stem]] <- data.frame(dataset = "anopheles", type, layout, file = stem)
+  interactive_plot <- ano_widgets[[key]] + labs(caption = "Block ranks, not base pairs. Source: Jiang et al. (2014).")
+  widget <- syn_girafe(interactive_plot, width_svg = 12, height_svg = height,
+    opts = list(ggiraph::opts_zoom(min = 1, max = 5, default_on = TRUE)))
+  widgets[[stem]] <- htmltools::tags$section(
+    htmltools::tags$h2(paste("Anopheles -", if (key == "x") "X chromosome detail" else paste(layout, "block-order view"))),
+    htmltools::tags$p("Published block order, not base-pair coordinates. Each block has equal width; track lengths count blocks. The source physical map covered about 62% of An. stephensi, with experimentally assigned orientation for 32 of 86 mapped scaffolds."),
+    widget)
+}
+cairo_pdf(file.path(figures, "anopheles-block-order.pdf"), width = 12, height = 9)
+draw_anopheles_figure(ano_plots); dev.off()
+png(file.path(figures, "anopheles-block-order.png"), width = 12, height = 9,
+    units = "in", res = 250, type = "cairo")
+draw_anopheles_figure(ano_plots); dev.off()
+
 cairo_pdf(file.path(figures, "public-health-examples.pdf"), width = 12, height = 12)
 for (p in all_plots) print(p)
 dev.off()
 readr::write_tsv(do.call(rbind, plot_index), file.path(input, "plots.tsv"))
 page <- htmltools::tags$html(lang = "en",
-  htmltools::tags$head(htmltools::tags$title("ggsynteny | Public bacterial examples"),
+  htmltools::tags$head(htmltools::tags$title("ggsynteny | Public-health examples"),
     htmltools::tags$meta(name = "viewport", content = "width=device-width, initial-scale=1"),
     htmltools::tags$style(htmltools::HTML("body{font-family:Arial,sans-serif;color:#263f39;background:#f7f8f5;margin:0}main{max-width:1100px;margin:auto;padding:30px}h1{font-size:2.2rem}p{line-height:1.6}section{background:white;border:1px solid #dce4df;border-radius:12px;padding:18px;margin:24px 0}h2{font-size:1.25rem}a{color:#286459}.girafe{width:100%}"))),
   htmltools::tags$body(htmltools::tags$main(
-    htmltools::tags$h1("Public bacterial examples"),
-    htmltools::tags$p("Four Bartonella genomes and three hospital-associated plasmids, drawn with ggsynteny and casa_natal. Hover for identifiers and coordinates; scroll to zoom, drag to pan, and use the toolbar to reset."),
-    htmltools::tags$p("Whole-sequence coordinates are in kb; gene-window coordinates are in bp. Gene links are reciprocal best matches within the selected windows. Circular gene views show local regions, not complete circular molecules."),
+    htmltools::tags$h1("Public-health examples"),
+    htmltools::tags$p("Four Bartonella genomes, three hospital-associated plasmids and two Anopheles malaria vectors, drawn with ggsynteny and casa_natal. Hover for identifiers and coordinates; scroll to zoom, drag to pan, and use the toolbar to reset."),
+    htmltools::tags$p("Bacterial whole-sequence coordinates are in kb; gene-window coordinates are in bp. Anopheles coordinates are block ranks, not base pairs. Gene links are reciprocal best matches within the selected windows. Circular gene views show local regions, not complete circular molecules."),
     htmltools::tags$p(htmltools::tags$a(href = "https://github.com/loukesio/ggsynteny/tree/examples/public-health-bacteria/dev/public-health", "Methods, source records, download tables and PDFs")),
     htmltools::tagList(widgets))))
 htmltools::save_html(page, file.path(gallery, "index-source.html"), libdir = "widget-libs")
@@ -192,4 +230,4 @@ rmarkdown::pandoc_convert(file.path(gallery, "index-source.html"), from = "markd
 html_file <- file.path(gallery, "index.html")
 writeLines(sub("[ \t]+$", "", readLines(html_file, warn = FALSE)), html_file)
 writeLines(capture.output(sessionInfo()), "dev/public-health/validation/render-session.txt")
-cat("Rendered", length(all_plots), "figures, an eight-page PDF and four interactive circular views.\n")
+cat("Rendered", length(all_plots), "individual views, an eleven-page PDF, an Anopheles composite and seven interactive views.\n")
