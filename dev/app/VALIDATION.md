@@ -68,5 +68,12 @@ README screenshot shows the updated control.
 - The deployment bundle includes only `app.R` and its generated manifest.
   The hosting directory is excluded from R package builds. Package code,
   data, palettes and the existing releases are unchanged by this setup.
-- These checks validate the local deployment bundle. A remote URL and cloud
-  build still need to be verified after publishing under the owner's account.
+- The published app was subsequently verified in a fresh, signed-out Chrome
+  session at
+  `https://01a0ae1e-adb1-a4f8-1ced-261952037ebf.share.connect.posit.cloud/`.
+  All twelve browser scenarios pass against the hosted app, including all
+  formats/layouts, uploads, invalid-upload recovery, hover/zoom/pan/reset,
+  PDF/PNG/table/R-script downloads and mobile layout. No JavaScript errors
+  were recorded. Logs: `dev/app/validation/hosting-browser.log` and
+  `hosting-browser-results.json`. The README screenshot now comes from the
+  hosted app.

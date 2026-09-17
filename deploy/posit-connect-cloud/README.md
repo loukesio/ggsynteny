@@ -1,5 +1,11 @@
 # ggsynteny Studio on Posit Connect Cloud
 
+**[Open the public app](https://01a0ae1e-adb1-a4f8-1ced-261952037ebf.share.connect.posit.cloud/)** — no sign-in required.
+
+This is the visitor-facing URL to share. The owner can copy it again using
+**Share → Copy Link** on the Posit content page. The hosted content ID is
+`01a0ae1e-adb1-a4f8-1ced-261952037ebf` under account `loukesio`.
+
 This directory hosts the existing package app. `app.R` loads ggsynteny,
 Shiny and ggiraph, then returns the app bundled with the installed package.
 The generated `manifest.json` records R and all package dependencies,

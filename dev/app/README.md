@@ -48,6 +48,10 @@ The README screenshot is generated from the tested app.
 
 ## Hosting
 
+The public app is available at
+[ggsynteny Studio](https://01a0ae1e-adb1-a4f8-1ced-261952037ebf.share.connect.posit.cloud/),
+with no sign-in required.
+
 The Posit Connect Cloud entry point and dependency manifest are in
 [`deploy/posit-connect-cloud/`](../../deploy/posit-connect-cloud/README.md).
 Prepare updates with `Rscript dev/app/prepare_connect_cloud.R` from the
