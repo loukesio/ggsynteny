@@ -604,7 +604,7 @@
 <h3 id="ggsynteny_app--upload-preview-and-export-with-shiny">
 <code>ggsynteny_app()</code> — upload, preview and export with Shiny<a class="anchor" aria-label="anchor" href="#ggsynteny_app--upload-preview-and-export-with-shiny"></a>
 </h3>
-<p><strong>What it’s for:</strong> exploring existing synteny results in a browser. Select the software or table format, upload its files, and see the data and plot preview. Switch between linear and circular views, choose an ltc palette, reorder or subset genomes, adjust ribbons, and download the figure or displayed records.</p>
+<p><strong>What it’s for:</strong> exploring existing synteny results in a browser. Select the software or table format, upload its files, and see the data and plot preview. Switch between linear and circular views, choose an ltc palette, reorder or subset genomes, adjust ribbons, and download the figure or displayed records. Turn on <strong>Interactive plot (hover and zoom)</strong> to inspect ribbons and features with tooltips, highlight relationships, and zoom into either layout. This uses the optional <code>ggiraph</code> package (<code>install.packages("ggiraph")</code>). PDF and PNG downloads remain static; the R-script download also includes the interactive version when the toggle is enabled. Scroll to zoom, drag to pan, and use the toolbar to reset the view.</p>
 <table class="table">
 <thead><tr>
 <th>Argument</th>
@@ -670,7 +670,8 @@
 </tr>
 </tbody>
 </table>
-<p>Every format includes example data. Uploaded tables are checked for required columns, valid intervals and matching identifiers. The app previews the first 50 rows of each displayed table and reports the number of links drawn. The explicit link limit defaults to 1,000, keeping larger inputs manageable; raise it to display more. Linear chromosome views retain adjacent-genome links; circular views include all supplied relationships among selected genomes.</p>
+<p>Every format includes example data. The MCScanX and GENESPACE previews use larger, explicitly <strong>simulated datasets</strong>: four genomes with eight chromosomes each, spanning all six genome pairs. MCScanX includes <strong>240 blocks</strong> with forward and reverse anchor order; GENESPACE includes <strong>384 compatible interval matches</strong>. They illustrate conserved regions and rearrangements; they are not outputs from running those tools on biological samples. Rebuild the files with <code>Rscript data-raw/studio_simulated.R</code>. The original small files remain available for the short parser examples below.</p>
+<p>Uploaded tables are checked for required columns, valid intervals and matching identifiers. The app previews the first 50 rows of each displayed table and reports the number of links drawn. The explicit link limit defaults to 1,000, keeping larger inputs manageable; raise it to display more. Linear chromosome views retain adjacent-genome links; circular views include all supplied relationships among selected genomes.</p>
 <p>Download <strong>PDF or PNG</strong>, the <strong>displayed data tables</strong>, <strong>pair counts</strong>, or an <strong>R script</strong> that recreates the figure from those tables. No identity scores or missing homology links are inferred. The software selector reads existing results; it does not run MCScanX, GENESPACE or an alignment pipeline. Shiny is optional and is not required to use the plotting functions.</p>
 </div>
 <div class="section level3">

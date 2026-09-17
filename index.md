@@ -399,7 +399,13 @@ The rendering implementation uses ggplot2 throughout.
 Select the software or table format, upload its files, and see the data
 and plot preview. Switch between linear and circular views, choose an
 ltc palette, reorder or subset genomes, adjust ribbons, and download the
-figure or displayed records.
+figure or displayed records. Turn on **Interactive plot (hover and
+zoom)** to inspect ribbons and features with tooltips, highlight
+relationships, and zoom into either layout. This uses the optional
+`ggiraph` package (`install.packages("ggiraph")`). PDF and PNG downloads
+remain static; the R-script download also includes the interactive
+version when the toggle is enabled. Scroll to zoom, drag to pan, and use
+the toolbar to reset the view.
 
 | Argument | Default | What it does |
 |----|----|----|
@@ -425,13 +431,23 @@ buttons](reference/figures/README-studio.png)
 | GENESPACE | `synHits` TSV with genome, chromosome and interval columns | Linear / circular chromosome synteny |
 | Gene / link tables | Gene features and homology links, TSV or CSV | Linear / circular microsynteny |
 
-Every format includes example data. Uploaded tables are checked for
-required columns, valid intervals and matching identifiers. The app
-previews the first 50 rows of each displayed table and reports the
-number of links drawn. The explicit link limit defaults to 1,000,
-keeping larger inputs manageable; raise it to display more. Linear
-chromosome views retain adjacent-genome links; circular views include
-all supplied relationships among selected genomes.
+Every format includes example data. The MCScanX and GENESPACE previews
+use larger, explicitly **simulated datasets**: four genomes with eight
+chromosomes each, spanning all six genome pairs. MCScanX includes **240
+blocks** with forward and reverse anchor order; GENESPACE includes **384
+compatible interval matches**. They illustrate conserved regions and
+rearrangements; they are not outputs from running those tools on
+biological samples. Rebuild the files with
+`Rscript data-raw/studio_simulated.R`. The original small files remain
+available for the short parser examples below.
+
+Uploaded tables are checked for required columns, valid intervals and
+matching identifiers. The app previews the first 50 rows of each
+displayed table and reports the number of links drawn. The explicit link
+limit defaults to 1,000, keeping larger inputs manageable; raise it to
+display more. Linear chromosome views retain adjacent-genome links;
+circular views include all supplied relationships among selected
+genomes.
 
 Download **PDF or PNG**, the **displayed data tables**, **pair counts**,
 or an **R script** that recreates the figure from those tables. No
