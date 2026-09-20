@@ -52,6 +52,7 @@
 #' p <- plot_circular_synteny(rice_sorghum, c("Rice", "Sorghum"),
 #'                            palette = "casa_natal", chr_fill = "per_species")
 #' p + ggplot2::labs(caption = "Rice and sorghum syntenic intervals")
+#' @seealso [syn_track()] for optional GC-content and numeric annotation tracks.
 #' @export
 plot_circular_synteny <- function(syn_data, species_order = NULL, palette = NULL,
                                   chr_fill = "uniform", chr_palette = NULL, chr_color = "white",
@@ -166,5 +167,6 @@ plot_circular_synteny <- function(syn_data, species_order = NULL, palette = NULL
                                                            1.06, layout$sector_name), label_size)
   if (species_label_size > 0) p <- .circ_add_labels(p, .circ_group_labels(layout), species_label_size, "bold.italic")
   attr(p, "circular_links") <- blocks
+  attr(p, "synteny_layout") <- .track_circular_layout(layout)
   p
 }

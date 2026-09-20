@@ -154,3 +154,6 @@ p <- plot_microsynteny(features, links,
 }
 
 }
+\seealso{
+\code{\link[=syn_track]{syn_track()}} for optional GC-content and numeric annotation tracks.
+}

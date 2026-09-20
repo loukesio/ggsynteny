@@ -122,3 +122,6 @@ p <- plot_circular_microsynteny(micro$features, micro$links,
                                palette = "casa_natal")
 p + ggplot2::labs(caption = "Gene arrows indicate strand")
 }
+\seealso{
+\code{\link[=syn_track]{syn_track()}} for optional GC-content and numeric annotation tracks.
+}

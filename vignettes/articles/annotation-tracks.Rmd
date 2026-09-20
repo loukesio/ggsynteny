@@ -1,0 +1,145 @@
+---
+title: "GC content and annotation tracks"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{GC content and annotation tracks}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.width = 10, fig.height = 7, warning = FALSE, message = FALSE)
+library(ggsynteny)
+```
+
+Add a GC-content strip to any synteny plot with `p + syn_track(values)`.
+The same table works in linear and circular views. Each interval receives a
+color from its measured value; the underlying gene and ribbon colors keep
+their own meaning. All drawing uses ggplot2 layers.
+
+## A complete gene example
+
+These bundled DNA strings are simulated. They demonstrate the calculation and
+alignment; their GC values are not measurements of real organisms.
+
+```{r input}
+example_dir <- system.file("extdata", "gc-tracks", package = "ggsynteny")
+read_example <- function(name) {
+  readr::read_tsv(file.path(example_dir, paste0(name, ".tsv")), show_col_types = FALSE)
+}
+features <- read_example("features")
+links <- read_example("links")
+dna <- read_example("sequences")
+gene_gc <- gc_content(dna, intervals = features)
+```
+
+```{r linear}
+p <- plot_microsynteny(features, links, palette = "casa_natal",
+                      ribbon_fill = "per_name")
+p + syn_track(gene_gc) + ggplot2::labs(title = "GC content per gene: simulated DNA")
+```
+
+```{r circular}
+plot_circular_microsynteny(features, links, palette = "casa_natal",
+                          ribbon_fill = "per_name") +
+  syn_track(gene_gc) + ggplot2::labs(title = "The same GC values around a circle")
+```
+
+GC is the percentage of called bases that are G or C:
+`100 * (G + C) / (A + C + G + T)`. Ambiguous bases such as `N` are left out of
+the denominator. `n_called` and `n_ambiguous` let you assess how much sequence
+supports each value. An interval with no called bases has `NA`, drawn grey.
+Missing intervals remain gaps. Neither is treated as zero.
+
+## Chromosome windows
+
+```{r windows}
+syn <- list(chromosomes = read_example("chromosomes"), blocks = read_example("blocks"))
+window_gc <- gc_content(dna, window = 250)
+plot_synteny(syn, unique(syn$chromosomes$species), palette = "casa_natal") +
+  syn_track(window_gc, name = "GC (%) / 250 bp") +
+  ggplot2::theme(plot.margin = ggplot2::margin(10, 30, 10, 100))
+plot_circular_synteny(syn, palette = "casa_natal") +
+  syn_track(window_gc, name = "GC (%) / 250 bp")
+```
+
+The final window is shortened at a sequence end. Set `step` smaller than
+`window` to calculate sliding windows. Their intervals overlap; tiles draw in
+input order, with later rows on top. For an unambiguous heatmap, use
+non-overlapping windows or reduce overlapping measurements to disjoint bins
+before plotting. Intervals crossing a circular origin must first be split;
+the calculator does not wrap windows around the origin.
+
+## Supplying your own measurements
+
+The common table has five columns:
+
+| Column | Meaning |
+| --- | --- |
+| `group` | Species in chromosome plots; bin/genome in gene plots |
+| `seq_id` | Chromosome or contig identifier within that group |
+| `start`, `end` | Interval boundaries in the plot's coordinate system |
+| `value` | Numeric measurement; GC uses percentages from 0 to 100 |
+
+Existing `species`/`chr` and `bin_id`/`seq_id` columns also work. Gene feature
+tables can be passed directly after adding a `value` column. Rows for groups
+not shown in the plot are omitted with a warning. Unknown sequences within a
+displayed group and intervals outside displayed bounds cause an error.
+Gene plots only display each contig's first-to-last feature span; restrict
+window tables to those bounds before adding them.
+
+`gc_content()` reads character DNA strings, with sequence coordinate zero at
+the first base. Its intervals use **zero-based, half-open base-pair coordinates**:
+`start = 0, end = 4` selects bases 1 through 4. Convert one-based inclusive
+gene annotations by subtracting 1 from `start` and leaving `end` unchanged.
+If a chromosome plot uses kb or Mb, convert the calculated interval coordinates
+to that unit before plotting. GC values cannot be obtained from synteny links,
+block ranks, or gene positions alone.
+
+For unavailable sequence, supply `NA_character_` in `sequence` and explicit
+intervals. Missing sequence identifiers are errors. Sequences with no length
+cannot be used to create windows. Lowercase and whitespace are accepted; gaps
+and non-DNA characters are rejected. Reverse-complementing a gene does not
+change its GC content.
+
+## Multiple tracks and custom colors
+
+The first addition is closest to the chromosome or gene row. Later additions
+stack outward, with their own legends. Labels move outward with the tracks.
+
+```{r multiple}
+uncalled <- gene_gc
+uncalled$value <- 100 * uncalled$n_ambiguous / (uncalled$end - uncalled$start)
+p + syn_track(gene_gc, name = "GC (%)") +
+  syn_track(uncalled, name = "Ambiguous bases (%)", palette = c("#FFF7EC", "#7F0000"))
+```
+
+`height` and `gap` are fractions of linear row spacing or the original circle
+radius. Reduce them if many linear tracks need to fit between rows. Use
+`limits` and `name` for other numeric measurements, for example
+`syn_track(coverage, name = "Depth", limits = c(0, 200))`.
+
+```{r scale}
+p + syn_track(gene_gc) +
+  scale_fill_syn_track(track = 1, palette = "casa_natal", breaks = c(0, 50, 100)) +
+  ggplot2::theme(legend.position = "bottom")
+```
+
+The ordinary ggplot2 scale-replacement message is expected when replacing a
+track scale. Numeric limits stay shared across all groups, making colors
+comparable. `na.value` changes the color for explicitly missing measurements.
+
+Add tracks before replacing coordinates. Faceting and coordinate transforms
+are not supported for track placement. The initial track display is a heatmap;
+line charts and bar tracks are future extensions. Track tiles are static even
+on interactive plots; existing gene and ribbon hover information still works.
+Studio does not yet provide a track upload control.
+
+## Design references
+
+The arrangements were informed by [gbdraw](https://github.com/satoshikawato/gbdraw)
+and the [circlize chord-diagram guide](https://jokergoo.github.io/circlize_book/book/the-chorddiagram-function.html).
+This implementation uses [ggplot2's extension mechanism](https://ggplot2.tidyverse.org/articles/extending-ggplot2.html),
+with polygon layers and a separate continuous aesthetic for every track.
+Neither gbdraw nor circlize is a dependency. Existing plotting calls and the
+32 ltc palette definitions are unchanged.

@@ -1,0 +1,17 @@
+bin_id	seq_id	start	end	strand	feat_id	name
+Genome A	4	0	443	+	gene_01	moaE
+Genome A	4	444	1340	+	gene_02	moaC2
+Genome A	4	1333	2325	+	gene_03	moaA
+Genome A	4	2325	3491	+	gene_04	moeA
+Genome A	4	3991	4242	+	gene_05	spacer
+Genome A	4	4742	5331	-	gene_06	mobA
+Genome A	7	0	1181	+	gene_07	moeA
+Genome A	7	1506	2417	+	gene_08	moaC2
+Genome B	10	0	1232	+	gene_09	moeA
+Genome B	10	1250	2190	+	gene_10	moaC2
+Genome B	10	2200	3100	+	gene_11	moaA
+Genome B	10	3150	4300	-	gene_12	mobA
+Genome C	2	0	1100	+	gene_13	moaA
+Genome C	2	1120	2050	+	gene_14	moaC2
+Genome C	2	2100	3200	+	gene_15	moeA
+Genome C	2	3250	3900	-	gene_16	moaE

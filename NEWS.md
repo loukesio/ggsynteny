@@ -1,5 +1,14 @@
 # ggsynteny (development version)
 
+* Add optional GC-content and numeric annotation tracks with `p + syn_track()`
+  in all four linear/circular, chromosome/gene views. Native ggplot2 polygon
+  layers use independent continuous scales, stack outward, and move labels
+  to make room. Existing plotting defaults and ltc palettes are unchanged.
+* Add `gc_content()` for per-gene and window summaries from supplied DNA.
+  Ambiguous bases are excluded from the denominator; missing sequence and
+  intervals without A/C/G/T bases return NA. Include runnable simulated
+  sequence examples and `scale_fill_syn_track()` for scale customization.
+
 * Add a Studio interactive-plot toggle for hover tooltips, highlighting and
   zoom across all four plot types, using optional ggiraph. Figure exports
   remain static; exported R code can also recreate the interactive view.

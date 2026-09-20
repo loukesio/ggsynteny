@@ -14,6 +14,12 @@ reference:
     contents:
       - plot_circular_synteny
       - plot_circular_microsynteny
+  - title: Annotation tracks
+    desc: Coordinate-aligned numeric tracks and sequence-based GC calculations.
+    contents:
+      - syn_track
+      - gc_content
+      - scale_fill_syn_track
   - title: Interactive
     desc: ggiraph rendering with hover highlights and tooltips.
     contents:
@@ -42,3 +48,4 @@ articles:
       - "articles/real-data"
       - "articles/interactive"
       - "articles/circular-synteny"
+      - "articles/annotation-tracks"

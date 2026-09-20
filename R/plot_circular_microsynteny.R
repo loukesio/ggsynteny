@@ -57,6 +57,7 @@
 #' p <- plot_circular_microsynteny(micro$features, micro$links,
 #'                                palette = "casa_natal")
 #' p + ggplot2::labs(caption = "Gene arrows indicate strand")
+#' @seealso [syn_track()] for optional GC-content and numeric annotation tracks.
 #' @export
 plot_circular_microsynteny <- function(features, links, bin_order = NULL, palette = NULL,
                                        gene_fill = "per_name", gene_palette = NULL,
@@ -181,5 +182,6 @@ plot_circular_microsynteny <- function(features, links, bin_order = NULL, palett
   if (bin_label_size > 0) p <- .circ_add_labels(p, .circ_group_labels(layout), bin_label_size, "bold")
   attr(p, "circular_features") <- features
   attr(p, "circular_links") <- links
+  attr(p, "synteny_layout") <- .track_circular_layout(layout)
   p
 }

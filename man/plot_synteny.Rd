@@ -136,3 +136,6 @@ p <- plot_synteny(syn, sp_order,
                                      "Grape_Rice" = "#E8573A"))
 
 }
+\seealso{
+\code{\link[=syn_track]{syn_track()}} for optional GC-content and numeric annotation tracks.
+}

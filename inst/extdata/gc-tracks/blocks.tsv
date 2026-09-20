@@ -1,0 +1,12 @@
+species1	chr1	start1	end1	species2	chr2	start2	end2
+Genome A	4	0	443	Genome C	2	3250	3900
+Genome A	4	444	1340	Genome B	10	1250	2190
+Genome A	4	444	1340	Genome C	2	1120	2050
+Genome A	4	1333	2325	Genome B	10	2200	3100
+Genome A	4	1333	2325	Genome C	2	0	1100
+Genome A	4	2325	3491	Genome B	10	0	1232
+Genome A	4	2325	3491	Genome C	2	2100	3200
+Genome A	4	4742	5331	Genome B	10	3150	4300
+Genome B	10	1250	2190	Genome C	2	1120	2050
+Genome B	10	2200	3100	Genome C	2	0	1100
+Genome B	10	0	1232	Genome C	2	2100	3200

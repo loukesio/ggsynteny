@@ -96,6 +96,7 @@
 #'                        ribbon_fill = "identity")
 #' }
 #'
+#' @seealso [syn_track()] for optional GC-content and numeric annotation tracks.
 #' @export
 #' @import ggplot2
 #' @importFrom dplyr filter arrange group_by mutate ungroup left_join select summarise first bind_rows rename
@@ -452,5 +453,14 @@ plot_microsynteny <- function(features,
 
   if (!is.null(title)) p <- p + ggtitle(title)
 
+  track_sectors <- layout %>%
+    group_by(bin_id, seq_id) %>%
+    summarise(start = min(start), end = max(end),
+              x = min(x0), y = first(y), .groups = "drop")
+  attr(p, "synteny_layout") <- list(
+    type = "linear", unit = tier_spacing, edge = h,
+    sectors = data.frame(group = as.character(track_sectors$bin_id),
+                         seq_id = as.character(track_sectors$seq_id),
+                         track_sectors[c("start", "end", "x", "y")]))
   return(p)
 }

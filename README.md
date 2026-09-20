@@ -59,6 +59,43 @@ plot_synteny(syn,
 
 <img src="man/figures/README-hero.png" alt="Macro-synteny of Arabidopsis, Grape and Rice with the casa_natal palette" width="92%" style="display: block; margin: auto;" />
 
+## Optional GC-content tracks (development branch)
+
+Add aligned GC-content strips to linear or circular plots with ordinary
+ggplot2 `+` composition. This feature is on `feature/gc-content-tracks` and
+is not part of the published 0.5.0 release.
+
+``` r
+# From this branch's checkout: devtools::load_all(".")
+example_dir <- system.file("extdata", "gc-tracks", package = "ggsynteny")
+read_example <- function(name) {
+  readr::read_tsv(file.path(example_dir, paste0(name, ".tsv")),
+                 show_col_types = FALSE)
+}
+features <- read_example("features")
+links <- read_example("links")
+dna <- read_example("sequences")  # explicitly simulated DNA
+gene_gc <- gc_content(dna, intervals = features)
+
+plot_microsynteny(features, links, palette = "casa_natal") +
+  syn_track(gene_gc)
+plot_circular_microsynteny(features, links, palette = "casa_natal") +
+  syn_track(gene_gc)
+```
+
+<img src="man/figures/gc-tracks/overview.png" alt="Four GC-content track examples from simulated DNA: linear and circular chromosome windows and per-gene measurements" width="100%" />
+
+[Full-size example PDF](man/figures/gc-tracks/gc-tracks.pdf) ·
+[Track guide](vignettes/articles/annotation-tracks.Rmd) ·
+[Reproduce the figures](data-raw/gc_tracks.R)
+
+All four plotting functions accept the same coordinate/value table. Calculate
+per-gene or window GC values with `gc_content()`, or supply measurements.
+GC uses only A/C/G/T bases; grey tiles mark missing values. Sequence-based
+calculations use zero-based, half-open base-pair coordinates, which must match
+the plot's units and origin. These examples use simulated DNA and do not claim
+GC measurements for the package's real biological datasets.
+
 ## Real data: rice vs sorghum
 
 The bundled `rice_sorghum` dataset is genuine MCScanX output — the

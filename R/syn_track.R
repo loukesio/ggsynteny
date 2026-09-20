@@ -1,0 +1,239 @@
+#' Add a coordinate-aligned annotation track to a synteny plot
+#'
+#' Add with `p + syn_track(data)` to any of the four synteny plotting functions.
+#' Each interval becomes a colored tile above its linear chromosome/contig or
+#' in an outer circular ring. Further additions stack outward. Existing gene
+#' and chromosome labels move outward to make room.
+#'
+#' @param data Data frame with `group`, `seq_id`, `start`, `end`, and numeric
+#'   `value`. `group` identifies a species (macro) or bin (micro). The key pairs
+#'   `species`/`chr` and `bin_id`/`seq_id` are also accepted. Coordinates must
+#'   use exactly the same origin and units as the underlying plot.
+#' @param name Legend title.
+#' @param limits Two increasing finite numbers for the value scale. Defaults
+#'   to GC percentages, 0 to 100. Non-missing values outside these limits error.
+#' @param palette Color vector, built-in ltc name, or HCL palette name.
+#' @param na.value Color for an explicitly missing value (`NA`). Omitted
+#'   intervals leave gaps; they are not interpreted as zero.
+#' @param height,gap Track thickness and preceding gap, as fractions of linear
+#'   tier spacing or of the original circle radius. Both layouts default to
+#'   the same proportions. For more linear tracks, reduce these fractions.
+#' @param show.legend Show this track's color bar?
+#' @return An object added to a ggplot with `+`. The resulting ggplot contains
+#'   native polygon layers and an independent continuous scale per track.
+#'   Its `synteny_tracks` attribute records displayed interval tables.
+#' @details Track intervals must have positive widths within displayed sequence
+#'   bounds. Rows for groups excluded from the plot are omitted with a warning;
+#'   unknown sequences within displayed groups error. Overlaps are drawn in
+#'   input order (later rows on top); overlapping sliding windows can instead
+#'   be calculated with [gc_content()] and reduced to non-overlapping tiles.
+#'
+#'   Tracks do not change gene or ribbon colors, coordinates or palette names.
+#'   Each track has a separate aesthetic (`syn_track1`, `syn_track2`, ...),
+#'   allowing independent legends without another package. Customize a track
+#'   scale with [scale_fill_syn_track()]. Tracks are static, including when
+#'   added to a ggiraph-enabled plot; existing interactive layers still work.
+#'   Add tracks before changing coordinates or applying facets. Faceting and
+#'   transformed/replaced coordinates are not supported for track placement.
+#' @examples
+#' micro <- demo_microsynteny_data()
+#' values <- micro$features
+#' # Supplied measurements (illustrative, not measured from these demo genes).
+#' values$value <- rep(c(35, 50, 65), length.out = nrow(values))
+#' plot_microsynteny(micro$features, micro$links) + syn_track(values)
+#' plot_circular_microsynteny(micro$features, micro$links) + syn_track(values)
+#' @export
+syn_track <- function(data, name = "GC (%)", limits = c(0, 100),
+                      palette = c("#F7FBFF", "#6BAED6", "#08306B"),
+                      na.value = "#BDBDBD", height = 0.10, gap = 0.03,
+                      show.legend = TRUE) {
+  data <- .track_intervals(data)
+  if (!"value" %in% names(data) || !is.numeric(data$value) ||
+      any(!is.na(data$value) & !is.finite(data$value)))
+    stop("Track value must be numeric and finite, or NA.", call. = FALSE)
+  .track_limits(limits)
+  if (any(data$value < limits[1] | data$value > limits[2], na.rm = TRUE))
+    stop("Track values fall outside limits; GC values must be percentages (0 to 100).", call. = FALSE)
+  .circ_scalar(height, "height", 0.001, 1)
+  .circ_scalar(gap, "gap", 0, 1)
+  .circ_logical(show.legend, "show.legend")
+  if (!is.character(name) || length(name) != 1L || is.na(name))
+    stop("name must be one string.", call. = FALSE)
+  colors <- syn_pal(palette, 256, continuous = TRUE)
+  grDevices::col2rgb(c(colors, na.value))
+  structure(list(data = data, name = name, limits = limits, palette = colors,
+                 na.value = na.value, height = height, gap = gap,
+                 show.legend = show.legend), class = "syn_track")
+}
+
+#' Continuous fill scale for an annotation track
+#'
+#' Replace an individual track's scale without changing gene or ribbon colors.
+#' @param track Track number in the order it was added, starting at 1.
+#' @param name Legend title.
+#' @param limits Two increasing finite numbers. Use the same limits supplied
+#'   to [syn_track()] unless intentionally changing the displayed color range.
+#' @param palette Color vector, built-in ltc name, or HCL palette name.
+#' @param na.value Color for missing values.
+#' @param ... Further arguments to [ggplot2::scale_fill_gradientn()], such as
+#'   `breaks` and `labels`. Out-of-range values use `na.value` by default.
+#' @return A ggplot2 continuous scale for the selected track.
+#' @export
+scale_fill_syn_track <- function(track = 1, name = "GC (%)", limits = c(0, 100),
+                                 palette = c("#F7FBFF", "#6BAED6", "#08306B"),
+                                 na.value = "#BDBDBD", ...) {
+  .circ_scalar(track, "track", 1, .Machine$integer.max)
+  if (track != floor(track)) stop("track must be an integer.", call. = FALSE)
+  .track_limits(limits)
+  aesthetic <- paste0("syn_track", track)
+  ggplot2::scale_fill_gradientn(
+    aesthetics = aesthetic, colors = syn_pal(palette, 256, continuous = TRUE),
+    name = name, limits = limits, na.value = na.value,
+    guide = ggplot2::guide_colourbar(available_aes = aesthetic, order = min(track, 98)), ...)
+}
+
+.track_limits <- function(limits) {
+  if (!is.numeric(limits) || length(limits) != 2L || any(!is.finite(limits)) ||
+      limits[2] <= limits[1]) stop("limits must be two increasing finite numbers.", call. = FALSE)
+}
+
+.track_keys <- function(data) {
+  if (!is.data.frame(data)) stop("Track data must be a data frame.", call. = FALSE)
+  data <- as.data.frame(data)
+  if (!all(c("group", "seq_id") %in% names(data))) {
+    if (all(c("species", "chr") %in% names(data))) {
+      data$group <- data$species
+      data$seq_id <- data$chr
+    } else if (all(c("bin_id", "seq_id") %in% names(data))) {
+      data$group <- data$bin_id
+    } else stop("Supply group/seq_id, species/chr, or bin_id/seq_id keys.", call. = FALSE)
+  }
+  data$group <- .circ_text(data$group, "group")
+  data$seq_id <- .circ_text(data$seq_id, "seq_id")
+  data
+}
+
+.track_intervals <- function(data) {
+  data <- .track_keys(data)
+  data <- .circ_columns(data, c("start", "end"), "Track data")
+  for (nm in c("start", "end")) data[[nm]] <- .circ_numbers(data[[nm]], nm)
+  if (any(data$start < 0 | data$end <= data$start))
+    stop("Track intervals must have non-negative starts and positive widths.", call. = FALSE)
+  data
+}
+
+.track_circular_layout <- function(layout) {
+  list(type = "circular", unit = 1, edge = 1,
+       sectors = data.frame(group = layout$group_name, seq_id = layout$sector_name,
+                            layout[c("start", "end", "theta_start", "theta_end")]))
+}
+
+.track_clone <- function(parent, ...) {
+  # ggproto retains its parent's expression: bind it in a fresh environment.
+  force(parent)
+  ggplot2::ggproto(NULL, parent, ...)
+}
+
+# A per-track aesthetic keeps the continuous fill scale independent of the
+# existing identity fill scale. Drawing delegates to ggplot2's polygon geom.
+.track_geom <- function(aesthetic) {
+  defaults <- ggplot2::GeomPolygon$default_aes
+  defaults[[aesthetic]] <- "grey50"
+  ggplot2::ggproto(NULL, ggplot2::GeomPolygon,
+    default_aes = defaults,
+    draw_panel = function(data, panel_params, coord, ...) {
+      data$fill <- data[[aesthetic]]
+      ggplot2::GeomPolygon$draw_panel(data, panel_params, coord, ...)
+    },
+    draw_key = function(data, params, size) {
+      data$fill <- data[[aesthetic]]
+      ggplot2::draw_key_polygon(data, params, size)
+    })
+}
+
+#' @export
+#' @importFrom ggplot2 ggplot_add
+ggplot_add.syn_track <- function(object, plot, object_name = NULL, ...) {
+  layout <- attr(plot, "synteny_layout", exact = TRUE)
+  if (is.null(layout))
+    stop("Add syn_track() to a plot made by a ggsynteny plotting function.", call. = FALSE)
+  if (!inherits(plot$facet, "FacetNull"))
+    stop("Add tracks before faceting; faceted track placement is unsupported.", call. = FALSE)
+  if (!class(plot$coordinates)[1] %in% c("CoordCartesian", "CoordFixed"))
+    stop("Tracks require the original Cartesian coordinates; add tracks before changing coordinates.", call. = FALSE)
+  sectors <- layout$sectors
+  if (anyDuplicated(.circ_key(sectors$group, sectors$seq_id)))
+    stop("Track placement requires unique sequence keys in the plot.", call. = FALSE)
+  data <- object$data
+  keep <- data$group %in% sectors$group
+  if (any(!keep)) warning(sum(!keep), " track rows omitted for groups absent from the plot.", call. = FALSE)
+  data <- data[keep, , drop = FALSE]
+  if (!nrow(data)) return(plot)
+  index <- match(.circ_key(data$group, data$seq_id), .circ_key(sectors$group, sectors$seq_id))
+  if (anyNA(index)) stop("Track references an unknown sequence in a displayed group.", call. = FALSE)
+  if (any(data$start < sectors$start[index] | data$end > sectors$end[index]))
+    stop("Track intervals must lie within displayed sequence bounds.", call. = FALSE)
+  used <- layout$used %||% 0
+  increment <- (object$height + object$gap) * layout$unit
+  lower <- layout$edge + used + object$gap * layout$unit
+  upper <- layout$edge + used + increment
+  circular <- layout$type == "circular"
+  if (!circular && upper > 0.55 * layout$unit)
+    stop("Tracks exceed the space between tiers; reduce height or gap.", call. = FALSE)
+  polygons <- dplyr::bind_rows(lapply(seq_len(nrow(data)), function(i) {
+    j <- index[i]
+    if (circular) {
+      angles <- sectors$theta_start[j] +
+        (c(data$start[i], data$end[i]) - sectors$start[j]) /
+        (sectors$end[j] - sectors$start[j]) * (sectors$theta_end[j] - sectors$theta_start[j])
+      poly <- .circ_ring(angles[1], angles[2], lower, upper)
+    } else {
+      x <- sectors$x[j] + c(data$start[i], data$end[i]) - sectors$start[j]
+      poly <- data.frame(x = x[c(1, 2, 2, 1)],
+                         y = sectors$y[j] + c(lower, lower, upper, upper))
+    }
+    poly$track_interval <- i
+    poly$value <- data$value[i]
+    poly
+  }))
+
+  # Clone modified layers/coordinates so adding tracks never mutates a reused p.
+  for (i in seq_along(plot$layers)) {
+    layer <- plot$layers[[i]]
+    d <- layer$data
+    if (!inherits(layer$geom, "GeomText") || !is.data.frame(d)) next
+    if (circular && all(c("text_angle", "x", "y") %in% names(d))) {
+      radius <- sqrt(d$x^2 + d$y^2)
+      d$x <- d$x * (radius + increment) / radius
+      d$y <- d$y * (radius + increment) / radius
+    } else if (!circular && all(c("ly", "y") %in% names(d))) {
+      above <- d$ly > d$y
+      d$ly[above] <- d$ly[above] + increment
+    } else next
+    plot$layers[[i]] <- .track_clone(layer, data = d)
+  }
+  coord_limits <- plot$coordinates$limits
+  if (circular) {
+    coord_limits$x <- coord_limits$x + c(-increment, increment)
+    coord_limits$y <- coord_limits$y + c(-increment, increment)
+  } else coord_limits$y[2] <- coord_limits$y[2] + increment
+  plot$coordinates <- .track_clone(plot$coordinates, limits = coord_limits)
+
+  tracks <- attr(plot, "synteny_tracks", exact = TRUE) %||% list()
+  number <- length(tracks) + 1L
+  aesthetic <- paste0("syn_track", number)
+  mapping <- ggplot2::aes(x = x, y = y, group = track_interval)
+  mapping[[aesthetic]] <- ggplot2::aes(fill = value)$fill
+  plot <- plot + ggplot2::layer(
+    data = polygons, mapping = mapping, stat = "identity", position = "identity",
+    geom = .track_geom(aesthetic), inherit.aes = FALSE,
+    show.legend = object$show.legend, params = list(colour = NA, na.rm = FALSE)) +
+    scale_fill_syn_track(number, object$name, object$limits, object$palette, object$na.value)
+  tracks[[number]] <- list(name = object$name, data = data, lower = lower, upper = upper)
+  attr(plot, "synteny_tracks") <- tracks
+  layout$used <- used + increment
+  attr(plot, "synteny_layout") <- layout
+  plot
+}
+
+utils::globalVariables(c("track_interval", "value"))

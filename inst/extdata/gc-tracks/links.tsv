@@ -1,0 +1,12 @@
+feat_id_a	feat_id_b	identity
+gene_01	gene_16	95.2
+gene_02	gene_10	88.4
+gene_02	gene_14	91
+gene_03	gene_11	93.1
+gene_03	gene_13	89.7
+gene_04	gene_09	78.3
+gene_04	gene_15	82.1
+gene_06	gene_12	71.5
+gene_10	gene_14	94.3
+gene_11	gene_13	90.2
+gene_09	gene_15	85.6

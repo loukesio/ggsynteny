@@ -106,3 +106,6 @@ p <- plot_circular_synteny(rice_sorghum, c("Rice", "Sorghum"),
                            palette = "casa_natal", chr_fill = "per_species")
 p + ggplot2::labs(caption = "Rice and sorghum syntenic intervals")
 }
+\seealso{
+\code{\link[=syn_track]{syn_track()}} for optional GC-content and numeric annotation tracks.
+}
