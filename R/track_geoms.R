@@ -24,7 +24,8 @@
     data.frame(x = height * cos(theta), y = height * sin(theta))
   } else {
     s <- context$sectors
-    data.frame(x = s$x[index] + position - s$start[index], y = s$y[index] + height)
+    data.frame(x = s$x[index] + position - s$start[index], y = s$y[index] + height,
+               .track_row = match(s$y[index], sort(unique(s$y), decreasing = TRUE)) - 1L)
   }
 }
 
@@ -49,17 +50,16 @@
   aesthetic <- paste0("syn_track", number)
   mapping <- ggplot2::aes(x = x, y = y, group = track_interval)
   mapping[[aesthetic]] <- ggplot2::aes(fill = value)$fill
-  list(ggplot2::layer(
+  c(.track_frame(object, context, axes = FALSE), list(ggplot2::layer(
     data = polygons, mapping = mapping, stat = "identity", position = "identity",
     geom = .track_geom(aesthetic), inherit.aes = FALSE,
     show.legend = stats::setNames(object$show.legend, aesthetic),
     params = list(colour = NA, na.rm = FALSE)),
-    scale_fill_syn_track(number, object$name, object$limits, object$palette, object$na.value))
+    scale_fill_syn_track(number, object$name, object$limits, object$palette, object$na.value)))
 }
 
-# Neutral lanes and boundary/reference guides make positional values readable
-# independently of the synteny ribbons underneath them.
-.track_frame <- function(object, context) {
+# Optional lane backgrounds and boundary/reference guides use ggplot2 elements.
+.track_frame <- function(object, context, axes = TRUE) {
   sectors <- context$sectors
   displayed <- sort(unique(context$index))
   background <- dplyr::bind_rows(lapply(displayed, function(j) {
@@ -67,27 +67,32 @@
     poly$track_interval <- j
     poly
   }))
-  result <- list(ggplot2::geom_polygon(data = background,
+  result <- list()
+  if (!inherits(object$background, "element_blank")) result <- list(ggplot2::geom_polygon(data = background,
     ggplot2::aes(x = x, y = y, group = track_interval),
-    fill = "#F4F6F8", colour = NA, inherit.aes = FALSE))
-  levels <- unique(c(object$limits, object$reference))
+    fill = object$background$fill %||% NA, colour = object$background$colour %||% NA,
+    linewidth = object$background$linewidth %||% 0.25,
+    linetype = object$background$linetype %||% "solid", inherit.aes = FALSE))
+  levels <- c(object$limits, if (axes) object$reference)
   guides <- dplyr::bind_rows(lapply(seq_along(levels), function(k) {
     dplyr::bind_rows(lapply(displayed, function(j) {
       pos <- seq(sectors$start[j], sectors$end[j], length.out = if (context$circular) 400 else 2)
       d <- .track_project(context, j, pos, .track_fraction(levels[k], object$limits))
       d$track_interval <- paste(j, k)
-      d$is_reference <- !is.null(object$reference) && levels[k] == object$reference
+      d$is_reference <- k > 2L
       d
     }))
   }))
   for (ref in c(FALSE, TRUE)) {
+    style <- if (ref) object$reference_line else object$border
+    if (inherits(style, "element_blank")) next
     d <- guides[guides$is_reference == ref, , drop = FALSE]
     if (nrow(d)) result <- c(result, list(ggplot2::geom_path(data = d,
       ggplot2::aes(x = x, y = y, group = track_interval), inherit.aes = FALSE,
-      colour = if (ref) "#A6ADB4" else "#D3D9DE",
-      linewidth = 0.25, linetype = if (ref) "dashed" else "solid")))
+      colour = style$colour %||% "black", linewidth = style$linewidth %||% 0.25,
+      linetype = style$linetype %||% "solid", lineend = style$lineend %||% "butt")))
   }
-  if (object$axis) {
+  if (axes && object$axis) {
     # One axis per genome: the last displayed contig in linear layouts and
     # the first in circular layouts. Circular labels sit just inside the gap.
     groups <- sectors$group[displayed]
@@ -140,7 +145,10 @@
 
 .track_key_scale <- function(object, number) {
   label <- paste(format(object$limits, trim = TRUE), collapse = " to ")
-  if (!is.null(object$reference)) label <- paste0(label, "; dashed: ", object$reference)
+  if (!is.null(object$reference) && !inherits(object$reference_line, "element_blank")) {
+    style <- object$reference_line$linetype %||% "solid"
+    label <- paste0(label, "; ", style, ": ", object$reference)
+  }
   ggplot2::scale_colour_manual(aesthetics = paste0("syn_track_key", number),
     name = object$name, values = stats::setNames(object$colour, object$name),
     breaks = object$name, labels = label,

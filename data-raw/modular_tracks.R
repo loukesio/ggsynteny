@@ -28,10 +28,23 @@ style <- ggplot2::theme(
   legend.text = ggplot2::element_text(size = 9))
 caption <- paste0("Simulated DNA. Tracks from genes outward: gene GC heatmap, window GC line, ambiguous-base bars.\n",
   "GC line: 400-base windows every 100 bases; dashed guide = 50%. Grey heatmap cells have no called bases.")
+# The circular example keeps its original styling. Demonstrate the optional
+# guide-free style independently in the linear example.
+linear_tracks <- list(tracks[[1]],
+  syn_track(window_gc, name = "2  Window GC (%)", geom = "line",
+    height = 0.19, gap = 0.025, colour = "#176D81", linewidth = 0.6,
+    reference = NULL, background = ggplot2::element_blank(),
+    border = ggplot2::element_line(colour = "#BACACD", linewidth = 0.25)),
+  syn_track(ambiguous, name = "3  Ambiguous bases (%)", geom = "bar",
+    height = 0.11, gap = 0.025, colour = "#BE7442", reference = NULL,
+    background = ggplot2::element_blank(),
+    border = ggplot2::element_line(colour = "#DDD0C7", linewidth = 0.25)))
 linear <- plot_microsynteny(features, links, palette = "casa_natal",
-  ribbon_fill = "per_name", ribbon_alpha = 0.18, label_genes = FALSE) + tracks + style +
-  ggplot2::labs(title = "Three independent tracks above the genes",
-    subtitle = "Heatmap + sliding-window line + interval bars | one shared coordinate system", caption = caption)
+  ribbon_fill = "per_name", ribbon_alpha = 0.18, label_genes = FALSE) + linear_tracks + style +
+  ggplot2::labs(title = "Each genome has its own tracks",
+    subtitle = "Genes, GC heatmap, GC line, then bars | ribbons occupy separate gaps",
+    caption = paste0("Simulated DNA. GC line: 400-base windows every 100 bases. Grey heatmap cells have no called bases.\n",
+                     "Linear example: middle guides and backgrounds removed; track borders styled separately."))
 circular <- plot_circular_microsynteny(features, links, palette = "casa_natal",
   ribbon_fill = "per_name", ribbon_alpha = 0.18, label_genes = FALSE) + tracks + style +
   ggplot2::labs(title = "The same three tracks around the genes",

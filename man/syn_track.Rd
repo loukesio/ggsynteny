@@ -18,7 +18,11 @@ syn_track(
   linewidth = 0.5,
   reference = NULL,
   baseline = limits[1],
-  axis = TRUE
+  axis = TRUE,
+  background = NULL,
+  border = NULL,
+  reference_line = ggplot2::element_line(colour = "#A6ADB4", linewidth = 0.25, linetype =
+    "dashed")
 )
 }
 \arguments{
@@ -39,7 +43,7 @@ intervals leave gaps; they are not interpreted as zero.}
 
 \item{height, gap}{Track thickness and preceding gap, as fractions of linear
 tier spacing or of the original circle radius. Both layouts default to
-the same proportions. For more linear tracks, reduce these fractions.}
+the same proportions. Linear rows expand to accommodate all tracks.}
 
 \item{show.legend}{Show this track's legend?}
 
@@ -50,13 +54,25 @@ Lines join interval midpoints in genomic order; bars span each interval.}
 
 \item{linewidth}{Line thickness in mm for line tracks.}
 
-\item{reference}{Optional value for a dashed guide in line/bar tracks.}
+\item{reference}{Optional value for a dashed guide in line/bar tracks.
+Use \code{NULL} (the default) to remove the middle guide.}
 
 \item{baseline}{Bar origin, within \code{limits}. Defaults to the lower limit.
 Use zero with limits spanning zero for signed measurements.}
 
 \item{axis}{Show limit labels alongside line/bar tracks? Their lower/inner
 edge represents the lower limit, and upper/outer edge the upper limit.}
+
+\item{background}{Track background as a \code{\link[ggplot2:element]{ggplot2::element_rect()}}.
+Use \code{element_blank()} for no background. \code{NULL} selects a light grey
+background for lines/bars and no background for heatmaps.}
+
+\item{border}{Track boundary lines as a \code{\link[ggplot2:element]{ggplot2::element_line()}}.
+Use \code{element_blank()} for no borders. \code{NULL} selects light grey
+borders for lines/bars and no borders for heatmaps.}
+
+\item{reference_line}{Reference guide style as a \code{\link[ggplot2:element]{ggplot2::element_line()}}.
+Use \code{element_blank()} to hide it, even when \code{reference} is supplied.}
 }
 \value{
 An object added to a ggplot with \code{+}. The resulting ggplot contains
@@ -65,9 +81,9 @@ Its \code{synteny_tracks} attribute records displayed interval tables.
 }
 \description{
 Add with \code{p + syn_track(data)} to any of the four synteny plotting functions.
-Choose heatmap tiles, a line graph, or interval bars above each linear
-chromosome/contig or in an outer circular ring. Additions stack outward. Gene
-and chromosome labels move outward to make room.
+Choose heatmap tiles, a line graph, or interval bars below each linear
+chromosome/contig or in an outer circular ring. Linear genome rows expand
+automatically, keeping ribbons in separate gaps. Circular additions stack outward.
 }
 \details{
 Track intervals must have positive widths within displayed sequence
@@ -81,7 +97,11 @@ An isolated non-missing value is drawn as a point. Circular lines interpolate
 in genomic position and value, following the ring without joining its ends.
 Missing bars leave gaps; missing heatmap values use \code{na.value}.
 
-Tracks do not change gene or ribbon colors, coordinates or palette names.
+Tracks do not change gene or ribbon colors, genomic positions or palette names.
+Linear tracks stack below genes; labels sit above genes. Rows spread apart
+to reserve a separate ribbon gap. Links skipping a row are shown in pieces
+across the gaps, never through intervening tracks. Their genomic positions
+and identities are retained. Circular layouts are unchanged.
 Heatmaps have separate aesthetics (\code{syn_track1}, \code{syn_track2}, ...),
 allowing independent legends without another package. Customize heatmap
 colors with \code{\link[=scale_fill_syn_track]{scale_fill_syn_track()}}. Line/bar limits control geometry;

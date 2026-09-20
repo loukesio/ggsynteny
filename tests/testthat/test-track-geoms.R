@@ -95,7 +95,7 @@ test_that("bars span source intervals and support signed values and nonzero base
   }
 })
 
-test_that("mixed tracks compose across all plot types without moving earlier axes", {
+test_that("mixed tracks compose across all plot types and axes stay with their genome", {
   m <- demo_microsynteny_data()
   f <- m$features; f$value <- 40
   syn <- example_synteny_data()
@@ -111,7 +111,12 @@ test_that("mixed tracks compose across all plot types without moving earlier axe
     axis_layers <- which(vapply(one$layers, function(l) is.data.frame(l$data) &&
       "track_axis" %in% names(l$data), logical(1)))
     mixed <- one + list(syn_track(d, height = 0.06), syn_track(d, geom = "bar", height = 0.10))
-    for (j in axis_layers) expect_equal(mixed$layers[[j]]$data, one$layers[[j]]$data)
+    for (j in axis_layers) {
+      expected <- one$layers[[j]]$data
+      if (attr(p, "synteny_layout")$type == "linear")
+        expected$y <- expected$y - expected$.track_row * 0.22 * attr(p, "synteny_layout")$unit
+      expect_equal(mixed$layers[[j]]$data, expected)
+    }
     expect_equal(vapply(attr(mixed, "synteny_tracks"), `[[`, character(1), "geom"), c("line", "heatmap", "bar"))
     expect_false(is.null(mixed$scales$get_scales("syn_track2")))
     expect_false(is.null(mixed$scales$get_scales("syn_track_key1")))

@@ -115,6 +115,28 @@ means start another window 100 bases later, so neighboring windows overlap.
 The line places each result at that window's center. It does not smooth or
 invent extra measurements. A dashed line marks 50% GC.
 
+To remove that middle line, use `reference = NULL`. Colors and borders are
+independent. They use the same styling elements as ggplot2 themes:
+
+```r
+p + syn_track(
+  window_gc, geom = "line", name = "Window GC (%)", height = 0.19,
+  colour = "#176D81",                      # measured line color
+  reference = NULL,                         # no middle guide
+  background = ggplot2::element_blank(),    # no background
+  border = ggplot2::element_line(colour = "#BACACD", linewidth = 0.3)
+)
+```
+
+For a colored background, use
+`background = ggplot2::element_rect(fill = "ivory", colour = NA)`.
+For no borders, use `border = ggplot2::element_blank()`.
+To style a visible middle guide, use `reference = 50` with
+`reference_line = ggplot2::element_line(colour = "grey60", linetype = "dotted")`.
+`reference_line = ggplot2::element_blank()` also hides the guide.
+`colour` changes the line or bars; `palette` changes heatmap colors.
+These settings work in both linear and circular plots.
+
 Try `window = 800, step = 200` to see a broader summary, or `window = 100,
 step = 100` for short, non-overlapping windows. The last window may be shorter
 at the end of a contig. Lines stop at missing measurements and uncovered gaps,
@@ -150,8 +172,11 @@ are deliberately included in the simulated DNA.
 
 `height` is the space allocated to a track, not its measured value. In linear
 plots it is a fraction of row spacing; in circular plots it is a fraction of
-the original circle radius. `gap` controls separation. Reduce these if many
-tracks cannot fit between linear rows. Gene labels are hidden here for space;
+the original circle radius. `gap` controls separation. Linear tracks stack
+below their genes, and genome rows spread apart automatically. Ribbons get
+their own gaps, so they never run through the track lanes. Links skipping a
+genome row appear in separate pieces across those gaps. Circular tracks still
+stack outward. Gene labels are hidden here for space;
 you can turn them back on with `label_genes = TRUE` in the plot function.
 
 ## 7. Save and check your figures

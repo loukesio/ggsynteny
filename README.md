@@ -133,6 +133,14 @@ plot_circular_microsynteny(features, links, palette = "casa_natal") + tracks
 # geom = "bar" adds interval bars; each track has its own limits and legend.
 ```
 
+Linear tracks sit below each genome, with ribbons in separate gaps; rows
+expand automatically. Circular tracks keep their outward stacking. Remove a
+middle guide with `reference = NULL`. Style backgrounds and borders with
+`background = ggplot2::element_rect(fill = "ivory", colour = NA)` and
+`border = ggplot2::element_line(colour = "grey70")`, or use
+`ggplot2::element_blank()` to hide either. See the
+[tutorial](dev/gc-tracks/tutorial/README.md) for a complete example.
+
 <img src="man/figures/gc-tracks/modular-circular.png" alt="Three stacked tracks around gene synteny: gene GC heatmap, sliding-window GC line and ambiguous-base bars, using simulated DNA" width="92%" />
 
 [Three-track example PDF](man/figures/gc-tracks/modular-tracks.pdf) ·

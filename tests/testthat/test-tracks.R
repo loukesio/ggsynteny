@@ -55,8 +55,11 @@ test_that("linear gene tracks follow shifted contigs and reordered bins", {
     expect_equal(range(tiles$x[tiles$track_interval == i]),
                   range(arrows$x[arrows$feat_id == d$feat_id[i]]))
   }
-  expect_equal(q$layers[[1]]$data, p$layers[[1]]$data)
-  expect_equal(q$layers[[2]]$data, p$layers[[2]]$data)
+  ribbon_keys <- c("link_id", "ribbon_color", "tooltip")
+  expect_equal(unique(q$layers[[1]]$data[ribbon_keys]), unique(p$layers[[1]]$data[ribbon_keys]),
+               ignore_attr = TRUE)
+  unchanged <- setdiff(names(arrows), "y")
+  expect_equal(q$layers[[2]]$data[unchanged], arrows[unchanged])
   expect_no_warning(track_test_render(q + ggplot2::labs(title = "GC content")))
   expect_equal(ggplot2::ggplot_build(p)$data, before)
 })
@@ -144,7 +147,7 @@ test_that("missing values, empty tracks, exclusions and invalid intervals are ex
   expect_error(syn_track(bad), "finite")
   expect_error(syn_track(d, limits = c(1, 1)), "increasing")
   expect_error(ggplot2::ggplot() + syn_track(d), "ggsynteny")
-  expect_error(plot_microsynteny(m$features, m$links) + syn_track(d, height = 1), "space")
+  expect_no_warning(track_test_render(plot_microsynteny(m$features, m$links) + syn_track(d, height = 1)))
   expect_no_warning(track_test_render(p + syn_track(d, show.legend = FALSE)))
   expect_error((p + ggplot2::facet_wrap(~group_name)) + syn_track(d), "faceting")
   flipped <- suppressMessages(p + ggplot2::coord_flip())

@@ -29,6 +29,14 @@ bounds) and returns a list of native ggplot2 layers/scales. Shared helpers
 project genomic positions and normalized values into linear or circular space.
 Future renderers can reuse those helpers without modifying any plot function.
 
+`R/track_linear.R` reserves a bundle for each genome: labels above, genes,
+then tracks below. Adding a track spreads rows and shifts earlier layers with
+their genome. Ribbons occupy separate gaps, not masked areas behind tracks.
+Links skipping rows are clipped into pieces in those gaps, retaining link IDs,
+colors and tooltips. Single-row links remain within the gene band. Circular
+placement is unchanged. Backgrounds, boundary lines and reference guides accept
+ggplot2 `element_rect()`, `element_line()` or `element_blank()` settings.
+
 Lines use `GeomPath`, plus points for isolated values. They sort window centers
 and start a new run at NA, uncovered gaps and contig boundaries. Circular paths
 interpolate genomic position/value before projection to avoid cutting across
@@ -59,7 +67,7 @@ sequence gives NA. No values are inferred from links or block ranks.
 
 - R 4.5.1, ggplot2 4.0.3, macOS arm64.
 - Full R CMD check (`--no-manual --as-cran`): 0 errors, 0 warnings, 0 notes.
-- 838 test expectations passed, including 403 track expectations.
+- 1,084 test expectations passed, including 649 track expectations.
   The test log retains the existing warning that local Shiny was built with
   R 4.5.2. It does not produce an R CMD check warning.
 - Tests cover exact GC counts, missing sequence, ambiguous bases, invalid
@@ -68,8 +76,12 @@ sequence gives NA. No values are inferred from links or block ranks.
   plots, missing values, and compatibility with existing ggiraph layers.
   The additional 87 line/bar checks cover midpoint/value geometry, both circle
   directions, local radial interpolation, missing/gap/contig separation, signed
-  bars, mixed-track legend isolation, earlier axes staying fixed when stacking,
+  bars, mixed-track legend isolation, earlier axes staying aligned when stacking,
   all four plot types, and interactive rendering with the original gene layers.
+- 246 additional checks cover automatic linear row expansion, separate ribbon
+  gaps, skipped-row and within-row links, label placement, and independent
+  ggplot2 element styling/removal in both layouts. Circular mixed-track PNG
+  bytes are identical to the previous development version.
 - Eight original default/casa_natal plots have identical built layer data
   and byte-identical PNGs against the original root checkout. All palette
   definitions and public plotting function signatures are identical.
@@ -78,8 +90,8 @@ sequence gives NA. No values are inferred from links or block ranks.
   views exported. The full track guide executes and renders successfully.
   Pandoc emits its existing deprecated syntax-highlighting-option notice.
 - Linear and circular three-track previews inspected and opened automatically
-  in the user's PDF viewer, as requested. The original heatmap example files
-  are retained. Temporary legend-debug output lives in the ignored validation
+  in the user's PDF viewer, as requested. The single-heatmap examples were
+  regenerated with the new linear layout. Temporary legend-debug output lives in the ignored validation
   directory; it is not a package file.
 - No new dependencies, release, deployed website, or Studio changes.
 

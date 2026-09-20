@@ -1,9 +1,9 @@
 #' Add a coordinate-aligned annotation track to a synteny plot
 #'
 #' Add with `p + syn_track(data)` to any of the four synteny plotting functions.
-#' Choose heatmap tiles, a line graph, or interval bars above each linear
-#' chromosome/contig or in an outer circular ring. Additions stack outward. Gene
-#' and chromosome labels move outward to make room.
+#' Choose heatmap tiles, a line graph, or interval bars below each linear
+#' chromosome/contig or in an outer circular ring. Linear genome rows expand
+#' automatically, keeping ribbons in separate gaps. Circular additions stack outward.
 #'
 #' @param data Data frame with `group`, `seq_id`, `start`, `end`, and numeric
 #'   `value`. `group` identifies a species (macro) or bin (micro). The key pairs
@@ -17,13 +17,22 @@
 #'   intervals leave gaps; they are not interpreted as zero.
 #' @param height,gap Track thickness and preceding gap, as fractions of linear
 #'   tier spacing or of the original circle radius. Both layouts default to
-#'   the same proportions. For more linear tracks, reduce these fractions.
+#'   the same proportions. Linear rows expand to accommodate all tracks.
 #' @param show.legend Show this track's legend?
 #' @param geom Track display: `"heatmap"` (default), `"line"`, or `"bar"`.
 #'   Lines join interval midpoints in genomic order; bars span each interval.
 #' @param colour Fixed color for line or bar tracks. Heatmaps use `palette`.
 #' @param linewidth Line thickness in mm for line tracks.
 #' @param reference Optional value for a dashed guide in line/bar tracks.
+#'   Use `NULL` (the default) to remove the middle guide.
+#' @param background Track background as a [ggplot2::element_rect()].
+#'   Use `element_blank()` for no background. `NULL` selects a light grey
+#'   background for lines/bars and no background for heatmaps.
+#' @param border Track boundary lines as a [ggplot2::element_line()].
+#'   Use `element_blank()` for no borders. `NULL` selects light grey
+#'   borders for lines/bars and no borders for heatmaps.
+#' @param reference_line Reference guide style as a [ggplot2::element_line()].
+#'   Use `element_blank()` to hide it, even when `reference` is supplied.
 #' @param baseline Bar origin, within `limits`. Defaults to the lower limit.
 #'   Use zero with limits spanning zero for signed measurements.
 #' @param axis Show limit labels alongside line/bar tracks? Their lower/inner
@@ -42,7 +51,11 @@
 #'   in genomic position and value, following the ring without joining its ends.
 #'   Missing bars leave gaps; missing heatmap values use `na.value`.
 #'
-#'   Tracks do not change gene or ribbon colors, coordinates or palette names.
+#'   Tracks do not change gene or ribbon colors, genomic positions or palette names.
+#'   Linear tracks stack below genes; labels sit above genes. Rows spread apart
+#'   to reserve a separate ribbon gap. Links skipping a row are shown in pieces
+#'   across the gaps, never through intervening tracks. Their genomic positions
+#'   and identities are retained. Circular layouts are unchanged.
 #'   Heatmaps have separate aesthetics (`syn_track1`, `syn_track2`, ...),
 #'   allowing independent legends without another package. Customize heatmap
 #'   colors with [scale_fill_syn_track()]. Line/bar limits control geometry;
@@ -63,7 +76,10 @@ syn_track <- function(data, name = "GC (%)", limits = c(0, 100),
                       na.value = "#BDBDBD", height = 0.10, gap = 0.03,
                       show.legend = TRUE, geom = c("heatmap", "line", "bar"),
                       colour = "#246B78", linewidth = 0.5, reference = NULL,
-                      baseline = limits[1], axis = TRUE) {
+                      baseline = limits[1], axis = TRUE,
+                      background = NULL, border = NULL,
+                      reference_line = ggplot2::element_line(
+                        colour = "#A6ADB4", linewidth = 0.25, linetype = "dashed")) {
   geom <- match.arg(geom)
   data <- .track_intervals(data)
   if (!"value" %in% names(data) || !is.numeric(data$value) ||
@@ -85,11 +101,22 @@ syn_track <- function(data, name = "GC (%)", limits = c(0, 100),
     stop("name must be one string.", call. = FALSE)
   colors <- syn_pal(palette, 256, continuous = TRUE)
   grDevices::col2rgb(c(colors, na.value, colour))
+  if (is.null(background)) background <- if (geom == "heatmap") ggplot2::element_blank() else
+    ggplot2::element_rect(fill = "#F4F6F8", colour = NA)
+  if (is.null(border)) border <- if (geom == "heatmap") ggplot2::element_blank() else
+    ggplot2::element_line(colour = "#D3D9DE", linewidth = 0.25)
+  for (nm in c("background", "border", "reference_line")) {
+    element <- get(nm)
+    expected <- if (nm == "background") "element_rect" else "element_line"
+    if (!inherits(element, expected) && !inherits(element, "element_blank"))
+      stop(nm, " must be a ggplot2::", expected, "() or element_blank().", call. = FALSE)
+  }
   structure(list(data = data, name = name, limits = limits, palette = colors,
                  na.value = na.value, height = height, gap = gap,
                  show.legend = show.legend, geom = geom, colour = colour,
                  linewidth = linewidth, reference = reference,
-                 baseline = baseline, axis = axis), class = "syn_track")
+                 baseline = baseline, axis = axis, background = background,
+                 border = border, reference_line = reference_line), class = "syn_track")
 }
 
 #' Continuous fill scale for an annotation track
@@ -207,8 +234,14 @@ ggplot_add.syn_track <- function(object, plot, object_name = NULL, ...) {
   lower <- layout$edge + used + object$gap * layout$unit
   upper <- layout$edge + used + increment
   circular <- layout$type == "circular"
-  if (!circular && upper > 0.55 * layout$unit)
-    stop("Tracks exceed the space between tiers; reduce height or gap.", call. = FALSE)
+  if (!circular) {
+    plot <- .track_linear_reflow(plot, layout, increment)
+    layout <- attr(plot, "synteny_layout", exact = TRUE)
+    sectors <- layout$sectors
+    # Values still increase upward, although successive lanes stack downward.
+    bounds <- -c(upper, lower)
+    lower <- bounds[1]; upper <- bounds[2]
+  }
   context <- list(data = data, index = index, sectors = sectors,
                   circular = circular, lower = lower, upper = upper)
 
@@ -222,9 +255,6 @@ ggplot_add.syn_track <- function(object, plot, object_name = NULL, ...) {
       radius <- sqrt(d$x^2 + d$y^2)
       d$x <- d$x * (radius + increment) / radius
       d$y <- d$y * (radius + increment) / radius
-    } else if (!circular && all(c("ly", "y") %in% names(d))) {
-      above <- d$ly > d$y
-      d$ly[above] <- d$ly[above] + increment
     } else next
     plot$layers[[i]] <- .track_clone(layer, data = d)
   }
@@ -232,7 +262,7 @@ ggplot_add.syn_track <- function(object, plot, object_name = NULL, ...) {
   if (circular) {
     coord_limits$x <- coord_limits$x + c(-increment, increment)
     coord_limits$y <- coord_limits$y + c(-increment, increment)
-  } else coord_limits$y[2] <- coord_limits$y[2] + increment
+  }
   plot$coordinates <- .track_clone(plot$coordinates, limits = coord_limits)
 
   tracks <- attr(plot, "synteny_tracks", exact = TRUE) %||% list()

@@ -106,7 +106,10 @@ change its GC content.
 ## Multiple tracks and custom colors
 
 The first addition is closest to the chromosome or gene row. Later additions
-stack outward, with their own legends. Labels move outward with the tracks.
+stack below linear genes or outward around a circle, with their own legends.
+Linear rows expand automatically; ribbons occupy separate gaps, and gene
+labels sit above the genes. Links skipping a row are split across the gaps,
+never drawn through intervening tracks. Circular labels move outward as before.
 
 ```{r mixed-types}
 sliding_gc <- gc_content(dna, window = 400, step = 100)
@@ -129,6 +132,22 @@ the lower and upper limits. `reference` adds a dashed guide at a chosen value.
 Use `axis = FALSE` to hide the edge labels and `show.legend = FALSE` to hide
 the track's legend. `colour` sets line/bar color; `linewidth` sets line thickness.
 Heatmap colors still use `palette` and `scale_fill_syn_track()`.
+
+Set `reference = NULL` to remove the middle guide. Style each part with native
+ggplot2 elements, independently of the other tracks:
+
+```{r track-style}
+p + syn_track(gene_gc, geom = "line", colour = "#176D81", reference = NULL,
+  background = ggplot2::element_rect(fill = "ivory", colour = NA),
+  border = ggplot2::element_line(colour = "#BACACD", linewidth = 0.3))
+```
+
+`background = element_blank()` removes the background; `border = element_blank()`
+removes boundary lines. To change a visible guide, supply `reference = 50` and
+`reference_line = element_line(colour = "grey60", linetype = "dotted")`.
+The background rectangle can also carry a full outline through its `colour`.
+These styles are translated into ordinary ggplot2 polygon and path layers;
+plots remain editable ggplot objects, not images or separate drawing systems.
 
 Lines sort window centers within each contig, with breaks at missing values,
 uncovered gaps and contig boundaries. A lone value appears as a point. Window
@@ -153,7 +172,7 @@ p + syn_track(gene_gc, name = "GC (%)") +
 ```
 
 `height` and `gap` are fractions of linear row spacing or the original circle
-radius. Reduce them if many linear tracks need to fit between rows. Use
+radius. Linear rows expand automatically; reduce these fractions for a more compact plot. Use
 `limits` and `name` for other numeric measurements, for example
 `syn_track(coverage, name = "Depth", limits = c(0, 200))`.
 
