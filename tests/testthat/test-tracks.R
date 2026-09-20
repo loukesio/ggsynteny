@@ -1,9 +1,3 @@
-track_test_render <- function(p) {
-  grDevices::pdf(NULL)
-  on.exit(grDevices::dev.off())
-  ggplot2::ggplotGrob(p)
-}
-
 test_that("GC counts use exact half-open intervals and exclude ambiguous bases", {
   dna <- data.frame(group = c("A", "B", "C"), seq_id = "1",
                     sequence = c("acgtGGccNNAT", "RYSWKMBDHVN", NA_character_))

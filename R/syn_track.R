@@ -1,8 +1,8 @@
 #' Add a coordinate-aligned annotation track to a synteny plot
 #'
 #' Add with `p + syn_track(data)` to any of the four synteny plotting functions.
-#' Each interval becomes a colored tile above its linear chromosome/contig or
-#' in an outer circular ring. Further additions stack outward. Existing gene
+#' Choose heatmap tiles, a line graph, or interval bars above each linear
+#' chromosome/contig or in an outer circular ring. Additions stack outward. Gene
 #' and chromosome labels move outward to make room.
 #'
 #' @param data Data frame with `group`, `seq_id`, `start`, `end`, and numeric
@@ -18,20 +18,35 @@
 #' @param height,gap Track thickness and preceding gap, as fractions of linear
 #'   tier spacing or of the original circle radius. Both layouts default to
 #'   the same proportions. For more linear tracks, reduce these fractions.
-#' @param show.legend Show this track's color bar?
+#' @param show.legend Show this track's legend?
+#' @param geom Track display: `"heatmap"` (default), `"line"`, or `"bar"`.
+#'   Lines join interval midpoints in genomic order; bars span each interval.
+#' @param colour Fixed color for line or bar tracks. Heatmaps use `palette`.
+#' @param linewidth Line thickness in mm for line tracks.
+#' @param reference Optional value for a dashed guide in line/bar tracks.
+#' @param baseline Bar origin, within `limits`. Defaults to the lower limit.
+#'   Use zero with limits spanning zero for signed measurements.
+#' @param axis Show limit labels alongside line/bar tracks? Their lower/inner
+#'   edge represents the lower limit, and upper/outer edge the upper limit.
 #' @return An object added to a ggplot with `+`. The resulting ggplot contains
-#'   native polygon layers and an independent continuous scale per track.
+#'   native ggplot2 layers and an independent legend per track.
 #'   Its `synteny_tracks` attribute records displayed interval tables.
 #' @details Track intervals must have positive widths within displayed sequence
 #'   bounds. Rows for groups excluded from the plot are omitted with a warning;
 #'   unknown sequences within displayed groups error. Overlaps are drawn in
 #'   input order (later rows on top); overlapping sliding windows can instead
 #'   be calculated with [gc_content()] and reduced to non-overlapping tiles.
+#'   Lines support overlapping windows, require distinct midpoints within each
+#'   sequence, and break at NA values, uncovered gaps, and sequence boundaries.
+#'   An isolated non-missing value is drawn as a point. Circular lines interpolate
+#'   in genomic position and value, following the ring without joining its ends.
+#'   Missing bars leave gaps; missing heatmap values use `na.value`.
 #'
 #'   Tracks do not change gene or ribbon colors, coordinates or palette names.
-#'   Each track has a separate aesthetic (`syn_track1`, `syn_track2`, ...),
-#'   allowing independent legends without another package. Customize a track
-#'   scale with [scale_fill_syn_track()]. Tracks are static, including when
+#'   Heatmaps have separate aesthetics (`syn_track1`, `syn_track2`, ...),
+#'   allowing independent legends without another package. Customize heatmap
+#'   colors with [scale_fill_syn_track()]. Line/bar limits control geometry;
+#'   specify them in `syn_track()`, not a global ggplot2 y scale. Tracks are static, including when
 #'   added to a ggiraph-enabled plot; existing interactive layers still work.
 #'   Add tracks before changing coordinates or applying facets. Faceting and
 #'   transformed/replaced coordinates are not supported for track placement.
@@ -46,7 +61,10 @@
 syn_track <- function(data, name = "GC (%)", limits = c(0, 100),
                       palette = c("#F7FBFF", "#6BAED6", "#08306B"),
                       na.value = "#BDBDBD", height = 0.10, gap = 0.03,
-                      show.legend = TRUE) {
+                      show.legend = TRUE, geom = c("heatmap", "line", "bar"),
+                      colour = "#246B78", linewidth = 0.5, reference = NULL,
+                      baseline = limits[1], axis = TRUE) {
+  geom <- match.arg(geom)
   data <- .track_intervals(data)
   if (!"value" %in% names(data) || !is.numeric(data$value) ||
       any(!is.na(data$value) & !is.finite(data$value)))
@@ -57,18 +75,27 @@ syn_track <- function(data, name = "GC (%)", limits = c(0, 100),
   .circ_scalar(height, "height", 0.001, 1)
   .circ_scalar(gap, "gap", 0, 1)
   .circ_logical(show.legend, "show.legend")
+  .circ_logical(axis, "axis")
+  .circ_scalar(linewidth, "linewidth", 0.01, 10)
+  .circ_scalar(baseline, "baseline", limits[1], limits[2])
+  if (!is.null(reference)) .circ_scalar(reference, "reference", limits[1], limits[2])
+  if (!is.character(colour) || length(colour) != 1L || is.na(colour))
+    stop("colour must be one non-missing color.", call. = FALSE)
   if (!is.character(name) || length(name) != 1L || is.na(name))
     stop("name must be one string.", call. = FALSE)
   colors <- syn_pal(palette, 256, continuous = TRUE)
-  grDevices::col2rgb(c(colors, na.value))
+  grDevices::col2rgb(c(colors, na.value, colour))
   structure(list(data = data, name = name, limits = limits, palette = colors,
                  na.value = na.value, height = height, gap = gap,
-                 show.legend = show.legend), class = "syn_track")
+                 show.legend = show.legend, geom = geom, colour = colour,
+                 linewidth = linewidth, reference = reference,
+                 baseline = baseline, axis = axis), class = "syn_track")
 }
 
 #' Continuous fill scale for an annotation track
 #'
-#' Replace an individual track's scale without changing gene or ribbon colors.
+#' Replace an individual heatmap's scale without changing gene or ribbon colors.
+#' Line and bar value ranges are set by `limits` in [syn_track()].
 #' @param track Track number in the order it was added, starting at 1.
 #' @param name Legend title.
 #' @param limits Two increasing finite numbers. Use the same limits supplied
@@ -138,7 +165,7 @@ scale_fill_syn_track <- function(track = 1, name = "GC (%)", limits = c(0, 100),
 # existing identity fill scale. Drawing delegates to ggplot2's polygon geom.
 .track_geom <- function(aesthetic) {
   defaults <- ggplot2::GeomPolygon$default_aes
-  defaults[[aesthetic]] <- "grey50"
+  defaults[[aesthetic]] <- NA_character_
   ggplot2::ggproto(NULL, ggplot2::GeomPolygon,
     default_aes = defaults,
     draw_panel = function(data, panel_params, coord, ...) {
@@ -146,6 +173,8 @@ scale_fill_syn_track <- function(track = 1, name = "GC (%)", limits = c(0, 100),
       ggplot2::GeomPolygon$draw_panel(data, panel_params, coord, ...)
     },
     draw_key = function(data, params, size) {
+      if (is.null(data[[aesthetic]]) || all(is.na(data[[aesthetic]])))
+        return(ggplot2::draw_key_blank(data, params, size))
       data$fill <- data[[aesthetic]]
       ggplot2::draw_key_polygon(data, params, size)
     })
@@ -180,28 +209,15 @@ ggplot_add.syn_track <- function(object, plot, object_name = NULL, ...) {
   circular <- layout$type == "circular"
   if (!circular && upper > 0.55 * layout$unit)
     stop("Tracks exceed the space between tiers; reduce height or gap.", call. = FALSE)
-  polygons <- dplyr::bind_rows(lapply(seq_len(nrow(data)), function(i) {
-    j <- index[i]
-    if (circular) {
-      angles <- sectors$theta_start[j] +
-        (c(data$start[i], data$end[i]) - sectors$start[j]) /
-        (sectors$end[j] - sectors$start[j]) * (sectors$theta_end[j] - sectors$theta_start[j])
-      poly <- .circ_ring(angles[1], angles[2], lower, upper)
-    } else {
-      x <- sectors$x[j] + c(data$start[i], data$end[i]) - sectors$start[j]
-      poly <- data.frame(x = x[c(1, 2, 2, 1)],
-                         y = sectors$y[j] + c(lower, lower, upper, upper))
-    }
-    poly$track_interval <- i
-    poly$value <- data$value[i]
-    poly
-  }))
+  context <- list(data = data, index = index, sectors = sectors,
+                  circular = circular, lower = lower, upper = upper)
 
   # Clone modified layers/coordinates so adding tracks never mutates a reused p.
   for (i in seq_along(plot$layers)) {
     layer <- plot$layers[[i]]
     d <- layer$data
     if (!inherits(layer$geom, "GeomText") || !is.data.frame(d)) next
+    if ("track_axis" %in% names(d)) next
     if (circular && all(c("text_angle", "x", "y") %in% names(d))) {
       radius <- sqrt(d$x^2 + d$y^2)
       d$x <- d$x * (radius + increment) / radius
@@ -221,15 +237,9 @@ ggplot_add.syn_track <- function(object, plot, object_name = NULL, ...) {
 
   tracks <- attr(plot, "synteny_tracks", exact = TRUE) %||% list()
   number <- length(tracks) + 1L
-  aesthetic <- paste0("syn_track", number)
-  mapping <- ggplot2::aes(x = x, y = y, group = track_interval)
-  mapping[[aesthetic]] <- ggplot2::aes(fill = value)$fill
-  plot <- plot + ggplot2::layer(
-    data = polygons, mapping = mapping, stat = "identity", position = "identity",
-    geom = .track_geom(aesthetic), inherit.aes = FALSE,
-    show.legend = object$show.legend, params = list(colour = NA, na.rm = FALSE)) +
-    scale_fill_syn_track(number, object$name, object$limits, object$palette, object$na.value)
-  tracks[[number]] <- list(name = object$name, data = data, lower = lower, upper = upper)
+  plot <- plot + .track_layers(object, context, number)
+  tracks[[number]] <- list(name = object$name, data = data, lower = lower, upper = upper,
+                           geom = object$geom, limits = object$limits)
   attr(plot, "synteny_tracks") <- tracks
   layout$used <- used + increment
   attr(plot, "synteny_layout") <- layout

@@ -13,9 +13,9 @@ library(ggsynteny)
 ```
 
 Add a GC-content strip to any synteny plot with `p + syn_track(values)`.
-The same table works in linear and circular views. Each interval receives a
-color from its measured value; the underlying gene and ribbon colors keep
-their own meaning. All drawing uses ggplot2 layers.
+The same table works in linear and circular views. Choose `geom = "heatmap"`,
+`"line"`, or `"bar"`, and combine them with `+`. The underlying gene and ribbon
+colors keep their own meaning. All drawing uses ggplot2 layers.
 
 ## A complete gene example
 
@@ -67,7 +67,8 @@ The final window is shortened at a sequence end. Set `step` smaller than
 `window` to calculate sliding windows. Their intervals overlap; tiles draw in
 input order, with later rows on top. For an unambiguous heatmap, use
 non-overlapping windows or reduce overlapping measurements to disjoint bins
-before plotting. Intervals crossing a circular origin must first be split;
+before plotting. A line track instead plots the value at each window center,
+so overlapping sliding windows can be displayed directly. Intervals crossing a circular origin must first be split;
 the calculator does not wrap windows around the origin.
 
 ## Supplying your own measurements
@@ -107,6 +108,43 @@ change its GC content.
 The first addition is closest to the chromosome or gene row. Later additions
 stack outward, with their own legends. Labels move outward with the tracks.
 
+```{r mixed-types}
+sliding_gc <- gc_content(dna, window = 400, step = 100)
+ambiguous <- gc_content(dna, window = 100)
+ambiguous$value <- 100 * ambiguous$n_ambiguous / (ambiguous$end - ambiguous$start)
+tracks <- list(
+  syn_track(gene_gc, geom = "heatmap", name = "Gene GC (%)", height = 0.055),
+  syn_track(sliding_gc, geom = "line", name = "Window GC (%)",
+            height = 0.19, gap = 0.025, colour = "#176D81", reference = 50),
+  syn_track(ambiguous, geom = "bar", name = "Ambiguous bases (%)",
+            height = 0.11, gap = 0.025, colour = "#BE7442")
+)
+plot_microsynteny(features, links, palette = "casa_natal", label_genes = FALSE) + tracks
+plot_circular_microsynteny(features, links, palette = "casa_natal", label_genes = FALSE) + tracks
+```
+
+Each track owns its value range, set through `limits`. Lines and bars increase
+upward in a linear plot and outward in a circular plot. The edge labels show
+the lower and upper limits. `reference` adds a dashed guide at a chosen value.
+Use `axis = FALSE` to hide the edge labels and `show.legend = FALSE` to hide
+the track's legend. `colour` sets line/bar color; `linewidth` sets line thickness.
+Heatmap colors still use `palette` and `scale_fill_syn_track()`.
+
+Lines sort window centers within each contig, with breaks at missing values,
+uncovered gaps and contig boundaries. A lone value appears as a point. Window
+centers must be distinct within a contig. Circular lines interpolate genomic
+position and value before drawing, so sparse points follow the ring; they do
+not connect across the circle's origin. No smoothing or new GC estimates are
+applied. Changing window width or step changes the summaries being plotted.
+
+Bars span each interval and start at `baseline`, which defaults to the lower
+limit. For a signed measurement, use e.g. `limits = c(-1, 1), baseline = 0`.
+Missing bars leave gaps; missing heatmap values use `na.value`. Tracks with
+only missing line/bar values retain the empty lane and axes, with no data key
+in the legend. Bars and heatmaps draw overlapping intervals in input order.
+
+You can also stack two heatmaps:
+
 ```{r multiple}
 uncalled <- gene_gc
 uncalled$value <- 100 * uncalled$n_ambiguous / (uncalled$end - uncalled$start)
@@ -130,8 +168,7 @@ track scale. Numeric limits stay shared across all groups, making colors
 comparable. `na.value` changes the color for explicitly missing measurements.
 
 Add tracks before replacing coordinates. Faceting and coordinate transforms
-are not supported for track placement. The initial track display is a heatmap;
-line charts and bar tracks are future extensions. Track tiles are static even
+are not supported for track placement. All three track types are static even
 on interactive plots; existing gene and ribbon hover information still works.
 Studio does not yet provide a track upload control.
 

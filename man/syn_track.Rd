@@ -12,7 +12,13 @@ syn_track(
   na.value = "#BDBDBD",
   height = 0.1,
   gap = 0.03,
-  show.legend = TRUE
+  show.legend = TRUE,
+  geom = c("heatmap", "line", "bar"),
+  colour = "#246B78",
+  linewidth = 0.5,
+  reference = NULL,
+  baseline = limits[1],
+  axis = TRUE
 )
 }
 \arguments{
@@ -35,17 +41,32 @@ intervals leave gaps; they are not interpreted as zero.}
 tier spacing or of the original circle radius. Both layouts default to
 the same proportions. For more linear tracks, reduce these fractions.}
 
-\item{show.legend}{Show this track's color bar?}
+\item{show.legend}{Show this track's legend?}
+
+\item{geom}{Track display: \code{"heatmap"} (default), \code{"line"}, or \code{"bar"}.
+Lines join interval midpoints in genomic order; bars span each interval.}
+
+\item{colour}{Fixed color for line or bar tracks. Heatmaps use \code{palette}.}
+
+\item{linewidth}{Line thickness in mm for line tracks.}
+
+\item{reference}{Optional value for a dashed guide in line/bar tracks.}
+
+\item{baseline}{Bar origin, within \code{limits}. Defaults to the lower limit.
+Use zero with limits spanning zero for signed measurements.}
+
+\item{axis}{Show limit labels alongside line/bar tracks? Their lower/inner
+edge represents the lower limit, and upper/outer edge the upper limit.}
 }
 \value{
 An object added to a ggplot with \code{+}. The resulting ggplot contains
-native polygon layers and an independent continuous scale per track.
+native ggplot2 layers and an independent legend per track.
 Its \code{synteny_tracks} attribute records displayed interval tables.
 }
 \description{
 Add with \code{p + syn_track(data)} to any of the four synteny plotting functions.
-Each interval becomes a colored tile above its linear chromosome/contig or
-in an outer circular ring. Further additions stack outward. Existing gene
+Choose heatmap tiles, a line graph, or interval bars above each linear
+chromosome/contig or in an outer circular ring. Additions stack outward. Gene
 and chromosome labels move outward to make room.
 }
 \details{
@@ -54,11 +75,17 @@ bounds. Rows for groups excluded from the plot are omitted with a warning;
 unknown sequences within displayed groups error. Overlaps are drawn in
 input order (later rows on top); overlapping sliding windows can instead
 be calculated with \code{\link[=gc_content]{gc_content()}} and reduced to non-overlapping tiles.
+Lines support overlapping windows, require distinct midpoints within each
+sequence, and break at NA values, uncovered gaps, and sequence boundaries.
+An isolated non-missing value is drawn as a point. Circular lines interpolate
+in genomic position and value, following the ring without joining its ends.
+Missing bars leave gaps; missing heatmap values use \code{na.value}.
 
 Tracks do not change gene or ribbon colors, coordinates or palette names.
-Each track has a separate aesthetic (\code{syn_track1}, \code{syn_track2}, ...),
-allowing independent legends without another package. Customize a track
-scale with \code{\link[=scale_fill_syn_track]{scale_fill_syn_track()}}. Tracks are static, including when
+Heatmaps have separate aesthetics (\code{syn_track1}, \code{syn_track2}, ...),
+allowing independent legends without another package. Customize heatmap
+colors with \code{\link[=scale_fill_syn_track]{scale_fill_syn_track()}}. Line/bar limits control geometry;
+specify them in \code{syn_track()}, not a global ggplot2 y scale. Tracks are static, including when
 added to a ggiraph-enabled plot; existing interactive layers still work.
 Add tracks before changing coordinates or applying facets. Faceting and
 transformed/replaced coordinates are not supported for track placement.

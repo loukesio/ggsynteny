@@ -1,5 +1,12 @@
 # ggsynteny (development version)
 
+* Extend `syn_track()` with modular `geom = "line"` and `geom = "bar"`
+  renderers that compose with heatmaps in every layout. Lines follow window
+  centers, break at missing values/gaps/contig boundaries, and interpolate
+  within circular rings. Bars support signed values and a chosen baseline.
+  Each numerical track has independent limits, guides, labels and legends.
+  Add a reproducible three-track linear/circular example.
+
 * Add optional GC-content and numeric annotation tracks with `p + syn_track()`
   in all four linear/circular, chromosome/gene views. Native ggplot2 polygon
   layers use independent continuous scales, stack outward, and move labels

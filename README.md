@@ -28,17 +28,39 @@ The previous [0.3.0 source is preserved](https://github.com/loukesio/ggsynteny/r
 
 <img align="right" src="man/figures/logo.png" alt="ggsynteny logo: genomics for R" width="320">
 
+**You are viewing the GC-track development branch.** To try the heatmap,
+line and bar tracks shown here, install this branch explicitly:
+
 ``` r
-# with remotes (lightweight)
-install.packages("remotes")
-remotes::install_github("loukesio/ggsynteny")
-
-# ...or with devtools
-devtools::install_github("loukesio/ggsynteny")
-
-# and load it
-library(ggsynteny)
+install.packages("remotes")  # only needed once
+remotes::install_github(
+  "loukesio/ggsynteny",
+  ref = "feature/gc-content-tracks",
+  upgrade = "never"
+)
 ```
+
+Restart R after installation if ggsynteny was already loaded. Then run:
+
+``` r
+library(ggsynteny)
+packageVersion("ggsynteny")  # 0.5.0.9000 on this development branch
+source(system.file("examples", "annotation-tracks.R", package = "ggsynteny"))
+print(track_demo$linear)
+print(track_demo$circular)
+```
+
+The demo uses bundled simulated DNA, so no data download is needed. It creates
+three tracks: a gene GC heatmap, GC across sliding windows as a line, and
+ambiguous-base percentages as bars.
+
+**[Start with the step-by-step track tutorial](dev/gc-tracks/tutorial/README.md)**
+for an explanation of the data, a gradual build from one track to three,
+both layouts, and saving your plots.
+
+Installing without `ref` gets the main branch, which does not yet include
+these tracks. To return to main later, restart R and run
+`remotes::install_github("loukesio/ggsynteny", ref = "main", upgrade = "never")`.
 
 <br>
 
@@ -95,6 +117,26 @@ GC uses only A/C/G/T bases; grey tiles mark missing values. Sequence-based
 calculations use zero-based, half-open base-pair coordinates, which must match
 the plot's units and origin. These examples use simulated DNA and do not claim
 GC measurements for the package's real biological datasets.
+
+Mix track types by adding them in order. For example, combine gene colors
+with a line graph of GC across sliding windows:
+
+``` r
+window_gc <- gc_content(dna, window = 400, step = 100)
+tracks <- list(
+  syn_track(gene_gc, geom = "heatmap", name = "Gene GC (%)", height = 0.06),
+  syn_track(window_gc, geom = "line", name = "Window GC (%)",
+            height = 0.19, colour = "#176D81", reference = 50)
+)
+plot_microsynteny(features, links, palette = "casa_natal") + tracks
+plot_circular_microsynteny(features, links, palette = "casa_natal") + tracks
+# geom = "bar" adds interval bars; each track has its own limits and legend.
+```
+
+<img src="man/figures/gc-tracks/modular-circular.png" alt="Three stacked tracks around gene synteny: gene GC heatmap, sliding-window GC line and ambiguous-base bars, using simulated DNA" width="92%" />
+
+[Three-track example PDF](man/figures/gc-tracks/modular-tracks.pdf) ·
+[Reproduce the mixed tracks](data-raw/modular_tracks.R)
 
 ## Real data: rice vs sorghum
 

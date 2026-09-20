@@ -1,7 +1,7 @@
 Package: ggsynteny
 Type: Package
 Title: Publication-Quality Synteny Plots with 'ggplot2'
-Version: 0.5.0
+Version: 0.5.0.9000
 Authors@R:
     person("Loukas", "Theodosiou", email = "loukesio@gmail.com",
            role = c("aut", "cre"), comment = c(ORCID = "0000-0001-6418-4652"))

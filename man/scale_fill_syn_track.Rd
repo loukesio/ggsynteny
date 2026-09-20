@@ -32,5 +32,6 @@ to \code{\link[=syn_track]{syn_track()}} unless intentionally changing the displ
 A ggplot2 continuous scale for the selected track.
 }
 \description{
-Replace an individual track's scale without changing gene or ribbon colors.
+Replace an individual heatmap's scale without changing gene or ribbon colors.
+Line and bar value ranges are set by \code{limits} in \code{\link[=syn_track]{syn_track()}}.
 }
