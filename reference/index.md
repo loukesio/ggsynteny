@@ -18,6 +18,15 @@ Genomic-coordinate chord views built with ggplot2 layers.
 - [`plot_circular_microsynteny()`](https://loukesio.github.io/ggsynteny/reference/plot_circular_microsynteny.md)
   : Plot gene-level synteny around a circle
 
+## Reference comparison
+
+Compare supplied variants and alignment identity on a shared reference.
+
+- [`plot_reference_comparison()`](https://loukesio.github.io/ggsynteny/reference/plot_reference_comparison.md)
+  : Compare genomes on concentric reference-coordinate rings
+- [`save_reference_comparison()`](https://loukesio.github.io/ggsynteny/reference/save_reference_comparison.md)
+  : Save a reference comparison with the bundled IBM Plex fonts
+
 ## Interactive
 
 ggiraph rendering with hover highlights and tooltips.

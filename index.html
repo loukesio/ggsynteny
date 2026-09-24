@@ -16,8 +16,8 @@
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Publication-Quality Synteny Plots with ggplot2">
-<meta name="description" content='Create publication-quality synteny plots for comparative genomics. Supports both macro-synteny (chromosome-level) and micro-synteny (gene-level) visualizations with flexible coloring schemes, including the 32 palettes of the ltc package usable by name (e.g. palette = "casa_natal"). Includes parsers for common synteny file formats including MCScanX, GENESPACE, and custom TSV formats. Circular chromosome and gene views use native ggplot2 layers to connect genomic intervals with chord ribbons. An optional Shiny app previews uploaded results, draws all four plot types, and exports figures and the displayed data.'>
-<meta property="og:description" content='Create publication-quality synteny plots for comparative genomics. Supports both macro-synteny (chromosome-level) and micro-synteny (gene-level) visualizations with flexible coloring schemes, including the 32 palettes of the ltc package usable by name (e.g. palette = "casa_natal"). Includes parsers for common synteny file formats including MCScanX, GENESPACE, and custom TSV formats. Circular chromosome and gene views use native ggplot2 layers to connect genomic intervals with chord ribbons. An optional Shiny app previews uploaded results, draws all four plot types, and exports figures and the displayed data.'>
+<meta name="description" content='Create publication-quality synteny plots for comparative genomics. Supports both macro-synteny (chromosome-level) and micro-synteny (gene-level) visualizations with flexible coloring schemes, including the 32 palettes of the ltc package usable by name (e.g. palette = "casa_natal"). Includes parsers for common synteny file formats including MCScanX, GENESPACE, and custom TSV formats. Circular chromosome and gene views use native ggplot2 layers to connect genomic intervals with chord ribbons. An optional Shiny app previews uploaded results and exports figures and the displayed data. Reference comparison rings display supplied variant calls and optional alignment identity windows for one or more comparison genomes.'>
+<meta property="og:description" content='Create publication-quality synteny plots for comparative genomics. Supports both macro-synteny (chromosome-level) and micro-synteny (gene-level) visualizations with flexible coloring schemes, including the 32 palettes of the ltc package usable by name (e.g. palette = "casa_natal"). Includes parsers for common synteny file formats including MCScanX, GENESPACE, and custom TSV formats. Circular chromosome and gene views use native ggplot2 layers to connect genomic intervals with chord ribbons. An optional Shiny app previews uploaded results and exports figures and the displayed data. Reference comparison rings display supplied variant calls and optional alignment identity windows for one or more comparison genomes.'>
 <meta property="og:image" content="https://loukesio.github.io/ggsynteny/logo.png">
 </head>
 <body>
@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ggsynteny</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -678,11 +678,111 @@
 <p>Download <strong>PDF or PNG</strong>, the <strong>displayed data tables</strong>, <strong>pair counts</strong>, or an <strong>R script</strong> that recreates the figure from those tables. No identity scores or missing homology links are inferred. The software selector reads existing results; it does not run MCScanX, GENESPACE or an alignment pipeline. Shiny is optional and is not required to use the plotting functions.</p>
 </div>
 <div class="section level3">
+<h3 id="reference-comparison-one-reference-two-or-more-genomes">Reference comparison: one reference, two or more genomes<a class="anchor" aria-label="anchor" href="#reference-comparison-one-reference-two-or-more-genomes"></a>
+</h3>
+<p>Studio also has a <strong>Reference comparison</strong> tab for the concentric genome-ring view. The inner ring is one reference sequence. Each outer ring is a comparison genome, and every ring uses the same reference coordinate system. Choose one comparison genome for a two-genome figure, or several for a multi-genome figure.</p>
+<p>Run <code><a href="reference/ggsynteny_app.html">ggsynteny_app()</a></code> from the current GitHub version, open <strong>Reference comparison</strong>, and expand <strong>Data, reference &amp; figure settings</strong> to upload your tables. Enter the reference name and length in base pairs. The built-in demonstration uses invented data. The separately hosted Studio may run an earlier version.</p>
+<p>The centre shows the reference name and total length. Hover over a ring to see the exact reference position and a line through all rings at that position. Moving off the rings restores the reference label. PDF and PNG downloads keep the reference name and length, with the same fonts and ltc colours.</p>
+<p>The graph needs two kinds of input. The first table contains event calls:</p>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr>
+<th>Column</th>
+<th>Meaning</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>sample</code></td>
+<td>Name shown for the comparison genome</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>
+<code>INS</code>: insertion (added sequence); <code>DEL</code>: deletion (absent sequence); <code>DUP</code>: duplication (extra copy); <code>INV</code>: inversion (reversed sequence); <code>SNP</code>: single-base change</td>
+</tr>
+<tr>
+<td>
+<code>start</code>, <code>end</code>
+</td>
+<td>Zero-based reference coordinates; <code>end</code> is exclusive</td>
+</tr>
+<tr>
+<td><code>event_length</code></td>
+<td>Optional inserted length, in base pairs</td>
+</tr>
+<tr>
+<td><code>source_start</code></td>
+<td>Optional duplication source coordinate on the reference</td>
+</tr>
+</tbody>
+</table>
+<p>The second table is optional and controls the outer-ring shading. It contains non-overlapping reference windows and measured alignment identity:</p>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr>
+<th>Column</th>
+<th>Meaning</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>sample</code></td>
+<td>Comparison genome name, matching the event table</td>
+</tr>
+<tr>
+<td>
+<code>start</code>, <code>end</code>
+</td>
+<td>Reference window, with zero-based start and exclusive end</td>
+</tr>
+<tr>
+<td><code>identity</code></td>
+<td>Percentage of aligned bases matching the reference, from 0 to 100</td>
+</tr>
+</tbody>
+</table>
+<p>Identity is calculated from an alignment; it is not calculated from the number of variants. Missing windows remain unscored. The inner alternating dark bands are only a coordinate ruler. The outer identity scale is shared by all genomes: lighter means lower identity (90% or below), darker means higher identity (up to 100%), and pale green means no identity score. Higher identity means more matching aligned sequence, not a better biological result. Alignment coverage is not shown.</p>
+<p>The repository includes copyable example files: <a href="https://github.com/loukesio/ggsynteny/blob/main/inst/extdata/reference_comparison/variants.tsv" class="external-link"><code>variants.tsv</code></a> and <a href="https://github.com/loukesio/ggsynteny/blob/main/inst/extdata/reference_comparison/identity_windows.tsv" class="external-link"><code>identity_windows.tsv</code></a>. The values are invented teaching data. This complete script reads them and creates a reference comparison with two outer rings. Install the optional font packages once with <code>install.packages(c("showtext", "sysfonts"))</code> to export PDF and PNG files with the bundled IBM Plex fonts:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/loukesio/ggsynteny" class="external-link">ggsynteny</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">variants</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.delim</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"reference_comparison"</span>, <span class="st">"variants.tsv"</span>, package <span class="op">=</span> <span class="st">"ggsynteny"</span><span class="op">)</span>,</span>
+<span>  colClasses <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>sample <span class="op">=</span> <span class="st">"character"</span>, type <span class="op">=</span> <span class="st">"character"</span>, start <span class="op">=</span> <span class="st">"numeric"</span>,</span>
+<span>                 end <span class="op">=</span> <span class="st">"numeric"</span>, event_length <span class="op">=</span> <span class="st">"numeric"</span>, source_start <span class="op">=</span> <span class="st">"numeric"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">identity_windows</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.delim</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"reference_comparison"</span>, <span class="st">"identity_windows.tsv"</span>, package <span class="op">=</span> <span class="st">"ggsynteny"</span><span class="op">)</span>,</span>
+<span>  colClasses <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>sample <span class="op">=</span> <span class="st">"character"</span>, start <span class="op">=</span> <span class="st">"numeric"</span>, end <span class="op">=</span> <span class="st">"numeric"</span>, identity <span class="op">=</span> <span class="st">"numeric"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/plot_reference_comparison.html">plot_reference_comparison</a></span><span class="op">(</span></span>
+<span>  <span class="va">variants</span>, genome_length <span class="op">=</span> <span class="fl">4800000</span>, reference <span class="op">=</span> <span class="st">"Example reference"</span>,</span>
+<span>  sample_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Genome_A"</span>, <span class="st">"Genome_B"</span><span class="op">)</span>, palette <span class="op">=</span> <span class="st">"minou"</span>,</span>
+<span>  identity_windows <span class="op">=</span> <span class="va">identity_windows</span>, title <span class="op">=</span> <span class="st">"Invented reference comparison"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/save_reference_comparison.html">save_reference_comparison</a></span><span class="op">(</span><span class="va">p</span>, <span class="st">"reference-comparison.pdf"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/save_reference_comparison.html">save_reference_comparison</a></span><span class="op">(</span><span class="va">p</span>, <span class="st">"reference-comparison.png"</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="reference/figures/README-reference-comparison.png" alt="Invented reference comparison: two comparison genomes around a reference"><div class="figcaption">Invented reference comparison: two comparison genomes around a reference</div>
+</div>
+<p><strong>How to read this example:</strong> there are no horizontal or vertical axes. Start at the top and read clockwise; <code>M</code> and <code>Mb</code> mean one million base pairs. The centre’s <strong>4.800 Mb</strong> means the reference is 4,800,000 bases long. <code>R</code> marks the reference ruler, <code>A</code> is Genome_A and <code>B</code> is Genome_B. Each alternating dark ruler band spans 500,000 bases, except the final shorter band. The coloured marks show the event types in the legend: capped ticks mark insertions, outlined gaps mark deletions, split arcs mark duplications, solid arcs mark inversions, and fine ticks mark single-base changes. The curved ribbon links the supplied duplication source to its extra copy; it does not show movement or ancestry. Insertion tick size does not show inserted length or direction.</p>
+<p>For example, Genome_A’s deletion from 612,000 to 650,000 covers 38,000 reference bases. An identity score of <strong>99.6%</strong> means 996 of every 1,000 aligned bases match. These small files supply identity for only a few windows, so most of the outer rings have no score. More similarity or more variants is not inherently better; this view does not establish a biological effect or show alignment coverage. Overlapping calls may hide one another.</p>
+<p>For real data, make the identity table from an alignment tool such as MUMmer’s <code>nucmer</code> and <code>show-coords</code>. Resolve overlapping alignments before creating the windows. The app validates coordinate bounds, identity range, and overlap rules, but it does not run an aligner.</p>
+</div>
+<div class="section level3">
 <h3 id="syn_girafe--interactive-plots">
 <code>syn_girafe()</code> — interactive plots<a class="anchor" aria-label="anchor" href="#syn_girafe--interactive-plots"></a>
 </h3>
 <p><strong>What it’s for:</strong> hover highlighting and tooltips in HTML output (R Markdown, Quarto, Shiny, pkgdown) via <strong>ggiraph</strong>. Build the plot with <code>interactive = TRUE</code>, then render the widget with <code><a href="reference/syn_girafe.html">syn_girafe()</a></code> — hovering a ribbon fades all the others and shows the block coordinates (or the gene pair and its identity in micro-synteny):</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">rice_sorghum</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/plot_synteny.html">plot_synteny</a></span><span class="op">(</span><span class="va">rice_sorghum</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Rice"</span>, <span class="st">"Sorghum"</span><span class="op">)</span>,</span>
@@ -696,7 +796,7 @@
 <code>syn_palettes()</code> — the built-in colours<a class="anchor" aria-label="anchor" href="#syn_palettes--the-built-in-colours"></a>
 </h3>
 <p><strong>What it’s for:</strong> every <code>palette</code> argument accepts, by name, all 32 palettes of the <a href="https://github.com/loukesio/ltc-color-palettes" class="external-link">ltc package</a> (vendored — ltc need not be installed; a few are curated for use as fills on a white background, dropping pure-black and near-white entries). Names match case-insensitively and ignore spaces, underscores and dashes, so <code>"casa_natal"</code>, <code>"Casa Natal"</code> and <code>"casanatal"</code> are the same palette. <code>"Okabe-Ito"</code>, any colour vector, and <code><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">grDevices::hcl.colors()</a></code> names work too. <code><a href="reference/syn_palettes.html">syn_palettes()</a></code> returns them all as a named list:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="reference/syn_palettes.html">syn_palettes</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>      <span class="co"># all 32 names</span></span>
 <span><span class="fu"><a href="reference/syn_palettes.html">syn_palettes</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">casa_natal</span>  <span class="co"># the hex colours of one palette</span></span></code></pre></div>
 <p><img src="reference/figures/README-palettes.png" alt="All 32 built-in palettes" width="70%" style="display: block; margin: auto;"></p>
@@ -710,27 +810,27 @@
 <div class="section level3">
 <h3 id="id_1-native-tsv-format">1. Native TSV format<a class="anchor" aria-label="anchor" href="#id_1-native-tsv-format"></a>
 </h3>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">chr_file</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"chromosomes.tsv"</span>,    package <span class="op">=</span> <span class="st">"ggsynteny"</span><span class="op">)</span></span>
 <span><span class="va">blocks_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"synteny_blocks.tsv"</span>, package <span class="op">=</span> <span class="st">"ggsynteny"</span><span class="op">)</span></span>
 <span><span class="va">syn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_synteny_tsv.html">read_synteny_tsv</a></span><span class="op">(</span><span class="va">chr_file</span>, <span class="va">blocks_file</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/plot_synteny.html">plot_synteny</a></span><span class="op">(</span><span class="va">syn</span>, species_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Human"</span>, <span class="st">"Mouse"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><strong>chromosomes.tsv</strong> (sizes in any consistent unit, e.g. Mb):</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>species  chr  size</span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>Human    <span class="dv">1</span>    <span class="dv">249</span></span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>Human    <span class="dv">2</span>    <span class="dv">243</span></span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>Mouse    <span class="dv">1</span>    <span class="dv">195</span></span>
-<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>Mouse    <span class="dv">2</span>    <span class="dv">182</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>species  chr  size</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>Human    <span class="dv">1</span>    <span class="dv">249</span></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>Human    <span class="dv">2</span>    <span class="dv">243</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>Mouse    <span class="dv">1</span>    <span class="dv">195</span></span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>Mouse    <span class="dv">2</span>    <span class="dv">182</span></span></code></pre></div>
 <p><strong>synteny_blocks.tsv:</strong></p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>species1  chr1  start1  end1  species2  chr2  start2  end2</span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>Human     <span class="dv">1</span>     <span class="dv">10</span>      <span class="dv">25</span>    Mouse     <span class="dv">1</span>     <span class="dv">80</span>      <span class="dv">95</span></span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>Human     <span class="dv">1</span>     <span class="dv">100</span>     <span class="dv">120</span>   Mouse     <span class="dv">2</span>     <span class="dv">30</span>      <span class="dv">50</span></span>
-<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>Human     <span class="dv">2</span>     <span class="dv">5</span>       <span class="dv">40</span>    Mouse     <span class="dv">2</span>     <span class="dv">60</span>      <span class="dv">100</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>species1  chr1  start1  end1  species2  chr2  start2  end2</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>Human     <span class="dv">1</span>     <span class="dv">10</span>      <span class="dv">25</span>    Mouse     <span class="dv">1</span>     <span class="dv">80</span>      <span class="dv">95</span></span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>Human     <span class="dv">1</span>     <span class="dv">100</span>     <span class="dv">120</span>   Mouse     <span class="dv">2</span>     <span class="dv">30</span>      <span class="dv">50</span></span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>Human     <span class="dv">2</span>     <span class="dv">5</span>       <span class="dv">40</span>    Mouse     <span class="dv">2</span>     <span class="dv">60</span>      <span class="dv">100</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="id_2-mcscanx">2. MCScanX<a class="anchor" aria-label="anchor" href="#id_2-mcscanx"></a>
 </h3>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">coll_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"mcscanx_output.collinearity"</span>, package <span class="op">=</span> <span class="st">"ggsynteny"</span><span class="op">)</span></span>
 <span><span class="va">gff_file</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"mcscanx_output.gff"</span>,          package <span class="op">=</span> <span class="st">"ggsynteny"</span><span class="op">)</span></span>
 <span><span class="va">syn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_mcscanx.html">read_mcscanx</a></span><span class="op">(</span><span class="va">coll_file</span>, <span class="va">gff_file</span><span class="op">)</span></span>
@@ -740,7 +840,7 @@
 <div class="section level3">
 <h3 id="id_3-genespace">3. GENESPACE<a class="anchor" aria-label="anchor" href="#id_3-genespace"></a>
 </h3>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">synhits_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"genespace_synHits.tsv"</span>, package <span class="op">=</span> <span class="st">"ggsynteny"</span><span class="op">)</span></span>
 <span><span class="va">syn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_genespace.html">read_genespace</a></span><span class="op">(</span><span class="va">synhits_file</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/plot_synteny.html">plot_synteny</a></span><span class="op">(</span><span class="va">syn</span>, species_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Maize"</span>, <span class="st">"Teosinte"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -750,7 +850,7 @@
 <h2 id="saving-your-plot">Saving your plot<a class="anchor" aria-label="anchor" href="#saving-your-plot"></a>
 </h2>
 <p>Two independent knobs control a saved PNG: <code>width</code>/<code>height</code> in pixels decide how big (and how sharp) the image is; <code>dpi</code> decides how big the <em>letters</em> are relative to the plot. Letters too small → raise <code>dpi</code>; labels overlapping → lower it.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">syn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/example_synteny_data.html">example_synteny_data</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/plot_synteny.html">plot_synteny</a></span><span class="op">(</span><span class="va">syn</span>, species_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Arabidopsis"</span>, <span class="st">"Grape"</span>, <span class="st">"Rice"</span><span class="op">)</span>,</span>
 <span>                  palette <span class="op">=</span> <span class="st">"casa_natal"</span><span class="op">)</span></span>
@@ -834,7 +934,7 @@
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
 <p>If you use ggsynteny in your research, please cite the package:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"ggsynteny"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">

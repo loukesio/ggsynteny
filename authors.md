@@ -11,13 +11,13 @@ Source:
 [`DESCRIPTION`](https://github.com/loukesio/ggsynteny/blob/main/DESCRIPTION)
 
 Theodosiou L (2026). *ggsynteny: Publication-Quality Synteny Plots with
-'ggplot2'*. R package version 0.5.0,
+'ggplot2'*. R package version 0.5.0.9000,
 <https://github.com/loukesio/ggsynteny>.
 
     @Manual{,
       title = {ggsynteny: Publication-Quality Synteny Plots with 'ggplot2'},
       author = {Loukas Theodosiou},
       year = {2026},
-      note = {R package version 0.5.0},
+      note = {R package version 0.5.0.9000},
       url = {https://github.com/loukesio/ggsynteny},
     }

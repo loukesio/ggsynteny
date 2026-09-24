@@ -466,6 +466,123 @@ selector reads existing results; it does not run MCScanX, GENESPACE or
 an alignment pipeline. Shiny is optional and is not required to use the
 plotting functions.
 
+### Reference comparison: one reference, two or more genomes
+
+Studio also has a **Reference comparison** tab for the concentric
+genome-ring view. The inner ring is one reference sequence. Each outer
+ring is a comparison genome, and every ring uses the same reference
+coordinate system. Choose one comparison genome for a two-genome figure,
+or several for a multi-genome figure.
+
+Run
+[`ggsynteny_app()`](https://loukesio.github.io/ggsynteny/reference/ggsynteny_app.md)
+from the current GitHub version, open **Reference comparison**, and
+expand **Data, reference & figure settings** to upload your tables.
+Enter the reference name and length in base pairs. The built-in
+demonstration uses invented data. The separately hosted Studio may run
+an earlier version.
+
+The centre shows the reference name and total length. Hover over a ring
+to see the exact reference position and a line through all rings at that
+position. Moving off the rings restores the reference label. PDF and PNG
+downloads keep the reference name and length, with the same fonts and
+ltc colours.
+
+The graph needs two kinds of input. The first table contains event
+calls:
+
+| Column | Meaning |
+|----|----|
+| `sample` | Name shown for the comparison genome |
+| `type` | `INS`: insertion (added sequence); `DEL`: deletion (absent sequence); `DUP`: duplication (extra copy); `INV`: inversion (reversed sequence); `SNP`: single-base change |
+| `start`, `end` | Zero-based reference coordinates; `end` is exclusive |
+| `event_length` | Optional inserted length, in base pairs |
+| `source_start` | Optional duplication source coordinate on the reference |
+
+The second table is optional and controls the outer-ring shading. It
+contains non-overlapping reference windows and measured alignment
+identity:
+
+| Column | Meaning |
+|----|----|
+| `sample` | Comparison genome name, matching the event table |
+| `start`, `end` | Reference window, with zero-based start and exclusive end |
+| `identity` | Percentage of aligned bases matching the reference, from 0 to 100 |
+
+Identity is calculated from an alignment; it is not calculated from the
+number of variants. Missing windows remain unscored. The inner
+alternating dark bands are only a coordinate ruler. The outer identity
+scale is shared by all genomes: lighter means lower identity (90% or
+below), darker means higher identity (up to 100%), and pale green means
+no identity score. Higher identity means more matching aligned sequence,
+not a better biological result. Alignment coverage is not shown.
+
+The repository includes copyable example files:
+[`variants.tsv`](https://github.com/loukesio/ggsynteny/blob/main/inst/extdata/reference_comparison/variants.tsv)
+and
+[`identity_windows.tsv`](https://github.com/loukesio/ggsynteny/blob/main/inst/extdata/reference_comparison/identity_windows.tsv).
+The values are invented teaching data. This complete script reads them
+and creates a reference comparison with two outer rings. Install the
+optional font packages once with
+`install.packages(c("showtext", "sysfonts"))` to export PDF and PNG
+files with the bundled IBM Plex fonts:
+
+``` r
+
+library(ggsynteny)
+
+variants <- read.delim(
+  system.file("extdata", "reference_comparison", "variants.tsv", package = "ggsynteny"),
+  colClasses = c(sample = "character", type = "character", start = "numeric",
+                 end = "numeric", event_length = "numeric", source_start = "numeric")
+)
+identity_windows <- read.delim(
+  system.file("extdata", "reference_comparison", "identity_windows.tsv", package = "ggsynteny"),
+  colClasses = c(sample = "character", start = "numeric", end = "numeric", identity = "numeric")
+)
+
+p <- plot_reference_comparison(
+  variants, genome_length = 4800000, reference = "Example reference",
+  sample_order = c("Genome_A", "Genome_B"), palette = "minou",
+  identity_windows = identity_windows, title = "Invented reference comparison"
+)
+
+print(p)
+save_reference_comparison(p, "reference-comparison.pdf")
+save_reference_comparison(p, "reference-comparison.png")
+```
+
+![Invented reference comparison: two comparison genomes around a
+reference](reference/figures/README-reference-comparison.png)
+
+Invented reference comparison: two comparison genomes around a reference
+
+**How to read this example:** there are no horizontal or vertical axes.
+Start at the top and read clockwise; `M` and `Mb` mean one million base
+pairs. The centre’s **4.800 Mb** means the reference is 4,800,000 bases
+long. `R` marks the reference ruler, `A` is Genome_A and `B` is
+Genome_B. Each alternating dark ruler band spans 500,000 bases, except
+the final shorter band. The coloured marks show the event types in the
+legend: capped ticks mark insertions, outlined gaps mark deletions,
+split arcs mark duplications, solid arcs mark inversions, and fine ticks
+mark single-base changes. The curved ribbon links the supplied
+duplication source to its extra copy; it does not show movement or
+ancestry. Insertion tick size does not show inserted length or
+direction.
+
+For example, Genome_A’s deletion from 612,000 to 650,000 covers 38,000
+reference bases. An identity score of **99.6%** means 996 of every 1,000
+aligned bases match. These small files supply identity for only a few
+windows, so most of the outer rings have no score. More similarity or
+more variants is not inherently better; this view does not establish a
+biological effect or show alignment coverage. Overlapping calls may hide
+one another.
+
+For real data, make the identity table from an alignment tool such as
+MUMmer’s `nucmer` and `show-coords`. Resolve overlapping alignments
+before creating the windows. The app validates coordinate bounds,
+identity range, and overlap rules, but it does not run an aligner.
+
 ### `syn_girafe()` — interactive plots
 
 **What it’s for:** hover highlighting and tooltips in HTML output (R
