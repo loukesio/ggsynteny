@@ -99,4 +99,7 @@ p_gal <- ggplot(gal, aes(x = col, y = pal, fill = hex)) +
 ggsave("man/figures/README-palettes.png", p_gal,
        width = 1700, height = 2400, units = "px", dpi = 300, bg = "white")
 
+# Reference comparison: the same invented input tables used in the README.
+source("data-raw/reference_readme_figure.R")
+
 cat("Figures written to man/figures/\n")

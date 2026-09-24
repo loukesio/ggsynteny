@@ -1,3 +1,17 @@
+# Development
+
+- Add optional reference-coordinate identity windows, separate ruler and
+  identity keys, a shared percentage scale, and explicit unscored regions.
+  Example identity windows are labelled as invented; identity data can be
+  uploaded and exported alongside variant calls.
+
+- Add reference comparison rings to Studio, with a shared reference sequence,
+  one or more comparison genomes, variant filtering, hover details, and static
+  PDF/PNG exports. Add `plot_reference_comparison()` for use directly in R.
+- Match the supplied Genome Ring design with IBM Plex fonts, ltc palettes,
+  distinct variant marks, an event list, cursor readouts and a linked region
+  view. Add `save_reference_comparison()` for static exports with bundled fonts.
+
 # ggsynteny (development version)
 
 * Add a Studio interactive-plot toggle for hover tooltips, highlighting and

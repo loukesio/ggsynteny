@@ -36,6 +36,7 @@
 
 # Data-frame column names used with dplyr non-standard evaluation
 utils::globalVariables(c(
+  "color", "data_id", "fill", "group", "stroke", "width",
   ".chr_num", "bin_id", "body_x0", "body_x1", "bw", "chr", "chr1", "chr2",
   "chr_id", "chr_num", "conn_id", "cumstart", "end", "end1", "end2", "feat_id", "gene",
   "genome1", "genome2", "head_w", "label", "link_id", "lx", "ly", "name",

@@ -14,6 +14,11 @@ reference:
     contents:
       - plot_circular_synteny
       - plot_circular_microsynteny
+  - title: Reference comparison
+    desc: Compare supplied variants and alignment identity on a shared reference.
+    contents:
+      - plot_reference_comparison
+      - save_reference_comparison
   - title: Interactive
     desc: ggiraph rendering with hover highlights and tooltips.
     contents:

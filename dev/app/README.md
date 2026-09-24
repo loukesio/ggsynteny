@@ -58,3 +58,126 @@ Prepare updates with `Rscript dev/app/prepare_connect_cloud.R` from the
 package root, then publish using the documented GitHub or R workflow.
 The hosting setup uses the installed package app and is excluded from
 package builds.
+
+## Reference comparison rings
+
+The **Reference comparison** tab follows the supplied `Genome Ring.dc.html`
+design: thin concentric tracks, IBM Plex Sans/Mono typography, outlined deletions,
+capped insertion ticks, split duplication arcs, and solid inversion arcs.
+It uses ggsynteny's ltc palettes (default `minou`) with stable type-to-colour
+assignments when filtering. Fonts are bundled under the SIL Open Font License,
+so the browser does not need an external font service.
+
+One reference sequence occupies the inner ring; comparison genomes occupy
+outer rings. Select one comparison for a two-genome figure. The event list
+shows which genomes have the same supplied event type, coordinates, and optional
+size/source fields. Click an event or ring mark to inspect its reference window.
+Moving across the ring shows the reference position and calls in each genome.
+Pale green tracks mean no identity score. Identity is read from an optional
+window table; identity and alignment coverage are not inferred from variant calls. This view does not align sequences or call variants.
+
+Upload CSV/TSV columns `sample`, `type`, `start`, `end`, and enter the reference
+name and length in base pairs. Use one reference chromosome or contig at a time,
+with zero-based starts and exclusive ends. Types: INS (insertion), DEL (deletion),
+DUP (duplication), INV (inversion), SNP (single-base change). Point events may
+have equal endpoints. Optional numeric `event_length` gives the inserted length;
+optional `source_start` gives a duplication's source on the same reference.
+Unknown optional values may be NA. Ribbons appear only when a source is supplied.
+Insertion ticks have a fixed size and mark positions without implying a
+direction. Supplied insertion lengths appear in the event list and hover details. Other arcs retain their true reference spans.
+Overlapping calls may obscure one another.
+
+The example contains 12 invented event patterns, 23 calls across five genomes,
+and a 4,800,000-base reference. These are teaching numbers, not biological
+findings. The example also includes invented 30-kb identity windows. Real-data shading
+requires an uploaded identity table; absent values and uncovered regions stay
+pale green. Deleted example intervals have no identity scores. Static PDF/PNG downloads use the same geometry and palette as
+the app and include a reading guide. `save_reference_comparison()` uses the
+bundled IBM Plex fonts (requires optional `showtext` and `sysfonts` packages).
+PDF text is embedded as vector outlines. Plain `ggsave()` also works with the
+plot function's default system fonts.
+
+```r
+v <- data.frame(sample = c("Genome A", "Genome B"),
+                type = c("DEL", "SNP"),
+                start = c(100, 700), end = c(200, 701))
+p <- ggsynteny::plot_reference_comparison(
+  v, genome_length = 1000, reference = "Reference", palette = "minou",
+  title = "Invented teaching example"
+)
+ggsynteny::save_reference_comparison(p, "reference-comparison.pdf")
+```
+
+Validation on 24 September 2026 includes reference-coordinate geometry,
+optional size/source validation, stable ltc colours, filtering, empty views,
+font exports, and existing Studio regression checks. The installed Shiny and
+testthat packages report that they were built under a newer R patch release.
+Run `python3 dev/app/reference_browser_checks.py` against a local app on port
+3881, or set `GG_SYNTENY_URL`, for visual and interaction checks. Example static
+figures are in [`reference-examples/`](reference-examples/).
+
+Initial redesign checks: 36 reference-view assertions and 113 existing Studio
+assertions passed. Chrome checks passed for desktop/mobile layout, local fonts,
+ltc palette changes, preserved filters, event selection, hover readouts, empty
+views and all four downloads. The downloaded R script reproduced the static
+figure, including a table whose optional source column was entirely missing.
+
+The reference view shares Studio’s background. The transparent centre readout
+shows reference length and name at rest, or exact base-pair position and
+"POSITION ON REFERENCE" while hovering a ring. Both lines shrink to stay within
+1.6 times the tick-label radius. The centre and ring gaps do not activate the
+readout; a thin guide line crosses all rings at an active cursor position.
+Static figures retain the resting centre label, with the same width constraint
+measured during drawing. Both static legend rows use one shared column grid.
+A plain-language example below the ring explains a supplied duplication source
+and copy position.
+
+
+### Identity windows and the reference ruler
+
+Upload a second CSV/TSV with `sample`, `start`, `end`, `identity`. Positions use
+zero-based starts and exclusive ends on the same reference sequence. Identity
+is a percentage from 0 to 100; NA means unknown. Non-overlapping windows are
+required within each genome. Samples without variant calls can be included
+through this table. Missing windows are not filled or assigned low identity.
+The **Identity** download saves the displayed windows; save it beside the
+variants download when running the exported R script.
+
+The identity scale is fixed across samples: 90% and below use the lightest
+grey, 95% uses medium grey, 100% uses the darkest grey. Pale green means no
+score. Higher identity means more matching aligned sequence, not better
+biological function. Alignment coverage is not shown and cannot be inferred
+from these percentages. The example scores are invented, not measured data.
+The **Show identity shading** checkbox affects the live plot, static downloads,
+and displayed-window export together.
+
+The inner black/dark-grey bands are a coordinate ruler, not measurements.
+They alternate every 500,000 bases for references of at least one million
+bases; short references use a smaller labelled spacing. The last band may
+be shorter. The ruler now uses real coordinate increments, rather than ten
+equal subdivisions of an arbitrary reference length.
+
+For real genomes, MUMmer's `nucmer` and `show-coords` can provide reference
+alignment positions and percent identities, as described in the
+[official tutorial](https://mummer4.github.io/tutorial/tutorial.html).
+These are alignment-level results, not automatically fixed-window estimates.
+Resolve overlapping alignments and calculate scores for the intended windows
+from aligned sequence before upload; do not take an unweighted average of
+alignment percentages. MUMmer coordinates are inclusive: convert the lower
+reference endpoint to a zero-based start by subtracting one, and use the
+upper endpoint as the exclusive end. Keep the alignment method and any
+filtering with the analysis. No aligner is run by the app.
+
+Identity extension: 62 reference-view assertions passed, including window
+bounds, overlap rejection, missing scores, deletion consistency, sample
+selection, real-table upload, invalid-score recovery, and static rendering.
+The identity-enabled browser checks passed for shading on/off, existing
+interactions, mobile layout, all downloads and empty variant selections.
+The exported script reproduced the figure from both downloaded tables.
+
+Centre-readout checks passed for an exact 1,234,567-bp cursor position, resting
+reference name/size, inactive centre and ring gaps, reset on leaving the rings,
+and long names constrained to 1.6 times the tick-label radius. Static fitting
+also re-measures after font-size changes because PDF devices can round sizes.
+Long-label measurements stayed within a 25-mm test viewport. Legend symbols
+and labels share columns and vertical alignment across both rows.

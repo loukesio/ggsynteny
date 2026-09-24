@@ -1,5 +1,5 @@
 # The optional app lives behind requireNamespace('shiny') in its launcher.
-.studio_ui <- function() {
+.studio_synteny_ui <- function() {
   shiny::fluidPage(
     shiny::tags$head(shiny::tags$title("ggsynteny Studio"),
       shiny::includeCSS(system.file("shiny", "www", "studio.css", package = "ggsynteny"))),
@@ -56,6 +56,7 @@
 }
 
 .studio_server <- function(input, output, session) {
+  .reference_server("reference_comparison")
   dataset <- shiny::reactive({
     shiny::req(input$format, input$source)
     paths <- list()
@@ -222,3 +223,9 @@
 }
 
 .studio_app <- function() shiny::shinyApp(.studio_ui(), .studio_server)
+
+.studio_ui <- function() {
+  shiny::navbarPage("ggsynteny Studio",
+    shiny::tabPanel("Synteny", .studio_synteny_ui()),
+    shiny::tabPanel("Reference comparison", .reference_ui("reference_comparison")))
+}

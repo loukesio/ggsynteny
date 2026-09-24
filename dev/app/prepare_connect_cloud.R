@@ -9,15 +9,23 @@ lib <- "dev/app/validation/hosting-library"
 dir.create(lib, recursive = TRUE, showWarnings = FALSE)
 .libPaths(c(normalizePath(lib), .libPaths()))
 options(repos = c(CRAN = "https://cloud.r-project.org"))
-for (pkg in c("remotes", "rsconnect", "shiny", "ggiraph")) {
+for (pkg in c("remotes", "rsconnect", "shiny", "ggiraph", "showtext", "sysfonts")) {
   if (!requireNamespace(pkg, quietly = TRUE)) install.packages(pkg, lib = lib)
 }
 if (utils::packageVersion("ggiraph") < "0.9.2") install.packages("ggiraph", lib = lib)
 remotes::install_github(paste0("loukesio/ggsynteny@", ref), lib = lib,
                        upgrade = "never", dependencies = NA, build_vignettes = FALSE)
+# Declare optional export dependencies when regenerating the pinned bundle.
+# Keep the existing hosted entry point and manifest in sync until this runs.
+writeLines(c(
+  "# The manifest pins ggsynteny and its dependencies for the hosted Studio.",
+  "library(shiny)", "library(ggiraph)", "library(showtext)", "library(sysfonts)",
+  "library(ggsynteny)", "",
+  'source(system.file("shiny", "app.R", package = "ggsynteny"), local = TRUE)$value'
+), "deploy/posit-connect-cloud/app.R")
 rsconnect::writeManifest(appDir = "deploy/posit-connect-cloud", appFiles = "app.R",
                          appPrimaryDoc = "app.R", appMode = "shiny", quarto = FALSE)
 manifest <- jsonlite::fromJSON("deploy/posit-connect-cloud/manifest.json", simplifyVector = FALSE)
 stopifnot(identical(manifest$packages$ggsynteny$description$RemoteSha, ref),
-          all(c("shiny", "ggiraph", "ggsynteny") %in% names(manifest$packages)))
+          all(c("shiny", "ggiraph", "ggsynteny", "showtext", "sysfonts") %in% names(manifest$packages)))
 cat("Prepared Studio using ggsynteny commit", ref, "\n")
