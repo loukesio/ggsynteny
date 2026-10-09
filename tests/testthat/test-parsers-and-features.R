@@ -40,7 +40,7 @@ test_that("rice_sorghum dataset is plottable real data", {
 })
 
 test_that("ribbon_anchor accepts body and full, rejects typos", {
-  micro <- demo_microsynteny_data()
+  micro <- example_microsynteny_data()
   bins <- c("ZONMW-30", "ZONMW-20", "ZONMW-10")
 
   p1 <- plot_microsynteny(micro$features, micro$links, bins,
@@ -61,7 +61,7 @@ test_that("interactive = TRUE builds ggiraph layers", {
                     interactive = TRUE)
   expect_s3_class(p, "ggplot")
 
-  micro <- demo_microsynteny_data()
+  micro <- example_microsynteny_data()
   pm <- plot_microsynteny(micro$features, micro$links,
                           c("ZONMW-30", "ZONMW-20", "ZONMW-10"),
                           interactive = TRUE)
@@ -72,7 +72,7 @@ test_that("interactive = TRUE builds ggiraph layers", {
 })
 
 test_that("top-level palette does not hijack the identity ramp", {
-  micro <- demo_microsynteny_data()
+  micro <- example_microsynteny_data()
   bins <- c("ZONMW-30", "ZONMW-20", "ZONMW-10")
 
   # identity ribbons keep the default blue ramp under a qualitative palette
@@ -98,7 +98,7 @@ test_that("chr_radius and gene_radius round corners via ggforce", {
   p <- plot_synteny(syn, c("Arabidopsis", "Grape", "Rice"), chr_radius = 1.5)
   expect_s3_class(p, "ggplot")
 
-  micro <- demo_microsynteny_data()
+  micro <- example_microsynteny_data()
   pm <- plot_microsynteny(micro$features, micro$links,
                           c("ZONMW-30", "ZONMW-20", "ZONMW-10"),
                           gene_radius = 0.8)

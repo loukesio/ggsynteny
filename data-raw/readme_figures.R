@@ -8,7 +8,7 @@ dir.create("man/figures", recursive = TRUE, showWarnings = FALSE)
 
 syn      <- example_synteny_data()
 sp_order <- c("Arabidopsis", "Grape", "Rice")
-micro    <- demo_microsynteny_data()
+micro    <- example_microsynteny_data()
 bins     <- c("ZONMW-30", "ZONMW-20", "ZONMW-10")
 
 save_fig <- function(name, p, width = 2600, height = 1500, dpi = 300) {

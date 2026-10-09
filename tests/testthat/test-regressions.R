@@ -21,7 +21,7 @@ test_that("casa_natal colors and plotted aliases remain stable", {
 test_that("uniform fills resolve color vectors and HCL palette names", {
   syn <- example_synteny_data()
   species <- c("Arabidopsis", "Grape", "Rice")
-  micro <- demo_microsynteny_data()
+  micro <- example_microsynteny_data()
   for (spec in list(c("#FF0000", "#0000FF"), "Viridis", "#FF0000")) {
     expected <- if (identical(spec, "Viridis")) grDevices::hcl.colors(1, "Viridis") else spec[1]
     p <- plot_synteny(syn, species, palette = spec, ribbon_fill = "uniform")
@@ -38,7 +38,7 @@ test_that("uniform fills resolve color vectors and HCL palette names", {
 })
 
 test_that("an explicit HCL identity ramp is applied", {
-  micro <- demo_microsynteny_data()
+  micro <- example_microsynteny_data()
   micro$links$identity <- rep(c(0, 50, 100), length.out = nrow(micro$links))
   p <- plot_microsynteny(micro$features, micro$links, ribbon_palette = "Viridis")
   d <- p$layers[[1]]$data
@@ -63,7 +63,7 @@ test_that("numeric chromosome labels use named color keys", {
 })
 
 test_that("genes and per-name ribbons share a palette mapping", {
-  micro <- demo_microsynteny_data()
+  micro <- example_microsynteny_data()
   for (spec in list(NULL, "casa_natal", c("red", "blue"))) {
     p <- plot_microsynteny(micro$features, micro$links, palette = spec,
                            ribbon_fill = "per_name")
@@ -85,7 +85,7 @@ test_that("genes and per-name ribbons share a palette mapping", {
 })
 
 test_that("micro plots retain genes when no links remain", {
-  micro <- demo_microsynteny_data()
+  micro <- example_microsynteny_data()
   unmatched <- micro$links
   unmatched$feat_id_a <- "absent"
   for (links in list(micro$links[FALSE, ], micro$links[FALSE, c("feat_id_a", "feat_id_b")],
@@ -103,7 +103,7 @@ test_that("micro plots retain genes when no links remain", {
 })
 
 test_that("micro ribbons meet facing gene edges after reordering", {
-  micro <- demo_microsynteny_data()
+  micro <- example_microsynteny_data()
   bins <- c("ZONMW-30", "ZONMW-20", "ZONMW-10")
   for (order in list(bins, rev(bins))) {
     for (anchor in c("body", "full")) {

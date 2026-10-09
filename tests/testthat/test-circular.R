@@ -92,7 +92,7 @@ test_that("orientation metadata controls endpoints only when requested", {
 })
 
 test_that("micro arrows preserve strand and keep ribbons on gene bodies", {
-  micro <- demo_microsynteny_data()
+  micro <- example_microsynteny_data()
   original <- micro
   for (clockwise in c(TRUE, FALSE)) {
     p <- plot_circular_microsynteny(micro$features, micro$links, palette = "casa_natal", clockwise = clockwise)
@@ -122,7 +122,7 @@ test_that("micro arrows preserve strand and keep ribbons on gene bodies", {
 })
 
 test_that("micro identity and per-name palettes retain their meaning", {
-  micro <- demo_microsynteny_data()
+  micro <- example_microsynteny_data()
   p <- plot_circular_microsynteny(micro$features, micro$links, palette = "casa_natal")
   expect_equal(attr(p, "circular_links")$fill_color, identity_color(micro$links$identity))
   p <- plot_circular_microsynteny(micro$features, micro$links, palette = "Casa Natal", ribbon_fill = "per_name")
@@ -140,7 +140,7 @@ test_that("empty links and subset views retain valid sectors and genes", {
   syn <- circular_test_data()
   syn$blocks <- syn$blocks[FALSE, ]
   expect_no_error(circular_test_render(plot_circular_synteny(syn)))
-  micro <- demo_microsynteny_data()
+  micro <- example_microsynteny_data()
   for (mode in c("identity", "per_name", "uniform")) {
     p <- plot_circular_microsynteny(micro$features, micro$links[FALSE, c("feat_id_a", "feat_id_b")], ribbon_fill = mode)
     expect_equal(nrow(attr(p, "circular_features")), 16)
@@ -167,7 +167,7 @@ test_that("invalid circular coordinates, keys and parameters fail explicitly", {
   expect_error(plot_circular_synteny(bad), "absent")
   bad <- syn; bad$blocks$end1[1] <- 101
   expect_error(plot_circular_synteny(bad), "bounds")
-  micro <- demo_microsynteny_data()
+  micro <- example_microsynteny_data()
   bad <- micro; bad$features$feat_id[2] <- bad$features$feat_id[1]
   expect_error(plot_circular_microsynteny(bad$features, bad$links), "unique")
   bad <- micro; bad$links$feat_id_a[1] <- "unknown"
@@ -182,7 +182,7 @@ test_that("invalid circular coordinates, keys and parameters fail explicitly", {
 
 test_that("circular interactive views use ggiraph through ordinary ggplots", {
   skip_if_not_installed("ggiraph")
-  micro <- demo_microsynteny_data()
+  micro <- example_microsynteny_data()
   plots <- list(plot_circular_synteny(circular_test_data(), interactive = TRUE),
                 plot_circular_microsynteny(micro$features, micro$links, interactive = TRUE))
   for (p in plots) {

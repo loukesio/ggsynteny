@@ -96,6 +96,7 @@
 #'                   ribbon_palette = c("Arabidopsis_Grape" = "#3A6EA5",
 #'                                      "Grape_Rice" = "#E8573A"))
 #'
+#' @seealso [syn_track()] for optional GC-content and numeric annotation tracks.
 #' @export
 #' @import ggplot2
 #' @importFrom dplyr filter arrange group_by mutate ungroup left_join select summarise first bind_rows
@@ -420,5 +421,10 @@ plot_synteny <- function(syn_data, species_order,
     p <- p + ggtitle(title)
   }
 
+  attr(p, "synteny_layout") <- list(
+    type = "linear", unit = tier_spacing, edge = h,
+    sectors = data.frame(group = as.character(chr_layout$species),
+                         seq_id = as.character(chr_layout$chr), start = 0,
+                         end = chr_layout$size, x = chr_layout$xmin, y = chr_layout$y))
   return(p)
 }

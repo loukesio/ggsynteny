@@ -1,4 +1,4 @@
-# Development
+# ggsynteny (development version)
 
 - Add optional reference-coordinate identity windows, separate ruler and
   identity keys, a shared percentage scale, and explicit unscored regions.
@@ -12,7 +12,50 @@
   distinct variant marks, an event list, cursor readouts and a linked region
   view. Add `save_reference_comparison()` for static exports with bundled fonts.
 
-# ggsynteny (development version)
+* `syn_track()` now draws categorical intervals too: `geom = "feature"`
+  colours genes or regions by a column with an independent legend, with
+  `strand = "split"` or `"arrow"` lanes and optional text labels along the
+  ring. The geom is chosen from the table when not given. One wrapper per
+  geom, `syn_track_feature()`, `syn_track_heatmap()`, `syn_track_line()` and
+  `syn_track_bar()`, lists only the options that geom uses.
+  `scale_fill_syn_feature()` replaces a feature track's colours.
+* Track tables may omit the `species`/`chr` keys when the plot shows one
+  species or one sequence; they are filled in from the plot.
+* Add `syn_axis()`: genomic coordinate ticks and labels along every sequence,
+  with `by` and `unit` (`"kb"`, `"Mb"`) formatting, in every layout.
+* Circular tracks accept `position = "inside"`, stacking inward from the
+  chromosome band and shrinking the ribbons toward the centre. All tracks
+  accept `out_of_bounds = "clip"` or `"drop"` for intervals that extend past
+  a sequence (windows at the end of a genome, genes crossing a boundary).
+* `plot_circular_synteny()` gains `chr_order` (factor levels, `"input"`, a
+  vector or a per-species list) and colours ribbons by any `blocks` column
+  given to `ribbon_fill`, with an optional legend (`ribbon_legend`).
+  Defaults and existing calls are unchanged; the new arguments are appended.
+* Rename `scale_fill_syn_track()` to `scale_fill_syn_heatmap()` so scale
+  names mirror the track wrappers, and `demo_microsynteny_data()` to
+  `example_microsynteny_data()` to match `example_synteny_data()`. The old
+  example-data name still works with a deprecation message.
+* Export `syn_layout()` and `syn_project()` so custom ggplot2 layers can be
+  placed in genomic coordinates without internal functions.
+* Bundle the published *Arabidopsis thaliana* chloroplast annotation
+  (RefSeq NC_000932.1) in `inst/extdata/chloroplast/` and draw a complete
+  genome ring from exported functions only (`data-raw/genome_ring.R`).
+
+* Extend `syn_track()` with modular `geom = "line"` and `geom = "bar"`
+  renderers that compose with heatmaps in every layout. Lines follow window
+  centers, break at missing values/gaps/contig boundaries, and interpolate
+  within circular rings. Bars support signed values and a chosen baseline.
+  Each numerical track has independent limits, guides, labels and legends.
+  Add a reproducible three-track linear/circular example.
+
+* Add optional GC-content and numeric annotation tracks with `p + syn_track()`
+  in all four linear/circular, chromosome/gene views. Native ggplot2 polygon
+  layers use independent continuous scales, stack outward, and move labels
+  to make room. Existing plotting defaults and ltc palettes are unchanged.
+* Add `gc_content()` for per-gene and window summaries from supplied DNA.
+  Ambiguous bases are excluded from the denominator; missing sequence and
+  intervals without A/C/G/T bases return NA. Include runnable simulated
+  sequence examples and `scale_fill_syn_heatmap()` for scale customization.
 
 * Add a Studio interactive-plot toggle for hover tooltips, highlighting and
   zoom across all four plot types, using optional ggiraph. Figure exports

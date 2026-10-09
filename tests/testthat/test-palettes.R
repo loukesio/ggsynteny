@@ -48,7 +48,7 @@ test_that("plot_synteny accepts palette = 'casa_natal'", {
 })
 
 test_that("plot_microsynteny accepts palette = 'casa_natal'", {
-  micro <- demo_microsynteny_data()
+  micro <- example_microsynteny_data()
   bin_order <- c("ZONMW-30", "ZONMW-20", "ZONMW-10")
 
   p <- plot_microsynteny(micro$features, micro$links, bin_order,

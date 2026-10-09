@@ -119,7 +119,7 @@ example_synteny_data <- function() {
 #' }
 #'
 #' @examples
-#' micro <- demo_microsynteny_data()
+#' micro <- example_microsynteny_data()
 #' str(micro)
 #'
 #' # Use with plot_microsynteny
@@ -129,7 +129,7 @@ example_synteny_data <- function() {
 #' }
 #'
 #' @export
-demo_microsynteny_data <- function() {
+example_microsynteny_data <- function() {
 
   features <- data.frame(
     bin_id  = c(rep("ZONMW-30", 8), rep("ZONMW-20", 4), rep("ZONMW-10", 4)),
@@ -167,4 +167,13 @@ demo_microsynteny_data <- function() {
   )
 
   list(features = features, links = links)
+}
+
+#' @rdname example_microsynteny_data
+#' @details `demo_microsynteny_data()` is the former name and now calls
+#'   `example_microsynteny_data()` with a deprecation message.
+#' @export
+demo_microsynteny_data <- function() {
+  .Deprecated("example_microsynteny_data")
+  example_microsynteny_data()
 }

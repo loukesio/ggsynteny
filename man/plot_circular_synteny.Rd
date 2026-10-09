@@ -24,7 +24,9 @@ plot_circular_synteny(
   species_label_size = 4,
   show_orientation = FALSE,
   interactive = FALSE,
-  title = NULL
+  title = NULL,
+  ribbon_legend = TRUE,
+  chr_order = NULL
 )
 }
 \arguments{
@@ -46,11 +48,14 @@ species, chromosome labels, or \code{"species__chr"} keys in custom mode.}
 \item{chr_color}{Chromosome outline color.}
 
 \item{ribbon_fill}{Ribbon coloring: \code{"source_chr"}, \code{"target_chr"},
-\code{"species_pair"}, \code{"uniform"}, or \code{"custom"}. Source is the earlier species
-in \code{species_order} (input order for within-species blocks).}
+\code{"species_pair"}, \code{"uniform"}, \code{"custom"}, or the name of any other
+column of \code{blocks} (for example \code{"class"}), whose values are colored as
+categories with a legend. Source is the earlier species in
+\code{species_order} (input order for within-species blocks).}
 
 \item{ribbon_palette}{Overrides \code{palette} for ribbons. In custom mode, provide
-one color or one color per row of the original \code{blocks} table.}
+one color or one color per row of the original \code{blocks} table. When
+coloring by a column, a named vector maps its values to colors.}
 
 \item{ribbon_alpha}{Ribbon transparency, between 0 and 1.}
 
@@ -78,6 +83,15 @@ the direction in which both chromosomes are drawn also matters.}
 \item{interactive}{Build ggiraph layers for rendering with \code{\link[=syn_girafe]{syn_girafe()}}?}
 
 \item{title}{Optional title.}
+
+\item{ribbon_legend}{Show a legend when \code{ribbon_fill} names a column of
+\code{blocks}? Ignored for the built-in coloring modes.}
+
+\item{chr_order}{Chromosome order within each species: \code{NULL} (the default)
+follows factor levels when \code{chr} is a factor and otherwise sorts numeric
+names, then remaining names alphabetically; \code{"input"} keeps the row order
+of \code{chromosomes}; a character vector orders the chromosome names
+explicitly; a list named by species gives one vector per species.}
 }
 \value{
 A ggplot object. Its \code{data} contains the sector layout, including
@@ -105,4 +119,9 @@ data(rice_sorghum)
 p <- plot_circular_synteny(rice_sorghum, c("Rice", "Sorghum"),
                            palette = "casa_natal", chr_fill = "per_species")
 p + ggplot2::labs(caption = "Rice and sorghum syntenic intervals")
+}
+\seealso{
+\code{\link[=syn_track]{syn_track()}}, \code{\link[=syn_track_feature]{syn_track_feature()}} and \code{\link[=syn_axis]{syn_axis()}} for rings
+added outside or inside the chromosome band; \code{\link[=syn_layout]{syn_layout()}} for the
+sector geometry of the returned plot.
 }

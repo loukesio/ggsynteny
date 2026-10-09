@@ -28,17 +28,35 @@ The previous [0.3.0 source is preserved](https://github.com/loukesio/ggsynteny/r
 
 <img align="right" src="man/figures/logo.png" alt="ggsynteny logo: genomics for R" width="320">
 
+Install the development version from GitHub, which includes the annotation
+tracks shown below:
+
 ``` r
-# with remotes (lightweight)
-install.packages("remotes")
-remotes::install_github("loukesio/ggsynteny")
-
-# ...or with devtools
-devtools::install_github("loukesio/ggsynteny")
-
-# and load it
-library(ggsynteny)
+install.packages("remotes")  # only needed once
+remotes::install_github("loukesio/ggsynteny", upgrade = "never")
 ```
+
+Restart R after installation if ggsynteny was already loaded. Then run:
+
+``` r
+library(ggsynteny)
+packageVersion("ggsynteny")  # 0.5.0.9000 in the development version
+source(system.file("examples", "annotation-tracks.R", package = "ggsynteny"))
+print(track_demo$linear)
+print(track_demo$circular)
+```
+
+The demo uses bundled simulated DNA, so no data download is needed. It creates
+three tracks: a gene GC heatmap, GC across sliding windows as a line, and
+ambiguous-base percentages as bars.
+
+**[Start with the step-by-step track tutorial](dev/gc-tracks/tutorial/README.md)**
+for an explanation of the data, a gradual build from one track to three,
+both layouts, and saving your plots.
+
+Installing without `ref` gets the main branch, which does not yet include
+these tracks. To return to main later, restart R and run
+`remotes::install_github("loukesio/ggsynteny", ref = "main", upgrade = "never")`.
 
 <br>
 
@@ -58,6 +76,134 @@ plot_synteny(syn,
 ```
 
 <img src="man/figures/README-hero.png" alt="Macro-synteny of Arabidopsis, Grape and Rice with the casa_natal palette" width="92%" style="display: block; margin: auto;" />
+
+## Annotation tracks
+
+Add aligned GC-content strips, gene or region tracks and coordinate axes to
+linear or circular plots with ordinary ggplot2 `+` composition. Tracks are in
+the development version on GitHub, not in the published 0.5.0 release.
+
+``` r
+# remotes::install_github("loukesio/ggsynteny")
+example_dir <- system.file("extdata", "gc-tracks", package = "ggsynteny")
+read_example <- function(name) {
+  readr::read_tsv(file.path(example_dir, paste0(name, ".tsv")),
+                 show_col_types = FALSE)
+}
+features <- read_example("features")
+links <- read_example("links")
+dna <- read_example("sequences")  # explicitly simulated DNA
+gene_gc <- gc_content(dna, intervals = features)
+
+plot_microsynteny(features, links, palette = "casa_natal") +
+  syn_track(gene_gc)
+plot_circular_microsynteny(features, links, palette = "casa_natal") +
+  syn_track(gene_gc)
+```
+
+<img src="man/figures/gc-tracks/overview.png" alt="Four GC-content track examples from simulated DNA: linear and circular chromosome windows and per-gene measurements" width="100%" />
+
+[Full-size example PDF](man/figures/gc-tracks/gc-tracks.pdf) ·
+[Track guide](vignettes/articles/annotation-tracks.Rmd) ·
+[Reproduce the figures](data-raw/gc_tracks.R)
+
+All four plotting functions accept the same coordinate/value table. Calculate
+per-gene or window GC values with `gc_content()`, or supply measurements.
+GC uses only A/C/G/T bases; grey tiles mark missing values. Sequence-based
+calculations use zero-based, half-open base-pair coordinates, which must match
+the plot's units and origin. These examples use simulated DNA and do not claim
+GC measurements for the package's real biological datasets.
+
+Mix track types by adding them in order. For example, combine gene colors
+with a line graph of GC across sliding windows:
+
+``` r
+window_gc <- gc_content(dna, window = 400, step = 100)
+tracks <- list(
+  syn_track(gene_gc, geom = "heatmap", name = "Gene GC (%)", height = 0.06),
+  syn_track(window_gc, geom = "line", name = "Window GC (%)",
+            height = 0.19, colour = "#176D81", reference = 50)
+)
+plot_microsynteny(features, links, palette = "casa_natal") + tracks
+plot_circular_microsynteny(features, links, palette = "casa_natal") + tracks
+# geom = "bar" adds interval bars; each track has its own limits and legend.
+```
+
+Linear tracks sit below each genome, with ribbons in separate gaps; rows
+expand automatically. Circular tracks keep their outward stacking. Remove a
+middle guide with `reference = NULL`. Style backgrounds and borders with
+`background = ggplot2::element_rect(fill = "ivory", colour = NA)` and
+`border = ggplot2::element_line(colour = "grey70")`, or use
+`ggplot2::element_blank()` to hide either. See the
+[tutorial](dev/gc-tracks/tutorial/README.md) for a complete example.
+
+<img src="man/figures/gc-tracks/modular-circular.png" alt="Three stacked tracks around gene synteny: gene GC heatmap, sliding-window GC line and ambiguous-base bars, using simulated DNA" width="92%" />
+
+[Three-track example PDF](man/figures/gc-tracks/modular-tracks.pdf) ·
+[Reproduce the mixed tracks](data-raw/modular_tracks.R)
+
+### Feature tracks, coordinate axes and a complete genome ring
+
+A track is a table of intervals plus a geom saying how to draw what each
+interval carries. One wrapper per geom lists only the options it uses:
+
+| Wrapper | Draws | Reads | Key options |
+|---|---|---|---|
+| `syn_track_feature()` | boxes coloured by a category: genes, regions, repeats | `start`, `end`, the `fill` column, optional `label` and `strand` | `fill`, `palette`, `strand = "split"`/`"arrow"`, `label` |
+| `syn_track_heatmap()` | one colour tile per interval on a gradient | `start`, `end`, numeric `value` | `limits`, `palette` |
+| `syn_track_line()` | a line through interval midpoints | same | `limits`, `reference`, `colour` |
+| `syn_track_bar()` | a bar from `baseline` over each interval | same | `limits`, `baseline`, `reference` |
+
+All of them take `height`, `gap`, `position = "inside"` (circular plots
+stack inward and shrink the ribbons) and `out_of_bounds = "clip"`/`"drop"`.
+`syn_axis()` adds position ticks. When the plot shows one species or one
+sequence, the `species`/`chr` columns can be left out of the track tables.
+
+Together they draw a full genome map from exported functions only. The data
+are the published *Arabidopsis thaliana* chloroplast annotation (RefSeq
+NC_000932.1), bundled with the package:
+
+``` r
+dir <- system.file("extdata", "chloroplast", package = "ggsynteny")
+regions <- read.csv(file.path(dir, "regions.csv"))      # LSC, IRb, SSC, IRa
+genes   <- read.csv(file.path(dir, "genes.csv"))        # gene, strand, functional class
+windows <- read.csv(file.path(dir, "gc_windows.csv"))   # GC fraction and skew per 1-kb window
+pairs   <- read.csv(file.path(dir, "ir_pairs.csv"))     # 17 IRb genes and their IRa copies
+
+syn <- list(chromosomes = data.frame(species = "Arabidopsis thaliana", chr = "plastid", size = 154478),
+            blocks = data.frame(species1 = "Arabidopsis thaliana", chr1 = "plastid", start1 = pairs$b_start, end1 = pairs$b_end,
+                                species2 = "Arabidopsis thaliana", chr2 = "plastid", start2 = pairs$a_start, end2 = pairs$a_end,
+                                class = pairs$class))
+gc   <- data.frame(start = windows$start, end = windows$start + 999, value = 100 * windows$gc)
+skew <- data.frame(start = windows$start, end = windows$start + 999, value = windows$skew)
+
+plot_circular_synteny(syn, ribbon_fill = "class", ribbon_palette = pal_class, ribbon_legend = FALSE,
+                      label_size = 0, species_label_size = 0, group_gap = 1.5) +
+  syn_track_feature(regions, fill = "region", label = "region", palette = pal_region,
+                    height = 0.07, gap = 0, show.legend = FALSE) +                       # region band
+  syn_axis(by = 10000, unit = "kb", gap = 0) +                                           # kb ticks
+  syn_track_feature(genes, fill = "class", strand = "split", palette = pal_class,
+                    position = "inside", height = 0.14, out_of_bounds = "clip") +        # + and - genes
+  syn_track_line(gc, name = "GC (%)", limits = c(20, 60), reference = 36.3,
+                 position = "inside", height = 0.15, out_of_bounds = "clip") +           # GC line
+  syn_track_heatmap(skew, name = "GC skew", limits = c(-0.25, 0.25),
+                    palette = c("#B2182B", "#F7F7F7", "#2166AC"),
+                    position = "inside", height = 0.05, out_of_bounds = "clip")          # skew heatmap
+```
+
+<img src="man/figures/gc-tracks/genome-ring.png" alt="The Arabidopsis chloroplast as a genome ring: region band with kb ticks, strand-split genes coloured by function, GC content line, GC skew heatmap, and inverted-repeat ribbons" width="88%" />
+
+[Reproduce the ring](data-raw/genome_ring.R) · [Data provenance](inst/extdata/chloroplast/README.md)
+
+The same additions work below linear genomes. `strand = "arrow"` draws
+gene arrows, `syn_axis(by, unit)` labels positions, and `out_of_bounds`
+clips or drops intervals that run past a sequence end instead of erroring.
+`syn_layout()` and `syn_project()` expose the sector geometry for any other
+ggplot2 layer you want to add in genomic coordinates.
+
+<img src="man/figures/gc-tracks/feature-tracks-linear.png" alt="Linear gene synteny with feature arrows coloured by GC class, kb ticks and a GC line below each contig (simulated DNA)" width="100%" />
+
+[Reproduce the feature tracks](data-raw/feature_tracks.R)
 
 ## Real data: rice vs sorghum
 
@@ -186,7 +332,7 @@ connecting homologous genes with ribbons — the classic gene-cluster figure.
 | `interactive` | `FALSE` | Build ggiraph-interactive layers — render with `syn_girafe()` |
 
 ``` r
-micro <- demo_microsynteny_data()   # a moa/moe gene cluster, three strains
+micro <- example_microsynteny_data()   # a moa/moe gene cluster, three strains
 
 plot_microsynteny(micro$features, micro$links,
                   bin_order = c("ZONMW-30", "ZONMW-20", "ZONMW-10"),
@@ -304,7 +450,7 @@ Matching gene names and their ribbons share colours when
 `ribbon_fill = "per_name"`:
 
 ``` r
-micro <- demo_microsynteny_data()
+micro <- example_microsynteny_data()
 plot_circular_microsynteny(micro$features, micro$links,
                            palette = "casa_natal", ribbon_fill = "per_name")
 ```
@@ -657,7 +803,7 @@ ggplot2::ggsave("synteny.pdf", p, width = 12, height = 7)   # vector, for journa
 | `read_genespace()` | Parse a GENESPACE `synHits` file |
 | `rice_sorghum` | Real rice-sorghum macro-synteny (MCScanX output) — `data(rice_sorghum)` |
 | `example_synteny_data()` | Bundled macro-synteny example (Arabidopsis, Grape, Rice) |
-| `demo_microsynteny_data()` | Bundled micro-synteny example (moa/moe cluster) |
+| `example_microsynteny_data()` | Bundled micro-synteny example (moa/moe cluster) |
 
 ## Citation
 

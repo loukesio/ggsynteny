@@ -16,10 +16,20 @@
 #'   species, chromosome labels, or `"species__chr"` keys in custom mode.
 #' @param chr_color Chromosome outline color.
 #' @param ribbon_fill Ribbon coloring: `"source_chr"`, `"target_chr"`,
-#'   `"species_pair"`, `"uniform"`, or `"custom"`. Source is the earlier species
-#'   in `species_order` (input order for within-species blocks).
+#'   `"species_pair"`, `"uniform"`, `"custom"`, or the name of any other
+#'   column of `blocks` (for example `"class"`), whose values are colored as
+#'   categories with a legend. Source is the earlier species in
+#'   `species_order` (input order for within-species blocks).
 #' @param ribbon_palette Overrides `palette` for ribbons. In custom mode, provide
-#'   one color or one color per row of the original `blocks` table.
+#'   one color or one color per row of the original `blocks` table. When
+#'   coloring by a column, a named vector maps its values to colors.
+#' @param ribbon_legend Show a legend when `ribbon_fill` names a column of
+#'   `blocks`? Ignored for the built-in coloring modes.
+#' @param chr_order Chromosome order within each species: `NULL` (the default)
+#'   follows factor levels when `chr` is a factor and otherwise sorts numeric
+#'   names, then remaining names alphabetically; `"input"` keeps the row order
+#'   of `chromosomes`; a character vector orders the chromosome names
+#'   explicitly; a list named by species gives one vector per species.
 #' @param ribbon_alpha Ribbon transparency, between 0 and 1.
 #' @param gap Gap between chromosomes within a species, in degrees.
 #' @param group_gap Gap between species, in degrees.
@@ -52,6 +62,9 @@
 #' p <- plot_circular_synteny(rice_sorghum, c("Rice", "Sorghum"),
 #'                            palette = "casa_natal", chr_fill = "per_species")
 #' p + ggplot2::labs(caption = "Rice and sorghum syntenic intervals")
+#' @seealso [syn_track()], [syn_track_feature()] and [syn_axis()] for rings
+#'   added outside or inside the chromosome band; [syn_layout()] for the
+#'   sector geometry of the returned plot.
 #' @export
 plot_circular_synteny <- function(syn_data, species_order = NULL, palette = NULL,
                                   chr_fill = "uniform", chr_palette = NULL, chr_color = "white",
@@ -59,9 +72,17 @@ plot_circular_synteny <- function(syn_data, species_order = NULL, palette = NULL
                                   ribbon_alpha = 0.3, gap = 1, group_gap = 10,
                                   start_angle = 90, clockwise = TRUE, curvature = 0.65,
                                   track_width = 0.055, label_size = 2.5, species_label_size = 4,
-                                  show_orientation = FALSE, interactive = FALSE, title = NULL) {
+                                  show_orientation = FALSE, interactive = FALSE, title = NULL,
+                                  ribbon_legend = TRUE, chr_order = NULL) {
   chr_fill <- match.arg(chr_fill, c("uniform", "per_species", "per_chr", "custom"))
-  ribbon_fill <- match.arg(ribbon_fill, c("source_chr", "target_chr", "species_pair", "uniform", "custom"))
+  ribbon_modes <- c("source_chr", "target_chr", "species_pair", "uniform", "custom")
+  ribbon_column <- NULL
+  if (is.character(ribbon_fill) && length(ribbon_fill) == 1L && !ribbon_fill %in% ribbon_modes &&
+      is.data.frame(syn_data$blocks) && ribbon_fill %in% names(syn_data$blocks)) {
+    ribbon_column <- ribbon_fill
+    ribbon_fill <- "column"
+  } else ribbon_fill <- match.arg(ribbon_fill, ribbon_modes)
+  .circ_logical(ribbon_legend, "ribbon_legend")
   .circ_interactive(interactive)
   .circ_logical(show_orientation, "show_orientation")
   .circ_scalar(ribbon_alpha, "ribbon_alpha", 0, 1)
@@ -74,13 +95,15 @@ plot_circular_synteny <- function(syn_data, species_order = NULL, palette = NULL
                           c("species1", "chr1", "start1", "end1", "species2", "chr2", "start2", "end2"),
                           "blocks")
   chrs$species <- .circ_text(chrs$species, "chromosomes$species")
+  chr_levels <- if (is.factor(chrs$chr)) levels(chrs$chr) else NULL
   chrs$chr <- .circ_text(chrs$chr, "chromosomes$chr")
   chrs$size <- .circ_numbers(chrs$size, "chromosomes$size")
   if (any(chrs$size <= 0)) stop("Chromosome sizes must be positive.", call. = FALSE)
   if (anyDuplicated(.circ_key(chrs$species, chrs$chr))) stop("Duplicate species/chromosome keys.", call. = FALSE)
   species_order <- .circ_order(species_order, chrs$species, "species_order")
   sectors <- data.frame(group_name = chrs$species, sector_name = chrs$chr, start = 0, end = chrs$size)
-  layout <- .circ_layout(sectors, species_order, gap, group_gap, start_angle, clockwise)
+  rank <- .circ_rank(chr_order, chrs$species, chrs$chr, chr_levels)
+  layout <- .circ_layout(sectors, species_order, gap, group_gap, start_angle, clockwise, rank)
   for (name in c("species1", "chr1", "species2", "chr2")) blocks[[name]] <- .circ_text(blocks[[name]], name)
   blocks$block_id <- seq_len(nrow(blocks))
   input_count <- nrow(blocks)
@@ -128,8 +151,17 @@ plot_circular_synteny <- function(syn_data, species_order = NULL, palette = NULL
     layout$fill_color[is.na(layout$fill_color)] <- "#D4CBC3"
   }
   ribbon_spec <- ribbon_palette %||% palette
+  ribbon_keys <- NULL
   if (ribbon_fill == "uniform") {
     blocks$fill_color <- rep(unname(syn_pal(ribbon_spec %||% "#6688AA", 1)), nrow(blocks))
+  } else if (ribbon_fill == "column") {
+    keys <- blocks[[ribbon_column]]
+    if (anyNA(keys)) stop("ribbon_fill column '", ribbon_column, "' must not contain NA.", call. = FALSE)
+    key_levels <- if (is.factor(keys)) levels(keys)[levels(keys) %in% keys] else unique(as.character(keys))
+    keys <- as.character(keys)
+    ribbon_keys <- keyed_colors(ribbon_spec, key_levels)
+    blocks$fill_color <- unname(ribbon_keys[keys])
+    ribbon_keys <- ribbon_keys[names(ribbon_keys) %in% key_levels]
   } else if (ribbon_fill == "custom") {
     if (!length(ribbon_spec) %in% c(1L, input_count))
       stop("Custom ribbons require one color or one color per input block.", call. = FALSE)
@@ -161,10 +193,14 @@ plot_circular_synteny <- function(syn_data, species_order = NULL, palette = NULL
   }))
   p <- .circ_canvas(layout, title)
   p <- .circ_add_polygons(p, ribbons, ribbon_alpha, interactive = interactive)
+  if (!is.null(ribbon_keys) && ribbon_legend && length(ribbon_keys))
+    p <- p + .syn_key_layers("syn_ribbon", ribbon_keys, ribbon_column, alpha = ribbon_alpha,
+                             anchor = ribbons[1, c("x", "y")])
   p <- .circ_add_polygons(p, chromosomes, color = chr_color, interactive = interactive)
   if (label_size > 0) p <- .circ_add_labels(p, .circ_labels((layout$theta_start + layout$theta_end) / 2,
                                                            1.06, layout$sector_name), label_size)
   if (species_label_size > 0) p <- .circ_add_labels(p, .circ_group_labels(layout), species_label_size, "bold.italic")
   attr(p, "circular_links") <- blocks
+  attr(p, "synteny_layout") <- .track_circular_layout(layout, radius)
   p
 }

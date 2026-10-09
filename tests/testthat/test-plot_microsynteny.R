@@ -1,5 +1,5 @@
 test_that("plot_microsynteny creates ggplot object", {
-  micro <- demo_microsynteny_data()
+  micro <- example_microsynteny_data()
   p <- plot_microsynteny(micro$features, micro$links,
                          bin_order = c("ZONMW-30", "ZONMW-20", "ZONMW-10"))
 
@@ -7,7 +7,7 @@ test_that("plot_microsynteny creates ggplot object", {
 })
 
 test_that("plot_microsynteny handles different gene coloring", {
-  micro <- demo_microsynteny_data()
+  micro <- example_microsynteny_data()
   bin_order <- c("ZONMW-30", "ZONMW-20", "ZONMW-10")
 
   # Per-name coloring
@@ -21,8 +21,8 @@ test_that("plot_microsynteny handles different gene coloring", {
   expect_s3_class(p2, "ggplot")
 })
 
-test_that("demo_microsynteny_data returns correct structure", {
-  micro <- demo_microsynteny_data()
+test_that("example_microsynteny_data returns correct structure", {
+  micro <- example_microsynteny_data()
 
   expect_type(micro, "list")
   expect_named(micro, c("features", "links"))

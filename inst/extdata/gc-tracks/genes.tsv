@@ -1,0 +1,17 @@
+bin_id	seq_id	start	end	strand	feat_id	name	group	value	n_called	n_ambiguous
+Genome A	4	0	443	+	gene_01	moaE	Genome A	25.959367945823928	443	0
+Genome A	4	444	1340	+	gene_02	moaC2	Genome A	34.375	896	0
+Genome A	4	1333	2325	+	gene_03	moaA	Genome A	70.86693548387096	992	0
+Genome A	4	2325	3491	+	gene_04	moeA	Genome A	57.63293310463122	1166	0
+Genome A	4	3991	4242	+	gene_05	spacer	Genome A	NA	0	251
+Genome A	4	4742	5331	-	gene_06	mobA	Genome A	50.42444821731749	589	0
+Genome A	7	0	1181	+	gene_07	moeA	Genome A	52.32853513971211	1181	0
+Genome A	7	1506	2417	+	gene_08	moaC2	Genome A	48.62788144895719	911	0
+Genome B	10	0	1232	+	gene_09	moeA	Genome B	35.714285714285715	1232	0
+Genome B	10	1250	2190	+	gene_10	moaC2	Genome B	71.70212765957447	940	0
+Genome B	10	2200	3100	+	gene_11	moaA	Genome B	39	900	0
+Genome B	10	3150	4300	-	gene_12	mobA	Genome B	61.30434782608695	1150	0
+Genome C	2	0	1100	+	gene_13	moaA	Genome C	34.54545454545455	1100	0
+Genome C	2	1120	2050	+	gene_14	moaC2	Genome C	70.96774193548387	930	0
+Genome C	2	2100	3200	+	gene_15	moeA	Genome C	45.27272727272727	1100	0
+Genome C	2	3250	3900	-	gene_16	moaE	Genome C	57.07692307692308	650	0
