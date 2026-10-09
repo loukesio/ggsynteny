@@ -17,8 +17,9 @@
   w
 }
 
-.reference_identity_color <- function(identity) {
-  ramp <- grDevices::colorRampPalette(c("#D1D5DA", "#353A44"))(101)
+.reference_identity_color <- function(identity, palette = NULL) {
+  ramp <- if (is.null(palette)) grDevices::colorRampPalette(c("#D1D5DA", "#353A44"))(101)
+          else syn_pal(palette, 101, continuous = TRUE)
   out <- rep("#E1E5DC", length(identity))
   valid <- !is.na(identity)
   out[valid] <- ramp[1 + round(pmax(0, pmin(1, (identity[valid] - 90) / 10)) * 100)]
@@ -55,8 +56,10 @@
   }))
 }
 
-.reference_identity_caption <- function(windows, genome_length) {
+.reference_identity_caption <- function(windows, genome_length, custom_palette = FALSE) {
   paste0("Inner dark bands are a ruler: alternating every ", format(.reference_ruler_step(genome_length), big.mark = ",", scientific = FALSE), " bp, not measurements.\n",
-    if (nrow(windows)) "Outer shading is supplied identity: darker = more matching aligned bases. Scale: light <=90%, mid 95%, dark 100%; pale green = no score.\n" else "Outer tracks have no supplied identity scores; their plain shade is not a measurement.\n",
+    if (!nrow(windows)) "Outer tracks have no supplied identity scores; their plain shade is not a measurement.\n"
+    else if (custom_palette) "Outer shading is supplied identity on the legend's colour scale: <=90%, 95% and 100% matching aligned bases; pale green = no score.\n"
+    else "Outer shading is supplied identity: darker = more matching aligned bases. Scale: light <=90%, mid 95%, dark 100%; pale green = no score.\n",
     "For example, 99% identity means about 99 of 100 aligned bases match. Higher means more similar, not better; coverage is not shown.")
 }

@@ -34,7 +34,8 @@
                 format = "f", digits = if (unit == "Mb") 3 else if (unit == "kb") 1 else 0), " ", unit)
 }
 
-.reference_geometry <- function(v, genome_length, samples, colors, identity_windows = NULL) {
+.reference_geometry <- function(v, genome_length, samples, colors, identity_windows = NULL,
+                                identity_palette = NULL) {
   identity_windows <- .reference_identity_validate(identity_windows, genome_length)
   n <- length(samples); step <- min(34, 170 / max(1, n - 1)); thick <- min(22, step * .65)
   angle <- function(x) pi / 2 - .075 - x / genome_length * (2 * pi - .15)
@@ -55,7 +56,7 @@
     if (is.na(i)) next
     current_sample <- w$sample; current_start <- w$start; current_end <- w$end; current_identity <- w$identity
     add(.circ_ring(angle(w$start), angle(w$end), radius(i), radius(i) + thick),
-      .reference_identity_color(w$identity), id = paste0("identity-", idx),
+      .reference_identity_color(w$identity, identity_palette), id = paste0("identity-", idx),
       tip = paste(w$sample, paste0(w$start, "\u2013", w$end, " bp"),
                   if (is.na(w$identity)) "No identity score" else paste0(w$identity, "% identity; coverage not supplied"), sep = " | "), role = "identity")
   }
@@ -139,6 +140,9 @@
 #' @param palette An ltc palette name or vector of colours.
 #' @param family,mono_family Font families for prose and coordinate labels.
 #'   Use IBM Plex Sans and IBM Plex Mono with [save_reference_comparison()].
+#' @param identity_palette Colours for the identity shading, from low (90%)
+#'   to high (100%): an ltc palette name, an HCL palette name, or a vector of
+#'   two or more colours. `NULL` keeps the default light-to-dark grey ramp.
 #' @param identity_windows Optional data frame with `sample`, `start`, `end`,
 #'   `identity` (percent, 0-100 or NA), using the same zero-based reference
 #'   coordinates with exclusive ends. Windows must not overlap within a sample.
@@ -155,7 +159,8 @@
 plot_reference_comparison <- function(variants, genome_length, reference = "Reference",
                                       sample_order = NULL, types = .reference_types,
                                       title = NULL, interactive = FALSE, palette = "minou",
-                                      family = "sans", mono_family = "mono", identity_windows = NULL) {
+                                      family = "sans", mono_family = "mono", identity_windows = NULL,
+                                      identity_palette = NULL) {
   v <- .reference_validate(variants, genome_length)
   identity_windows <- .reference_identity_validate(identity_windows, genome_length)
   reference <- .circ_text(reference, "reference")
@@ -169,7 +174,8 @@ plot_reference_comparison <- function(variants, genome_length, reference = "Refe
   v <- v[v$sample %in% sample_order & v$type %in% types, , drop = FALSE]
   colors <- .reference_palette(palette)
   identity_windows <- identity_windows[identity_windows$sample %in% sample_order, , drop = FALSE]
-  g <- .reference_geometry(v, genome_length, sample_order, colors, identity_windows)
+  if (!is.null(identity_palette)) grDevices::col2rgb(syn_pal(identity_palette, 3, continuous = TRUE))
+  g <- .reference_geometry(v, genome_length, sample_order, colors, identity_windows, identity_palette)
   p <- ggplot2::ggplot()
   if (interactive) p <- p + ggiraph::geom_polygon_interactive(data = g$polygons,
     ggplot2::aes(x = x, y = y, group = group, fill = fill, colour = stroke, linewidth = width, tooltip = tooltip, data_id = data_id))
@@ -185,7 +191,7 @@ plot_reference_comparison <- function(variants, genome_length, reference = "Refe
     ggplot2::coord_equal(xlim = c(-lim, lim), ylim = c(-lim-70, lim), clip = "off") + ggplot2::theme_void(base_family = family) +
     ggplot2::labs(title = if (is.null(title)) paste(length(sample_order), "genomes against", reference) else title,
       subtitle = paste0(reference, " \u00b7 reference span ", .reference_fmt(genome_length), "\n", paste(strwrap(paste(paste0(g$tags, " \u00b7 ", sample_order), collapse = "     "), 95), collapse = "\n")),
-      caption = paste(.reference_guide(genome_length), .reference_identity_caption(identity_windows, genome_length), sep = "\n")) +
+      caption = paste(.reference_guide(genome_length), .reference_identity_caption(identity_windows, genome_length, !is.null(identity_palette)), sep = "\n")) +
     ggplot2::theme(plot.background = ggplot2::element_rect(fill = .reference_style$paper, colour = NA),
       plot.title = ggplot2::element_text(size = 20, colour = .reference_style$ink, margin = ggplot2::margin(b = 8)),
       plot.subtitle = ggplot2::element_text(family = mono_family, size = 10, colour = .reference_style$muted),
@@ -200,7 +206,7 @@ plot_reference_comparison <- function(variants, genome_length, reference = "Refe
       ggplot2::annotate("text", x = x + 14, y = -lim - 15, label = .reference_labels[i], hjust = 0, vjust = .5, size = 2.6, family = family, colour = .reference_style$ink)
   }
   labels <- c("Identity <=90%", "Identity 95%", "Identity 100%", "No identity score")
-  shades <- .reference_identity_color(c(90, 95, 100, NA_real_))
+  shades <- .reference_identity_color(c(90, 95, 100, NA_real_), identity_palette)
   for (i in seq_along(shades)) {
     x <- legend_x[i]
     p <- p + ggplot2::annotate("point", x = x, y = -lim-45, shape = 15, size = 3, colour = shades[i]) +

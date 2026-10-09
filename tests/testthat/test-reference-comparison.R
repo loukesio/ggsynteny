@@ -89,6 +89,15 @@ test_that("identity scores are independently validated without filling missing r
   expect_false(.reference_identity_color(NA_real_) == .reference_identity_color(90))
   expect_true(mean(grDevices::col2rgb(.reference_identity_color(99))) < mean(grDevices::col2rgb(.reference_identity_color(95))))
   expect_equal(.reference_identity_color(80), .reference_identity_color(90))
+  warm <- .reference_identity_color(c(90, 100, NA), c("#FFF7BC", "#D95F0E"))
+  expect_equal(toupper(warm[1:2]), c("#FFF7BC", "#D95F0E"))
+  expect_equal(warm[3], .reference_identity_color(NA_real_))
+  expect_equal(.reference_identity_color(95, "heatmap0"), syn_pal("heatmap0", 101, continuous = TRUE)[51])
+  v_pal <- data.frame(sample = "G", type = "SNP", start = 10, end = 11)
+  w_pal <- data.frame(sample = "G", start = 0, end = 50, identity = 97)
+  p_pal <- plot_reference_comparison(v_pal, 100, identity_windows = w_pal, identity_palette = "heatmap1")
+  expect_true(.reference_identity_color(97, "heatmap1") %in% p_pal$layers[[1]]$data$fill)
+  expect_error(plot_reference_comparison(v_pal, 100, identity_windows = w_pal, identity_palette = "not a palette"))
   bad <- w; bad$identity[1] <- 101
   expect_error(.reference_identity_validate(bad, 1000), "percentage")
   bad <- w; bad$start[2] <- 50
