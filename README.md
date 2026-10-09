@@ -6,17 +6,30 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
-> Publication-quality synteny plots with ggplot2
+> **Publication-quality synteny plots, in pure ggplot2.**
+> Chromosomes or genes · linear or circular · one line of code · 32 palettes by name.
 
-📖 **Website & full documentation:** <https://loukesio.github.io/ggsynteny/>
+<p align="center">
+  <img src="man/figures/README-hero.png" alt="Macro-synteny of Arabidopsis, Grape and Rice" width="92%">
+</p>
 
-**ggsynteny** draws comparative-genomics figures in **pure ggplot2**: both
-**macro-synteny** (chromosome-level ribbons across any number of species) and
-**micro-synteny** (gene-level arrows connected by homology ribbons), in linear
-or circular layouts. It ships
-parsers for MCScanX, GENESPACE, and plain TSV input, a real rice-sorghum
-dataset, interactive hover-and-tooltip plots via **ggiraph**, and every
-colour argument accepts the 32 palettes of the
+<table align="center">
+  <tr>
+    <td align="center" width="25%"><a href="#plot-synteny"><img src="man/figures/README-rice-sorghum.png" alt="Macro-synteny"><br><b>Macro-synteny</b></a><br><sub>chromosome tiers + block ribbons</sub></td>
+    <td align="center" width="25%"><a href="#plot-microsynteny"><img src="man/figures/README-micro.png" alt="Micro-synteny"><br><b>Micro-synteny</b></a><br><sub>gene arrows + homology ribbons</sub></td>
+    <td align="center" width="25%"><a href="#plot-circular-synteny"><img src="man/figures/README-circular-macro.png" alt="Circular macro-synteny"><br><b>Circular</b></a><br><sub>chromosome arcs + chords</sub></td>
+    <td align="center" width="25%"><a href="#annotation-tracks"><img src="man/figures/gc-tracks/genome-ring.png" alt="Genome ring with tracks"><br><b>Annotation tracks</b></a><br><sub>GC, genes, axes — stacked with <code>+</code></sub></td>
+  </tr>
+</table>
+
+📖 **Website & full documentation:** <https://loukesio.github.io/ggsynteny/> ·
+🧪 **Try it in the browser, no install:** [ggsynteny Studio](https://01a0ae1e-adb1-a4f8-1ced-261952037ebf.share.connect.posit.cloud/)
+
+**ggsynteny** draws comparative-genomics figures with ordinary ggplot2 objects, so
+everything you already know (`+ labs()`, `+ theme()`, `ggsave()`) just works.
+It reads **MCScanX**, **GENESPACE** and plain **TSV** results, ships a real
+rice–sorghum dataset, renders hover-and-tooltip versions via **ggiraph**, and
+every colour argument accepts the 32 palettes of the
 [ltc package](https://github.com/loukesio/ltc-color-palettes) by name —
 `palette = "casa_natal"` just works.
 
@@ -24,46 +37,41 @@ Version **0.5.0** adds circular views and **ggsynteny Studio**, a local Shiny
 app for uploading results, previewing data, and exporting figures and tables.
 The previous [0.3.0 source is preserved](https://github.com/loukesio/ggsynteny/releases/tag/v0.3.0).
 
+---
+
+## Contents
+
+1. [Installation](#installation)
+2. [Your first plot](#your-first-plot) — three lines, one figure
+3. [Pick your view](#pick-your-view) — which function for which figure
+4. [Bring your own data](#bring-your-own-data) — MCScanX, GENESPACE, TSV, or Studio
+5. [The four plots](#the-four-plots) — arguments, defaults, worked examples
+6. [Add to any plot](#add-to-any-plot) — annotation tracks, interactivity, palettes
+7. [ggsynteny Studio](#ggsynteny-app) — the Shiny app, with reference comparison
+8. [Data input formats](#data-input-formats) · [Saving your plot](#saving-your-plot) · [API reference](#api-reference) · [Citation](#citation)
+
+---
+
 ## Installation
 
 <img align="right" src="man/figures/logo.png" alt="ggsynteny logo: genomics for R" width="320">
 
-Install the development version from GitHub, which includes the annotation
-tracks shown below:
-
 ``` r
 install.packages("remotes")  # only needed once
 remotes::install_github("loukesio/ggsynteny", upgrade = "never")
-```
-
-Restart R after installation if ggsynteny was already loaded. Then run:
-
-``` r
 library(ggsynteny)
-packageVersion("ggsynteny")  # 0.5.0.9000 in the development version
-source(system.file("examples", "annotation-tracks.R", package = "ggsynteny"))
-print(track_demo$linear)
-print(track_demo$circular)
 ```
 
-The demo uses bundled simulated DNA, so no data download is needed. It creates
-three tracks: a gene GC heatmap, GC across sliding windows as a line, and
-ambiguous-base percentages as bars.
-
-**[Start with the step-by-step track tutorial](dev/gc-tracks/tutorial/README.md)**
-for an explanation of the data, a gradual build from one track to three,
-both layouts, and saving your plots.
-
-Installing without `ref` gets the main branch, which does not yet include
-these tracks. To return to main later, restart R and run
-`remotes::install_github("loukesio/ggsynteny", ref = "main", upgrade = "never")`.
+The released 0.5.0 has the four plots and Studio. The development version on
+GitHub adds annotation tracks and the genome ring shown above. Restart R after
+installation if ggsynteny was already loaded.
 
 <br>
 
-## The one-glance demo
+## Your first plot
 
 Three plant genomes, one bundled dataset, one ltc palette driving the whole
-figure — chromosomes coloured per species, ribbons by source chromosome:
+figure. Nothing to download:
 
 ``` r
 library(ggsynteny)
@@ -75,715 +83,424 @@ plot_synteny(syn,
              palette = "casa_natal")
 ```
 
-<img src="man/figures/README-hero.png" alt="Macro-synteny of Arabidopsis, Grape and Rice with the casa_natal palette" width="92%" style="display: block; margin: auto;" />
+That is the figure at the top of this page. Chromosomes are coloured per species, ribbons by source chromosome. Swap
+`palette` for any of the [32 built-in names](#syn-palettes),
+or add `chr_radius = 1.5` for rounded, karyotype-style chromosomes.
 
-## Annotation tracks
+## Pick your view
 
-Add aligned GC-content strips, gene or region tracks and coordinate axes to
-linear or circular plots with ordinary ggplot2 `+` composition. Tracks are in
-the development version on GitHub, not in the published 0.5.0 release.
+Four plotting functions, two questions: **chromosomes or genes?** and
+**linear or circular?** Every one of them takes `palette = "…"` and returns a
+ggplot object.
 
-``` r
-# remotes::install_github("loukesio/ggsynteny")
-example_dir <- system.file("extdata", "gc-tracks", package = "ggsynteny")
-read_example <- function(name) {
-  readr::read_tsv(file.path(example_dir, paste0(name, ".tsv")),
-                 show_col_types = FALSE)
-}
-features <- read_example("features")
-links <- read_example("links")
-dna <- read_example("sequences")  # explicitly simulated DNA
-gene_gc <- gc_content(dna, intervals = features)
+| | Linear | Circular |
+|---|---|---|
+| **Chromosomes** (macro-synteny)<br><sub>`chromosomes` + `blocks` tables</sub> | [`plot_synteny()`](#plot-synteny) | [`plot_circular_synteny()`](#plot-circular-synteny) |
+| **Genes** (micro-synteny)<br><sub>`features` + `links` tables</sub> | [`plot_microsynteny()`](#plot-microsynteny) | [`plot_circular_microsynteny()`](#plot-circular-microsynteny) |
 
-plot_microsynteny(features, links, palette = "casa_natal") +
-  syn_track(gene_gc)
-plot_circular_microsynteny(features, links, palette = "casa_natal") +
-  syn_track(gene_gc)
-```
+Then layer on what you need:
 
-<img src="man/figures/gc-tracks/overview.png" alt="Four GC-content track examples from simulated DNA: linear and circular chromosome windows and per-gene measurements" width="100%" />
+- **Annotation tracks** — `+ syn_track_heatmap()`, `+ syn_track_line()`, `+ syn_track_feature()`, `+ syn_axis()` → [Annotation tracks](#annotation-tracks)
+- **Interactivity** — `interactive = TRUE`, then `syn_girafe(p)` → [`syn_girafe()`](#syn-girafe)
+- **Reference rings** — one reference, many genomes → [Reference comparison](#reference-comparison), in Studio or `plot_reference_comparison()`
 
-[Full-size example PDF](man/figures/gc-tracks/gc-tracks.pdf) ·
-[Track guide](vignettes/articles/annotation-tracks.Rmd) ·
-[Reproduce the figures](data-raw/gc_tracks.R)
+<p align="center">
+  <img src="man/figures/README-rice-sorghum.png" alt="Rice vs sorghum, linear" width="46%">
+  <img src="man/figures/README-circular-macro.png" alt="Rice vs sorghum, circular" width="40%">
+</p>
+<p align="center"><sub>The same real rice–sorghum MCScanX data, drawn with <code>plot_synteny()</code> (left) and <code>plot_circular_synteny()</code> (right).</sub></p>
 
-All four plotting functions accept the same coordinate/value table. Calculate
-per-gene or window GC values with `gc_content()`, or supply measurements.
-GC uses only A/C/G/T bases; grey tiles mark missing values. Sequence-based
-calculations use zero-based, half-open base-pair coordinates, which must match
-the plot's units and origin. These examples use simulated DNA and do not claim
-GC measurements for the package's real biological datasets.
+## Bring your own data
 
-Mix track types by adding them in order. For example, combine gene colors
-with a line graph of GC across sliding windows:
+Already have results? Each parser returns the list that `plot_synteny()` and
+`plot_circular_synteny()` expect:
 
 ``` r
-window_gc <- gc_content(dna, window = 400, step = 100)
-tracks <- list(
-  syn_track(gene_gc, geom = "heatmap", name = "Gene GC (%)", height = 0.06),
-  syn_track(window_gc, geom = "line", name = "Window GC (%)",
-            height = 0.19, colour = "#176D81", reference = 50)
-)
-plot_microsynteny(features, links, palette = "casa_natal") + tracks
-plot_circular_microsynteny(features, links, palette = "casa_natal") + tracks
-# geom = "bar" adds interval bars; each track has its own limits and legend.
+syn <- read_mcscanx("out.collinearity", "out.gff")          # MCScanX
+syn <- read_genespace("synHits.tsv")                          # GENESPACE
+syn <- read_synteny_tsv("chromosomes.tsv", "blocks.tsv")      # two plain tables
+
+plot_synteny(syn, species_order = c("Rice", "Sorghum"), palette = "casa_natal")
 ```
 
-Linear tracks sit below each genome, with ribbons in separate gaps; rows
-expand automatically. Circular tracks keep their outward stacking. Remove a
-middle guide with `reference = NULL`. Style backgrounds and borders with
-`background = ggplot2::element_rect(fill = "ivory", colour = NA)` and
-`border = ggplot2::element_line(colour = "grey70")`, or use
-`ggplot2::element_blank()` to hide either. See the
-[tutorial](dev/gc-tracks/tutorial/README.md) for a complete example.
+Gene-level plots take two plain data frames — `features` (one row per gene) and
+`links` (one row per homologous pair). Column names and bundled example files
+for every format are in [Data input formats](#data-input-formats).
 
-<img src="man/figures/gc-tracks/modular-circular.png" alt="Three stacked tracks around gene synteny: gene GC heatmap, sliding-window GC line and ambiguous-base bars, using simulated DNA" width="92%" />
+Prefer not to write code? **[Open ggsynteny Studio](https://01a0ae1e-adb1-a4f8-1ced-261952037ebf.share.connect.posit.cloud/)**,
+upload the same files, and download the figure plus an R script that
+reproduces it. Details in [`ggsynteny_app()`](#ggsynteny-app).
 
-[Three-track example PDF](man/figures/gc-tracks/modular-tracks.pdf) ·
-[Reproduce the mixed tracks](data-raw/modular_tracks.R)
+---
 
-### Feature tracks, coordinate axes and a complete genome ring
+---
 
-A track is a table of intervals plus a geom saying how to draw what each
-interval carries. One wrapper per geom lists only the options it uses:
+<a id="the-four-plots"></a>
+## The four plots
 
-| Wrapper | Draws | Reads | Key options |
-|---|---|---|---|
-| `syn_track_feature()` | boxes coloured by a category: genes, regions, repeats | `start`, `end`, the `fill` column, optional `label` and `strand` | `fill`, `palette`, `strand = "split"`/`"arrow"`, `label` |
-| `syn_track_heatmap()` | one colour tile per interval on a gradient | `start`, `end`, numeric `value` | `limits`, `palette` |
-| `syn_track_line()` | a line through interval midpoints | same | `limits`, `reference`, `colour` |
-| `syn_track_bar()` | a bar from `baseline` over each interval | same | `limits`, `baseline`, `reference` |
+Each function below follows the same pattern: what it is for, the arguments
+that matter with their defaults, and worked examples. Chromosome-level
+functions take a list with `chromosomes` and `blocks` tables; gene-level
+functions take `features` and `links` tables.
 
-All of them take `height`, `gap`, `position = "inside"` (circular plots
-stack inward and shrink the ribbons) and `out_of_bounds = "clip"`/`"drop"`.
-`syn_axis()` adds position ticks. When the plot shows one species or one
-sequence, the `species`/`chr` columns can be left out of the track tables.
+<a id="plot-synteny"></a>
+### `plot_synteny()` — chromosome-level, linear
 
-Together they draw a full genome map from exported functions only. The data
-are the published *Arabidopsis thaliana* chloroplast annotation (RefSeq
-NC_000932.1), bundled with the package:
-
-``` r
-dir <- system.file("extdata", "chloroplast", package = "ggsynteny")
-regions <- read.csv(file.path(dir, "regions.csv"))      # LSC, IRb, SSC, IRa
-genes   <- read.csv(file.path(dir, "genes.csv"))        # gene, strand, functional class
-windows <- read.csv(file.path(dir, "gc_windows.csv"))   # GC fraction and skew per 1-kb window
-pairs   <- read.csv(file.path(dir, "ir_pairs.csv"))     # 17 IRb genes and their IRa copies
-
-syn <- list(chromosomes = data.frame(species = "Arabidopsis thaliana", chr = "plastid", size = 154478),
-            blocks = data.frame(species1 = "Arabidopsis thaliana", chr1 = "plastid", start1 = pairs$b_start, end1 = pairs$b_end,
-                                species2 = "Arabidopsis thaliana", chr2 = "plastid", start2 = pairs$a_start, end2 = pairs$a_end,
-                                class = pairs$class))
-gc   <- data.frame(start = windows$start, end = windows$start + 999, value = 100 * windows$gc)
-skew <- data.frame(start = windows$start, end = windows$start + 999, value = windows$skew)
-
-plot_circular_synteny(syn, ribbon_fill = "class", ribbon_palette = pal_class, ribbon_legend = FALSE,
-                      label_size = 0, species_label_size = 0, group_gap = 1.5) +
-  syn_track_feature(regions, fill = "region", label = "region", palette = pal_region,
-                    height = 0.07, gap = 0, show.legend = FALSE) +                       # region band
-  syn_axis(by = 10000, unit = "kb", gap = 0) +                                           # kb ticks
-  syn_track_feature(genes, fill = "class", strand = "split", palette = pal_class,
-                    position = "inside", height = 0.14, out_of_bounds = "clip") +        # + and - genes
-  syn_track_line(gc, name = "GC (%)", limits = c(20, 60), reference = 36.3,
-                 position = "inside", height = 0.15, out_of_bounds = "clip") +           # GC line
-  syn_track_heatmap(skew, name = "GC skew", limits = c(-0.25, 0.25),
-                    palette = c("#B2182B", "#F7F7F7", "#2166AC"),
-                    position = "inside", height = 0.05, out_of_bounds = "clip")          # skew heatmap
-```
-
-<img src="man/figures/gc-tracks/genome-ring.png" alt="The Arabidopsis chloroplast as a genome ring: region band with kb ticks, strand-split genes coloured by function, GC content line, GC skew heatmap, and inverted-repeat ribbons" width="88%" />
-
-[Reproduce the ring](data-raw/genome_ring.R) · [Data provenance](inst/extdata/chloroplast/README.md)
-
-The same additions work below linear genomes. `strand = "arrow"` draws
-gene arrows, `syn_axis(by, unit)` labels positions, and `out_of_bounds`
-clips or drops intervals that run past a sequence end instead of erroring.
-`syn_layout()` and `syn_project()` expose the sector geometry for any other
-ggplot2 layer you want to add in genomic coordinates.
-
-<img src="man/figures/gc-tracks/feature-tracks-linear.png" alt="Linear gene synteny with feature arrows coloured by GC class, kb ticks and a GC line below each contig (simulated DNA)" width="100%" />
-
-[Reproduce the feature tracks](data-raw/feature_tracks.R)
-
-## Real data: rice vs sorghum
-
-The bundled `rice_sorghum` dataset is genuine MCScanX output — the
-rice-sorghum example data shipped with MCScanX itself, run through the tool
-and parsed with ggsynteny's own `read_mcscanx()` (full pipeline in
-`data-raw/rice_sorghum.R`). Two grasses, ~50 million years of divergence,
-and the textbook conserved blocks are all there — rice 1 mapping almost
-entirely to sorghum 3, rice 11/12 to sorghum 5/8:
-
-``` r
-data(rice_sorghum)
-
-plot_synteny(rice_sorghum, c("Rice", "Sorghum"),
-             palette = "casa_natal",
-             chr_fill = "per_chr", ribbon_fill = "source_chr")
-```
-
-<img src="man/figures/README-rice-sorghum.png" alt="Rice vs sorghum macro-synteny from real MCScanX output" width="92%" style="display: block; margin: auto;" />
-
-The full worked example — including a real bacterial gene cluster at the
-micro scale — is in the [Real data
-article](https://loukesio.github.io/ggsynteny/articles/real-data.html).
-
-Chromosomes are square-cornered by default; `chr_radius` (in millimetres,
-via ggforce) rounds them into karyotype-style capsules —
-`gene_radius` does the same for gene arrows in micro-synteny:
-
-``` r
-plot_synteny(rice_sorghum, c("Rice", "Sorghum"),
-             palette = "casa_natal",
-             chr_fill = "per_chr", chr_radius = 1.5)
-```
-
-<img src="man/figures/README-rounded.png" alt="Rounded chromosome corners" width="92%" style="display: block; margin: auto;" />
-
-Every function below follows the same pattern: what it is for, the arguments
-that matter (with their defaults), and a worked example.
-
-## The functions
-
-### `plot_synteny()` — chromosome-level (macro) synteny
-
-**What it's for:** stacking species as tiers of chromosomes and connecting
-their syntenic blocks with curved ribbons. Takes a list with `chromosomes`
-and `blocks` data frames (see the input formats below).
+Stacks species as tiers of chromosomes and connects their syntenic blocks
+with curved ribbons.
 
 | Argument | Default | What it does |
 |----|----|----|
 | `syn_data` | — | List with `chromosomes` and `blocks` data frames |
 | `species_order` | — | Display order, top to bottom |
-| `palette` | `NULL` | One palette for the whole plot: an ltc name (`"casa_natal"`), `"Okabe-Ito"`, or a colour vector |
-| `chr_fill` | `"uniform"` | Chromosome colouring: `"uniform"` (dark `#333333` default), `"per_species"`, `"per_chr"`, or `"custom"` |
-| `chr_color` | `"white"` | Chromosome outline — white seams by default; `"black"` for the classic outlined look |
-| `chr_palette` | `NULL` | Overrides `palette` for chromosomes: a palette name, colour vector, or *named* key-to-colour vector |
+| `palette` | `NULL` | One palette for the whole plot: an ltc name, `"Okabe-Ito"`, or a colour vector |
+| `chr_fill` | `"uniform"` | Chromosome colouring: `"uniform"`, `"per_species"`, `"per_chr"`, or `"custom"` |
 | `ribbon_fill` | `"source_chr"` | Ribbon colouring: `"source_chr"`, `"target_chr"`, `"species_pair"`, `"uniform"`, or `"custom"` |
-| `ribbon_palette` | `NULL` | Overrides `palette` for ribbons; same forms as `chr_palette` |
-| `ribbon_alpha` | `0.30` | Ribbon transparency |
-| `curvature` | `0.55` | Ribbon curve strength (0–1) |
-| `tier_spacing` | `18` | Vertical distance between species |
-| `chr_radius` | `0` | Corner radius in mm — `1.5` gives karyotype-style capsules (needs ggforce) |
-| `interactive` | `FALSE` | Build ggiraph-interactive layers — render with `syn_girafe()` |
+| `chr_palette`, `ribbon_palette` | `NULL` | Override `palette` for one element; named vectors map keys to colours |
+| `ribbon_alpha`, `curvature` | `0.30`, `0.55` | Ribbon transparency and curve strength |
+| `chr_radius` | `0` | Corner radius in mm; `1.5` gives karyotype-style capsules (needs ggforce) |
+| `interactive` | `FALSE` | Build ggiraph layers; render with `syn_girafe()` |
 
-With nothing specified you get the house default: quiet dark chromosomes
-(`"#333333"` with white seams) and ribbons coloured from the `alger`
-palette — the ribbons carry the signal, the chromosomes stay out of the
-way:
+The house default is quiet dark chromosomes with ribbons from the `alger`
+palette, so the ribbons carry the signal. `chr_fill = "per_chr"` colours each
+chromosome; `ribbon_fill = "species_pair"` gives one ribbon colour per pair:
 
 ``` r
-plot_synteny(syn, species_order = c("Arabidopsis", "Grape", "Rice"))
-```
-
-<img src="man/figures/README-macro-default.png" alt="" width="80%" />
-
-`chr_fill = "per_chr"` colours each chromosome label separately — here from
-the `minou` palette (interpolated when there are more chromosomes than
-colours):
-
-``` r
-plot_synteny(syn, species_order = c("Arabidopsis", "Grape", "Rice"),
-             chr_fill = "per_chr", palette = "minou")
+plot_synteny(syn, species_order = c("Arabidopsis", "Grape", "Rice"), chr_fill = "per_chr", palette = "minou")
 ```
 
 <img src="man/figures/README-macro-perchr.png" alt="" width="80%" />
 
-And quiet chromosomes with one ribbon colour per species pair, from `trio1`:
+**Real data.** The bundled `rice_sorghum` dataset is genuine MCScanX output,
+parsed with `read_mcscanx()` (pipeline in `data-raw/rice_sorghum.R`). Two
+grasses, about 50 million years apart, and the textbook conserved blocks are
+all there: rice 1 maps almost entirely to sorghum 3, rice 11/12 to sorghum 5/8.
 
 ``` r
-plot_synteny(syn, species_order = c("Arabidopsis", "Grape", "Rice"),
-             chr_fill = "uniform",       chr_palette = "#E8E4DF",
-             ribbon_fill = "species_pair", ribbon_palette = "trio1",
-             ribbon_alpha = 0.35)
+data(rice_sorghum)
+plot_synteny(rice_sorghum, c("Rice", "Sorghum"), palette = "casa_natal",
+             chr_fill = "per_chr", ribbon_fill = "source_chr")
 ```
 
-<img src="man/figures/README-macro-pairs.png" alt="" width="80%" />
+<img src="man/figures/README-rice-sorghum.png" alt="Rice vs sorghum macro-synteny from real MCScanX output" width="92%" style="display: block; margin: auto;" />
 
-Named vectors keep working as explicit mappings whenever you need full
-control:
+More variations (species-pair ribbons, named colour maps, rounded
+chromosomes) are in the
+[getting-started guide](https://loukesio.github.io/ggsynteny/articles/getting-started.html)
+and the [real-data article](https://loukesio.github.io/ggsynteny/articles/real-data.html).
 
-``` r
-plot_synteny(syn, species_order = c("Arabidopsis", "Grape", "Rice"),
-             chr_fill = "per_species",
-             chr_palette = c("Arabidopsis" = "#B8D4E3",
-                             "Grape"       = "#C5B4E3",
-                             "Rice"        = "#B8E3C5"))
-```
+<a id="plot-microsynteny"></a>
+### `plot_microsynteny()` — gene-level, linear
 
-### `plot_microsynteny()` — gene-level (micro) synteny
-
-**What it's for:** drawing individual genes as strand-aware arrows and
-connecting homologous genes with ribbons — the classic gene-cluster figure.
+Draws genes as strand-aware arrows and connects homologous genes with
+ribbons: the classic gene-cluster figure.
 
 | Argument | Default | What it does |
 |----|----|----|
 | `features` | — | Data frame: `bin_id`, `seq_id`, `start`, `end`, `strand`, `feat_id`, `name` |
 | `links` | — | Data frame: `feat_id_a`, `feat_id_b`, optional `identity` (0–100) |
 | `bin_order` | first appearance | Display order, top to bottom |
-| `palette` | `NULL` | One palette for genes *and* ribbons, as in `plot_synteny()` |
 | `gene_fill` | `"per_name"` | Gene colouring: `"per_name"`, `"per_feat"`, or `"uniform"` |
-| `gene_palette` | `NULL` | Overrides `palette` for genes |
-| `ribbon_fill` | `"identity"` | Ribbon colouring: `"identity"`, `"per_name"`, or `"uniform"` |
-| `ribbon_palette` | `NULL` | Overrides `palette` for ribbons; with `"identity"`, used as the colour ramp |
-| `gene_radius` | `0` | Corner radius in mm — softens the arrows (needs ggforce) |
-| `ribbon_anchor` | `"body"` | Where ribbons attach: `"body"` keeps arrowheads clear; `"full"` spans the whole gene (see below) |
-| `label_genes` | `TRUE` | Italic gene-name labels above/below the arrows |
-| `interactive` | `FALSE` | Build ggiraph-interactive layers — render with `syn_girafe()` |
+| `ribbon_fill` | `"identity"` | Ribbon colouring: `"identity"` (a colour ramp), `"per_name"`, or `"uniform"` |
+| `ribbon_anchor` | `"body"` | `"body"` keeps arrowheads clear; `"full"` spans the whole gene |
+| `gene_radius` | `0` | Corner radius in mm (needs ggforce) |
+| `label_genes` | `TRUE` | Italic gene-name labels |
+| `interactive` | `FALSE` | Build ggiraph layers; render with `syn_girafe()` |
 
 ``` r
 micro <- example_microsynteny_data()   # a moa/moe gene cluster, three strains
-
 plot_microsynteny(micro$features, micro$links,
-                  bin_order = c("ZONMW-30", "ZONMW-20", "ZONMW-10"),
-                  palette = "casa_natal")
+                  bin_order = c("ZONMW-30", "ZONMW-20", "ZONMW-10"), palette = "casa_natal")
 ```
 
 <img src="man/figures/README-micro.png" alt="" width="85%" />
 
-With `ribbon_fill = "identity"` the ribbon colour encodes percent identity.
-By default that is a light-to-dark blue ramp; pass an ordered palette
-(`heatmap0`–`heatmap3`) as `ribbon_palette` to restyle it:
-
-``` r
-plot_microsynteny(micro$features, micro$links,
-                  bin_order = c("ZONMW-30", "ZONMW-20", "ZONMW-10"),
-                  gene_fill = "per_name",  gene_palette = "casa_natal",
-                  ribbon_fill = "identity", ribbon_palette = "heatmap0")
-```
-
-<img src="man/figures/README-micro-ramp.png" alt="" width="85%" />
-
-#### Where ribbons attach: `ribbon_anchor`
-
-A gene arrow has a rectangular body and a pointed tip, and there are two
-defensible places for a ribbon to end. `ribbon_anchor = "body"` (the
-default) attaches ribbons to the body only, so every arrowhead stays clear
-and strand direction remains readable even under dense links.
-`ribbon_anchor = "full"` spans the whole gene, tip included — the
-convention of clinker, gggenomes and pyGenomeViz — which reads as "this
-entire gene is part of the link":
+With `ribbon_fill = "identity"` the ribbon colour encodes percent identity on
+a light-to-dark ramp; pass an ordered palette (`heatmap0` to `heatmap3`) as
+`ribbon_palette` to restyle it. `ribbon_anchor` decides where ribbons end:
+`"body"` (default) keeps every arrowhead readable under dense links; `"full"`
+spans tip included, the convention of clinker and gggenomes, and reads as
+"this entire gene is part of the link".
 
 <p float="left">
   <img src="man/figures/README-anchor-body.png" width="49%" />
   <img src="man/figures/README-anchor-full.png" width="49%" />
 </p>
 
-Use `"body"` when the figure is about gene order and orientation (the
-tips carry the information); switch to `"full"` when the links represent
-alignments over entire genes and coverage is the message.
+<a id="plot-circular-synteny"></a>
+### `plot_circular_synteny()` — chromosome-level, ring
 
-### `plot_circular_synteny()` — circular chromosome-level synteny
-
-**What it's for:** arranging chromosomes as proportional arcs around a circle
-and connecting their syntenic blocks with ribbons. Takes the same `chromosomes`
-and `blocks` tables as `plot_synteny()`. All supplied relationships among the
-selected species are drawn, including non-adjacent species.
-
-The circular functions are included in ggsynteny 0.5.0. They use native
-ggplot2 layers and the same ltc palette names as the linear views.
+Arranges chromosomes as proportional arcs around a circle and connects
+syntenic blocks with ribbons inside. Same input tables as `plot_synteny()`;
+all relationships among the selected species are drawn, including
+non-adjacent ones.
 
 | Argument | Default | What it does |
 |----|----|----|
-| `syn_data` | — | List with `chromosomes` and `blocks` data frames |
-| `species_order` | first appearance | Selects species and their order around the circle |
-| `palette` | `NULL` | An ltc name (`"casa_natal"`), `"Okabe-Ito"`, an HCL palette name, or a colour vector |
-| `chr_fill` | `"uniform"` | Chromosome colouring: `"uniform"`, `"per_species"`, `"per_chr"`, or `"custom"` |
-| `chr_palette` | `NULL` | Overrides `palette` for chromosomes; named vectors provide explicit mappings |
-| `ribbon_fill` | `"source_chr"` | Ribbon colouring: `"source_chr"`, `"target_chr"`, `"species_pair"`, `"uniform"`, or `"custom"` |
-| `ribbon_palette` | `NULL` | Overrides `palette` for ribbons |
-| `ribbon_alpha` | `0.30` | Ribbon transparency |
-| `gap` / `group_gap` | `1` / `10` | Gaps between chromosomes / species, in degrees |
-| `start_angle` / `clockwise` | `90` / `TRUE` | Starts at the top, with genomic coordinates increasing clockwise |
-| `curvature` | `0.65` | Pull of ribbon control points towards the centre (0–1) |
-| `track_width` | `0.055` | Chromosome thickness as a fraction of the outer radius |
-| `show_orientation` | `FALSE` | Connects endpoints using the block's `plus` / `minus` orientation metadata |
-| `interactive` | `FALSE` | Build ggiraph-interactive layers — render with `syn_girafe()` |
-
-The same rice-sorghum dataset now becomes 22 chromosome arcs connected by
-100 block ribbons. Chromosomes use one colour per species; ribbons are
-coloured by source chromosome:
+| `syn_data`, `species_order` | — | As in `plot_synteny()`; the order runs around the circle |
+| `chr_fill`, `ribbon_fill`, palettes | as linear | Same choices as `plot_synteny()`; `ribbon_fill` also accepts any `blocks` column name |
+| `chr_order` | `NULL` | Chromosome order within a species: factor levels, `"input"`, a vector, or a per-species list |
+| `gap`, `group_gap` | `1`, `10` | Gaps between chromosomes and between species, in degrees |
+| `start_angle`, `clockwise` | `90`, `TRUE` | Start at the top, coordinates increasing clockwise |
+| `track_width` | `0.055` | Chromosome band thickness as a fraction of the radius |
+| `show_orientation` | `FALSE` | Connect endpoints by the block's `plus`/`minus` orientation |
 
 ``` r
-data(rice_sorghum)
-plot_circular_synteny(rice_sorghum, c("Rice", "Sorghum"),
-                      palette = "casa_natal", chr_fill = "per_species")
+plot_circular_synteny(rice_sorghum, c("Rice", "Sorghum"), palette = "casa_natal", chr_fill = "per_species")
 ```
 
-<img src="man/figures/README-circular-macro.png" alt="22 rice and sorghum chromosome arcs joined by 100 syntenic block ribbons, using casa_natal" width="85%" style="display: block; margin: auto;" />
+<img src="man/figures/README-circular-macro.png" alt="22 rice and sorghum chromosome arcs joined by 100 syntenic block ribbons" width="80%" style="display: block; margin: auto;" />
 
-[Download the vector PDF](man/figures/circular-macro.pdf).
+Arc lengths share one genomic scale and ribbons keep their block
+coordinates. A twist alone does not identify an inversion around a circle;
+use `show_orientation` with the orientation metadata. A ring can also hold a
+single circular molecule with annotation rings around it: see the
+[genome ring](#annotation-tracks) below.
 
-Chromosome arc lengths share a common genomic scale. Ribbons retain their
-original block coordinates; their widths are not summed estimates of unique
-coverage. With `show_orientation = TRUE`, starts connect to starts for `plus`
-and to ends for `minus`. A twist alone does not identify an inversion around
-a circle; use the supplied orientation metadata when interpreting direction.
+<a id="plot-circular-microsynteny"></a>
+### `plot_circular_microsynteny()` — gene-level, ring
 
-### `plot_circular_microsynteny()` — circular gene-level synteny
-
-**What it's for:** drawing gene regions from multiple genomes as curved,
-strand-aware arrows, with homology ribbons inside the circle. Takes the same
-feature and link tables as `plot_microsynteny()`.
+Draws gene regions from several genomes as curved strand-aware arrows with
+homology ribbons inside. Same input tables as `plot_microsynteny()`.
 
 | Argument | Default | What it does |
 |----|----|----|
-| `features` | — | Data frame: `bin_id`, `seq_id`, `start`, `end`, `strand`, unique `feat_id`, `name` |
-| `links` | — | Data frame: `feat_id_a`, `feat_id_b`, optional `identity` (0–100) |
-| `bin_order` | first appearance | Selects bins and their order around the circle |
-| `palette` | `NULL` | One palette for genes and categorical ribbons, including every ltc name |
-| `gene_fill` | `"per_name"` | Gene colouring: `"per_name"`, `"per_feat"`, or `"uniform"` |
-| `gene_palette` | `NULL` | Overrides `palette` for genes; named vectors map names or IDs |
-| `ribbon_fill` | `"identity"` | Ribbon colouring: `"identity"`, `"per_name"`, or `"uniform"` |
-| `ribbon_palette` | `NULL` | Overrides categorical ribbon colours or sets the identity ramp |
-| `ribbon_alpha` | `0.35` | Ribbon transparency |
-| `ribbon_anchor` | `"body"` | `"body"` keeps arrowheads clear; `"full"` spans the whole gene |
-| `gap` / `group_gap` | `2` / `10` | Gaps between contigs / bins, in degrees |
-| `start_angle` / `clockwise` | `90` / `TRUE` | Starts at the top, with genomic coordinates increasing clockwise |
-| `curvature` | `0.65` | Pull of ribbon control points towards the centre (0–1) |
-| `track_width` | `0.065` | Gene-arrow thickness as a fraction of the outer radius |
-| `arrowhead_frac` | `0.18` | Fraction of each gene used for its arrowhead, capped at 6 degrees |
+| `features`, `links`, `bin_order` | — | As in `plot_microsynteny()`; the order runs around the circle |
+| `gene_fill`, `ribbon_fill`, `ribbon_anchor` | as linear | Same choices as `plot_microsynteny()` |
+| `gap`, `group_gap` | `2`, `10` | Gaps between contigs and between bins, in degrees |
+| `track_width`, `arrowhead_frac` | `0.065`, `0.18` | Arrow thickness and arrowhead length |
 | `label_genes` | `TRUE` | Italic gene-name labels outside the arrows |
-| `interactive` | `FALSE` | Build ggiraph-interactive layers — render with `syn_girafe()` |
-
-Matching gene names and their ribbons share colours when
-`ribbon_fill = "per_name"`:
 
 ``` r
-micro <- example_microsynteny_data()
-plot_circular_microsynteny(micro$features, micro$links,
-                           palette = "casa_natal", ribbon_fill = "per_name")
+plot_circular_microsynteny(micro$features, micro$links, palette = "casa_natal", ribbon_fill = "per_name")
 ```
 
-<img src="man/figures/README-circular-micro.png" alt="16 curved gene arrows connected by 11 homology ribbons across three bins, coloured by gene name" width="85%" style="display: block; margin: auto;" />
+<img src="man/figures/README-circular-micro.png" alt="16 curved gene arrows connected by 11 homology ribbons across three bins" width="80%" style="display: block; margin: auto;" />
 
-[Download the vector PDF](man/figures/circular-micro.pdf).
-
-Arrow direction shows strand. The default `ribbon_fill = "identity"` uses the
-same blue ramp as the linear view; set `ribbon_palette = "heatmap0"` or
-`"Viridis"` explicitly to change it. Contigs span their first to last supplied
-feature; unannotated flanks are not inferred. A circular layout does not imply
-that the underlying chromosomes are biologically circular.
-
-#### Three bacteria: ZONMW-30, ZONMW-20 and HI1
-
-This worked example uses the bundled bacterial CSV inputs: **21 genes across
-four contigs, connected by nine supplied homology links**. The prepared TSVs
-have unique feature IDs and can be read directly:
+**Real data.** Three bacteria, 21 genes across four contigs, nine supplied
+homology links, from the bundled TSVs:
 
 ``` r
-features <- read.delim(system.file("extdata", "circular_bacterial_features.tsv",
-                                   package = "ggsynteny"))
-links <- read.delim(system.file("extdata", "circular_bacterial_links.tsv",
-                                package = "ggsynteny"))
-
-p <- plot_circular_microsynteny(
-  features, links,
-  bin_order = c("ZONMW-30", "ZONMW-20", "HI1"),
-  palette = "casa_natal", ribbon_fill = "per_name",
-  ribbon_alpha = 0.36, group_gap = 15, gap = 5,
-  track_width = 0.055, label_size = 2.3, bin_label_size = 4.5
-)
-p
-
-ggplot2::ggsave("three-bacteria.pdf", p, width = 10, height = 10.5)
+features <- read.delim(system.file("extdata", "circular_bacterial_features.tsv", package = "ggsynteny"))
+links    <- read.delim(system.file("extdata", "circular_bacterial_links.tsv", package = "ggsynteny"))
+plot_circular_microsynteny(features, links, bin_order = c("ZONMW-30", "ZONMW-20", "HI1"),
+                           palette = "casa_natal", ribbon_fill = "per_name",
+                           ribbon_alpha = 0.36, group_gap = 15, gap = 5)
 ```
 
-<img src="man/figures/README-circular-bacteria.png" alt="Circular microsynteny of ZONMW-30, ZONMW-20 and HI1: 21 genes across four contigs connected by nine supplied homology links" width="85%" style="display: block; margin: auto;" />
+<img src="man/figures/README-circular-bacteria.png" alt="Circular microsynteny of ZONMW-30, ZONMW-20 and HI1" width="80%" style="display: block; margin: auto;" />
 
-[Download the annotated vector PDF](man/figures/circular-bacteria.pdf).
+No links or identity scores are inferred; the figure shows the supplied
+relationships only. The [circular guide](https://loukesio.github.io/ggsynteny/articles/circular-synteny.html)
+covers coordinates, orientation and export.
 
-The selected regions are ZONMW-30 contig 4, ZONMW-20 contigs 10 and 17, and
-HI1 contig 1. Placeholder spacer rows are omitted while genomic coordinates
-and gaps are retained. ZONMW-30's other contigs reuse feature IDs and are
-outside this selected region. The input has four ZONMW-30–ZONMW-20 links and
-five ZONMW-20–HI1 links; no direct ZONMW-30–HI1 links or identity scores are
-inferred. Preparation and figure generation are reproducible with
-`Rscript data-raw/circular_bacteria.R` from the package root.
+---
 
-Both circular functions return ordinary ggplot2 objects. Add `labs()`, themes
-or annotations with `+`; use `interactive = TRUE` and
-`syn_girafe(p, width_svg = 8, height_svg = 8)` for hover tooltips. The
-[circular guide](https://loukesio.github.io/ggsynteny/articles/circular-synteny.html)
-has more on coordinates, orientation, export and interactivity.
+<a id="add-to-any-plot"></a>
+## Add to any plot
 
-Visual inspiration: [gbdraw's circular genome maps](https://github.com/satoshikawato/gbdraw/blob/main/docs/GALLERY.md)
-and [circlize's chord diagrams](https://jokergoo.github.io/circlize_book/book/the-chorddiagram-function.html).
-The rendering implementation uses ggplot2 throughout.
+<a id="annotation-tracks"></a>
+### Annotation tracks — `syn_track_*()`
 
-### `ggsynteny_app()` — upload, preview and export with Shiny
+**Not a fifth plot type, an add-on.** A track is a table of intervals plus a
+geom saying how to draw what each interval carries. Add one with `+` to any
+of the four plots; the genome ring at the top of this page is
+`plot_circular_synteny()` plus four tracks and an axis. Tracks are in the
+development version on GitHub, not in the published 0.5.0 release. Tracks stack
+below each genome in linear plots, and outward from the chromosome band in
+rings (or inward with `position = "inside"`, where the ribbons shrink to make
+room). One wrapper per geom lists only the options it uses:
 
-**[Open ggsynteny Studio in your browser](https://01a0ae1e-adb1-a4f8-1ced-261952037ebf.share.connect.posit.cloud/)** — no installation or sign-in required.
+| Wrapper | Draws | Reads | Key options |
+|---|---|---|---|
+| `syn_track_feature()` | boxes coloured by a category: genes, regions, repeats | `start`, `end`, the `fill` column; optional `label`, `strand` | `fill`, `palette`, `strand = "split"`/`"arrow"`, `label` |
+| `syn_track_heatmap()` | one colour tile per interval | `start`, `end`, numeric `value` | `limits`, `palette` |
+| `syn_track_line()` | a line through interval midpoints | same | `limits`, `reference`, `colour` |
+| `syn_track_bar()` | a bar from `baseline` over each interval | same | `limits`, `baseline`, `reference` |
 
-**What it's for:** exploring existing synteny results in a browser. Select the
-software or table format, upload its files, and see the data and plot preview.
-Switch between linear and circular views, choose an ltc palette, reorder or
-subset genomes, adjust ribbons, and download the figure or displayed records.
-Turn on the **Interactive plot** switch to inspect ribbons and features
-with tooltips, highlight relationships, and zoom into either layout. This
-uses optional `ggiraph` 0.9.2 or later (`install.packages("ggiraph")`). PDF and
-PNG downloads remain static; the R-script download also includes the
-interactive version when the toggle is enabled.
-Scroll to zoom, drag to pan, and use the toolbar to reset the view.
+`syn_axis()` adds position ticks, `gc_content()` computes GC per gene or
+window from DNA, and `out_of_bounds = "clip"` keeps windows that run past a
+sequence end. When the plot shows one species or one sequence, the
+`species`/`chr` columns can be left out of the track tables.
 
-To host Studio on Posit Connect Cloud, use the dedicated
-[deployment entry point and guide](https://github.com/loukesio/ggsynteny/blob/main/deploy/posit-connect-cloud/README.md).
-Its manifest pins the package and dependencies used by the hosted app.
+``` r
+example_dir <- system.file("extdata", "gc-tracks", package = "ggsynteny")   # bundled, simulated DNA
+read_example <- function(name) read.delim(file.path(example_dir, paste0(name, ".tsv")))
+features <- read_example("features"); links <- read_example("links"); dna <- read_example("sequences")
+gene_gc   <- gc_content(dna, intervals = features)       # one GC value per gene
+window_gc <- gc_content(dna, window = 300, step = 100)   # GC in sliding windows
+gene_gc$gc_class <- ifelse(is.na(gene_gc$value), "No called bases",
+                           ifelse(gene_gc$value >= 50, "GC-rich gene", "AT-rich gene"))
 
-| Argument | Default | What it does |
-|----|----|----|
-| `host` | `"127.0.0.1"` | Runs locally on your computer |
-| `port` | `NULL` | Optional server port; Shiny chooses one by default |
-| `launch.browser` | `interactive()` | Opens the app in your browser |
+plot_microsynteny(features, links, gene_fill = "uniform", label_genes = FALSE) +
+  syn_track_feature(gene_gc, fill = "gc_class", strand = "arrow", name = "Gene class") +
+  syn_axis(by = 1000, unit = "kb") +
+  syn_track_line(window_gc, name = "Window GC (%)", reference = 50)
+```
+
+<img src="man/figures/gc-tracks/feature-tracks-linear.png" alt="Linear gene synteny with feature arrows, kb ticks and a GC line below each contig (simulated DNA)" width="100%" />
+
+Together they draw a complete genome map. The data are the published
+*Arabidopsis thaliana* chloroplast annotation (RefSeq NC_000932.1), bundled
+with the package: one circular molecule as one sector, four regions, genes by
+strand and function, GC content and GC skew per window, and the 17 genes of
+the inverted repeat joined to their copies.
+
+``` r
+dir <- system.file("extdata", "chloroplast", package = "ggsynteny")
+regions <- read.csv(file.path(dir, "regions.csv"));  genes <- read.csv(file.path(dir, "genes.csv"))
+windows <- read.csv(file.path(dir, "gc_windows.csv")); pairs <- read.csv(file.path(dir, "ir_pairs.csv"))
+syn <- list(chromosomes = data.frame(species = "Arabidopsis thaliana", chr = "plastid", size = 154478),
+            blocks = data.frame(species1 = "Arabidopsis thaliana", chr1 = "plastid", start1 = pairs$b_start,
+                                end1 = pairs$b_end, species2 = "Arabidopsis thaliana", chr2 = "plastid",
+                                start2 = pairs$a_start, end2 = pairs$a_end, class = pairs$class))
+gc   <- data.frame(start = windows$start, end = windows$start + 999, value = 100 * windows$gc)
+skew <- data.frame(start = windows$start, end = windows$start + 999, value = windows$skew)
+
+plot_circular_synteny(syn, ribbon_fill = "class", ribbon_legend = FALSE, label_size = 0, species_label_size = 0) +
+  syn_track_feature(regions, fill = "region", label = "region", height = 0.07, gap = 0, show.legend = FALSE) +
+  syn_axis(by = 10000, unit = "kb", gap = 0) +
+  syn_track_feature(genes, fill = "class", strand = "split", position = "inside", height = 0.14, out_of_bounds = "clip") +
+  syn_track_line(gc, name = "GC (%)", limits = c(20, 60), reference = 36.3, position = "inside", height = 0.15, out_of_bounds = "clip") +
+  syn_track_heatmap(skew, name = "GC skew", limits = c(-0.25, 0.25), position = "inside", height = 0.05, out_of_bounds = "clip")
+```
+
+<img src="man/figures/gc-tracks/genome-ring.png" alt="The Arabidopsis chloroplast as a genome ring: region band with kb ticks, strand-split genes coloured by function, GC content line, GC skew heatmap, and inverted-repeat ribbons" width="88%" />
+
+[Reproduce the ring](data-raw/genome_ring.R) ·
+[Track guide](https://loukesio.github.io/ggsynteny/articles/annotation-tracks.html) ·
+[Data provenance](inst/extdata/chloroplast/README.md)
+
+<a id="syn-girafe"></a>
+### Interactive plots — `syn_girafe()`
+
+Build any plot with `interactive = TRUE` and render it with `syn_girafe()`
+(via **ggiraph**). Hovering a ribbon fades the others and shows the block
+coordinates, or the gene pair and its identity in gene-level plots. Tracks
+stay static. Try it in the
+[interactive article](https://loukesio.github.io/ggsynteny/articles/interactive.html).
+
+``` r
+p <- plot_synteny(rice_sorghum, c("Rice", "Sorghum"), palette = "casa_natal", chr_fill = "per_chr",
+                  interactive = TRUE)
+syn_girafe(p)
+```
+
+<a id="syn-palettes"></a>
+### Palettes — `syn_palettes()`
+
+Every `palette` argument accepts the 32 palettes of the
+[ltc package](https://github.com/loukesio/ltc-color-palettes) by name
+(vendored, so ltc need not be installed), `"Okabe-Ito"`, any colour vector,
+and `grDevices::hcl.colors()` names. Names ignore case, spaces, underscores
+and dashes. `syn_palettes()` returns them all; the `heatmap0` to `heatmap3`
+palettes are ordered ramps for `ribbon_fill = "identity"` and heatmap tracks.
+
+<img src="man/figures/README-palettes.png" alt="All 32 built-in palettes" width="70%" style="display: block; margin: auto;" />
+
+---
+
+<a id="ggsynteny-app"></a>
+## ggsynteny Studio — `ggsynteny_app()`
+
+**[Open ggsynteny Studio in your browser](https://01a0ae1e-adb1-a4f8-1ced-261952037ebf.share.connect.posit.cloud/)**,
+or run it locally:
 
 ``` r
 install.packages("shiny")   # optional; needed only for the app
-library(ggsynteny)
 ggsynteny_app()
 ```
 
 <img src="man/figures/README-studio.png" alt="ggsynteny Studio with a three-bacterium circular preview, format selector, ltc palette controls and data export buttons" width="100%" />
 
-| Results from | Upload | Available views |
+Select the software or table format, upload its files, and see the data and
+plot preview. Switch between the four plots, choose a palette, reorder or
+subset genomes, adjust ribbons, turn on the interactive switch for tooltips
+and zoom, and download the figure (PDF or PNG), the displayed tables, pair
+counts, or an R script that recreates the figure.
+
+| Results from | Upload | Views |
 |----|----|----|
-| Native chromosome tables | Chromosome sizes and syntenic blocks, TSV or CSV | Linear / circular chromosome synteny |
-| MCScanX | `.collinearity` and its four-column gene-position GFF | Linear / circular chromosome synteny |
-| GENESPACE | `synHits` TSV with genome, chromosome and interval columns | Linear / circular chromosome synteny |
-| Gene / link tables | Gene features and homology links, TSV or CSV | Linear / circular microsynteny |
+| Native chromosome tables | Chromosome sizes and syntenic blocks, TSV or CSV | Linear and circular chromosome synteny |
+| MCScanX | `.collinearity` and its gene-position GFF | Linear and circular chromosome synteny |
+| GENESPACE | `synHits` TSV | Linear and circular chromosome synteny |
+| Gene / link tables | Gene features and homology links, TSV or CSV | Linear and circular microsynteny |
 
-Every format includes example data. The MCScanX and GENESPACE previews use
-larger, explicitly **simulated datasets**: four genomes with eight chromosomes
-each, spanning all six genome pairs. MCScanX includes **240 blocks** with
-forward and reverse anchor order; GENESPACE includes **384 compatible interval
-matches**. They illustrate conserved regions and rearrangements; they are
-not outputs from running those tools on biological samples. Rebuild the
-files with `Rscript data-raw/studio_simulated.R`. The original small files
-remain available for the short parser examples below.
+Every format includes example data (the MCScanX and GENESPACE previews are
+explicitly simulated). Uploaded tables are validated; no identity scores or
+missing links are inferred, and the app reads existing results rather than
+running MCScanX, GENESPACE or an aligner. To host your own copy, see the
+[Posit Connect Cloud guide](deploy/posit-connect-cloud/README.md).
 
-Uploaded tables are checked for required
-columns, valid intervals and matching identifiers. The app previews the first
-50 rows of each displayed table and reports the number of links drawn. The
-explicit link limit defaults to 1,000, keeping larger inputs manageable; raise
-it to display more. Linear chromosome views retain adjacent-genome links;
-circular views include all supplied relationships among selected genomes.
+<a id="reference-comparison"></a>
+### Reference comparison
 
-Download **PDF or PNG**, the **displayed data tables**, **pair counts**, or an
-**R script** that recreates the figure from those tables. No identity scores
-or missing homology links are inferred. The software selector reads existing
-results; it does not run MCScanX, GENESPACE or an alignment pipeline. Shiny is
-optional and is not required to use the plotting functions.
-
-### Reference comparison: one reference, two or more genomes
-
-Studio also has a **Reference comparison** tab for the concentric genome-ring
-view. The inner ring is one reference sequence. Each outer ring is a comparison
-genome, and every ring uses the same reference coordinate system. Choose one
-comparison genome for a two-genome figure, or several for a multi-genome figure.
-
-Run `ggsynteny_app()` from the current GitHub version, open **Reference
-comparison**, and expand **Data, reference & figure settings** to upload your tables.
-Enter the reference name and length in base pairs. The built-in demonstration
-uses invented data. The separately hosted Studio may run an earlier version.
-
-The centre shows the reference name and total length. Hover over a ring to see
-the exact reference position and a line through all rings at that position.
-Moving off the rings restores the reference label. PDF and PNG downloads keep
-the reference name and length, with the same fonts and ltc colours.
-
-The graph needs two kinds of input. The first table contains event calls:
-
-| Column | Meaning |
-|---|---|
-| `sample` | Name shown for the comparison genome |
-| `type` | `INS`: insertion (added sequence); `DEL`: deletion (absent sequence); `DUP`: duplication (extra copy); `INV`: inversion (reversed sequence); `SNP`: single-base change |
-| `start`, `end` | Zero-based reference coordinates; `end` is exclusive |
-| `event_length` | Optional inserted length, in base pairs |
-| `source_start` | Optional duplication source coordinate on the reference |
-
-The second table is optional and controls the outer-ring shading. It contains
-non-overlapping reference windows and measured alignment identity:
-
-| Column | Meaning |
-|---|---|
-| `sample` | Comparison genome name, matching the event table |
-| `start`, `end` | Reference window, with zero-based start and exclusive end |
-| `identity` | Percentage of aligned bases matching the reference, from 0 to 100 |
-
-Identity is calculated from an alignment; it is not calculated from the number
-of variants. Missing windows remain unscored. The inner alternating dark bands
-are only a coordinate ruler. The outer identity scale is shared by all genomes:
-lighter means lower identity (90% or below), darker means higher identity (up
-to 100%), and pale green means
-no identity score. Higher identity means more matching aligned sequence, not a
-better biological result. Alignment coverage is not shown.
-
-The repository includes copyable example files:
-[`variants.tsv`](https://github.com/loukesio/ggsynteny/blob/main/inst/extdata/reference_comparison/variants.tsv) and
-[`identity_windows.tsv`](https://github.com/loukesio/ggsynteny/blob/main/inst/extdata/reference_comparison/identity_windows.tsv).
-The values are invented teaching data. This complete script reads them and
-creates a reference comparison with two outer rings. Install the optional
-font packages once with `install.packages(c("showtext", "sysfonts"))` to export
-PDF and PNG files with the bundled IBM Plex fonts:
-
-```r
-library(ggsynteny)
-
-variants <- read.delim(
-  system.file("extdata", "reference_comparison", "variants.tsv", package = "ggsynteny"),
-  colClasses = c(sample = "character", type = "character", start = "numeric",
-                 end = "numeric", event_length = "numeric", source_start = "numeric")
-)
-identity_windows <- read.delim(
-  system.file("extdata", "reference_comparison", "identity_windows.tsv", package = "ggsynteny"),
-  colClasses = c(sample = "character", start = "numeric", end = "numeric", identity = "numeric")
-)
-
-p <- plot_reference_comparison(
-  variants, genome_length = 4800000, reference = "Example reference",
-  sample_order = c("Genome_A", "Genome_B"), palette = "minou",
-  identity_windows = identity_windows, title = "Invented reference comparison"
-)
-
-print(p)
-save_reference_comparison(p, "reference-comparison.pdf")
-save_reference_comparison(p, "reference-comparison.png")
-```
-
-![Invented reference comparison: two comparison genomes around a reference](man/figures/README-reference-comparison.png)
-
-**How to read this example:** there are no horizontal or vertical axes. Start
-at the top and read clockwise; `M` and `Mb` mean one million base pairs. The
-centre's **4.800 Mb** means the reference is 4,800,000 bases long. `R` marks
-the reference ruler, `A` is Genome_A and `B` is Genome_B. Each alternating
-dark ruler band spans 500,000 bases, except the final shorter band. The coloured
-marks show the event types in the legend: capped ticks mark insertions,
-outlined gaps mark deletions, split arcs mark duplications, solid arcs mark
-inversions, and fine ticks mark single-base changes. The curved ribbon links
-the supplied duplication source to its extra copy; it does not show movement
-or ancestry. Insertion tick size does not show inserted length or direction.
-
-For example, Genome_A's deletion from 612,000 to 650,000 covers 38,000
-reference bases. An identity score of **99.6%** means 996 of every 1,000
-aligned bases match. These small files supply identity for only a few windows,
-so most of the outer rings have no score. More similarity or more variants is
-not inherently better; this view does not establish a biological effect or
-show alignment coverage. Overlapping calls may hide one another.
-
-For real data, make the identity table from an alignment tool such as MUMmer's
-`nucmer` and `show-coords`. Resolve overlapping alignments before creating the
-windows. The app validates coordinate bounds, identity range, and overlap
-rules, but it does not run an aligner.
-
-### `syn_girafe()` — interactive plots
-
-**What it's for:** hover highlighting and tooltips in HTML output
-(R Markdown, Quarto, Shiny, pkgdown) via **ggiraph**. Build the plot with
-`interactive = TRUE`, then render the widget with `syn_girafe()` — hovering
-a ribbon fades all the others and shows the block coordinates (or the gene
-pair and its identity in micro-synteny):
+Studio's **Reference comparison** tab draws a different kind of figure: one
+reference sequence in the centre and each comparison genome as an outer ring
+in the reference's coordinates, showing variant calls (insertions, deletions,
+duplications, inversions, SNPs) and alignment identity per window. The same
+view is available in R as `plot_reference_comparison()`, with
+`save_reference_comparison()` for PDF and PNG exports in the bundled fonts.
+`palette` colours the variant marks and `identity_palette` the identity
+shading. The bundled example, five genomes with identity for every 30-kb
+window, is invented teaching data.
 
 ``` r
-data(rice_sorghum)
-
-p <- plot_synteny(rice_sorghum, c("Rice", "Sorghum"),
-                  palette = "casa_natal", chr_fill = "per_chr",
-                  interactive = TRUE)
-syn_girafe(p)
+dir <- system.file("extdata", "reference_comparison", package = "ggsynteny")
+variants <- read.delim(file.path(dir, "variants_five_genomes.tsv"))
+identity <- read.delim(file.path(dir, "identity_five_genomes.tsv"))
+p <- plot_reference_comparison(variants, genome_length = 4800000, reference = "Example reference",
+                               sample_order = paste0("Genome_", LETTERS[1:5]), palette = "casa_natal",
+                               identity_windows = identity, identity_palette = c("#E8D5A8", "#6FA8C9", "#1B3A5C"),
+                               title = "Five invented genomes against one reference")
+save_reference_comparison(p, "reference-comparison.pdf")   # bundled IBM Plex fonts; needs showtext + sysfonts
 ```
 
-Try it live (hover it yourself) in the [Interactive
-article](https://loukesio.github.io/ggsynteny/articles/interactive.html).
+<img src="man/figures/README-reference-comparison.png" alt="Five invented comparison genomes around a reference, with variant marks and identity shading" width="88%" style="display: block; margin: auto;" />
 
-### `syn_palettes()` — the built-in colours
+Read clockwise from the top. Inner bands are a coordinate ruler; marks show
+the event types in the legend; ring shading is alignment identity per window,
+from sand (90% or below) to navy (100%), computed from an alignment and not
+from the number of variants. See
+`?plot_reference_comparison` for the input tables and how to read each mark.
 
-**What it's for:** every `palette` argument accepts, by name, all 32
-palettes of the [ltc package](https://github.com/loukesio/ltc-color-palettes)
-(vendored — ltc need not be installed; a few are curated for use as fills on
-a white background, dropping pure-black and near-white entries). Names match
-case-insensitively and ignore spaces, underscores and dashes, so
-`"casa_natal"`, `"Casa Natal"` and `"casanatal"` are the same palette.
-`"Okabe-Ito"`, any colour vector, and `grDevices::hcl.colors()` names work
-too. `syn_palettes()` returns them all as a named list:
+---
 
-``` r
-names(syn_palettes())      # all 32 names
-syn_palettes()$casa_natal  # the hex colours of one palette
-```
-
-<img src="man/figures/README-palettes.png" alt="All 32 built-in palettes" width="70%" style="display: block; margin: auto;" />
-
-The `heatmap0`–`heatmap3` palettes are ordered ramps (always interpolated
-end-to-end) — the natural choice for `ribbon_fill = "identity"`; the rest
-are qualitative sets for species, chromosomes, and genes.
-
+<a id="data-input-formats"></a>
 ## Data input formats
 
-Each format below ships with a small simulated example under
-`system.file("extdata", ..., package = "ggsynteny")` — run the snippets
-as-is to try each parser.
+Each format ships with a small example under
+`system.file("extdata", ..., package = "ggsynteny")`.
 
-### 1. Native TSV format
-
-``` r
-chr_file    <- system.file("extdata", "chromosomes.tsv",    package = "ggsynteny")
-blocks_file <- system.file("extdata", "synteny_blocks.tsv", package = "ggsynteny")
-syn <- read_synteny_tsv(chr_file, blocks_file)
-plot_synteny(syn, species_order = c("Human", "Mouse"))
-```
-
-**chromosomes.tsv** (sizes in any consistent unit, e.g. Mb):
-
-    species  chr  size
-    Human    1    249
-    Human    2    243
-    Mouse    1    195
-    Mouse    2    182
-
-**synteny_blocks.tsv:**
-
-    species1  chr1  start1  end1  species2  chr2  start2  end2
-    Human     1     10      25    Mouse     1     80      95
-    Human     1     100     120   Mouse     2     30      50
-    Human     2     5       40    Mouse     2     60      100
-
-### 2. MCScanX
+**Native TSV**, two files in any consistent unit:
 
 ``` r
-coll_file <- system.file("extdata", "mcscanx_output.collinearity", package = "ggsynteny")
-gff_file  <- system.file("extdata", "mcscanx_output.gff",          package = "ggsynteny")
-syn <- read_mcscanx(coll_file, gff_file)
-plot_synteny(syn, species_order = c("Wheat", "Barley"))
+syn <- read_synteny_tsv(system.file("extdata", "chromosomes.tsv", package = "ggsynteny"),
+                        system.file("extdata", "synteny_blocks.tsv", package = "ggsynteny"))
 ```
 
-The parser preserves `plus`/`minus` in `syn$blocks$orientation`. Ribbons show
-block coverage by default. To show inverted blocks as twisted ribbons, use
-`plot_synteny(syn, c("Wheat", "Barley"), show_inversions = TRUE)`.
-This requires orientation metadata; the previously bundled `rice_sorghum`
-dataset does not contain that field.
+    chromosomes.tsv            synteny_blocks.tsv
+    species  chr  size         species1  chr1  start1  end1  species2  chr2  start2  end2
+    Human    1    249          Human     1     10      25    Mouse     1     80      95
+    Mouse    1    195          Human     2     5       40    Mouse     2     60      100
 
-### 3. GENESPACE
+**MCScanX**: `read_mcscanx(collinearity_file, gff_file)` keeps
+`plus`/`minus` in `blocks$orientation`; `show_inversions = TRUE` draws
+inverted blocks as twisted ribbons.
 
-``` r
-synhits_file <- system.file("extdata", "genespace_synHits.tsv", package = "ggsynteny")
-syn <- read_genespace(synhits_file)
-plot_synteny(syn, species_order = c("Maize", "Teosinte"))
-```
+**GENESPACE**: `read_genespace(synhits_file)`.
+
+**Gene tables** for the gene-level plots: `features` with `bin_id`,
+`seq_id`, `start`, `end`, `strand`, `feat_id`, `name`; `links` with
+`feat_id_a`, `feat_id_b` and optional `identity`.
 
 ## Saving your plot
 
-Two independent knobs control a saved PNG: `width`/`height` in pixels decide
-how big (and how sharp) the image is; `dpi` decides how big the *letters*
-are relative to the plot. Letters too small → raise `dpi`; labels
-overlapping → lower it.
+`width`/`height` decide how big and sharp the image is; `dpi` decides how
+big the letters are relative to the plot.
 
 ``` r
-syn <- example_synteny_data()
-p <- plot_synteny(syn, species_order = c("Arabidopsis", "Grape", "Rice"),
-                  palette = "casa_natal")
-
-ggplot2::ggsave("synteny.png", p, width = 2600, height = 1500, units = "px",
-       dpi = 300, bg = "white")   # bg = "white": otherwise the PNG is transparent
-
+ggplot2::ggsave("synteny.png", p, width = 2600, height = 1500, units = "px", dpi = 300, bg = "white")
 ggplot2::ggsave("synteny.pdf", p, width = 12, height = 7)   # vector, for journals
 ```
 
@@ -791,23 +508,21 @@ ggplot2::ggsave("synteny.pdf", p, width = 12, height = 7)   # vector, for journa
 
 | Function | Purpose |
 |----|----|
-| `plot_synteny()` | Macro-synteny: chromosome tiers + block ribbons (`palette`, `chr_fill`, `ribbon_fill`, `curvature`) |
-| `plot_microsynteny()` | Micro-synteny: gene arrows + homology ribbons (`palette`, `gene_fill`, `ribbon_fill = "identity"`, `ribbon_anchor`) |
-| `plot_circular_synteny()` | Chromosome arcs with synteny ribbons, grouped by species |
-| `plot_circular_microsynteny()` | Curved gene arrows with homology ribbons, grouped by bin |
-| `ggsynteny_app()` | Local Shiny app: upload results, preview plots, and export figures/data |
+| `plot_synteny()`, `plot_circular_synteny()` | Chromosome-level synteny, linear tiers or ring |
+| `plot_microsynteny()`, `plot_circular_microsynteny()` | Gene-level synteny, linear tiers or ring |
+| `syn_track()` and `syn_track_feature()`, `syn_track_heatmap()`, `syn_track_line()`, `syn_track_bar()` | Annotation tracks added with `+` |
+| `syn_axis()` | Coordinate ticks and labels along every sequence |
+| `gc_content()` | GC per gene or window from DNA strings |
+| `scale_fill_syn_heatmap()`, `scale_fill_syn_feature()` | Recolour one track |
+| `syn_layout()`, `syn_project()` | Sector geometry and genomic-to-plot projection for custom layers |
 | `syn_girafe()` | Render an `interactive = TRUE` plot as a hoverable widget |
-| `syn_palettes()` | List the 32 built-in colour palettes |
-| `read_synteny_tsv()` | Read the native two-TSV format |
-| `read_mcscanx()` | Parse MCScanX `.collinearity` + `.gff` |
-| `read_genespace()` | Parse a GENESPACE `synHits` file |
-| `rice_sorghum` | Real rice-sorghum macro-synteny (MCScanX output) — `data(rice_sorghum)` |
-| `example_synteny_data()` | Bundled macro-synteny example (Arabidopsis, Grape, Rice) |
-| `example_microsynteny_data()` | Bundled micro-synteny example (moa/moe cluster) |
+| `syn_palettes()` | The 32 built-in colour palettes |
+| `ggsynteny_app()` | Studio: upload results, preview all four plots, export |
+| `plot_reference_comparison()`, `save_reference_comparison()` | Reference-centred variant and identity rings |
+| `read_synteny_tsv()`, `read_mcscanx()`, `read_genespace()` | Parsers |
+| `rice_sorghum`, `example_synteny_data()`, `example_microsynteny_data()` | Bundled data |
 
 ## Citation
-
-If you use ggsynteny in your research, please cite the package:
 
 ``` r
 citation("ggsynteny")
@@ -817,13 +532,10 @@ citation("ggsynteny")
 
 ggsynteny is developed and maintained by Loukas Theodosiou
 (loukesio@gmail.com). Issues and pull requests are welcome at
-<https://github.com/loukesio/ggsynteny/issues>. It pairs naturally with its
-sibling packages [ltc](https://github.com/loukesio/ltc-color-palettes)
-(the colour palettes) and [ggvmap](https://github.com/loukesio/ggvmap)
-(Voronoi treemaps).
+<https://github.com/loukesio/ggsynteny/issues>. It pairs with its sibling
+packages [ltc](https://github.com/loukesio/ltc-color-palettes) (colour
+palettes) and [ggvmap](https://github.com/loukesio/ggvmap) (Voronoi treemaps).
 
 ## License
 
-MIT © 2026 Loukas Theodosiou — see [LICENSE.md](LICENSE.md) for the full
-text. (The two-line [LICENSE](LICENSE) file is the CRAN-required stub that
-points to the same terms.)
+MIT © 2026 Loukas Theodosiou — see [LICENSE.md](LICENSE.md).
