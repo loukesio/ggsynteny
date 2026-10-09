@@ -62,7 +62,8 @@ sequence identity or coverage. Overlapping intervals may obscure each other.</p>
 <span>  palette <span class="op">=</span> <span class="st">"minou"</span>,</span>
 <span>  family <span class="op">=</span> <span class="st">"sans"</span>,</span>
 <span>  mono_family <span class="op">=</span> <span class="st">"mono"</span>,</span>
-<span>  identity_windows <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  identity_windows <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  identity_palette <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -120,6 +121,12 @@ coordinates with exclusive ends. Windows must not overlap within a sample.
 Supply measured alignment identities; variant calls do not determine these.
 Shading uses a fixed 90-100 percent scale, with values below 90 clamped to
 the lightest shade. Coverage is not inferred.</p></dd>
+
+
+<dt id="arg-identity-palette">identity_palette<a class="anchor" aria-label="anchor" href="#arg-identity-palette"></a></dt>
+<dd><p>Colours for the identity shading, from low (90%)
+to high (100%): an ltc palette name, an HCL palette name, or a vector of
+two or more colours. <code>NULL</code> keeps the default light-to-dark grey ramp.</p></dd>
 
 </dl></div>
     <div class="section level2">

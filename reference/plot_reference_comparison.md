@@ -21,7 +21,8 @@ plot_reference_comparison(
   palette = "minou",
   family = "sans",
   mono_family = "mono",
-  identity_windows = NULL
+  identity_windows = NULL,
+  identity_palette = NULL
 )
 ```
 
@@ -82,6 +83,12 @@ plot_reference_comparison(
   determine these. Shading uses a fixed 90-100 percent scale, with
   values below 90 clamped to the lightest shade. Coverage is not
   inferred.
+
+- identity_palette:
+
+  Colours for the identity shading, from low (90%) to high (100%): an
+  ltc palette name, an HCL palette name, or a vector of two or more
+  colours. `NULL` keeps the default light-to-dark grey ramp.
 
 ## Value
 
