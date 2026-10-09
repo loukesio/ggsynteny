@@ -203,7 +203,7 @@ ggsynteny_app <- function(host = "127.0.0.1", port = NULL,
   stats::aggregate(list(links = rep(1L, nrow(key))), key, sum)
 }
 
-.studio_code <- function(d, settings, interactive = FALSE) {
+.studio_code <- function(d, settings, interactive = FALSE, script = TRUE) {
   quote_r <- function(x) paste(utils::capture.output(dput(x)), collapse = "\n")
   args <- list()
   if (d$type == "macro") {
@@ -231,9 +231,10 @@ ggsynteny_app <- function(host = "127.0.0.1", port = NULL,
     paste0('syn_girafe(p_interactive, width_svg = 10, height_svg = ', if (settings$layout == "circular") 10 else 7, ',\n',
       '  opts = list(ggiraph::opts_zoom(max = 4, default_on = TRUE),\n',
       '              ggiraph::opts_toolbar(hidden = "zoom_onoff")))')) else character()
+  build <- paste0('p <- ', fun, '(\n  ', paste(paste(names(args), unlist(args), sep = " = "), collapse = ",\n  "), '\n)')
+  if (!script) return(c('# Save the two displayed-table downloads from the Synteny tab beside this script.', start, build))
   paste(c('# Save the two displayed-table downloads beside this script.',
           '# The tables contain exactly the records displayed in the app.',
-          'library(ggsynteny)', start, '',
-          paste0('p <- ', fun, '(\n  ', paste(paste(names(args), unlist(args), sep = " = "), collapse = ",\n  "), '\n)'),
+          'library(ggsynteny)', start, '', build,
           'print(p)', 'ggplot2::ggsave("synteny.pdf", p, width = 10, height = 8)', extra), collapse = "\n")
 }

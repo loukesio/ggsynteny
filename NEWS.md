@@ -1,5 +1,15 @@
 # ggsynteny (development version)
 
+* Studio gains an **Annotation tracks** tab: upload up to three interval
+  tables, draw each as feature boxes, a heatmap, a line or bars with the
+  `syn_track_*()` options (colour column, strand split or arrows, labels,
+  scale limits, reference guide, inside or outside placement, lane height),
+  add a coordinate axis, and stack them on the figure from the Synteny tab.
+  A built-in chloroplast genome ring shows the five rings with switches.
+  PDF, PNG, per-track TSV and a reproducing R script download.
+* `plot_reference_comparison()` gains `identity_palette` for the identity
+  shading; the bundled five-genome demonstration tables are new.
+
 - Add optional reference-coordinate identity windows, separate ruler and
   identity keys, a shared percentage scale, and explicit unscored regions.
   Example identity windows are labelled as invented; identity data can be

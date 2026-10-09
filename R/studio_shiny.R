@@ -220,6 +220,8 @@
   output$code <- shiny::downloadHandler(filename = "reproduce-synteny.R", content = function(file) {
     writeLines(.studio_code(selected_data(), settings(), interactive = isTRUE(input$interactive)), file)
   })
+  .tracks_server("tracks", base_plot = current_plot, layout = shiny::reactive(input$layout),
+                 base_code = shiny::reactive(.studio_code(selected_data(), settings(), script = FALSE)))
 }
 
 .studio_app <- function() shiny::shinyApp(.studio_ui(), .studio_server)
@@ -227,5 +229,6 @@
 .studio_ui <- function() {
   shiny::navbarPage("ggsynteny Studio",
     shiny::tabPanel("Synteny", .studio_synteny_ui()),
+    shiny::tabPanel("Annotation tracks", .tracks_ui("tracks")),
     shiny::tabPanel("Reference comparison", .reference_ui("reference_comparison")))
 }

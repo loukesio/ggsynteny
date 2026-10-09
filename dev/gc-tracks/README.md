@@ -108,6 +108,19 @@ Validation on 2026-10-09 (R 4.5.1, ggplot2 4.0.3, macOS arm64):
   WARNING from this machine's pandoc binary failing to run (README
   conversion, not a package issue) and the usual CRAN-incoming NOTE.
 
+## Studio tab (9 October 2026, later the same day)
+
+`R/studio_tracks.R` adds the **Annotation tracks** tab as a module
+(`.tracks_ui()` / `.tracks_server()`) wired at the end of `.studio_server()`
+so it can reuse `current_plot()`, `input$layout` and `.studio_code(script =
+FALSE)` from the Synteny tab. Track specifications are plain lists
+(`geom`, `data`, `fill`, `strand`, `label_column`, `limits`, `reference`,
+`position`, `height`, `gap`), turned into wrapper calls by `.tracks_build()`
+and into R code by `.tracks_code()`; the chloroplast example is
+`.tracks_chloroplast()`. Tests: `tests/testthat/test-studio-tracks.R`
+(example reproduction through the generated script, every geom in both
+layouts, typed uploads, and a `testServer` walk through both modes).
+
 ## Review
 
 - Four-page PDF: `man/figures/gc-tracks/gc-tracks.pdf`.
@@ -156,7 +169,7 @@ Local validation artifacts live in ignored `dev/gc-tracks/validation/`.
 
 ## Scope for later work
 
-Track hover tooltips, Studio upload controls, FASTA-file readers, faceting,
+Track hover tooltips, FASTA-file readers, faceting,
 origin-wrapping windows, `out_of_bounds = "split"` (one interval drawn in two
 sectors), and `seq_order` for `plot_circular_microsynteny()` are not
 implemented. The region band is drawn as a ring next to the chromosome band,

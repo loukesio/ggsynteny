@@ -181,3 +181,13 @@ and long names constrained to 1.6 times the tick-label radius. Static fitting
 also re-measures after font-size changes because PDF devices can round sizes.
 Long-label measurements stayed within a 25-mm test viewport. Legend symbols
 and labels share columns and vertical alignment across both rows.
+
+## Annotation tracks tab
+
+Added on 9 October 2026 (`R/studio_tracks.R`). Two modes: the bundled
+chloroplast genome ring with switchable rings, or uploaded interval tables
+stacked on the Synteny tab's current figure. Controls map one-to-one onto
+`syn_track_feature()`, `syn_track_heatmap()`, `syn_track_line()`,
+`syn_track_bar()` and `syn_axis()`; downloads are PDF, PNG, one TSV per
+track (`track1.tsv`, ...) and `reproduce-tracks.R`, which reads those TSVs.
+The hosted Studio on Posit Connect Cloud must be redeployed to show it.
