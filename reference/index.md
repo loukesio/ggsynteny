@@ -27,6 +27,31 @@ Compare supplied variants and alignment identity on a shared reference.
 - [`save_reference_comparison()`](https://loukesio.github.io/ggsynteny/reference/save_reference_comparison.md)
   : Save a reference comparison with the bundled IBM Plex fonts
 
+## Annotation tracks
+
+Coordinate-aligned numeric, categorical and axis tracks, GC
+calculations, and the plot geometry.
+
+- [`syn_track()`](https://loukesio.github.io/ggsynteny/reference/syn_track.md)
+  : Add a coordinate-aligned annotation track to a synteny plot
+- [`syn_track_feature()`](https://loukesio.github.io/ggsynteny/reference/syn_track_geoms.md)
+  [`syn_track_heatmap()`](https://loukesio.github.io/ggsynteny/reference/syn_track_geoms.md)
+  [`syn_track_line()`](https://loukesio.github.io/ggsynteny/reference/syn_track_geoms.md)
+  [`syn_track_bar()`](https://loukesio.github.io/ggsynteny/reference/syn_track_geoms.md)
+  : Annotation tracks by geom
+- [`syn_axis()`](https://loukesio.github.io/ggsynteny/reference/syn_axis.md)
+  : Add a genomic coordinate axis to a synteny plot
+- [`gc_content()`](https://loukesio.github.io/ggsynteny/reference/gc_content.md)
+  : Calculate GC content from DNA sequences
+- [`scale_fill_syn_heatmap()`](https://loukesio.github.io/ggsynteny/reference/scale_fill_syn_heatmap.md)
+  : Continuous fill scale for an annotation track
+- [`scale_fill_syn_feature()`](https://loukesio.github.io/ggsynteny/reference/scale_fill_syn_feature.md)
+  : Discrete fill scale for a feature track
+- [`syn_layout()`](https://loukesio.github.io/ggsynteny/reference/syn_layout.md)
+  : Sector geometry of a synteny plot
+- [`syn_project()`](https://loukesio.github.io/ggsynteny/reference/syn_project.md)
+  : Project genomic positions onto a synteny plot
+
 ## Interactive
 
 ggiraph rendering with hover highlights and tooltips.
@@ -60,5 +85,6 @@ Parsers for common synteny file formats.
   : Rice-sorghum macro-synteny (real MCScanX output)
 - [`example_synteny_data()`](https://loukesio.github.io/ggsynteny/reference/example_synteny_data.md)
   : Example synteny data (Arabidopsis, Grape, Rice)
-- [`demo_microsynteny_data()`](https://loukesio.github.io/ggsynteny/reference/demo_microsynteny_data.md)
+- [`example_microsynteny_data()`](https://loukesio.github.io/ggsynteny/reference/example_microsynteny_data.md)
+  [`demo_microsynteny_data()`](https://loukesio.github.io/ggsynteny/reference/example_microsynteny_data.md)
   : Example microsynteny data

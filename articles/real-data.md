@@ -121,13 +121,13 @@ plot_microsynteny(genes, links,
 
 Without an `identity` column the ribbons fall back to a uniform colour
 via `ribbon_fill = "identity"`’s default; with identities (as in
-[`demo_microsynteny_data()`](https://loukesio.github.io/ggsynteny/reference/demo_microsynteny_data.md))
+[`example_microsynteny_data()`](https://loukesio.github.io/ggsynteny/reference/example_microsynteny_data.md))
 the ribbon darkness encodes percent identity, and an ordered palette
 restyles the ramp:
 
 ``` r
 
-micro <- demo_microsynteny_data()
+micro <- example_microsynteny_data()
 
 plot_microsynteny(micro$features, micro$links,
                   bin_order = c("ZONMW-30", "ZONMW-20", "ZONMW-10"),

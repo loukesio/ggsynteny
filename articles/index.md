@@ -10,3 +10,5 @@
   plots](https://loukesio.github.io/ggsynteny/articles/interactive.md):
 - [Circular synteny with
   ggplot2](https://loukesio.github.io/ggsynteny/articles/circular-synteny.md):
+- [GC content and annotation
+  tracks](https://loukesio.github.io/ggsynteny/articles/annotation-tracks.md):

@@ -36,7 +36,7 @@ ltc need not be installed), e.g.
 - [`example_synteny_data`](https://loukesio.github.io/ggsynteny/reference/example_synteny_data.md) -
   Macro-synteny example
 
-- [`demo_microsynteny_data`](https://loukesio.github.io/ggsynteny/reference/demo_microsynteny_data.md) -
+- [`example_microsynteny_data`](https://loukesio.github.io/ggsynteny/reference/example_microsynteny_data.md) -
   Micro-synteny example
 
 ## See also

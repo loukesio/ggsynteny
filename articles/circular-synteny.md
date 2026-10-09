@@ -55,7 +55,7 @@ newly parsed MCScanX input retains it.
 
 ``` r
 
-micro <- demo_microsynteny_data()
+micro <- example_microsynteny_data()
 pm <- plot_circular_microsynteny(micro$features, micro$links,
                                 palette = "casa_natal", ribbon_fill = "per_name")
 pm

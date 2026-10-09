@@ -65,7 +65,9 @@ ggplot2 object with polygon and text layers.</p>
 <span>  species_label_size <span class="op">=</span> <span class="fl">4</span>,</span>
 <span>  show_orientation <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  interactive <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  title <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ribbon_legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  chr_order <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -104,13 +106,16 @@ species, chromosome labels, or <code>"species__chr"</code> keys in custom mode.<
 
 <dt id="arg-ribbon-fill">ribbon_fill<a class="anchor" aria-label="anchor" href="#arg-ribbon-fill"></a></dt>
 <dd><p>Ribbon coloring: <code>"source_chr"</code>, <code>"target_chr"</code>,
-<code>"species_pair"</code>, <code>"uniform"</code>, or <code>"custom"</code>. Source is the earlier species
-in <code>species_order</code> (input order for within-species blocks).</p></dd>
+<code>"species_pair"</code>, <code>"uniform"</code>, <code>"custom"</code>, or the name of any other
+column of <code>blocks</code> (for example <code>"class"</code>), whose values are colored as
+categories with a legend. Source is the earlier species in
+<code>species_order</code> (input order for within-species blocks).</p></dd>
 
 
 <dt id="arg-ribbon-palette">ribbon_palette<a class="anchor" aria-label="anchor" href="#arg-ribbon-palette"></a></dt>
 <dd><p>Overrides <code>palette</code> for ribbons. In custom mode, provide
-one color or one color per row of the original <code>blocks</code> table.</p></dd>
+one color or one color per row of the original <code>blocks</code> table. When
+coloring by a column, a named vector maps its values to colors.</p></dd>
 
 
 <dt id="arg-ribbon-alpha">ribbon_alpha<a class="anchor" aria-label="anchor" href="#arg-ribbon-alpha"></a></dt>
@@ -163,6 +168,19 @@ the direction in which both chromosomes are drawn also matters.</p></dd>
 <dt id="arg-title">title<a class="anchor" aria-label="anchor" href="#arg-title"></a></dt>
 <dd><p>Optional title.</p></dd>
 
+
+<dt id="arg-ribbon-legend">ribbon_legend<a class="anchor" aria-label="anchor" href="#arg-ribbon-legend"></a></dt>
+<dd><p>Show a legend when <code>ribbon_fill</code> names a column of
+<code>blocks</code>? Ignored for the built-in coloring modes.</p></dd>
+
+
+<dt id="arg-chr-order">chr_order<a class="anchor" aria-label="anchor" href="#arg-chr-order"></a></dt>
+<dd><p>Chromosome order within each species: <code>NULL</code> (the default)
+follows factor levels when <code>chr</code> is a factor and otherwise sorts numeric
+names, then remaining names alphabetically; <code>"input"</code> keeps the row order
+of <code>chromosomes</code>; a character vector orders the chromosome names
+explicitly; a list named by species gives one vector per species.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -180,6 +198,12 @@ view, not an aggregation of link counts or an estimate of unique coverage.</p>
 <p>The circular presentation does not imply that the chromosomes are
 biologically circular. Duplicate chromosome keys, unmatched chromosome
 references, and invalid or out-of-bounds intervals are rejected.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p><code><a href="syn_track.html">syn_track()</a></code>, <code><a href="syn_track_geoms.html">syn_track_feature()</a></code> and <code><a href="syn_axis.html">syn_axis()</a></code> for rings
+added outside or inside the chromosome band; <code><a href="syn_layout.html">syn_layout()</a></code> for the
+sector geometry of the returned plot.</p></div>
     </div>
 
     <div class="section level2">

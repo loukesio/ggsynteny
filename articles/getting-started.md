@@ -169,7 +169,7 @@ Micro-synteny plots show gene-level conservation:
 ``` r
 
 # Load microsynteny example
-micro <- demo_microsynteny_data()
+micro <- example_microsynteny_data()
 
 # Inspect structure
 str(micro)

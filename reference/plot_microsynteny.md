@@ -209,6 +209,11 @@ the entire gene including the tip — the convention of clinker, gggenomes
 and pyGenomeViz — which reads as "this whole gene is part of the link"
 but lets ribbons run underneath the arrowheads.
 
+## See also
+
+[`syn_track()`](https://loukesio.github.io/ggsynteny/reference/syn_track.md)
+for optional GC-content and numeric annotation tracks.
+
 ## Examples
 
 ``` r

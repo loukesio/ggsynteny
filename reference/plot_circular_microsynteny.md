@@ -171,10 +171,15 @@ strand. Links can connect any displayed bins or contigs, including the
 same bin. Unknown feature identifiers, duplicate feature IDs and invalid
 intervals are rejected to avoid ambiguous links.
 
+## See also
+
+[`syn_track()`](https://loukesio.github.io/ggsynteny/reference/syn_track.md)
+for optional GC-content and numeric annotation tracks.
+
 ## Examples
 
 ``` r
-micro <- demo_microsynteny_data()
+micro <- example_microsynteny_data()
 p <- plot_circular_microsynteny(micro$features, micro$links,
                                palette = "casa_natal")
 p + ggplot2::labs(caption = "Gene arrows indicate strand")

@@ -38,7 +38,7 @@ show the connected gene pair and its percent identity:
 
 ``` r
 
-micro <- demo_microsynteny_data()
+micro <- example_microsynteny_data()
 
 p <- plot_microsynteny(micro$features, micro$links,
                        bin_order = c("ZONMW-30", "ZONMW-20", "ZONMW-10"),

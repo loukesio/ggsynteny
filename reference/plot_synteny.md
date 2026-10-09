@@ -168,6 +168,11 @@ underscores and dashes) — so `"casa_natal"`, `"Casa Natal"` and
 `"casanatal"` all find the same palette. Named vectors are used as
 explicit key-to-color mappings, exactly as before.
 
+## See also
+
+[`syn_track()`](https://loukesio.github.io/ggsynteny/reference/syn_track.md)
+for optional GC-content and numeric annotation tracks.
+
 ## Examples
 
 ``` r

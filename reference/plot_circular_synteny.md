@@ -27,7 +27,9 @@ plot_circular_synteny(
   species_label_size = 4,
   show_orientation = FALSE,
   interactive = FALSE,
-  title = NULL
+  title = NULL,
+  ribbon_legend = TRUE,
+  chr_order = NULL
 )
 ```
 
@@ -67,13 +69,16 @@ plot_circular_synteny(
 - ribbon_fill:
 
   Ribbon coloring: `"source_chr"`, `"target_chr"`, `"species_pair"`,
-  `"uniform"`, or `"custom"`. Source is the earlier species in
-  `species_order` (input order for within-species blocks).
+  `"uniform"`, `"custom"`, or the name of any other column of `blocks`
+  (for example `"class"`), whose values are colored as categories with a
+  legend. Source is the earlier species in `species_order` (input order
+  for within-species blocks).
 
 - ribbon_palette:
 
   Overrides `palette` for ribbons. In custom mode, provide one color or
-  one color per row of the original `blocks` table.
+  one color per row of the original `blocks` table. When coloring by a
+  column, a named vector maps its values to colors.
 
 - ribbon_alpha:
 
@@ -127,6 +132,19 @@ plot_circular_synteny(
 
   Optional title.
 
+- ribbon_legend:
+
+  Show a legend when `ribbon_fill` names a column of `blocks`? Ignored
+  for the built-in coloring modes.
+
+- chr_order:
+
+  Chromosome order within each species: `NULL` (the default) follows
+  factor levels when `chr` is a factor and otherwise sorts numeric
+  names, then remaining names alphabetically; `"input"` keeps the row
+  order of `chromosomes`; a character vector orders the chromosome names
+  explicitly; a list named by species gives one vector per species.
+
 ## Value
 
 A ggplot object. Its `data` contains the sector layout, including
@@ -145,6 +163,16 @@ estimate of unique coverage.
 The circular presentation does not imply that the chromosomes are
 biologically circular. Duplicate chromosome keys, unmatched chromosome
 references, and invalid or out-of-bounds intervals are rejected.
+
+## See also
+
+[`syn_track()`](https://loukesio.github.io/ggsynteny/reference/syn_track.md),
+[`syn_track_feature()`](https://loukesio.github.io/ggsynteny/reference/syn_track_geoms.md)
+and
+[`syn_axis()`](https://loukesio.github.io/ggsynteny/reference/syn_axis.md)
+for rings added outside or inside the chromosome band;
+[`syn_layout()`](https://loukesio.github.io/ggsynteny/reference/syn_layout.md)
+for the sector geometry of the returned plot.
 
 ## Examples
 
