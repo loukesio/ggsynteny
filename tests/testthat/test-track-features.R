@@ -296,6 +296,11 @@ test_that("the chloroplast genome ring draws from exported functions only", {
   expect_s3_class(ring$scales$get_scales("syn_track5"), "ScaleContinuous")
   expect_equal(length(unique(attr(ring, "circular_links")$fill_color)), 4L)
   expect_s3_class(track_test_render(ring), "gtable")
+})
+
+test_that("inside feature tracks render on an interactive ring", {
+  skip_if_not_installed("ggiraph")
+  d <- chloroplast()
   interactive <- plot_circular_synteny(d$syn, "Arabidopsis", ribbon_fill = "class", interactive = TRUE) +
     syn_track_feature(d$genes, fill = "class", position = "inside")
   expect_s3_class(track_test_render(interactive), "gtable")
