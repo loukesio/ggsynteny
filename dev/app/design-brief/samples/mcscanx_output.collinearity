@@ -1,0 +1,17 @@
+############### Parameters ###############
+# MATCH_SCORE: 50
+# MATCH_SIZE: 5
+# GAP_PENALTY: -1
+# OVERLAP_WINDOW: 5
+# E_VALUE: 1e-05
+# MAX GAPS: 25
+############### Statistics ###############
+# Number of collinear genes: 8, Percentage: 100.00
+# Number of all genes: 8
+############################################
+## Alignment 0: score=150.0 e_value=0 N=3 Wheat1&Barley1 plus
+  0-  0:	Wh1G001	Ba1G001	0
+  0-  1:	Wh1G002	Ba1G002	0
+  0-  2:	Wh1G003	Ba1G003	0
+## Alignment 1: score=60.0 e_value=0 N=1 Wheat1&Barley2 minus
+  1-  0:	Wh1G004	Ba2G001	0

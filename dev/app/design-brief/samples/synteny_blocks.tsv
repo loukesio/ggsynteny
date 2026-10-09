@@ -1,0 +1,4 @@
+species1	chr1	start1	end1	species2	chr2	start2	end2
+Human	1	10	25	Mouse	1	80	95
+Human	1	100	120	Mouse	2	30	50
+Human	2	5	40	Mouse	2	60	100
