@@ -26,9 +26,12 @@ snapshot <- function(path, label) {
 }
 before <- snapshot(baseline, "before")
 after <- snapshot(candidate, "after")
+# New arguments may only be appended, so every baseline call still works.
+prefix <- mapply(function(b, a) identical(as.list(b), as.list(a)[seq_along(b)]),
+                 before$signatures, after$signatures)
 stopifnot(identical(before$data, after$data), identical(before$hashes, after$hashes),
-          identical(before$palettes, after$palettes), identical(before$signatures, after$signatures))
+          identical(before$palettes, after$palettes), all(prefix))
 result <- c("PASS: all 8 baseline plots have identical built layer data and PNG bytes.",
-            "PASS: all palette definitions and plotting function signatures are unchanged.")
+            "PASS: all palette definitions unchanged; plotting signatures only append arguments.")
 writeLines(result, file.path(output, "defaults.txt"))
 cat(paste(result, collapse = "\n"), "\n")

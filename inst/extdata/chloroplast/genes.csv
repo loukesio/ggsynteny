@@ -1,0 +1,133 @@
+accession,species,gene,type,start,end,strand,class
+NC_000932.1,Arabidopsis thaliana,rps12,CDS,69611,69724,-,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,rps12,CDS,98562,98793,-,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,rps12,CDS,97999,98024,-,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,trnH,tRNA,4,76,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,psbA,CDS,383,1444,-,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,trnK,tRNA,1717,4347,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,matK,CDS,2056,3570,-,Other genes
+NC_000932.1,Arabidopsis thaliana,rps16,CDS,5084,6188,-,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,trnQ,tRNA,6616,6687,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,psbK,CDS,7017,7202,+,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,psbI,CDS,7583,7693,+,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,trnS,tRNA,7785,7872,+,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,trnG,tRNA,8646,9431,+,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,trnR,tRNA,9590,9661,+,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,atpA,CDS,9938,11461,-,ATP synthase
+NC_000932.1,Arabidopsis thaliana,atpF,CDS,11529,12798,-,ATP synthase
+NC_000932.1,Arabidopsis thaliana,atpH,CDS,13262,13507,-,ATP synthase
+NC_000932.1,Arabidopsis thaliana,atpI,CDS,14021,14770,-,ATP synthase
+NC_000932.1,Arabidopsis thaliana,rps2,CDS,15013,15723,-,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,rpoC2,CDS,15938,20068,-,Other genes
+NC_000932.1,Arabidopsis thaliana,rpoC1,CDS,20251,23084,-,Other genes
+NC_000932.1,Arabidopsis thaliana,rpoB,CDS,23111,26329,-,Other genes
+NC_000932.1,Arabidopsis thaliana,trnC,tRNA,27373,27443,+,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,petN,CDS,28089,28178,+,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,psbM,CDS,28707,28811,-,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,trnD,tRNA,29801,29874,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,trnY,tRNA,30323,30406,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,trnE,tRNA,30466,30538,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,trnT,tRNA,31369,31440,+,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,psbD,CDS,32711,33772,+,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,psbC,CDS,33720,35141,+,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,trnS,tRNA,35312,35403,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,psbZ,CDS,35751,35939,+,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,trnG,tRNA,36490,36560,+,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,trnfM,tRNA,36704,36777,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,rps14,CDS,36938,37240,-,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,psaB,CDS,37375,39579,-,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,psaA,CDS,39605,41857,-,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,ycf3,CDS,42584,44591,-,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,trnS,tRNA,44827,44913,+,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,rps4,CDS,45223,45828,-,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,trnT,tRNA,46213,46285,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,trnL,tRNA,46894,47490,+,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,trnF,tRNA,48175,48247,+,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,ndhJ,CDS,48677,49153,-,NADH dehydrogenase
+NC_000932.1,Arabidopsis thaliana,ndhK,CDS,49257,49934,-,NADH dehydrogenase
+NC_000932.1,Arabidopsis thaliana,ndhC,CDS,50001,50363,-,NADH dehydrogenase
+NC_000932.1,Arabidopsis thaliana,trnV,tRNA,51199,51871,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,trnM,tRNA,52056,52128,+,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,atpE,CDS,52265,52663,-,ATP synthase
+NC_000932.1,Arabidopsis thaliana,atpB,CDS,52660,54156,-,ATP synthase
+NC_000932.1,Arabidopsis thaliana,rbcL,CDS,54958,56397,+,Other genes
+NC_000932.1,Arabidopsis thaliana,accD,CDS,57075,58541,+,Other genes
+NC_000932.1,Arabidopsis thaliana,psaI,CDS,59247,59360,+,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,ycf4,CDS,59772,60326,+,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,cemA,CDS,60741,61430,+,Other genes
+NC_000932.1,Arabidopsis thaliana,petA,CDS,61657,62619,+,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,psbJ,CDS,63538,63660,-,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,psbL,CDS,63804,63920,-,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,psbF,CDS,63942,64061,-,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,psbE,CDS,64071,64322,-,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,petL,CDS,65712,65807,+,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,petG,CDS,65998,66111,+,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,trnW,tRNA,66229,66302,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,trnP,tRNA,66490,66563,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,psaJ,CDS,66929,67063,+,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,rpl33,CDS,67488,67688,+,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,rps18,CDS,67917,68222,+,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,rpl20,CDS,68512,68865,-,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,rps12,CDS,139856,140087,+,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,rps12,CDS,140625,140650,+,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,clpP,CDS,69910,71882,-,Other genes
+NC_000932.1,Arabidopsis thaliana,psbB,CDS,72371,73897,+,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,psbT,CDS,74082,74183,+,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,psbN,CDS,74249,74380,-,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,psbH,CDS,74485,74706,+,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,petB,CDS,74841,76292,+,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,petD,CDS,76481,77672,+,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,rpoA,CDS,77901,78890,-,Other genes
+NC_000932.1,Arabidopsis thaliana,rps11,CDS,78960,79376,-,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,rpl36,CDS,79489,79602,-,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,rps8,CDS,80068,80472,-,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,rpl14,CDS,80696,81064,-,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,rpl16,CDS,81189,82652,-,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,rps3,CDS,82826,83482,-,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,rpl22,CDS,83467,83949,-,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,rps19,CDS,84005,84283,-,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,rpl2,CDS,84337,85843,-,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,rpl23,CDS,85862,86143,-,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,trnI,tRNA,86312,86385,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,ycf2,CDS,86474,93358,+,Other genes
+NC_000932.1,Arabidopsis thaliana,trnL,tRNA,94276,94356,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,ndhB,CDS,94941,97164,-,NADH dehydrogenase
+NC_000932.1,Arabidopsis thaliana,rps7,CDS,97478,97945,-,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,trnV,tRNA,100709,100780,+,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,rrn16,rRNA,101012,102502,+,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,trnI,tRNA,102801,103601,+,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,trnA,tRNA,103665,104538,+,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,rrn23,rRNA,104691,107500,+,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,rrn4.5,rRNA,107599,107701,+,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,trnR,tRNA,108302,108375,+,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,trnN,tRNA,109013,109084,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,ycf1,CDS,109405,110436,+,Other genes
+NC_000932.1,Arabidopsis thaliana,ndhF,CDS,110398,112638,-,NADH dehydrogenase
+NC_000932.1,Arabidopsis thaliana,rpl32,CDS,113449,113607,+,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,trnL,tRNA,114270,114349,+,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,ccsA,CDS,114461,115447,+,Other genes
+NC_000932.1,Arabidopsis thaliana,ndhD,CDS,115665,117167,-,NADH dehydrogenase
+NC_000932.1,Arabidopsis thaliana,psaC,CDS,117318,117563,-,Photosystems and electron transport
+NC_000932.1,Arabidopsis thaliana,ndhE,CDS,117804,118109,-,NADH dehydrogenase
+NC_000932.1,Arabidopsis thaliana,ndhG,CDS,118377,118907,-,NADH dehydrogenase
+NC_000932.1,Arabidopsis thaliana,ndhI,CDS,119244,119762,-,NADH dehydrogenase
+NC_000932.1,Arabidopsis thaliana,ndhA,CDS,119847,122009,-,NADH dehydrogenase
+NC_000932.1,Arabidopsis thaliana,ndhH,CDS,122011,123192,-,NADH dehydrogenase
+NC_000932.1,Arabidopsis thaliana,rps15,CDS,123296,123562,-,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,ycf1,CDS,123884,129244,-,Other genes
+NC_000932.1,Arabidopsis thaliana,trnN,tRNA,129565,129636,+,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,trnR,tRNA,130274,130347,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,rrn5,rRNA,130580,130700,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,rrn4.5,rRNA,130948,131050,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,rrn23,rRNA,131149,133958,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,trnA,tRNA,134111,134984,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,trnI,tRNA,135048,135848,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,rrn16,rRNA,136147,137637,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,trnV,tRNA,137869,137940,-,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,rps7,CDS,140704,141171,+,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,ndhB,CDS,141485,143708,+,NADH dehydrogenase
+NC_000932.1,Arabidopsis thaliana,trnL,tRNA,144293,144373,+,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,ycf2,CDS,145291,152175,-,Other genes
+NC_000932.1,Arabidopsis thaliana,trnI,tRNA,152264,152337,+,tRNA and rRNA
+NC_000932.1,Arabidopsis thaliana,rpl23,CDS,152506,152787,+,Ribosomal proteins
+NC_000932.1,Arabidopsis thaliana,rpl2,CDS,152806,154312,+,Ribosomal proteins

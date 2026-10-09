@@ -1,7 +1,7 @@
 # Rebuild circular examples from the package root.
 devtools::load_all(".", quiet = TRUE)
 data(rice_sorghum)
-micro <- demo_microsynteny_data()
+micro <- example_microsynteny_data()
 macro <- plot_circular_synteny(rice_sorghum, c("Rice", "Sorghum"),
                                palette = "casa_natal", chr_fill = "per_species")
 genes <- plot_circular_microsynteny(micro$features, micro$links,

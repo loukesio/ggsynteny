@@ -6,7 +6,7 @@ library(ggsynteny)
 library(ggplot2)
 
 # Load example microsynteny data
-micro <- demo_microsynteny_data()
+micro <- example_microsynteny_data()
 
 # ── Example 1: Default identity-based coloring ─────────────────────────────
 p1 <- plot_microsynteny(micro$features,

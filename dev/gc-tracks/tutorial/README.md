@@ -213,4 +213,4 @@ bars leave gaps. Circular windows do not wrap across the origin. Tracks are
 currently static, and Studio does not yet have a track upload control.
 
 For the complete interface, see `?syn_track`, `?gc_content`, and
-`?scale_fill_syn_track`, or the [longer guide](../../../vignettes/articles/annotation-tracks.Rmd).
+`?scale_fill_syn_heatmap`, or the [longer guide](../../../vignettes/articles/annotation-tracks.Rmd).

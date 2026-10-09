@@ -1,5 +1,5 @@
 test_that("linear lanes expand rows and ribbons never cross track bundles", {
-  m <- demo_microsynteny_data()
+  m <- example_microsynteny_data()
   s <- example_synteny_data()
   f <- m$features; f$value <- 50
   c <- s$chromosomes; c$start <- 0; c$end <- c$size; c$value <- 50

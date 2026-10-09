@@ -9,7 +9,7 @@ figure_dir <- "man/figures/gc-tracks"
 dir.create(data_dir, recursive = TRUE, showWarnings = FALSE)
 dir.create(figure_dir, recursive = TRUE, showWarnings = FALSE)
 
-m <- demo_microsynteny_data()
+m <- example_microsynteny_data()
 old_ids <- m$features$feat_id
 m$features$bin_id <- paste("Genome", LETTERS[match(m$features$bin_id, unique(m$features$bin_id))])
 m$features$feat_id <- sprintf("gene_%02d", seq_along(old_ids))

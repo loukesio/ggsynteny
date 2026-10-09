@@ -15,11 +15,16 @@ reference:
       - plot_circular_synteny
       - plot_circular_microsynteny
   - title: Annotation tracks
-    desc: Coordinate-aligned numeric tracks and sequence-based GC calculations.
+    desc: Coordinate-aligned numeric, categorical and axis tracks, GC calculations, and the plot geometry.
     contents:
       - syn_track
+      - syn_track_geoms
+      - syn_axis
       - gc_content
-      - scale_fill_syn_track
+      - scale_fill_syn_heatmap
+      - scale_fill_syn_feature
+      - syn_layout
+      - syn_project
   - title: Interactive
     desc: ggiraph rendering with hover highlights and tooltips.
     contents:
@@ -39,7 +44,7 @@ reference:
     contents:
       - rice_sorghum
       - example_synteny_data
-      - demo_microsynteny_data
+      - example_microsynteny_data
 
 articles:
   - title: Guides

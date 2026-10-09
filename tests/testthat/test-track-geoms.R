@@ -96,7 +96,7 @@ test_that("bars span source intervals and support signed values and nonzero base
 })
 
 test_that("mixed tracks compose across all plot types and axes stay with their genome", {
-  m <- demo_microsynteny_data()
+  m <- example_microsynteny_data()
   f <- m$features; f$value <- 40
   syn <- example_synteny_data()
   c <- syn$chromosomes; c$start <- 0; c$end <- c$size; c$value <- 40

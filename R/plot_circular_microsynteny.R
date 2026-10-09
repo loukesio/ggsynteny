@@ -53,7 +53,7 @@
 #'   Unknown feature identifiers, duplicate feature IDs and invalid intervals
 #'   are rejected to avoid ambiguous links.
 #' @examples
-#' micro <- demo_microsynteny_data()
+#' micro <- example_microsynteny_data()
 #' p <- plot_circular_microsynteny(micro$features, micro$links,
 #'                                palette = "casa_natal")
 #' p + ggplot2::labs(caption = "Gene arrows indicate strand")
@@ -182,6 +182,6 @@ plot_circular_microsynteny <- function(features, links, bin_order = NULL, palett
   if (bin_label_size > 0) p <- .circ_add_labels(p, .circ_group_labels(layout), bin_label_size, "bold")
   attr(p, "circular_features") <- features
   attr(p, "circular_links") <- links
-  attr(p, "synteny_layout") <- .track_circular_layout(layout)
+  attr(p, "synteny_layout") <- .track_circular_layout(layout, radius)
   p
 }

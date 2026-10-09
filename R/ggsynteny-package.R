@@ -27,7 +27,7 @@
 #' @section Example Data:
 #' \itemize{
 #'   \item \code{\link{example_synteny_data}} - Macro-synteny example
-#'   \item \code{\link{demo_microsynteny_data}} - Micro-synteny example
+#'   \item \code{\link{example_microsynteny_data}} - Micro-synteny example
 #' }
 #'
 #' @importFrom dplyr %>%

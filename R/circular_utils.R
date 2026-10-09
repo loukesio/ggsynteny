@@ -38,15 +38,20 @@
 
 .circ_key <- function(group, sector) paste(nchar(group), group, sector, sep = ":")
 
-.circ_layout <- function(sectors, group_order, gap, group_gap, start_angle, clockwise) {
+.circ_layout <- function(sectors, group_order, gap, group_gap, start_angle, clockwise,
+                         rank = NULL) {
   .circ_scalar(gap, "gap", 0, 180)
   .circ_scalar(group_gap, "group_gap", 0, 180)
   .circ_scalar(start_angle, "start_angle", -360, 360)
   .circ_logical(clockwise, "clockwise")
-  sectors <- sectors[sectors$group_name %in% group_order, , drop = FALSE]
-  numeric_sector <- suppressWarnings(as.numeric(sectors$sector_name))
-  sectors <- sectors[order(match(sectors$group_name, group_order), numeric_sector,
-                           sectors$sector_name), , drop = FALSE]
+  keep <- sectors$group_name %in% group_order
+  sectors <- sectors[keep, , drop = FALSE]
+  if (is.null(rank)) {
+    # Default order: numeric names ascending, then remaining names alphabetically.
+    numeric_sector <- suppressWarnings(as.numeric(sectors$sector_name))
+    ordering <- order(match(sectors$group_name, group_order), numeric_sector, sectors$sector_name)
+  } else ordering <- order(match(sectors$group_name, group_order), rank[keep])
+  sectors <- sectors[ordering, , drop = FALSE]
   spans <- sectors$end - sectors$start
   if (!nrow(sectors) || any(spans <= 0)) stop("Every sector must have a positive span.", call. = FALSE)
   last <- !duplicated(sectors$group_name, fromLast = TRUE)
@@ -167,6 +172,43 @@
   .circ_logical(interactive, "interactive")
   if (interactive && !requireNamespace("ggiraph", quietly = TRUE))
     stop("interactive = TRUE requires the 'ggiraph' package.", call. = FALSE)
+}
+
+# Resolve the within-group display order of sectors. NULL keeps factor levels
+# when the names were factors and otherwise the default numeric/name sort;
+# "input" keeps table row order; a character vector or a named list (one
+# vector per group) gives an explicit order.
+.circ_rank <- function(order, group, sector, levels = NULL, label = "chr_order") {
+  if (is.null(order)) {
+    if (is.null(levels)) return(NULL)
+    return(match(sector, levels))
+  }
+  if (identical(order, "input")) return(seq_along(sector))
+  if (is.list(order)) {
+    if (is.null(names(order)) || any(!nzchar(names(order))))
+      stop(label, " lists must be named by group.", call. = FALSE)
+    rank <- rep(NA_real_, length(sector))
+    for (g in unique(group)) {
+      rows <- group == g
+      if (is.null(order[[g]])) {
+        numeric_sector <- suppressWarnings(as.numeric(sector[rows]))
+        rank[rows] <- order(order(numeric_sector, sector[rows]))
+      } else {
+        wanted <- .circ_text(order[[g]], label)
+        missing <- setdiff(sector[rows], wanted)
+        if (anyDuplicated(wanted) || length(missing))
+          stop(label, " for ", g, " must list every displayed sequence once.", call. = FALSE)
+        rank[rows] <- match(sector[rows], wanted)
+      }
+    }
+    return(rank)
+  }
+  wanted <- .circ_text(order, label)
+  missing <- setdiff(sector, wanted)
+  if (anyDuplicated(wanted) || length(missing))
+    stop(label, " must list every displayed sequence once (missing: ",
+         paste(utils::head(missing, 5), collapse = ", "), ").", call. = FALSE)
+  match(sector, wanted)
 }
 
 utils::globalVariables(c("circular_id", "fill_color", "text_angle"))

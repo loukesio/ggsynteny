@@ -6,115 +6,159 @@
 \usage{
 syn_track(
   data,
-  name = "GC (\%)",
+  name = NULL,
   limits = c(0, 100),
-  palette = c("#F7FBFF", "#6BAED6", "#08306B"),
+  palette = NULL,
   na.value = "#BDBDBD",
-  height = 0.1,
-  gap = 0.03,
+  height = NULL,
+  gap = NULL,
   show.legend = TRUE,
-  geom = c("heatmap", "line", "bar"),
-  colour = "#246B78",
-  linewidth = 0.5,
+  geom = NULL,
+  colour = NULL,
+  linewidth = NULL,
   reference = NULL,
   baseline = limits[1],
   axis = TRUE,
   background = NULL,
   border = NULL,
   reference_line = ggplot2::element_line(colour = "#A6ADB4", linewidth = 0.25, linetype =
-    "dashed")
+    "dashed"),
+  position = c("outside", "inside"),
+  out_of_bounds = c("error", "clip", "drop"),
+  fill = NULL,
+  strand = c("none", "split", "arrow"),
+  label = NULL,
+  label_size = 2.5,
+  label_colour = "#333333",
+  label_face = "plain",
+  alpha = 1
 )
 }
 \arguments{
-\item{data}{Data frame with \code{group}, \code{seq_id}, \code{start}, \code{end}, and numeric
-\code{value}. \code{group} identifies a species (macro) or bin (micro). The key pairs
-\code{species}/\code{chr} and \code{bin_id}/\code{seq_id} are also accepted. Coordinates must
-use exactly the same origin and units as the underlying plot.}
+\item{data}{Data frame with one row per interval: \code{start} and \code{end} in the
+plot's coordinate units, plus the sequence keys \code{species}/\code{chr}
+(\code{group}/\code{seq_id} and \code{bin_id}/\code{seq_id} are also accepted). Keys may be
+omitted when the plot leaves no ambiguity: \code{species} when the plot shows one
+species, and \code{chr} when that species has one sequence. Numeric geoms read
+a \code{value} column; feature geoms read the columns named in \code{fill}, \code{label}
+and, for strand options, \code{strand}.}
 
-\item{name}{Legend title.}
+\item{name}{Legend title. Defaults to \code{"GC (\%)"} for numeric geoms and to
+the \code{fill} column name for features.}
 
-\item{limits}{Two increasing finite numbers for the value scale. Defaults
-to GC percentages, 0 to 100. Non-missing values outside these limits error.}
+\item{limits}{Numeric geoms only: two increasing finite numbers for the
+value scale, default 0 to 100. Non-missing values outside them error.}
 
-\item{palette}{Color vector, built-in ltc name, or HCL palette name.}
+\item{palette}{Colours. Numeric heatmaps use a gradient (colour vector,
+built-in ltc name or HCL palette name); features use one colour per
+category, from a vector named by category, an unnamed vector, an ltc name
+or an HCL palette name.}
 
-\item{na.value}{Color for an explicitly missing value (\code{NA}). Omitted
-intervals leave gaps; they are not interpreted as zero.}
+\item{na.value}{Colour for a missing numeric value, or for a feature
+category absent from a named \code{palette}.}
 
-\item{height, gap}{Track thickness and preceding gap, as fractions of linear
-tier spacing or of the original circle radius. Both layouts default to
-the same proportions. Linear rows expand to accommodate all tracks.}
+\item{height, gap}{Lane thickness and preceding gap as fractions of linear
+tier spacing or of the original circle radius. Defaults: 0.10 and 0.03
+for numeric geoms, 0.08 and 0.02 for features.}
 
 \item{show.legend}{Show this track's legend?}
 
-\item{geom}{Track display: \code{"heatmap"} (default), \code{"line"}, or \code{"bar"}.
-Lines join interval midpoints in genomic order; bars span each interval.}
+\item{geom}{\code{"feature"}, \code{"heatmap"}, \code{"line"} or \code{"bar"}. \code{NULL} (the
+default) picks \code{"feature"} when \code{fill}, \code{label} or a strand option is
+given or there is no \code{value} column, and \code{"heatmap"} otherwise.}
 
-\item{colour}{Fixed color for line or bar tracks. Heatmaps use \code{palette}.}
+\item{colour}{Line/bar colour (default \code{"#246B78"}), or the feature outline
+colour (default \code{NA}, no outline).}
 
-\item{linewidth}{Line thickness in mm for line tracks.}
+\item{linewidth}{Line thickness (default 0.5) or feature outline width
+(default 0.2), in mm.}
 
-\item{reference}{Optional value for a dashed guide in line/bar tracks.
-Use \code{NULL} (the default) to remove the middle guide.}
+\item{reference}{Line/bar geoms: optional value for a dashed guide.}
 
-\item{baseline}{Bar origin, within \code{limits}. Defaults to the lower limit.
-Use zero with limits spanning zero for signed measurements.}
+\item{baseline}{Bar geom: bar origin within \code{limits}, default the lower
+limit. Use zero with limits spanning zero for signed measurements.}
 
-\item{axis}{Show limit labels alongside line/bar tracks? Their lower/inner
-edge represents the lower limit, and upper/outer edge the upper limit.}
+\item{axis}{Line/bar geoms: label the lane edges with the limits?}
 
-\item{background}{Track background as a \code{\link[ggplot2:element]{ggplot2::element_rect()}}.
-Use \code{element_blank()} for no background. \code{NULL} selects a light grey
-background for lines/bars and no background for heatmaps.}
+\item{background, border}{Lane background and boundary lines as
+\code{\link[ggplot2:element]{ggplot2::element_rect()}} / \code{\link[ggplot2:element]{ggplot2::element_line()}}, or
+\code{element_blank()}. \code{NULL} gives a light grey background and borders for
+lines and bars, and none for heatmaps and features.}
 
-\item{border}{Track boundary lines as a \code{\link[ggplot2:element]{ggplot2::element_line()}}.
-Use \code{element_blank()} for no borders. \code{NULL} selects light grey
-borders for lines/bars and no borders for heatmaps.}
+\item{reference_line}{Style of the \code{reference} guide as
+\code{\link[ggplot2:element]{ggplot2::element_line()}}; \code{element_blank()} hides it.}
 
-\item{reference_line}{Reference guide style as a \code{\link[ggplot2:element]{ggplot2::element_line()}}.
-Use \code{element_blank()} to hide it, even when \code{reference} is supplied.}
+\item{position}{Circular placement: \code{"outside"} stacks rings outward from
+the chromosome band; \code{"inside"} stacks them inward, shrinking the ribbons
+toward the centre to make room. Linear plots ignore this argument.}
+
+\item{out_of_bounds}{Intervals extending past a displayed sequence:
+\code{"error"} (default), \code{"clip"} to the sequence bounds, or \code{"drop"}.}
+
+\item{fill}{Feature geom: the name of a column whose values colour the
+intervals as categories (with a legend), or one fixed colour. \code{NULL}
+draws one neutral grey.}
+
+\item{strand}{Feature geom: \code{"none"} fills the whole lane; \code{"split"} puts
+\code{+} intervals in the outer/upper half and \code{-} in the inner/lower half;
+\code{"arrow"} draws strand arrows. Both read a \code{strand} column holding
+\code{"+"}/\code{"-"}, \code{"plus"}/\code{"minus"} or \code{1}/\code{-1}; other values are unstranded.}
+
+\item{label}{Feature geom: optional column with text written at the middle
+of each interval, following the ring in circular plots.}
+
+\item{label_size, label_colour, label_face}{Feature label size in mm, colour
+and font face.}
+
+\item{alpha}{Feature fill transparency.}
 }
 \value{
 An object added to a ggplot with \code{+}. The resulting ggplot contains
-native ggplot2 layers and an independent legend per track.
-Its \code{synteny_tracks} attribute records displayed interval tables.
+native ggplot2 layers and an independent legend per track. Its
+\code{synteny_tracks} attribute records the displayed interval tables.
 }
 \description{
-Add with \code{p + syn_track(data)} to any of the four synteny plotting functions.
-Choose heatmap tiles, a line graph, or interval bars below each linear
-chromosome/contig or in an outer circular ring. Linear genome rows expand
-automatically, keeping ribbons in separate gaps. Circular additions stack outward.
+Add with \code{p + syn_track(data)} to any of the four synteny plotting
+functions. A track is a table of intervals on the displayed sequences and a
+\code{geom} saying how to draw what each interval carries: \code{"feature"} boxes
+coloured by a category, or a \code{"heatmap"}, \code{"line"} or \code{"bar"} for a numeric
+\code{value}. Tracks stack in the order added: below each genome in linear plots,
+and outward from the chromosome band (or inward with \code{position = "inside"})
+in circular plots. The wrappers \code{\link[=syn_track_feature]{syn_track_feature()}}, \code{\link[=syn_track_heatmap]{syn_track_heatmap()}},
+\code{\link[=syn_track_line]{syn_track_line()}} and \code{\link[=syn_track_bar]{syn_track_bar()}} fix the geom and list only the
+options that geom uses; they are the recommended spelling.
 }
 \details{
-Track intervals must have positive widths within displayed sequence
-bounds. Rows for groups excluded from the plot are omitted with a warning;
-unknown sequences within displayed groups error. Overlaps are drawn in
-input order (later rows on top); overlapping sliding windows can instead
-be calculated with \code{\link[=gc_content]{gc_content()}} and reduced to non-overlapping tiles.
-Lines support overlapping windows, require distinct midpoints within each
-sequence, and break at NA values, uncovered gaps, and sequence boundaries.
-An isolated non-missing value is drawn as a point. Circular lines interpolate
-in genomic position and value, following the ring without joining its ends.
-Missing bars leave gaps; missing heatmap values use \code{na.value}.
+Intervals must have positive widths. Rows for groups excluded from
+the plot are omitted with a warning; unknown sequences within displayed
+groups error. Overlaps are drawn in input order (later rows on top);
+overlapping sliding windows can instead be calculated with \code{\link[=gc_content]{gc_content()}}
+and reduced to non-overlapping tiles. Lines support overlapping windows,
+require distinct midpoints within each sequence, and break at NA values,
+uncovered gaps and sequence boundaries. An isolated non-missing value is
+drawn as a point. Circular lines interpolate in genomic position and value,
+following the ring without joining its ends. Missing bars leave gaps;
+missing heatmap values use \code{na.value}.
 
-Tracks do not change gene or ribbon colors, genomic positions or palette names.
-Linear tracks stack below genes; labels sit above genes. Rows spread apart
-to reserve a separate ribbon gap. Links skipping a row are shown in pieces
-across the gaps, never through intervening tracks. Their genomic positions
-and identities are retained. Circular layouts are unchanged.
-Heatmaps have separate aesthetics (\code{syn_track1}, \code{syn_track2}, ...),
-allowing independent legends without another package. Customize heatmap
-colors with \code{\link[=scale_fill_syn_track]{scale_fill_syn_track()}}. Line/bar limits control geometry;
-specify them in \code{syn_track()}, not a global ggplot2 y scale. Tracks are static, including when
-added to a ggiraph-enabled plot; existing interactive layers still work.
-Add tracks before changing coordinates or applying facets. Faceting and
-transformed/replaced coordinates are not supported for track placement.
+Tracks do not change gene or ribbon colours, genomic positions or palette
+names. Each track owns a private aesthetic (\code{syn_track1}, \code{syn_feature2},
+... numbered in the order added) so legends stay independent without
+another package; replace a scale with \code{\link[=scale_fill_syn_heatmap]{scale_fill_syn_heatmap()}} or
+\code{\link[=scale_fill_syn_feature]{scale_fill_syn_feature()}}. Linear tracks stack below genes; rows spread
+apart to reserve a separate ribbon gap, and links skipping a row are shown
+in pieces across the gaps. Tracks are static, including on ggiraph-enabled
+plots. Add tracks before changing coordinates or applying facets.
 }
 \examples{
-micro <- demo_microsynteny_data()
+micro <- example_microsynteny_data()
 values <- micro$features
 # Supplied measurements (illustrative, not measured from these demo genes).
 values$value <- rep(c(35, 50, 65), length.out = nrow(values))
 plot_microsynteny(micro$features, micro$links) + syn_track(values)
-plot_circular_microsynteny(micro$features, micro$links) + syn_track(values)
+plot_circular_microsynteny(micro$features, micro$links) +
+  syn_track(values, geom = "line", position = "inside")
+}
+\seealso{
+\code{\link[=syn_track_feature]{syn_track_feature()}}, \code{\link[=syn_track_heatmap]{syn_track_heatmap()}}, \code{\link[=syn_track_line]{syn_track_line()}},
+\code{\link[=syn_track_bar]{syn_track_bar()}} and \code{\link[=syn_axis]{syn_axis()}}; \code{\link[=syn_layout]{syn_layout()}} for the geometry.
 }

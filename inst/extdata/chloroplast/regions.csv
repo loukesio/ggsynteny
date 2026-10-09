@@ -1,0 +1,5 @@
+accession,species,region,start,end
+NC_000932.1,Arabidopsis thaliana,LSC,1,84170
+NC_000932.1,Arabidopsis thaliana,IRb,84171,110434
+NC_000932.1,Arabidopsis thaliana,SSC,110435,128214
+NC_000932.1,Arabidopsis thaliana,IRa,128215,154478

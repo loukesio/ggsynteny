@@ -40,7 +40,7 @@ test_that("GC calculation rejects ambiguous inputs and preserves feature identif
 })
 
 test_that("linear gene tracks follow shifted contigs and reordered bins", {
-  m <- demo_microsynteny_data()
+  m <- example_microsynteny_data()
   d <- m$features
   d$value <- rep(c(0, 50, 100, NA), length.out = nrow(d))
   p <- plot_microsynteny(m$features, m$links, bin_order = rev(unique(d$bin_id)),
@@ -93,7 +93,7 @@ test_that("macro tracks align with chromosome bounds in both layouts", {
 })
 
 test_that("circular gene tracks retain endpoints and support independent stacked scales", {
-  m <- demo_microsynteny_data()
+  m <- example_microsynteny_data()
   d <- m$features; d$value <- rep(c(25, 75), length.out = nrow(d))
   for (clockwise in c(TRUE, FALSE)) {
     p <- plot_circular_microsynteny(m$features, m$links, clockwise = clockwise)
@@ -123,7 +123,7 @@ test_that("circular gene tracks retain endpoints and support independent stacked
 })
 
 test_that("missing values, empty tracks, exclusions and invalid intervals are explicit", {
-  m <- demo_microsynteny_data()
+  m <- example_microsynteny_data()
   d <- m$features; d$value <- rep(NA_real_, nrow(d))
   p <- plot_circular_microsynteny(m$features, m$links)
   q <- p + syn_track(d, na.value = "orange")
@@ -155,14 +155,14 @@ test_that("missing values, empty tracks, exclusions and invalid intervals are ex
 })
 
 test_that("track scales can be replaced and legends can be hidden", {
-  m <- demo_microsynteny_data()
+  m <- example_microsynteny_data()
   d <- m$features; d$value <- 50
   p <- plot_microsynteny(m$features, m$links) + syn_track(d)
-  replacement <- scale_fill_syn_track(palette = c("red", "blue"), breaks = c(0, 50, 100))
+  replacement <- scale_fill_syn_heatmap(palette = c("red", "blue"), breaks = c(0, 50, 100))
   q <- suppressMessages(p + replacement)
   expect_equal(q$scales$get_scales("syn_track1")$breaks, c(0, 50, 100))
   expect_no_warning(track_test_render(q + ggplot2::theme(legend.position = "bottom")))
-  expect_error(scale_fill_syn_track(track = 1.5), "integer")
+  expect_error(scale_fill_syn_heatmap(track = 1.5), "integer")
   hidden <- plot_microsynteny(m$features, m$links) + syn_track(d, show.legend = FALSE)
   g <- track_test_render(hidden)
   guides <- g$grobs[grepl("guide-box", g$layout$name)]
@@ -171,7 +171,7 @@ test_that("track scales can be replaced and legends can be hidden", {
 
 test_that("track colors do not interfere with existing interactive layers", {
   skip_if_not_installed("ggiraph")
-  m <- demo_microsynteny_data()
+  m <- example_microsynteny_data()
   d <- m$features; d$value <- 50
   for (fun in list(plot_microsynteny, plot_circular_microsynteny)) {
     p <- fun(m$features, m$links, interactive = TRUE) + syn_track(d)

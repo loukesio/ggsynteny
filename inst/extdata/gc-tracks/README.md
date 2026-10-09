@@ -1,7 +1,7 @@
 # Simulated GC-track examples
 
 All DNA sequences in this directory are simulated. The gene positions and links
-reuse `demo_microsynteny_data()` as a layout template, with generic genome names
+reuse `example_microsynteny_data()` as a layout template, with generic genome names
 and gene identifiers. The GC measurements do not describe real organisms.
 
 Regenerate from the repository root with `Rscript data-raw/gc_tracks.R`.

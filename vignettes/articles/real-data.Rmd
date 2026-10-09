@@ -100,11 +100,11 @@ plot_microsynteny(genes, links,
 
 Without an `identity` column the ribbons fall back to a uniform colour via
 `ribbon_fill = "identity"`'s default; with identities (as in
-`demo_microsynteny_data()`) the ribbon darkness encodes percent identity,
+`example_microsynteny_data()`) the ribbon darkness encodes percent identity,
 and an ordered palette restyles the ramp:
 
 ```{r bacterial-identity, fig.height = 5}
-micro <- demo_microsynteny_data()
+micro <- example_microsynteny_data()
 
 plot_microsynteny(micro$features, micro$links,
                   bin_order = c("ZONMW-30", "ZONMW-20", "ZONMW-10"),
