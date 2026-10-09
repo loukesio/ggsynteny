@@ -36,6 +36,36 @@ ggsynteny_app <- function(host = "127.0.0.1", port = NULL,
     stop("Choose a supported input format.", call. = FALSE))
 }
 
+# One entry per required file: label, required/optional columns, bundled sample.
+.studio_files <- function(format) {
+  switch(format,
+    native = list(
+      list(key = "chromosomes", label = "Chromosome table", required = c("species", "chr", "size"),
+           optional = character(), sample = "chromosomes.tsv",
+           note = "One row per chromosome. Sizes and block coordinates share one unit, for example Mb."),
+      list(key = "blocks", label = "Block table",
+           required = c("species1", "chr1", "start1", "end1", "species2", "chr2", "start2", "end2"),
+           optional = "orientation (plus/minus)", sample = "synteny_blocks.tsv",
+           note = "One row per syntenic block between two chromosomes.")),
+    mcscanx = list(
+      list(key = "collinearity", label = "MCScanX collinearity output", required = ".collinearity file as written by MCScanX",
+           optional = character(), sample = "mcscanx_output.collinearity", note = "Alignment blocks with their anchor genes."),
+      list(key = "gff", label = "MCScanX gene positions (GFF)", required = c("chromosome", "gene ID", "start", "end"),
+           optional = character(), sample = "mcscanx_output.gff",
+           note = "Four tab-separated columns without a header, as MCScanX expects. Not a nine-column GFF3.")),
+    genespace = list(
+      list(key = "synhits", label = "GENESPACE synHits", required = c("genome1", "chr1", "start1", "end1", "genome2", "chr2", "start2", "end2"),
+           optional = character(), sample = "genespace_synHits.tsv", note = "The synHits table written by GENESPACE.")),
+    genes = list(
+      list(key = "features", label = "Gene table", required = c("bin_id", "seq_id", "start", "end", "strand", "feat_id", "name"),
+           optional = character(), sample = "circular_bacterial_features.tsv",
+           note = "One row per gene. bin_id is the genome, seq_id its contig, feat_id a unique ID, strand + or -."),
+      list(key = "links", label = "Homology links", required = c("feat_id_a", "feat_id_b"),
+           optional = "identity (0-100)", sample = "circular_bacterial_links.tsv",
+           note = "One row per homologous gene pair, by feat_id.")),
+    stop("Choose a supported input format.", call. = FALSE))
+}
+
 .studio_table <- function(path) {
   header <- readLines(path, n = 1, warn = FALSE)
   if (!length(header)) stop("The uploaded table is empty.", call. = FALSE)
@@ -54,7 +84,18 @@ ggsynteny_app <- function(host = "127.0.0.1", port = NULL,
   x
 }
 
-.studio_validate <- function(d) {
+.studio_validate <- function(d, strict = TRUE) {
+  skipped <- data.frame(table = character(), row = integer(), reason = character(), stringsAsFactors = FALSE)
+  # Original row numbers survive earlier drops, so the readout points at the file as uploaded.
+  origin <- list(first = seq_len(nrow(d$first)), second = seq_len(nrow(d$second)))
+  drop <- function(name, rows, reason) {
+    rows <- rows & !is.na(rows)
+    if (!any(rows)) return(invisible())
+    if (strict) stop(reason, call. = FALSE)
+    skipped <<- rbind(skipped, data.frame(table = name, row = origin[[name]][rows], reason = reason, stringsAsFactors = FALSE))
+    origin[[name]] <<- origin[[name]][!rows]
+    d[[name]] <<- d[[name]][!rows, , drop = FALSE]
+  }
   if (d$type == "macro") {
     d$first <- .studio_columns(d$first, c("species", "chr", "size"), "Chromosomes")
     d$second <- .studio_columns(d$second, c("species1", "chr1", "start1", "end1",
@@ -69,12 +110,16 @@ ggsynteny_app <- function(host = "127.0.0.1", port = NULL,
   }
   for (i in 1:2) {
     name <- c("first", "second")[i]
-    for (key in ids[[i]]) d[[name]][[key]] <- .circ_text(d[[name]][[key]], key)
+    for (key in ids[[i]]) {
+      x <- as.character(d[[name]][[key]])
+      drop(name, is.na(x) | !nzchar(x), paste(key, "is empty"))
+      d[[name]][[key]] <- as.character(d[[name]][[key]])
+    }
     for (key in numeric[[i]]) {
       value <- suppressWarnings(as.numeric(d[[name]][[key]]))
       allowed_na <- key == "identity" & (is.na(d[[name]][[key]]) | d[[name]][[key]] %in% c("", "NA"))
-      if (any(!is.finite(value) & !allowed_na)) stop(key, " must contain valid numeric values.", call. = FALSE)
       d[[name]][[key]] <- value
+      drop(name, !is.finite(value) & !allowed_na, paste(key, "must contain valid numeric values."))
     }
   }
   if (!nrow(d$first)) stop("No chromosome or gene records were found.", call. = FALSE)
@@ -84,26 +129,31 @@ ggsynteny_app <- function(host = "127.0.0.1", port = NULL,
     if (anyDuplicated(keys) || any(a$size <= 0))
       stop("Chromosome keys must be unique and lengths positive.", call. = FALSE)
     for (side in 1:2) {
+      b <- d$second
       index <- match(.circ_key(b[[paste0("species", side)]], b[[paste0("chr", side)]]), keys)
-      if (anyNA(index)) stop("A block references an unknown chromosome.", call. = FALSE)
+      drop("second", is.na(index), "A block references an unknown chromosome.")
+      b <- d$second; index <- index[!is.na(index)]
       start <- b[[paste0("start", side)]]; end <- b[[paste0("end", side)]]
-      if (any(start < 0 | end <= start | end > a$size[index]))
-        stop("Block intervals must have positive widths within chromosome bounds.", call. = FALSE)
+      drop("second", start < 0 | end <= start | end > a$size[index],
+           "Block intervals must have positive widths within chromosome bounds.")
     }
   } else {
     if (anyDuplicated(a$feat_id)) stop("Gene feat_id values must be unique across all bins and contigs.", call. = FALSE)
-    if (any(a$start < 0 | a$end <= a$start) || any(!a$strand %in% c("+", "-")))
-      stop("Genes need positive-width intervals and strand '+' or '-'.", call. = FALSE)
-    if (any(!b$feat_id_a %in% a$feat_id | !b$feat_id_b %in% a$feat_id))
-      stop("A link references an unknown gene ID.", call. = FALSE)
-    if ("identity" %in% names(b) && any(b$identity < 0 | b$identity > 100, na.rm = TRUE))
-      stop("Identity must be a percentage from 0 to 100.", call. = FALSE)
+    drop("first", a$start < 0 | a$end <= a$start | !a$strand %in% c("+", "-"),
+         "Genes need positive-width intervals and strand '+' or '-'.")
+    a <- d$first; b <- d$second
+    drop("second", !b$feat_id_a %in% a$feat_id | !b$feat_id_b %in% a$feat_id, "A link references an unknown gene ID.")
+    b <- d$second
+    if ("identity" %in% names(b))
+      drop("second", !is.na(b$identity) & (b$identity < 0 | b$identity > 100), "Identity must be a percentage from 0 to 100.")
   }
-  d$organisms <- unique(a[[if (d$type == "macro") "species" else "bin_id"]])
+  if (!nrow(d$first)) stop("No valid chromosome or gene records remain.", call. = FALSE)
+  d$organisms <- unique(d$first[[if (d$type == "macro") "species" else "bin_id"]])
+  d$skipped <- skipped
   d
 }
 
-.studio_load <- function(format, demo = TRUE, paths = list()) {
+.studio_load <- function(format, demo = TRUE, paths = list(), strict = TRUE) {
   .studio_schema(format)
   ext <- function(name) system.file("extdata", name, package = "ggsynteny")
   if (demo && format == "native") {
@@ -137,11 +187,11 @@ ggsynteny_app <- function(host = "127.0.0.1", port = NULL,
       syn <- list(chromosomes = .studio_table(paths[[1]]), blocks = .studio_table(paths[[2]]))
     } else {
       return(.studio_validate(list(type = "micro", first = .studio_table(paths[[1]]),
-                                   second = .studio_table(paths[[2]]), format = format)))
+                                   second = .studio_table(paths[[2]]), format = format), strict))
     }
   }
   .studio_validate(list(type = "macro", first = as.data.frame(syn$chromosomes),
-                        second = as.data.frame(syn$blocks), format = format))
+                        second = as.data.frame(syn$blocks), format = format), strict)
 }
 
 .studio_select <- function(d, organisms, limit = 1000L, layout = "circular") {
@@ -169,12 +219,15 @@ ggsynteny_app <- function(host = "127.0.0.1", port = NULL,
 
 .studio_plot <- function(d, layout = "circular", palette = "casa_natal", alpha = 0.35,
                           labels = TRUE, orientation = FALSE, identity = FALSE,
-                          anchor = "body", gap = 10, title = NULL, interactive = FALSE) {
+                          anchor = "body", gap = 10, title = NULL, interactive = FALSE,
+                          ribbon_by = "species_pair") {
   circular <- identical(layout, "circular")
   if (d$type == "macro") {
+    by_column <- circular && !ribbon_by %in% c("species_pair", "source_chr") && ribbon_by %in% names(d$second)
     args <- list(syn_data = list(chromosomes = d$first, blocks = d$second),
                  species_order = d$organisms, palette = palette, chr_fill = "per_species",
-                 ribbon_fill = "species_pair", ribbon_alpha = alpha, title = title, interactive = interactive,
+                 ribbon_fill = if (by_column) ribbon_by else if (ribbon_by == "source_chr") "source_chr" else "species_pair",
+                 ribbon_alpha = alpha, title = title, interactive = interactive,
                  label_size = if (labels) 2.5 else 0)
     args[[if (circular) "show_orientation" else "show_inversions"]] <- orientation
     if (circular) args$group_gap <- gap
@@ -209,8 +262,11 @@ ggsynteny_app <- function(host = "127.0.0.1", port = NULL,
   if (d$type == "macro") {
     start <- c('chromosomes <- read.delim("chromosomes.tsv", colClasses = c(species = "character", chr = "character"))',
                'blocks <- read.delim("blocks.tsv", colClasses = c(species1 = "character", chr1 = "character", species2 = "character", chr2 = "character"))')
+    ribbon_by <- settings$ribbon_by %||% "species_pair"
+    by_column <- settings$layout == "circular" && !ribbon_by %in% c("species_pair", "source_chr") && ribbon_by %in% names(d$second)
     args <- list(syn_data = "list(chromosomes = chromosomes, blocks = blocks)",
-                 species_order = quote_r(d$organisms), chr_fill = '"per_species"', ribbon_fill = '"species_pair"')
+                 species_order = quote_r(d$organisms), chr_fill = '"per_species"',
+                 ribbon_fill = quote_r(if (by_column) ribbon_by else if (ribbon_by == "source_chr") "source_chr" else "species_pair"))
     args[[if (settings$layout == "circular") "show_orientation" else "show_inversions"]] <- quote_r(settings$orientation)
     args$label_size <- quote_r(if (settings$labels) 2.5 else 0)
     fun <- if (settings$layout == "circular") "plot_circular_synteny" else "plot_synteny"

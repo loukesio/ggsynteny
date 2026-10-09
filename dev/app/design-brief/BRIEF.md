@@ -1,3 +1,5 @@
+> Implemented on 10 October 2026 from Claude Design's handout (`Handout.dc.html`, seven pages: four steps, tokens). The screenshots below show the app *before* that work.
+
 # ggsynteny Studio: design brief
 
 A hand-off package for a visual and interaction redesign of ggsynteny Studio,

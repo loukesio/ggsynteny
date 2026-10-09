@@ -191,3 +191,20 @@ stacked on the Synteny tab's current figure. Controls map one-to-one onto
 `syn_track_bar()` and `syn_axis()`; downloads are PDF, PNG, one TSV per
 track (`track1.tsv`, ...) and `reproduce-tracks.R`, which reads those TSVs.
 The hosted Studio on Posit Connect Cloud must be redeployed to show it.
+
+## Four-step shell (10 October 2026)
+
+`R/studio_shiny.R` is the shell: `.studio_ui()` (top bar with stepper,
+hidden tabset with Start / Data / Figure / Export), `.studio_server()` with
+`state$job`, `state$mode`, `state$step`. Jobs: `synteny`, `tracks`,
+`reference`. The tracks job reuses the synteny data step and `current_plot()`
+as the base figure; `.tracks_server()` (`R/studio_tracks.R`) returns
+`plot`, `tracks` (active list in stacking order) and keeps rows in a
+`reactiveValues` list keyed by uid, registering per-row observers as rows
+appear. The reference job's inputs keep the `reference_comparison-*`
+namespace: `.reference_data_ui()` for the data step and
+`.reference_figure_ui()` for the figure step; `.reference_server()` returns
+`data`, `plot`, `code`, `samples`, `variants`, `identity`, `save`, `summary`.
+Styles live in `inst/shiny/www/tokens.css` (the handout's tokens);
+`reference.css` keeps the ring's own component classes. The brief and
+screenshots that drove this are in `dev/app/design-brief/`.

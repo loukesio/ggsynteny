@@ -51,8 +51,9 @@ test_that("reference hover view builds and reports exact positions", {
 
 test_that("reference app filters, selects events and clears invalid uploads", {
   skip_if_not_installed("shiny")
-  shiny::testServer(.reference_server, args = list(id = "test"), {
-    session$setInputs(source = "demo", length = 4.8e6, reference = "Ref", title = "", palette = "minou", types = .reference_types)
+  example <- shiny::reactiveVal(TRUE)
+  shiny::testServer(.reference_server, args = list(id = "test", example = example), {
+    session$setInputs(length = 4.8e6, reference = "Ref", title = "", palette = "minou", types = .reference_types)
     session$setInputs(samples = "Genome A")
     expect_equal(nrow(selected()), 4)
     expect_s3_class(plot(), "ggplot")
@@ -66,8 +67,9 @@ test_that("reference app filters, selects events and clears invalid uploads", {
     expect_equal(nrow(selected()), 0)
     expect_null(selected_event())
     expect_silent(ggplot2::ggplot_build(plot()))
-    session$setInputs(source = "upload")
+    example(FALSE); session$flushReact()
     expect_error(selected(), "Upload")
+    expect_match(output$readout$html, "Waiting")
   })
 })
 
@@ -132,8 +134,8 @@ test_that("uploaded identity tables are used and invalid scores clear the view",
   utils::write.table(data.frame(sample = "A", type = "SNP", start = 20, end = 21), variants_file, sep = "\t", row.names = FALSE)
   utils::write.table(data.frame(sample = "A", start = 0, end = 100, identity = 97.5), identity_file, sep = "\t", row.names = FALSE)
   utils::write.table(data.frame(sample = "A", start = 0, end = 100, identity = 150), invalid_file, sep = "\t", row.names = FALSE)
-  shiny::testServer(.reference_server, args = list(id = "test"), {
-    session$setInputs(source = "upload", length = 1000, reference = "Ref", title = "", palette = "minou", types = .reference_types,
+  shiny::testServer(.reference_server, args = list(id = "test", example = shiny::reactiveVal(FALSE)), {
+    session$setInputs(length = 1000, reference = "Ref", title = "", palette = "minou", types = .reference_types,
       show_identity = TRUE, file = list(datapath = variants_file), identity_file = list(datapath = identity_file))
     session$setInputs(samples = "A")
     expect_equal(identity_selected()$identity, 97.5)

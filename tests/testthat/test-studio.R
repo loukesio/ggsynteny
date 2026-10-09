@@ -145,30 +145,54 @@ test_that("downloaded R scripts reproduce the displayed records", {
   }
 })
 
-test_that("app clears invalid data when the source or format changes", {
+test_that("the shell walks a job through its steps and reports skipped rows", {
   skip_if_not_installed("shiny")
+  grDevices::pdf(NULL); on.exit(grDevices::dev.off())
   shiny::testServer(.studio_server, {
-    session$setInputs(format = "genes", source = "demo", organisms = c("ZONMW-30", "ZONMW-20", "HI1"),
-                     limit = 1000, layout = "circular", palette = "casa_natal", alpha = 0.35,
-                     labels = TRUE, gap = 10, title = "")
+    expect_null(job())
+    session$setInputs(start_synteny_example = 1)
+    expect_equal(job(), "synteny"); expect_true(example()); expect_equal(state$step, "data")
+    session$setInputs(format = "genes", layout = "circular", palette = "casa_natal", alpha = 0.35,
+                      labels = TRUE, gap = 10, limit = 1000, title = "")
     expect_equal(nrow(dataset()$first), 21)
+    expect_true(ready())
     expect_s3_class(current_plot(), "ggplot")
+    expect_equal(selected_data()$organisms, c("ZONMW-30", "ZONMW-20", "HI1"))
+    session$setInputs(organisms = c("ZONMW-30", "ZONMW-20"))
+    expect_equal(nrow(selected_data()$first), 12)
+    session$setInputs(to_figure = 1); expect_equal(state$step, "figure")
+    session$setInputs(to_export = 1); expect_equal(state$step, "export")
+    expect_match(script(), "plot_circular_microsynteny", fixed = TRUE)
     if (requireNamespace("ggiraph", quietly = TRUE)) {
       session$setInputs(interactive = TRUE)
       expect_s3_class(current_interactive_plot(), "ggplot")
-      expect_false(inherits(current_plot()$layers[[1]]$geom, "GeomInteractivePolygon"))
       session$setInputs(interactive = FALSE)
     }
-    session$setInputs(source = "upload")
-    expect_match(dataset()$problem, "Upload")
-    expect_error(selected_data(), "Upload")
-    if (requireNamespace("ggiraph", quietly = TRUE)) {
-      session$setInputs(interactive = TRUE)
-      expect_match(output$interactive_ui$html, "Upload")
-      session$setInputs(interactive = FALSE)
-    }
-    session$setInputs(format = "mcscanx", source = "demo")
-    expect_equal(dataset()$type, "macro")
-    expect_true("orientation" %in% names(dataset()$second))
+    # Upload mode: nothing until files arrive, then lenient validation reports skipped rows.
+    session$setInputs(go_home = 1, start_synteny_upload = 1)
+    expect_false(example()); expect_match(dataset()$problem, "Upload")
+    expect_false(ready())
+    genes <- read.delim(system.file("extdata", "circular_bacterial_features.tsv", package = "ggsynteny"))
+    links <- read.delim(system.file("extdata", "circular_bacterial_links.tsv", package = "ggsynteny"))
+    links$feat_id_a[1] <- "missing"
+    f1 <- tempfile(fileext = ".tsv"); f2 <- tempfile(fileext = ".tsv")
+    write.table(genes, f1, sep = "\t", row.names = FALSE, quote = FALSE)
+    write.table(links, f2, sep = "\t", row.names = FALSE, quote = FALSE)
+    session$setInputs(file_genes_1 = list(datapath = f1), file_genes_2 = list(datapath = f2))
+    d <- dataset()
+    expect_null(d$problem)
+    expect_equal(nrow(d$skipped), 1)
+    expect_equal(d$skipped$reason, "A link references an unknown gene ID.")
+    expect_equal(nrow(d$second), 8)
+    expect_true(ready())
+    # Tracks job on the chloroplast example drives the same figure through the tracks module.
+    session$setInputs(go_home = 1, start_tracks_example = 1)
+    expect_equal(dataset()$first$chr, "plastid")
+    expect_equal(settings()$ribbon_by, "class")
+    expect_equal(length(attr(figure(), "synteny_tracks")), 5)
+    # Reference job.
+    session$setInputs(go_home = 1, start_reference_example = 1)
+    expect_true(ready())
+    expect_match(script(), "plot_reference_comparison", fixed = TRUE)
   })
 })
