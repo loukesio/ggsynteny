@@ -590,7 +590,7 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"shiny"</span><span class="op">)</span>   <span class="co"># optional; needed only for the app</span></span>
 <span><span class="fu"><a href="reference/ggsynteny_app.html">ggsynteny_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-studio.png" alt="ggsynteny Studio with a three-bacterium circular preview, format selector, ltc palette controls and data export buttons" width="100%"></p>
-<p>Select the software or table format, upload its files, and see the data and plot preview. Switch between the four plots, choose a palette, reorder or subset genomes, adjust ribbons, turn on the interactive switch for tooltips and zoom, and download the figure (PDF or PNG), the displayed tables, pair counts, or an R script that recreates the figure.</p>
+<p>Select the software or table format, upload its files, and see the data and plot preview. Switch between the four plots, choose a palette, reorder or subset genomes, adjust ribbons, turn on the interactive switch for tooltips and zoom, and download the figure (PDF or PNG), the displayed tables, pair counts, or an R script that recreates the figure. The <strong>Annotation tracks</strong> tab stacks up to three uploaded interval tables and a coordinate axis on that figure, each drawn as feature boxes, a heatmap, a line or bars with the same options as the <code>syn_track_*()</code> wrappers, or starts from the chloroplast genome ring as a worked example.</p>
 <table class="table">
 <colgroup>
 <col width="33%">
@@ -624,6 +624,12 @@
 <td>Gene / link tables</td>
 <td>Gene features and homology links, TSV or CSV</td>
 <td>Linear and circular microsynteny</td>
+</tr>
+<tr>
+<td>Interval tables (Annotation tracks tab)</td>
+<td>
+<code>start</code>, <code>end</code>, plus a <code>value</code> or a category column</td>
+<td>Tracks and an axis on any of the above</td>
 </tr>
 </tbody>
 </table>

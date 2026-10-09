@@ -227,8 +227,8 @@ missing measurements.
 Add tracks before replacing coordinates. Faceting and coordinate
 transforms are not supported for track placement. All track types are
 static even on interactive plots; existing gene and ribbon hover
-information still works. Studio does not yet provide a track upload
-control.
+information still works. Studio’s **Annotation tracks** tab uploads
+interval tables, maps the same options, and downloads the R script.
 
 ## Feature tracks, coordinate axes and a genome ring
 

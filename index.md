@@ -464,6 +464,11 @@ and plot preview. Switch between the four plots, choose a palette,
 reorder or subset genomes, adjust ribbons, turn on the interactive
 switch for tooltips and zoom, and download the figure (PDF or PNG), the
 displayed tables, pair counts, or an R script that recreates the figure.
+The **Annotation tracks** tab stacks up to three uploaded interval
+tables and a coordinate axis on that figure, each drawn as feature
+boxes, a heatmap, a line or bars with the same options as the
+`syn_track_*()` wrappers, or starts from the chloroplast genome ring as
+a worked example.
 
 | Results from | Upload | Views |
 |----|----|----|
@@ -471,6 +476,7 @@ displayed tables, pair counts, or an R script that recreates the figure.
 | MCScanX | `.collinearity` and its gene-position GFF | Linear and circular chromosome synteny |
 | GENESPACE | `synHits` TSV | Linear and circular chromosome synteny |
 | Gene / link tables | Gene features and homology links, TSV or CSV | Linear and circular microsynteny |
+| Interval tables (Annotation tracks tab) | `start`, `end`, plus a `value` or a category column | Tracks and an axis on any of the above |
 
 Every format includes example data (the MCScanX and GENESPACE previews
 are explicitly simulated). Uploaded tables are validated; no identity
