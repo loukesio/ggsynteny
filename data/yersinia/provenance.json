@@ -1,0 +1,53 @@
+{
+  "sequences": [
+    {
+      "label": "Y. pseudotuberculosis",
+      "accession": "NC_006155.1",
+      "strain": "IP 32953",
+      "length_bp": 4744671,
+      "sequence_sha256": "9ad9012dd7e96d14c2fa45cec6402aba0dc279692c05981ed361591727942ca8",
+      "source_url": "https://www.ncbi.nlm.nih.gov/nuccore/NC_006155.1"
+    },
+    {
+      "label": "Y. pestis CO92",
+      "accession": "NC_003143.1",
+      "strain": "CO92",
+      "length_bp": 4653728,
+      "sequence_sha256": "cceb8e86f617a0ecbd9ff4aa3e6284ca9b42e514d86a3ef0e1c50afef20ad61f",
+      "source_url": "https://www.ncbi.nlm.nih.gov/nuccore/NC_003143.1"
+    },
+    {
+      "label": "Y. pestis KIM10+",
+      "accession": "NC_004088.1",
+      "strain": "KIM10+",
+      "length_bp": 4600755,
+      "sequence_sha256": "9f5815c1cff768d64265a4a5d8215c057bce8d11280b2d931b0c76ef5adb1601",
+      "source_url": "https://www.ncbi.nlm.nih.gov/nuccore/NC_004088.1"
+    }
+  ],
+  "pairs": [
+    {
+      "pair": "Y. pseudotuberculosis vs Y. pestis CO92",
+      "blocks": 161,
+      "inverted": 62
+    },
+    {
+      "pair": "Y. pseudotuberculosis vs Y. pestis KIM10+",
+      "blocks": 162,
+      "inverted": 92
+    },
+    {
+      "pair": "Y. pestis CO92 vs Y. pestis KIM10+",
+      "blocks": 81,
+      "inverted": 57
+    }
+  ],
+  "total_blocks": 404,
+  "filters": {
+    "min_alignment_bp": 10000,
+    "min_identity_percent": 90.0,
+    "evalue": "1e-20",
+    "overlap_rule": "discard if >50% of a hit overlaps an accepted hit on either genome"
+  },
+  "blast_version": "blastn: 2.16.0+"
+}

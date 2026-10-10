@@ -15,14 +15,17 @@ gallery/   one standalone interactive page
 
 | Application | Data | What it shows |
 |---|---|---|
+| [Plague and its ancestor](#plague-and-its-ancestor) | three deposited *Yersinia* genomes, new megablast alignments | 404 blocks, 211 of them reversed: a genome rearranged against the one it descends from |
 | [Four *Bartonella* genomes](#four-bartonella-genomes) | NCBI RefSeq records; Mauve backbone from genoPlotR (GPL-2, retained) | whole-genome blocks with inversions, and the `rpoB` neighbourhood with protein links |
 | [Three hospital plasmids](#three-hospital-associated-plasmids) | Conlan et al. 2014 complete sequences, new BLAST alignments | shared backbone and rearrangement among carbapenemase plasmids in three hosts |
 | [Two malaria vectors](#two-anopheles-malaria-vectors) | Jiang et al. 2014, 380 published synteny blocks | chromosome-arm block order; coordinates are block ranks, not base pairs |
 | [A chloroplast genome ring](#a-chloroplast-genome-ring) | *Arabidopsis thaliana* plastid, RefSeq NC_000932.1 | regions, kb ticks, genes by strand and function, GC content and skew, repeat links |
 
+<img src="figures/yersinia-linear.png" alt="Yersinia pseudotuberculosis and two Y. pestis strains, 404 alignment blocks with crossed ribbons marking reversed orientation" width="100%" />
+
 <p float="left">
+  <img src="figures/yersinia-circular.png" alt="The same three Yersinia genomes as a chord diagram" width="49%" />
   <img src="figures/bartonella-macro-circular.png" alt="Circular comparison of four Bartonella genomes" width="49%" />
-  <img src="figures/plasmids-macro-circular.png" alt="Circular comparison of three related carbapenemase plasmids" width="49%" />
 </p>
 
 **View:** [all eleven bacterial and vector views as one PDF](figures/public-health-examples.pdf).
@@ -32,6 +35,38 @@ zoom, drag to pan. GitHub's file viewer does not execute HTML widgets.
 
 Gene links are computed from protein alignments; matching annotation names
 alone never create a link. All figures use `palette = "casa_natal"`.
+
+## Plague and its ancestor
+
+*Yersinia pestis* descends from the enteric pathogen *Yersinia
+pseudotuberculosis*, and its genome is famously shuffled relative to that
+ancestor. Three deposited complete genomes, aligned pairwise with megablast,
+give **404 blocks of at least 10 kb, 211 of them in reversed orientation**.
+Every crossed ribbon below is one of those reversals.
+
+![Plague rearranged the genome it inherited](figures/yersinia-linear.png)
+
+| Pair | Blocks | Reversed |
+|---|---:|---:|
+| *Y. pseudotuberculosis* vs *Y. pestis* CO92 | 161 | 62 |
+| *Y. pseudotuberculosis* vs *Y. pestis* KIM10+ | 162 | 92 |
+| *Y. pestis* CO92 vs *Y. pestis* KIM10+ | 81 | 57 |
+
+The two plague strains differ from each other almost as much as each differs
+from the ancestor, which is what the dense crossing in the lower panel shows.
+The same blocks as a chord diagram, where `show_orientation = TRUE` twists
+each reversed ribbon:
+
+![The same comparison around a circle](figures/yersinia-circular.png)
+
+[The tables, checksums and method](data/yersinia/README.md) ·
+[rebuild](scripts/prepare_yersinia.py) · [redraw](scripts/yersinia_plots.R) ·
+PDF versions of [the linear](figures/yersinia-linear.pdf) and
+[the circular](figures/yersinia-circular.pdf) views.
+
+These are local alignments between deposited sequences. A reversed block
+means the records align in opposite orientation; the counts are not an
+inference of how many inversion events happened, in what order, or when.
 
 ## Four Bartonella genomes
 
