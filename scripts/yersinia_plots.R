@@ -10,7 +10,7 @@ inverted <- sum(syn$blocks$orientation == "minus")
 subtitle <- paste(nrow(syn$blocks), "alignment blocks of at least 10 kb ·",
                   inverted, "in reversed orientation · lengths in kb")
 
-linear <- plot_synteny(syn, order, palette = "casa_natal", chr_fill = "per_species",
+linear <- plot_synteny(syn, order, palette = "minou", chr_fill = "per_species",
                        ribbon_fill = "species_pair", show_inversions = TRUE,
                        ribbon_alpha = 0.3, tier_spacing = 20) +
   scale_x_continuous(expand = expansion(mult = c(0.19, 0.02))) +
@@ -26,7 +26,7 @@ linear <- plot_synteny(syn, order, palette = "casa_natal", chr_fill = "per_speci
 ggsave("figures/yersinia-linear.png", linear, width = 13, height = 7.5, dpi = 150, bg = "white")
 ggsave("figures/yersinia-linear.pdf", linear, width = 13, height = 7.5)
 
-circular <- plot_circular_synteny(syn, order, palette = "casa_natal", chr_fill = "per_species",
+circular <- plot_circular_synteny(syn, order, palette = "minou", chr_fill = "per_species",
                                   ribbon_fill = "species_pair", show_orientation = TRUE,
                                   ribbon_alpha = 0.28, group_gap = 8, label_size = 0) +
   labs(title = "Plague rearranged the genome it inherited", subtitle = subtitle) +

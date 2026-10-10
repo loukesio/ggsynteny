@@ -19,7 +19,7 @@ limit <- ceiling(max(abs(skew$value), na.rm = TRUE) * 100) / 100
 gc_limits <- c(floor(min(gc$value, na.rm = TRUE)), ceiling(max(gc$value, na.rm = TRUE)))
 family_colours <- c(Transposase = "#C2452D", Integrase = "#E8A33D", `Recombinase or resolvase` = "#4F7C8A")
 
-ring <- plot_circular_synteny(syn, pair, palette = "casa_natal", chr_fill = "per_species",
+ring <- plot_circular_synteny(syn, pair, palette = "minou", chr_fill = "per_species",
                               ribbon_fill = "species_pair", ribbon_alpha = 0.22,
                               show_orientation = TRUE, group_gap = 14,
                               label_size = 0, species_label_size = 4, track_width = 0.03) +

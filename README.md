@@ -32,7 +32,8 @@ figures/   every rendered view, PNG and PDF
 installed; it is generated, so it is not committed here.
 
 Gene links are computed from protein alignments; matching annotation names
-alone never create a link. All figures use `palette = "casa_natal"`.
+alone never create a link. The *Yersinia* figures use `palette = "minou"`;
+the Bartonella and Anopheles figures use `casa_natal`.
 
 ## Plague and its ancestor
 
