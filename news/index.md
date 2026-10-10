@@ -2,6 +2,22 @@
 
 ## ggsynteny (development version)
 
+- Rebuild Studio as one shell in four steps, following the 10 October
+  design handout. A start screen presents the three jobs with examples;
+  the data step pairs every drop zone with its column list and a sample
+  download and reports what was read, including skipped rows with row
+  and reason; the figure step groups controls by what they change and
+  names each ggsynteny argument; the export step offers PDF at journal
+  widths, PNG, the tables drawn and the R script on the page. Tracks are
+  a reorderable list. One `tokens.css` replaces the two previous style
+  sheets. `.studio_validate(strict = FALSE)` skips bad rows instead of
+  stopping.
+
+- [`plot_circular_synteny()`](https://loukesio.github.io/ggsynteny/reference/plot_circular_synteny.md)
+  ribbons can be coloured by a `blocks` column from Studio
+  (`ribbon_fill = "<column>"`), and the reference comparison identity
+  shading can use `identity_palette` from Studio.
+
 - Studio gains an **Annotation tracks** tab: upload up to three interval
   tables, draw each as feature boxes, a heatmap, a line or bars with the
   `syn_track_*()` options (colour column, strand split or arrows,

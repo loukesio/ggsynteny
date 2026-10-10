@@ -455,39 +455,51 @@ install.packages("shiny")   # optional; needed only for the app
 ggsynteny_app()
 ```
 
-![ggsynteny Studio with a three-bacterium circular preview, format
-selector, ltc palette controls and data export
-buttons](reference/figures/README-studio.png)
+Studio is the package without the code: the same four plots, the
+annotation tracks and the reference comparison, in four steps.
 
-Select the software or table format, upload its files, and see the data
-and plot preview. Switch between the four plots, choose a palette,
-reorder or subset genomes, adjust ribbons, turn on the interactive
-switch for tooltips and zoom, and download the figure (PDF or PNG), the
-displayed tables, pair counts, or an R script that recreates the figure.
-The **Annotation tracks** tab stacks up to three uploaded interval
-tables and a coordinate axis on that figure, each drawn as feature
-boxes, a heatmap, a line or bars with the same options as the
-`syn_track_*()` wrappers, or starts from the chloroplast genome ring as
-a worked example.
+![ggsynteny Studio start screen: three job cards, each with a figure,
+what you bring, what you get, and buttons to upload data or start from
+an example](reference/figures/README-studio-start.png)
 
-| Results from | Upload | Views |
+1.  **Start.** Pick a job: synteny, annotation tracks or reference
+    comparison. Each card says what you bring and what you get, and
+    offers an example.
+2.  **Data.** One drop zone per required file, beside its column list
+    and a sample file to download. The readout reports what was read:
+    counts, skipped rows with their row number and reason, and the first
+    rows as parsed. Continue unlocks when every required file parses.
+3.  **Figure.** The figure stays on screen. Controls are grouped by what
+    they change (layout, colours, ribbons, labels) and each names the
+    ggsynteny argument it sets. For the tracks job, tracks are a list
+    you add to by dropping an interval table, switch on and off, reorder
+    and edit in place; list order is stacking order.
+4.  **Export.** PDF at journal column widths, PNG with dpi and
+    background, the tables actually drawn, and the R script that
+    recreates the figure, shown on the page.
+
+![ggsynteny Studio figure step: grouped controls on the left naming
+their ggsynteny arguments, the circular microsynteny figure on the
+right](reference/figures/README-studio.png)
+
+| Job | Upload | Figure |
 |----|----|----|
-| Native chromosome tables | Chromosome sizes and syntenic blocks, TSV or CSV | Linear and circular chromosome synteny |
-| MCScanX | `.collinearity` and its gene-position GFF | Linear and circular chromosome synteny |
-| GENESPACE | `synHits` TSV | Linear and circular chromosome synteny |
-| Gene / link tables | Gene features and homology links, TSV or CSV | Linear and circular microsynteny |
-| Interval tables (Annotation tracks tab) | `start`, `end`, plus a `value` or a category column | Tracks and an axis on any of the above |
+| Synteny | Chromosome + block tables, MCScanX, GENESPACE, or gene + link tables (TSV or CSV) | Linear or circular, chromosome-level or gene-level |
+| Annotation tracks | The figure’s tables, plus interval tables with `start`, `end` and a `value` or category column | Tracks and an axis stacked inside or outside the chromosome band |
+| Reference comparison | Variant calls and optional identity windows on one reference | Reference-centred rings with a locus view |
 
-Every format includes example data (the MCScanX and GENESPACE previews
-are explicitly simulated). Uploaded tables are validated; no identity
-scores or missing links are inferred, and the app reads existing results
-rather than running MCScanX, GENESPACE or an aligner. To host your own
-copy, see the [Posit Connect Cloud
+Every job includes example data; the MCScanX and GENESPACE examples are
+explicitly simulated, the chloroplast and rice-sorghum data are
+published. Uploaded rows that cannot be drawn (an unknown chromosome, a
+link to a missing gene, an interval past a sequence end) are skipped and
+listed, never silently dropped. The app reads existing results and does
+not run MCScanX, GENESPACE or an aligner. To host your own copy, see the
+[Posit Connect Cloud
 guide](https://loukesio.github.io/ggsynteny/deploy/posit-connect-cloud/README.md).
 
 \### Reference comparison
 
-Studio’s **Reference comparison** tab draws a different kind of figure:
+Studio’s **Reference comparison** job draws a different kind of figure:
 one reference sequence in the centre and each comparison genome as an
 outer ring in the reference’s coordinates, showing variant calls
 (insertions, deletions, duplications, inversions, SNPs) and alignment

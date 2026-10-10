@@ -589,8 +589,19 @@
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"shiny"</span><span class="op">)</span>   <span class="co"># optional; needed only for the app</span></span>
 <span><span class="fu"><a href="reference/ggsynteny_app.html">ggsynteny_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-studio.png" alt="ggsynteny Studio with a three-bacterium circular preview, format selector, ltc palette controls and data export buttons" width="100%"></p>
-<p>Select the software or table format, upload its files, and see the data and plot preview. Switch between the four plots, choose a palette, reorder or subset genomes, adjust ribbons, turn on the interactive switch for tooltips and zoom, and download the figure (PDF or PNG), the displayed tables, pair counts, or an R script that recreates the figure. The <strong>Annotation tracks</strong> tab stacks up to three uploaded interval tables and a coordinate axis on that figure, each drawn as feature boxes, a heatmap, a line or bars with the same options as the <code>syn_track_*()</code> wrappers, or starts from the chloroplast genome ring as a worked example.</p>
+<p>Studio is the package without the code: the same four plots, the annotation tracks and the reference comparison, in four steps.</p>
+<p><img src="reference/figures/README-studio-start.png" alt="ggsynteny Studio start screen: three job cards, each with a figure, what you bring, what you get, and buttons to upload data or start from an example" width="100%"></p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Start.</strong> Pick a job: synteny, annotation tracks or reference comparison. Each card says what you bring and what you get, and offers an example.</li>
+<li>
+<strong>Data.</strong> One drop zone per required file, beside its column list and a sample file to download. The readout reports what was read: counts, skipped rows with their row number and reason, and the first rows as parsed. Continue unlocks when every required file parses.</li>
+<li>
+<strong>Figure.</strong> The figure stays on screen. Controls are grouped by what they change (layout, colours, ribbons, labels) and each names the ggsynteny argument it sets. For the tracks job, tracks are a list you add to by dropping an interval table, switch on and off, reorder and edit in place; list order is stacking order.</li>
+<li>
+<strong>Export.</strong> PDF at journal column widths, PNG with dpi and background, the tables actually drawn, and the R script that recreates the figure, shown on the page.</li>
+</ol>
+<p><img src="reference/figures/README-studio.png" alt="ggsynteny Studio figure step: grouped controls on the left naming their ggsynteny arguments, the circular microsynteny figure on the right" width="100%"></p>
 <table class="table">
 <colgroup>
 <col width="33%">
@@ -598,44 +609,31 @@
 <col width="33%">
 </colgroup>
 <thead><tr>
-<th>Results from</th>
+<th>Job</th>
 <th>Upload</th>
-<th>Views</th>
+<th>Figure</th>
 </tr></thead>
 <tbody>
 <tr>
-<td>Native chromosome tables</td>
-<td>Chromosome sizes and syntenic blocks, TSV or CSV</td>
-<td>Linear and circular chromosome synteny</td>
+<td>Synteny</td>
+<td>Chromosome + block tables, MCScanX, GENESPACE, or gene + link tables (TSV or CSV)</td>
+<td>Linear or circular, chromosome-level or gene-level</td>
 </tr>
 <tr>
-<td>MCScanX</td>
-<td>
-<code>.collinearity</code> and its gene-position GFF</td>
-<td>Linear and circular chromosome synteny</td>
+<td>Annotation tracks</td>
+<td>The figure’s tables, plus interval tables with <code>start</code>, <code>end</code> and a <code>value</code> or category column</td>
+<td>Tracks and an axis stacked inside or outside the chromosome band</td>
 </tr>
 <tr>
-<td>GENESPACE</td>
-<td>
-<code>synHits</code> TSV</td>
-<td>Linear and circular chromosome synteny</td>
-</tr>
-<tr>
-<td>Gene / link tables</td>
-<td>Gene features and homology links, TSV or CSV</td>
-<td>Linear and circular microsynteny</td>
-</tr>
-<tr>
-<td>Interval tables (Annotation tracks tab)</td>
-<td>
-<code>start</code>, <code>end</code>, plus a <code>value</code> or a category column</td>
-<td>Tracks and an axis on any of the above</td>
+<td>Reference comparison</td>
+<td>Variant calls and optional identity windows on one reference</td>
+<td>Reference-centred rings with a locus view</td>
 </tr>
 </tbody>
 </table>
-<p>Every format includes example data (the MCScanX and GENESPACE previews are explicitly simulated). Uploaded tables are validated; no identity scores or missing links are inferred, and the app reads existing results rather than running MCScanX, GENESPACE or an aligner. To host your own copy, see the <a href="deploy/posit-connect-cloud/README.html">Posit Connect Cloud guide</a>.</p>
+<p>Every job includes example data; the MCScanX and GENESPACE examples are explicitly simulated, the chloroplast and rice-sorghum data are published. Uploaded rows that cannot be drawn (an unknown chromosome, a link to a missing gene, an interval past a sequence end) are skipped and listed, never silently dropped. The app reads existing results and does not run MCScanX, GENESPACE or an aligner. To host your own copy, see the <a href="deploy/posit-connect-cloud/README.html">Posit Connect Cloud guide</a>.</p>
 <p><a id="reference-comparison"></a> ### Reference comparison</p>
-<p>Studio’s <strong>Reference comparison</strong> tab draws a different kind of figure: one reference sequence in the centre and each comparison genome as an outer ring in the reference’s coordinates, showing variant calls (insertions, deletions, duplications, inversions, SNPs) and alignment identity per window. The same view is available in R as <code><a href="reference/plot_reference_comparison.html">plot_reference_comparison()</a></code>, with <code><a href="reference/save_reference_comparison.html">save_reference_comparison()</a></code> for PDF and PNG exports in the bundled fonts. <code>palette</code> colours the variant marks and <code>identity_palette</code> the identity shading. The bundled example, five genomes with identity for every 30-kb window, is invented teaching data.</p>
+<p>Studio’s <strong>Reference comparison</strong> job draws a different kind of figure: one reference sequence in the centre and each comparison genome as an outer ring in the reference’s coordinates, showing variant calls (insertions, deletions, duplications, inversions, SNPs) and alignment identity per window. The same view is available in R as <code><a href="reference/plot_reference_comparison.html">plot_reference_comparison()</a></code>, with <code><a href="reference/save_reference_comparison.html">save_reference_comparison()</a></code> for PDF and PNG exports in the bundled fonts. <code>palette</code> colours the variant marks and <code>identity_palette</code> the identity shading. The bundled example, five genomes with identity for every 30-kb window, is invented teaching data.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"reference_comparison"</span>, package <span class="op">=</span> <span class="st">"ggsynteny"</span><span class="op">)</span></span>
 <span><span class="va">variants</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.delim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir</span>, <span class="st">"variants_five_genomes.tsv"</span><span class="op">)</span><span class="op">)</span></span>
