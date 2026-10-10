@@ -1,0 +1,27 @@
+{
+  "window_bases": 10000,
+  "coordinate_unit": "kb",
+  "genomes": {
+    "Y. pseudotuberculosis": {
+      "length_bp": 4744671,
+      "windows": 475,
+      "mobile_cds": {
+        "Transposase": 50,
+        "Integrase": 16,
+        "Recombinase or resolvase": 6
+      }
+    },
+    "Y. pestis CO92": {
+      "length_bp": 4653728,
+      "windows": 466,
+      "mobile_cds": {
+        "Transposase": 203,
+        "Integrase": 14,
+        "Recombinase or resolvase": 4
+      }
+    }
+  },
+  "gc_percent": "100 * (G + C) / called bases",
+  "gc_skew": "(G - C) / (G + C) per window",
+  "mobile_element_rule": "CDS whose product or gene text matches transposase/insertion sequence/IS<digit>, integrase, or recombinase/resolvase"
+}

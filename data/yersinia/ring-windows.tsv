@@ -1,0 +1,942 @@
+species	chr	start	end	gc	skew
+Y. pseudotuberculosis	NC_006155.1	0.0	10.0	45.5	0.05055
+Y. pseudotuberculosis	NC_006155.1	10.0	20.0	48.8	0.09426
+Y. pseudotuberculosis	NC_006155.1	20.0	30.0	45.54	0.08564
+Y. pseudotuberculosis	NC_006155.1	30.0	40.0	48.73	0.04535
+Y. pseudotuberculosis	NC_006155.1	40.0	50.0	49.45	-0.00384
+Y. pseudotuberculosis	NC_006155.1	50.0	60.0	47.42	0.03754
+Y. pseudotuberculosis	NC_006155.1	60.0	70.0	47.97	0.03231
+Y. pseudotuberculosis	NC_006155.1	70.0	80.0	49.35	0.046
+Y. pseudotuberculosis	NC_006155.1	80.0	90.0	46.96	0.01235
+Y. pseudotuberculosis	NC_006155.1	90.0	100.0	48.99	-0.02919
+Y. pseudotuberculosis	NC_006155.1	100.0	110.0	44.38	0.01983
+Y. pseudotuberculosis	NC_006155.1	110.0	120.0	48.26	0.02487
+Y. pseudotuberculosis	NC_006155.1	120.0	130.0	50.44	0.02696
+Y. pseudotuberculosis	NC_006155.1	130.0	140.0	45.8	0.05677
+Y. pseudotuberculosis	NC_006155.1	140.0	150.0	47.59	0.01828
+Y. pseudotuberculosis	NC_006155.1	150.0	160.0	48.78	0.12833
+Y. pseudotuberculosis	NC_006155.1	160.0	170.0	49.74	0.08323
+Y. pseudotuberculosis	NC_006155.1	170.0	180.0	46.09	0.07399
+Y. pseudotuberculosis	NC_006155.1	180.0	190.0	42.05	0.07348
+Y. pseudotuberculosis	NC_006155.1	190.0	200.0	44.46	0.03194
+Y. pseudotuberculosis	NC_006155.1	200.0	210.0	48.48	0.09653
+Y. pseudotuberculosis	NC_006155.1	210.0	220.0	49.17	0.06122
+Y. pseudotuberculosis	NC_006155.1	220.0	230.0	46.86	0.01921
+Y. pseudotuberculosis	NC_006155.1	230.0	240.0	50.68	0.05919
+Y. pseudotuberculosis	NC_006155.1	240.0	250.0	46.97	0.05642
+Y. pseudotuberculosis	NC_006155.1	250.0	260.0	50.44	0.023
+Y. pseudotuberculosis	NC_006155.1	260.0	270.0	47.63	0.09007
+Y. pseudotuberculosis	NC_006155.1	270.0	280.0	48.19	0.07533
+Y. pseudotuberculosis	NC_006155.1	280.0	290.0	45.83	0.05695
+Y. pseudotuberculosis	NC_006155.1	290.0	300.0	48.64	0.05263
+Y. pseudotuberculosis	NC_006155.1	300.0	310.0	46.12	0.0863
+Y. pseudotuberculosis	NC_006155.1	310.0	320.0	46.76	0.03422
+Y. pseudotuberculosis	NC_006155.1	320.0	330.0	47.26	0.12484
+Y. pseudotuberculosis	NC_006155.1	330.0	340.0	47.81	0.0914
+Y. pseudotuberculosis	NC_006155.1	340.0	350.0	51.49	0.0301
+Y. pseudotuberculosis	NC_006155.1	350.0	360.0	48.91	0.05827
+Y. pseudotuberculosis	NC_006155.1	360.0	370.0	50.11	0.11235
+Y. pseudotuberculosis	NC_006155.1	370.0	380.0	45.18	0.05755
+Y. pseudotuberculosis	NC_006155.1	380.0	390.0	47.76	0.09925
+Y. pseudotuberculosis	NC_006155.1	390.0	400.0	48.62	0.07158
+Y. pseudotuberculosis	NC_006155.1	400.0	410.0	50.42	0.02261
+Y. pseudotuberculosis	NC_006155.1	410.0	420.0	47.61	0.03802
+Y. pseudotuberculosis	NC_006155.1	420.0	430.0	44.24	0.07911
+Y. pseudotuberculosis	NC_006155.1	430.0	440.0	48.15	0.04299
+Y. pseudotuberculosis	NC_006155.1	440.0	450.0	49.17	0.03925
+Y. pseudotuberculosis	NC_006155.1	450.0	460.0	50.83	0.01436
+Y. pseudotuberculosis	NC_006155.1	460.0	470.0	43.85	0.03307
+Y. pseudotuberculosis	NC_006155.1	470.0	480.0	51.62	0.04146
+Y. pseudotuberculosis	NC_006155.1	480.0	490.0	47.68	0.05411
+Y. pseudotuberculosis	NC_006155.1	490.0	500.0	50.59	-0.00692
+Y. pseudotuberculosis	NC_006155.1	500.0	510.0	50.04	0.05635
+Y. pseudotuberculosis	NC_006155.1	510.0	520.0	49.87	0.11129
+Y. pseudotuberculosis	NC_006155.1	520.0	530.0	48.94	0.03596
+Y. pseudotuberculosis	NC_006155.1	530.0	540.0	49.55	0.07447
+Y. pseudotuberculosis	NC_006155.1	540.0	550.0	45.54	0.05841
+Y. pseudotuberculosis	NC_006155.1	550.0	560.0	46.87	0.0894
+Y. pseudotuberculosis	NC_006155.1	560.0	570.0	48.1	0.12058
+Y. pseudotuberculosis	NC_006155.1	570.0	580.0	49.53	0.0636
+Y. pseudotuberculosis	NC_006155.1	580.0	590.0	51.15	0.06119
+Y. pseudotuberculosis	NC_006155.1	590.0	600.0	49.33	0.05048
+Y. pseudotuberculosis	NC_006155.1	600.0	610.0	52.89	0.02666
+Y. pseudotuberculosis	NC_006155.1	610.0	620.0	49.55	-0.00666
+Y. pseudotuberculosis	NC_006155.1	620.0	630.0	49.08	0.00815
+Y. pseudotuberculosis	NC_006155.1	630.0	640.0	43.83	0.0381
+Y. pseudotuberculosis	NC_006155.1	640.0	650.0	50.7	-0.00868
+Y. pseudotuberculosis	NC_006155.1	650.0	660.0	47.7	0.05325
+Y. pseudotuberculosis	NC_006155.1	660.0	670.0	43.96	0.08189
+Y. pseudotuberculosis	NC_006155.1	670.0	680.0	45.97	0.05808
+Y. pseudotuberculosis	NC_006155.1	680.0	690.0	50.12	0.06624
+Y. pseudotuberculosis	NC_006155.1	690.0	700.0	49.11	0.04296
+Y. pseudotuberculosis	NC_006155.1	700.0	710.0	47.59	0.04728
+Y. pseudotuberculosis	NC_006155.1	710.0	720.0	45.93	0.06728
+Y. pseudotuberculosis	NC_006155.1	720.0	730.0	43.7	0.09977
+Y. pseudotuberculosis	NC_006155.1	730.0	740.0	47.73	0.12173
+Y. pseudotuberculosis	NC_006155.1	740.0	750.0	47.13	0.08126
+Y. pseudotuberculosis	NC_006155.1	750.0	760.0	44.59	0.01682
+Y. pseudotuberculosis	NC_006155.1	760.0	770.0	49.84	0.0297
+Y. pseudotuberculosis	NC_006155.1	770.0	780.0	51.02	0.02587
+Y. pseudotuberculosis	NC_006155.1	780.0	790.0	50.22	0.01035
+Y. pseudotuberculosis	NC_006155.1	790.0	800.0	48.01	0.03145
+Y. pseudotuberculosis	NC_006155.1	800.0	810.0	45.71	0.00197
+Y. pseudotuberculosis	NC_006155.1	810.0	820.0	49.51	0.07857
+Y. pseudotuberculosis	NC_006155.1	820.0	830.0	51.92	0.13136
+Y. pseudotuberculosis	NC_006155.1	830.0	840.0	47.73	0.08527
+Y. pseudotuberculosis	NC_006155.1	840.0	850.0	46.93	0.04326
+Y. pseudotuberculosis	NC_006155.1	850.0	860.0	47.91	0.05698
+Y. pseudotuberculosis	NC_006155.1	860.0	870.0	49.38	0.05022
+Y. pseudotuberculosis	NC_006155.1	870.0	880.0	48.71	0.0117
+Y. pseudotuberculosis	NC_006155.1	880.0	890.0	52.65	0.06819
+Y. pseudotuberculosis	NC_006155.1	890.0	900.0	49.36	0.05794
+Y. pseudotuberculosis	NC_006155.1	900.0	910.0	47.97	0.09277
+Y. pseudotuberculosis	NC_006155.1	910.0	920.0	48.67	0.05691
+Y. pseudotuberculosis	NC_006155.1	920.0	930.0	50.26	0.10505
+Y. pseudotuberculosis	NC_006155.1	930.0	940.0	47.84	0.03554
+Y. pseudotuberculosis	NC_006155.1	940.0	950.0	45.22	0.05396
+Y. pseudotuberculosis	NC_006155.1	950.0	960.0	48.36	0.00124
+Y. pseudotuberculosis	NC_006155.1	960.0	970.0	49.1	-0.00774
+Y. pseudotuberculosis	NC_006155.1	970.0	980.0	48.54	0.03585
+Y. pseudotuberculosis	NC_006155.1	980.0	990.0	50.22	0.08403
+Y. pseudotuberculosis	NC_006155.1	990.0	1000.0	46.63	0.08728
+Y. pseudotuberculosis	NC_006155.1	1000.0	1010.0	46.19	0.08725
+Y. pseudotuberculosis	NC_006155.1	1010.0	1020.0	47.91	0.08704
+Y. pseudotuberculosis	NC_006155.1	1020.0	1030.0	50.46	0.08799
+Y. pseudotuberculosis	NC_006155.1	1030.0	1040.0	50.37	0.00377
+Y. pseudotuberculosis	NC_006155.1	1040.0	1050.0	52.76	0.09553
+Y. pseudotuberculosis	NC_006155.1	1050.0	1060.0	46.54	0.08552
+Y. pseudotuberculosis	NC_006155.1	1060.0	1070.0	47.74	0.07625
+Y. pseudotuberculosis	NC_006155.1	1070.0	1080.0	46.87	0.09537
+Y. pseudotuberculosis	NC_006155.1	1080.0	1090.0	41.59	0.06227
+Y. pseudotuberculosis	NC_006155.1	1090.0	1100.0	44.5	0.05978
+Y. pseudotuberculosis	NC_006155.1	1100.0	1110.0	47.92	0.08472
+Y. pseudotuberculosis	NC_006155.1	1110.0	1120.0	47.02	0.07188
+Y. pseudotuberculosis	NC_006155.1	1120.0	1130.0	46.76	0.11933
+Y. pseudotuberculosis	NC_006155.1	1130.0	1140.0	47.38	0.03419
+Y. pseudotuberculosis	NC_006155.1	1140.0	1150.0	46.13	-0.02233
+Y. pseudotuberculosis	NC_006155.1	1150.0	1160.0	46.11	0.11776
+Y. pseudotuberculosis	NC_006155.1	1160.0	1170.0	46.99	0.08151
+Y. pseudotuberculosis	NC_006155.1	1170.0	1180.0	46.08	0.02474
+Y. pseudotuberculosis	NC_006155.1	1180.0	1190.0	46.03	0.02325
+Y. pseudotuberculosis	NC_006155.1	1190.0	1200.0	45.46	0.05719
+Y. pseudotuberculosis	NC_006155.1	1200.0	1210.0	34.73	0.14138
+Y. pseudotuberculosis	NC_006155.1	1210.0	1220.0	38.48	0.12474
+Y. pseudotuberculosis	NC_006155.1	1220.0	1230.0	47.98	-0.00042
+Y. pseudotuberculosis	NC_006155.1	1230.0	1240.0	50.75	0.04749
+Y. pseudotuberculosis	NC_006155.1	1240.0	1250.0	47.95	0.00271
+Y. pseudotuberculosis	NC_006155.1	1250.0	1260.0	50.22	0.05814
+Y. pseudotuberculosis	NC_006155.1	1260.0	1270.0	48.31	-0.00476
+Y. pseudotuberculosis	NC_006155.1	1270.0	1280.0	44.29	0.02416
+Y. pseudotuberculosis	NC_006155.1	1280.0	1290.0	51.44	0.02449
+Y. pseudotuberculosis	NC_006155.1	1290.0	1300.0	53.2	0.08872
+Y. pseudotuberculosis	NC_006155.1	1300.0	1310.0	42.97	0.0491
+Y. pseudotuberculosis	NC_006155.1	1310.0	1320.0	49.63	-0.01793
+Y. pseudotuberculosis	NC_006155.1	1320.0	1330.0	47.7	0.00377
+Y. pseudotuberculosis	NC_006155.1	1330.0	1340.0	49.06	0.03057
+Y. pseudotuberculosis	NC_006155.1	1340.0	1350.0	46.93	0.06329
+Y. pseudotuberculosis	NC_006155.1	1350.0	1360.0	46.93	0.01982
+Y. pseudotuberculosis	NC_006155.1	1360.0	1370.0	46.74	0.06504
+Y. pseudotuberculosis	NC_006155.1	1370.0	1380.0	47.52	0.09764
+Y. pseudotuberculosis	NC_006155.1	1380.0	1390.0	48.3	0.07412
+Y. pseudotuberculosis	NC_006155.1	1390.0	1400.0	48.84	0.0303
+Y. pseudotuberculosis	NC_006155.1	1400.0	1410.0	50.95	0.05554
+Y. pseudotuberculosis	NC_006155.1	1410.0	1420.0	49.59	0.0607
+Y. pseudotuberculosis	NC_006155.1	1420.0	1430.0	49.73	0.01307
+Y. pseudotuberculosis	NC_006155.1	1430.0	1440.0	44.83	0.03636
+Y. pseudotuberculosis	NC_006155.1	1440.0	1450.0	47.47	0.02212
+Y. pseudotuberculosis	NC_006155.1	1450.0	1460.0	43.33	0.06993
+Y. pseudotuberculosis	NC_006155.1	1460.0	1470.0	46.63	0.10144
+Y. pseudotuberculosis	NC_006155.1	1470.0	1480.0	46.08	0.10677
+Y. pseudotuberculosis	NC_006155.1	1480.0	1490.0	47.36	0.04941
+Y. pseudotuberculosis	NC_006155.1	1490.0	1500.0	48.53	0.06367
+Y. pseudotuberculosis	NC_006155.1	1500.0	1510.0	43.2	0.05
+Y. pseudotuberculosis	NC_006155.1	1510.0	1520.0	45.36	0.02072
+Y. pseudotuberculosis	NC_006155.1	1520.0	1530.0	47.77	0.06385
+Y. pseudotuberculosis	NC_006155.1	1530.0	1540.0	48.94	0.06293
+Y. pseudotuberculosis	NC_006155.1	1540.0	1550.0	47.42	-0.00506
+Y. pseudotuberculosis	NC_006155.1	1550.0	1560.0	47.3	0.04144
+Y. pseudotuberculosis	NC_006155.1	1560.0	1570.0	46.07	0.02843
+Y. pseudotuberculosis	NC_006155.1	1570.0	1580.0	55.35	0.06414
+Y. pseudotuberculosis	NC_006155.1	1580.0	1590.0	47.98	0.10338
+Y. pseudotuberculosis	NC_006155.1	1590.0	1600.0	47.18	0.06359
+Y. pseudotuberculosis	NC_006155.1	1600.0	1610.0	49.0	0.05265
+Y. pseudotuberculosis	NC_006155.1	1610.0	1620.0	44.85	0.02787
+Y. pseudotuberculosis	NC_006155.1	1620.0	1630.0	47.29	0.08268
+Y. pseudotuberculosis	NC_006155.1	1630.0	1640.0	48.94	0.03351
+Y. pseudotuberculosis	NC_006155.1	1640.0	1650.0	50.91	0.01512
+Y. pseudotuberculosis	NC_006155.1	1650.0	1660.0	47.91	0.08787
+Y. pseudotuberculosis	NC_006155.1	1660.0	1670.0	48.27	0.00476
+Y. pseudotuberculosis	NC_006155.1	1670.0	1680.0	49.38	0.06602
+Y. pseudotuberculosis	NC_006155.1	1680.0	1690.0	43.59	0.03694
+Y. pseudotuberculosis	NC_006155.1	1690.0	1700.0	46.19	0.09071
+Y. pseudotuberculosis	NC_006155.1	1700.0	1710.0	47.16	0.07379
+Y. pseudotuberculosis	NC_006155.1	1710.0	1720.0	49.69	0.07788
+Y. pseudotuberculosis	NC_006155.1	1720.0	1730.0	46.39	0.02177
+Y. pseudotuberculosis	NC_006155.1	1730.0	1740.0	47.55	0.09611
+Y. pseudotuberculosis	NC_006155.1	1740.0	1750.0	46.78	0.03078
+Y. pseudotuberculosis	NC_006155.1	1750.0	1760.0	46.41	0.06443
+Y. pseudotuberculosis	NC_006155.1	1760.0	1770.0	40.61	0.02339
+Y. pseudotuberculosis	NC_006155.1	1770.0	1780.0	47.14	0.05261
+Y. pseudotuberculosis	NC_006155.1	1780.0	1790.0	52.26	0.04746
+Y. pseudotuberculosis	NC_006155.1	1790.0	1800.0	48.45	0.09432
+Y. pseudotuberculosis	NC_006155.1	1800.0	1810.0	52.16	0.07017
+Y. pseudotuberculosis	NC_006155.1	1810.0	1820.0	40.65	0.01255
+Y. pseudotuberculosis	NC_006155.1	1820.0	1830.0	46.19	0.07209
+Y. pseudotuberculosis	NC_006155.1	1830.0	1840.0	45.74	0.06253
+Y. pseudotuberculosis	NC_006155.1	1840.0	1850.0	45.45	0.04906
+Y. pseudotuberculosis	NC_006155.1	1850.0	1860.0	44.29	0.03319
+Y. pseudotuberculosis	NC_006155.1	1860.0	1870.0	47.57	0.04856
+Y. pseudotuberculosis	NC_006155.1	1870.0	1880.0	50.31	0.01888
+Y. pseudotuberculosis	NC_006155.1	1880.0	1890.0	48.11	0.01684
+Y. pseudotuberculosis	NC_006155.1	1890.0	1900.0	44.97	0.01801
+Y. pseudotuberculosis	NC_006155.1	1900.0	1910.0	50.41	0.06566
+Y. pseudotuberculosis	NC_006155.1	1910.0	1920.0	45.23	0.03736
+Y. pseudotuberculosis	NC_006155.1	1920.0	1930.0	59.44	0.0175
+Y. pseudotuberculosis	NC_006155.1	1930.0	1940.0	60.58	0.03995
+Y. pseudotuberculosis	NC_006155.1	1940.0	1950.0	55.71	0.07916
+Y. pseudotuberculosis	NC_006155.1	1950.0	1960.0	46.48	0.01549
+Y. pseudotuberculosis	NC_006155.1	1960.0	1970.0	44.54	0.04625
+Y. pseudotuberculosis	NC_006155.1	1970.0	1980.0	45.16	0.04119
+Y. pseudotuberculosis	NC_006155.1	1980.0	1990.0	46.73	-0.00235
+Y. pseudotuberculosis	NC_006155.1	1990.0	2000.0	50.03	0.05137
+Y. pseudotuberculosis	NC_006155.1	2000.0	2010.0	47.47	0.06088
+Y. pseudotuberculosis	NC_006155.1	2010.0	2020.0	46.72	0.06592
+Y. pseudotuberculosis	NC_006155.1	2020.0	2030.0	49.38	0.02147
+Y. pseudotuberculosis	NC_006155.1	2030.0	2040.0	50.99	0.05707
+Y. pseudotuberculosis	NC_006155.1	2040.0	2050.0	49.29	0.04849
+Y. pseudotuberculosis	NC_006155.1	2050.0	2060.0	51.42	-0.00739
+Y. pseudotuberculosis	NC_006155.1	2060.0	2070.0	44.28	0.01762
+Y. pseudotuberculosis	NC_006155.1	2070.0	2080.0	49.42	0.04209
+Y. pseudotuberculosis	NC_006155.1	2080.0	2090.0	46.75	0.08278
+Y. pseudotuberculosis	NC_006155.1	2090.0	2100.0	44.36	0.03968
+Y. pseudotuberculosis	NC_006155.1	2100.0	2110.0	54.5	-0.03046
+Y. pseudotuberculosis	NC_006155.1	2110.0	2120.0	53.11	-0.00885
+Y. pseudotuberculosis	NC_006155.1	2120.0	2130.0	40.81	0.06003
+Y. pseudotuberculosis	NC_006155.1	2130.0	2140.0	46.07	0.00195
+Y. pseudotuberculosis	NC_006155.1	2140.0	2150.0	48.3	0.08116
+Y. pseudotuberculosis	NC_006155.1	2150.0	2160.0	48.45	0.05387
+Y. pseudotuberculosis	NC_006155.1	2160.0	2170.0	48.25	0.05202
+Y. pseudotuberculosis	NC_006155.1	2170.0	2180.0	48.3	0.11263
+Y. pseudotuberculosis	NC_006155.1	2180.0	2190.0	47.45	0.02255
+Y. pseudotuberculosis	NC_006155.1	2190.0	2200.0	49.78	-0.00522
+Y. pseudotuberculosis	NC_006155.1	2200.0	2210.0	51.0	0.00588
+Y. pseudotuberculosis	NC_006155.1	2210.0	2220.0	43.47	0.03796
+Y. pseudotuberculosis	NC_006155.1	2220.0	2230.0	39.09	0.02226
+Y. pseudotuberculosis	NC_006155.1	2230.0	2240.0	45.3	0.00353
+Y. pseudotuberculosis	NC_006155.1	2240.0	2250.0	46.94	0.05326
+Y. pseudotuberculosis	NC_006155.1	2250.0	2260.0	46.73	0.00963
+Y. pseudotuberculosis	NC_006155.1	2260.0	2270.0	47.41	0.02046
+Y. pseudotuberculosis	NC_006155.1	2270.0	2280.0	44.54	0.03592
+Y. pseudotuberculosis	NC_006155.1	2280.0	2290.0	47.24	0.09907
+Y. pseudotuberculosis	NC_006155.1	2290.0	2300.0	45.87	0.08132
+Y. pseudotuberculosis	NC_006155.1	2300.0	2310.0	48.35	0.05026
+Y. pseudotuberculosis	NC_006155.1	2310.0	2320.0	47.22	0.07285
+Y. pseudotuberculosis	NC_006155.1	2320.0	2330.0	49.0	0.08163
+Y. pseudotuberculosis	NC_006155.1	2330.0	2340.0	42.54	0.01646
+Y. pseudotuberculosis	NC_006155.1	2340.0	2350.0	44.43	-0.00293
+Y. pseudotuberculosis	NC_006155.1	2350.0	2360.0	46.33	-0.00194
+Y. pseudotuberculosis	NC_006155.1	2360.0	2370.0	48.65	0.07667
+Y. pseudotuberculosis	NC_006155.1	2370.0	2380.0	50.37	0.03236
+Y. pseudotuberculosis	NC_006155.1	2380.0	2390.0	43.17	0.08733
+Y. pseudotuberculosis	NC_006155.1	2390.0	2400.0	47.94	0.05674
+Y. pseudotuberculosis	NC_006155.1	2400.0	2410.0	48.74	0.06524
+Y. pseudotuberculosis	NC_006155.1	2410.0	2420.0	47.41	0.05843
+Y. pseudotuberculosis	NC_006155.1	2420.0	2430.0	46.71	0.05973
+Y. pseudotuberculosis	NC_006155.1	2430.0	2440.0	46.32	0.05095
+Y. pseudotuberculosis	NC_006155.1	2440.0	2450.0	48.32	0.0178
+Y. pseudotuberculosis	NC_006155.1	2450.0	2460.0	46.17	0.01884
+Y. pseudotuberculosis	NC_006155.1	2460.0	2470.0	44.53	0.06625
+Y. pseudotuberculosis	NC_006155.1	2470.0	2480.0	41.93	0.05414
+Y. pseudotuberculosis	NC_006155.1	2480.0	2490.0	42.19	0.07371
+Y. pseudotuberculosis	NC_006155.1	2490.0	2500.0	43.84	0.03422
+Y. pseudotuberculosis	NC_006155.1	2500.0	2510.0	48.87	0.01044
+Y. pseudotuberculosis	NC_006155.1	2510.0	2520.0	46.07	0.07489
+Y. pseudotuberculosis	NC_006155.1	2520.0	2530.0	45.47	0.09699
+Y. pseudotuberculosis	NC_006155.1	2530.0	2540.0	48.17	0.03591
+Y. pseudotuberculosis	NC_006155.1	2540.0	2550.0	47.37	0.01794
+Y. pseudotuberculosis	NC_006155.1	2550.0	2560.0	49.29	0.03064
+Y. pseudotuberculosis	NC_006155.1	2560.0	2570.0	45.34	0.0719
+Y. pseudotuberculosis	NC_006155.1	2570.0	2580.0	45.28	0.01988
+Y. pseudotuberculosis	NC_006155.1	2580.0	2590.0	48.39	-0.00765
+Y. pseudotuberculosis	NC_006155.1	2590.0	2600.0	46.82	-0.0645
+Y. pseudotuberculosis	NC_006155.1	2600.0	2610.0	46.34	0.00432
+Y. pseudotuberculosis	NC_006155.1	2610.0	2620.0	46.83	-0.04719
+Y. pseudotuberculosis	NC_006155.1	2620.0	2630.0	46.44	-0.05771
+Y. pseudotuberculosis	NC_006155.1	2630.0	2640.0	48.23	0.01223
+Y. pseudotuberculosis	NC_006155.1	2640.0	2650.0	45.92	-0.07056
+Y. pseudotuberculosis	NC_006155.1	2650.0	2660.0	47.21	-0.05359
+Y. pseudotuberculosis	NC_006155.1	2660.0	2670.0	45.25	-0.0537
+Y. pseudotuberculosis	NC_006155.1	2670.0	2680.0	48.73	-0.08598
+Y. pseudotuberculosis	NC_006155.1	2680.0	2690.0	47.95	-0.03149
+Y. pseudotuberculosis	NC_006155.1	2690.0	2700.0	46.37	-0.06189
+Y. pseudotuberculosis	NC_006155.1	2700.0	2710.0	49.32	-0.0292
+Y. pseudotuberculosis	NC_006155.1	2710.0	2720.0	46.09	-0.0332
+Y. pseudotuberculosis	NC_006155.1	2720.0	2730.0	47.36	-0.04688
+Y. pseudotuberculosis	NC_006155.1	2730.0	2740.0	47.77	-0.0739
+Y. pseudotuberculosis	NC_006155.1	2740.0	2750.0	46.88	-0.06997
+Y. pseudotuberculosis	NC_006155.1	2750.0	2760.0	45.87	-0.10573
+Y. pseudotuberculosis	NC_006155.1	2760.0	2770.0	44.74	-0.05901
+Y. pseudotuberculosis	NC_006155.1	2770.0	2780.0	45.54	-0.01625
+Y. pseudotuberculosis	NC_006155.1	2780.0	2790.0	43.29	-0.01409
+Y. pseudotuberculosis	NC_006155.1	2790.0	2800.0	45.19	-0.0759
+Y. pseudotuberculosis	NC_006155.1	2800.0	2810.0	46.97	-0.06238
+Y. pseudotuberculosis	NC_006155.1	2810.0	2820.0	44.99	-0.05801
+Y. pseudotuberculosis	NC_006155.1	2820.0	2830.0	47.44	-0.09401
+Y. pseudotuberculosis	NC_006155.1	2830.0	2840.0	48.31	-0.0888
+Y. pseudotuberculosis	NC_006155.1	2840.0	2850.0	45.67	-0.09612
+Y. pseudotuberculosis	NC_006155.1	2850.0	2860.0	46.16	-0.03553
+Y. pseudotuberculosis	NC_006155.1	2860.0	2870.0	45.86	-0.04405
+Y. pseudotuberculosis	NC_006155.1	2870.0	2880.0	47.36	-0.02407
+Y. pseudotuberculosis	NC_006155.1	2880.0	2890.0	49.12	-0.06718
+Y. pseudotuberculosis	NC_006155.1	2890.0	2900.0	46.67	-0.06792
+Y. pseudotuberculosis	NC_006155.1	2900.0	2910.0	41.81	-0.07438
+Y. pseudotuberculosis	NC_006155.1	2910.0	2920.0	49.34	-0.10985
+Y. pseudotuberculosis	NC_006155.1	2920.0	2930.0	47.47	-0.04698
+Y. pseudotuberculosis	NC_006155.1	2930.0	2940.0	45.27	-0.02408
+Y. pseudotuberculosis	NC_006155.1	2940.0	2950.0	46.55	-0.07368
+Y. pseudotuberculosis	NC_006155.1	2950.0	2960.0	46.69	-0.0559
+Y. pseudotuberculosis	NC_006155.1	2960.0	2970.0	46.94	-0.05837
+Y. pseudotuberculosis	NC_006155.1	2970.0	2980.0	44.91	-0.00022
+Y. pseudotuberculosis	NC_006155.1	2980.0	2990.0	52.95	-0.09651
+Y. pseudotuberculosis	NC_006155.1	2990.0	3000.0	48.48	-0.04497
+Y. pseudotuberculosis	NC_006155.1	3000.0	3010.0	43.28	-0.11044
+Y. pseudotuberculosis	NC_006155.1	3010.0	3020.0	45.97	-0.03241
+Y. pseudotuberculosis	NC_006155.1	3020.0	3030.0	53.23	-0.07496
+Y. pseudotuberculosis	NC_006155.1	3030.0	3040.0	46.5	-0.07312
+Y. pseudotuberculosis	NC_006155.1	3040.0	3050.0	48.33	-0.02586
+Y. pseudotuberculosis	NC_006155.1	3050.0	3060.0	53.32	-0.08027
+Y. pseudotuberculosis	NC_006155.1	3060.0	3070.0	45.46	-0.06247
+Y. pseudotuberculosis	NC_006155.1	3070.0	3080.0	48.53	-0.01339
+Y. pseudotuberculosis	NC_006155.1	3080.0	3090.0	46.22	-0.06664
+Y. pseudotuberculosis	NC_006155.1	3090.0	3100.0	49.84	-0.0951
+Y. pseudotuberculosis	NC_006155.1	3100.0	3110.0	48.8	-0.05984
+Y. pseudotuberculosis	NC_006155.1	3110.0	3120.0	47.97	-0.06191
+Y. pseudotuberculosis	NC_006155.1	3120.0	3130.0	48.69	-0.09673
+Y. pseudotuberculosis	NC_006155.1	3130.0	3140.0	47.46	-0.04973
+Y. pseudotuberculosis	NC_006155.1	3140.0	3150.0	45.34	-0.08558
+Y. pseudotuberculosis	NC_006155.1	3150.0	3160.0	45.38	-0.09784
+Y. pseudotuberculosis	NC_006155.1	3160.0	3170.0	44.94	-0.01335
+Y. pseudotuberculosis	NC_006155.1	3170.0	3180.0	45.67	-0.05277
+Y. pseudotuberculosis	NC_006155.1	3180.0	3190.0	48.03	-0.02436
+Y. pseudotuberculosis	NC_006155.1	3190.0	3200.0	46.82	-0.04058
+Y. pseudotuberculosis	NC_006155.1	3200.0	3210.0	47.22	-0.02075
+Y. pseudotuberculosis	NC_006155.1	3210.0	3220.0	45.99	-0.03805
+Y. pseudotuberculosis	NC_006155.1	3220.0	3230.0	42.21	-0.06515
+Y. pseudotuberculosis	NC_006155.1	3230.0	3240.0	49.68	-0.08897
+Y. pseudotuberculosis	NC_006155.1	3240.0	3250.0	43.22	-0.06386
+Y. pseudotuberculosis	NC_006155.1	3250.0	3260.0	47.17	-0.06127
+Y. pseudotuberculosis	NC_006155.1	3260.0	3270.0	48.21	-0.00477
+Y. pseudotuberculosis	NC_006155.1	3270.0	3280.0	46.35	-0.05588
+Y. pseudotuberculosis	NC_006155.1	3280.0	3290.0	49.26	-0.06212
+Y. pseudotuberculosis	NC_006155.1	3290.0	3300.0	47.68	-0.05327
+Y. pseudotuberculosis	NC_006155.1	3300.0	3310.0	48.32	-0.04098
+Y. pseudotuberculosis	NC_006155.1	3310.0	3320.0	51.76	-0.03478
+Y. pseudotuberculosis	NC_006155.1	3320.0	3330.0	52.59	0.00932
+Y. pseudotuberculosis	NC_006155.1	3330.0	3340.0	49.88	-0.00882
+Y. pseudotuberculosis	NC_006155.1	3340.0	3350.0	43.31	-0.0284
+Y. pseudotuberculosis	NC_006155.1	3350.0	3360.0	48.33	-0.11235
+Y. pseudotuberculosis	NC_006155.1	3360.0	3370.0	43.81	-0.04679
+Y. pseudotuberculosis	NC_006155.1	3370.0	3380.0	48.99	-0.01858
+Y. pseudotuberculosis	NC_006155.1	3380.0	3390.0	49.1	-0.07739
+Y. pseudotuberculosis	NC_006155.1	3390.0	3400.0	46.58	-0.06741
+Y. pseudotuberculosis	NC_006155.1	3400.0	3410.0	47.26	-0.07279
+Y. pseudotuberculosis	NC_006155.1	3410.0	3420.0	49.34	-0.08512
+Y. pseudotuberculosis	NC_006155.1	3420.0	3430.0	45.43	-0.08695
+Y. pseudotuberculosis	NC_006155.1	3430.0	3440.0	48.97	-0.0827
+Y. pseudotuberculosis	NC_006155.1	3440.0	3450.0	50.02	-0.03439
+Y. pseudotuberculosis	NC_006155.1	3450.0	3460.0	49.54	-0.00686
+Y. pseudotuberculosis	NC_006155.1	3460.0	3470.0	42.58	-0.04932
+Y. pseudotuberculosis	NC_006155.1	3470.0	3480.0	47.87	-0.12012
+Y. pseudotuberculosis	NC_006155.1	3480.0	3490.0	43.82	-0.0251
+Y. pseudotuberculosis	NC_006155.1	3490.0	3500.0	47.18	-0.03815
+Y. pseudotuberculosis	NC_006155.1	3500.0	3510.0	47.78	-0.10255
+Y. pseudotuberculosis	NC_006155.1	3510.0	3520.0	47.09	-0.0172
+Y. pseudotuberculosis	NC_006155.1	3520.0	3530.0	47.97	-0.1132
+Y. pseudotuberculosis	NC_006155.1	3530.0	3540.0	46.56	-0.11297
+Y. pseudotuberculosis	NC_006155.1	3540.0	3550.0	47.5	-0.04084
+Y. pseudotuberculosis	NC_006155.1	3550.0	3560.0	46.07	-0.05144
+Y. pseudotuberculosis	NC_006155.1	3560.0	3570.0	47.54	-0.05595
+Y. pseudotuberculosis	NC_006155.1	3570.0	3580.0	47.38	-0.04686
+Y. pseudotuberculosis	NC_006155.1	3580.0	3590.0	48.46	-0.06356
+Y. pseudotuberculosis	NC_006155.1	3590.0	3600.0	50.31	-0.07374
+Y. pseudotuberculosis	NC_006155.1	3600.0	3610.0	38.14	-0.11641
+Y. pseudotuberculosis	NC_006155.1	3610.0	3620.0	34.83	-0.15303
+Y. pseudotuberculosis	NC_006155.1	3620.0	3630.0	45.43	0.04072
+Y. pseudotuberculosis	NC_006155.1	3630.0	3640.0	50.86	0.04994
+Y. pseudotuberculosis	NC_006155.1	3640.0	3650.0	48.5	0.00907
+Y. pseudotuberculosis	NC_006155.1	3650.0	3660.0	46.36	-0.03926
+Y. pseudotuberculosis	NC_006155.1	3660.0	3670.0	44.13	0.01609
+Y. pseudotuberculosis	NC_006155.1	3670.0	3680.0	44.24	-0.04837
+Y. pseudotuberculosis	NC_006155.1	3680.0	3690.0	46.17	-0.02534
+Y. pseudotuberculosis	NC_006155.1	3690.0	3700.0	47.61	-0.00273
+Y. pseudotuberculosis	NC_006155.1	3700.0	3710.0	50.96	0.05416
+Y. pseudotuberculosis	NC_006155.1	3710.0	3720.0	49.74	0.04302
+Y. pseudotuberculosis	NC_006155.1	3720.0	3730.0	48.61	-0.08537
+Y. pseudotuberculosis	NC_006155.1	3730.0	3740.0	46.82	-0.07817
+Y. pseudotuberculosis	NC_006155.1	3740.0	3750.0	50.64	-0.06793
+Y. pseudotuberculosis	NC_006155.1	3750.0	3760.0	48.78	-0.06683
+Y. pseudotuberculosis	NC_006155.1	3760.0	3770.0	48.2	-0.07054
+Y. pseudotuberculosis	NC_006155.1	3770.0	3780.0	48.87	0.00266
+Y. pseudotuberculosis	NC_006155.1	3780.0	3790.0	42.45	-0.07939
+Y. pseudotuberculosis	NC_006155.1	3790.0	3800.0	43.28	-0.07301
+Y. pseudotuberculosis	NC_006155.1	3800.0	3810.0	47.93	-0.05988
+Y. pseudotuberculosis	NC_006155.1	3810.0	3820.0	41.73	-0.09993
+Y. pseudotuberculosis	NC_006155.1	3820.0	3830.0	57.64	-0.02776
+Y. pseudotuberculosis	NC_006155.1	3830.0	3840.0	43.35	-0.04867
+Y. pseudotuberculosis	NC_006155.1	3840.0	3850.0	50.96	-0.04513
+Y. pseudotuberculosis	NC_006155.1	3850.0	3860.0	44.06	-0.0631
+Y. pseudotuberculosis	NC_006155.1	3860.0	3870.0	46.51	-0.13137
+Y. pseudotuberculosis	NC_006155.1	3870.0	3880.0	49.87	-0.04071
+Y. pseudotuberculosis	NC_006155.1	3880.0	3890.0	46.22	-0.03289
+Y. pseudotuberculosis	NC_006155.1	3890.0	3900.0	47.76	-0.06951
+Y. pseudotuberculosis	NC_006155.1	3900.0	3910.0	50.64	-0.07267
+Y. pseudotuberculosis	NC_006155.1	3910.0	3920.0	45.25	-0.07271
+Y. pseudotuberculosis	NC_006155.1	3920.0	3930.0	49.43	-0.0961
+Y. pseudotuberculosis	NC_006155.1	3930.0	3940.0	47.44	-0.09064
+Y. pseudotuberculosis	NC_006155.1	3940.0	3950.0	49.76	0.01166
+Y. pseudotuberculosis	NC_006155.1	3950.0	3960.0	44.6	-0.06054
+Y. pseudotuberculosis	NC_006155.1	3960.0	3970.0	47.35	-0.06948
+Y. pseudotuberculosis	NC_006155.1	3970.0	3980.0	51.28	-0.06864
+Y. pseudotuberculosis	NC_006155.1	3980.0	3990.0	44.5	-0.02787
+Y. pseudotuberculosis	NC_006155.1	3990.0	4000.0	43.91	-0.07083
+Y. pseudotuberculosis	NC_006155.1	4000.0	4010.0	40.11	0.01222
+Y. pseudotuberculosis	NC_006155.1	4010.0	4020.0	41.95	-0.01931
+Y. pseudotuberculosis	NC_006155.1	4020.0	4030.0	49.64	-0.05157
+Y. pseudotuberculosis	NC_006155.1	4030.0	4040.0	48.95	-0.05659
+Y. pseudotuberculosis	NC_006155.1	4040.0	4050.0	50.37	-0.08676
+Y. pseudotuberculosis	NC_006155.1	4050.0	4060.0	49.25	-0.05178
+Y. pseudotuberculosis	NC_006155.1	4060.0	4070.0	48.2	-0.05892
+Y. pseudotuberculosis	NC_006155.1	4070.0	4080.0	45.26	0.00574
+Y. pseudotuberculosis	NC_006155.1	4080.0	4090.0	52.58	-0.00913
+Y. pseudotuberculosis	NC_006155.1	4090.0	4100.0	48.48	-0.02393
+Y. pseudotuberculosis	NC_006155.1	4100.0	4110.0	51.03	-0.17068
+Y. pseudotuberculosis	NC_006155.1	4110.0	4120.0	57.18	-0.05177
+Y. pseudotuberculosis	NC_006155.1	4120.0	4130.0	48.3	0.00207
+Y. pseudotuberculosis	NC_006155.1	4130.0	4140.0	46.36	-0.0233
+Y. pseudotuberculosis	NC_006155.1	4140.0	4150.0	48.16	-0.04734
+Y. pseudotuberculosis	NC_006155.1	4150.0	4160.0	49.5	-0.0497
+Y. pseudotuberculosis	NC_006155.1	4160.0	4170.0	48.54	-0.05933
+Y. pseudotuberculosis	NC_006155.1	4170.0	4180.0	49.65	0.00463
+Y. pseudotuberculosis	NC_006155.1	4180.0	4190.0	48.21	-0.04833
+Y. pseudotuberculosis	NC_006155.1	4190.0	4200.0	47.92	0.03297
+Y. pseudotuberculosis	NC_006155.1	4200.0	4210.0	48.15	-0.00768
+Y. pseudotuberculosis	NC_006155.1	4210.0	4220.0	46.09	-0.0627
+Y. pseudotuberculosis	NC_006155.1	4220.0	4230.0	46.76	-0.01326
+Y. pseudotuberculosis	NC_006155.1	4230.0	4240.0	49.94	-0.07209
+Y. pseudotuberculosis	NC_006155.1	4240.0	4250.0	49.36	-0.07374
+Y. pseudotuberculosis	NC_006155.1	4250.0	4260.0	47.07	0.01636
+Y. pseudotuberculosis	NC_006155.1	4260.0	4270.0	47.75	-0.06262
+Y. pseudotuberculosis	NC_006155.1	4270.0	4280.0	49.46	-0.08492
+Y. pseudotuberculosis	NC_006155.1	4280.0	4290.0	50.5	-0.08871
+Y. pseudotuberculosis	NC_006155.1	4290.0	4300.0	49.13	-0.03033
+Y. pseudotuberculosis	NC_006155.1	4300.0	4310.0	52.08	-0.07373
+Y. pseudotuberculosis	NC_006155.1	4310.0	4320.0	55.31	-0.03417
+Y. pseudotuberculosis	NC_006155.1	4320.0	4330.0	51.41	-0.03637
+Y. pseudotuberculosis	NC_006155.1	4330.0	4340.0	48.04	-0.03497
+Y. pseudotuberculosis	NC_006155.1	4340.0	4350.0	47.56	-0.01934
+Y. pseudotuberculosis	NC_006155.1	4350.0	4360.0	47.84	-0.00962
+Y. pseudotuberculosis	NC_006155.1	4360.0	4370.0	48.27	-0.10048
+Y. pseudotuberculosis	NC_006155.1	4370.0	4380.0	47.5	-0.08968
+Y. pseudotuberculosis	NC_006155.1	4380.0	4390.0	46.26	-0.04972
+Y. pseudotuberculosis	NC_006155.1	4390.0	4400.0	48.27	-0.07272
+Y. pseudotuberculosis	NC_006155.1	4400.0	4410.0	47.62	-0.08526
+Y. pseudotuberculosis	NC_006155.1	4410.0	4420.0	50.67	-0.03809
+Y. pseudotuberculosis	NC_006155.1	4420.0	4430.0	48.62	-0.06458
+Y. pseudotuberculosis	NC_006155.1	4430.0	4440.0	48.76	-0.03281
+Y. pseudotuberculosis	NC_006155.1	4440.0	4450.0	49.9	-0.00762
+Y. pseudotuberculosis	NC_006155.1	4450.0	4460.0	49.0	-0.05347
+Y. pseudotuberculosis	NC_006155.1	4460.0	4470.0	48.92	-0.04742
+Y. pseudotuberculosis	NC_006155.1	4470.0	4480.0	49.8	-0.049
+Y. pseudotuberculosis	NC_006155.1	4480.0	4490.0	47.68	-0.02139
+Y. pseudotuberculosis	NC_006155.1	4490.0	4500.0	49.81	-0.05963
+Y. pseudotuberculosis	NC_006155.1	4500.0	4510.0	50.79	-0.07068
+Y. pseudotuberculosis	NC_006155.1	4510.0	4520.0	58.76	-0.02246
+Y. pseudotuberculosis	NC_006155.1	4520.0	4530.0	44.61	-0.03071
+Y. pseudotuberculosis	NC_006155.1	4530.0	4540.0	51.28	-0.03432
+Y. pseudotuberculosis	NC_006155.1	4540.0	4550.0	47.96	-0.01877
+Y. pseudotuberculosis	NC_006155.1	4550.0	4560.0	50.67	-0.01204
+Y. pseudotuberculosis	NC_006155.1	4560.0	4570.0	46.59	-0.08993
+Y. pseudotuberculosis	NC_006155.1	4570.0	4580.0	47.27	-0.03067
+Y. pseudotuberculosis	NC_006155.1	4580.0	4590.0	49.54	-0.07671
+Y. pseudotuberculosis	NC_006155.1	4590.0	4600.0	45.24	-0.08974
+Y. pseudotuberculosis	NC_006155.1	4600.0	4610.0	45.46	-0.05499
+Y. pseudotuberculosis	NC_006155.1	4610.0	4620.0	45.82	-0.01004
+Y. pseudotuberculosis	NC_006155.1	4620.0	4630.0	48.5	-0.0668
+Y. pseudotuberculosis	NC_006155.1	4630.0	4640.0	46.67	-0.08164
+Y. pseudotuberculosis	NC_006155.1	4640.0	4650.0	46.4	-0.04569
+Y. pseudotuberculosis	NC_006155.1	4650.0	4660.0	45.83	-0.01767
+Y. pseudotuberculosis	NC_006155.1	4660.0	4670.0	47.55	0.06835
+Y. pseudotuberculosis	NC_006155.1	4670.0	4680.0	50.0	0.056
+Y. pseudotuberculosis	NC_006155.1	4680.0	4690.0	47.64	0.02771
+Y. pseudotuberculosis	NC_006155.1	4690.0	4700.0	50.05	0.06613
+Y. pseudotuberculosis	NC_006155.1	4700.0	4710.0	49.08	-0.09209
+Y. pseudotuberculosis	NC_006155.1	4710.0	4720.0	46.1	-0.02126
+Y. pseudotuberculosis	NC_006155.1	4720.0	4730.0	44.99	-0.07846
+Y. pseudotuberculosis	NC_006155.1	4730.0	4740.0	47.78	-0.10799
+Y. pseudotuberculosis	NC_006155.1	4740.0	4744.671	44.402	-0.04339
+Y. pestis CO92	NC_003143.1	0.0	10.0	45.42	0.05108
+Y. pestis CO92	NC_003143.1	10.0	20.0	48.83	0.094
+Y. pestis CO92	NC_003143.1	20.0	30.0	45.3	0.09536
+Y. pestis CO92	NC_003143.1	30.0	40.0	48.73	0.0314
+Y. pestis CO92	NC_003143.1	40.0	50.0	49.95	0.01461
+Y. pestis CO92	NC_003143.1	50.0	60.0	48.01	0.02645
+Y. pestis CO92	NC_003143.1	60.0	70.0	47.72	0.01551
+Y. pestis CO92	NC_003143.1	70.0	80.0	48.74	0.05252
+Y. pestis CO92	NC_003143.1	80.0	90.0	47.93	0.04027
+Y. pestis CO92	NC_003143.1	90.0	100.0	47.8	-0.01883
+Y. pestis CO92	NC_003143.1	100.0	110.0	46.26	-0.00389
+Y. pestis CO92	NC_003143.1	110.0	120.0	48.26	0.00995
+Y. pestis CO92	NC_003143.1	120.0	130.0	48.27	0.0259
+Y. pestis CO92	NC_003143.1	130.0	140.0	49.79	0.05322
+Y. pestis CO92	NC_003143.1	140.0	150.0	48.97	0.04554
+Y. pestis CO92	NC_003143.1	150.0	160.0	48.85	0.02068
+Y. pestis CO92	NC_003143.1	160.0	170.0	48.12	0.05653
+Y. pestis CO92	NC_003143.1	170.0	180.0	50.65	0.01362
+Y. pestis CO92	NC_003143.1	180.0	190.0	48.84	0.05037
+Y. pestis CO92	NC_003143.1	190.0	200.0	48.67	0.03719
+Y. pestis CO92	NC_003143.1	200.0	210.0	51.04	0.05603
+Y. pestis CO92	NC_003143.1	210.0	220.0	46.86	0.06658
+Y. pestis CO92	NC_003143.1	220.0	230.0	48.52	0.08409
+Y. pestis CO92	NC_003143.1	230.0	240.0	45.77	0.04785
+Y. pestis CO92	NC_003143.1	240.0	250.0	47.3	0.04609
+Y. pestis CO92	NC_003143.1	250.0	260.0	44.08	0.06897
+Y. pestis CO92	NC_003143.1	260.0	270.0	51.03	0.1068
+Y. pestis CO92	NC_003143.1	270.0	280.0	46.72	0.0655
+Y. pestis CO92	NC_003143.1	280.0	290.0	48.76	0.01231
+Y. pestis CO92	NC_003143.1	290.0	300.0	48.99	0.05164
+Y. pestis CO92	NC_003143.1	300.0	310.0	42.91	0.07341
+Y. pestis CO92	NC_003143.1	310.0	320.0	50.2	0.03825
+Y. pestis CO92	NC_003143.1	320.0	330.0	49.5	0.04929
+Y. pestis CO92	NC_003143.1	330.0	340.0	51.06	0.01488
+Y. pestis CO92	NC_003143.1	340.0	350.0	42.57	0.02091
+Y. pestis CO92	NC_003143.1	350.0	360.0	51.6	0.04651
+Y. pestis CO92	NC_003143.1	360.0	370.0	48.11	0.03928
+Y. pestis CO92	NC_003143.1	370.0	380.0	49.88	-0.00601
+Y. pestis CO92	NC_003143.1	380.0	390.0	50.61	0.07568
+Y. pestis CO92	NC_003143.1	390.0	400.0	50.39	0.10657
+Y. pestis CO92	NC_003143.1	400.0	410.0	44.54	0.04805
+Y. pestis CO92	NC_003143.1	410.0	420.0	45.29	0.02716
+Y. pestis CO92	NC_003143.1	420.0	430.0	51.79	-0.00985
+Y. pestis CO92	NC_003143.1	430.0	440.0	48.45	0.06006
+Y. pestis CO92	NC_003143.1	440.0	450.0	46.51	0.05268
+Y. pestis CO92	NC_003143.1	450.0	460.0	49.33	0.07967
+Y. pestis CO92	NC_003143.1	460.0	470.0	49.96	0.06005
+Y. pestis CO92	NC_003143.1	470.0	480.0	48.31	0.03208
+Y. pestis CO92	NC_003143.1	480.0	490.0	45.81	0.06527
+Y. pestis CO92	NC_003143.1	490.0	500.0	43.28	0.0781
+Y. pestis CO92	NC_003143.1	500.0	510.0	47.88	0.11362
+Y. pestis CO92	NC_003143.1	510.0	520.0	48.28	0.11019
+Y. pestis CO92	NC_003143.1	520.0	530.0	46.59	0.04701
+Y. pestis CO92	NC_003143.1	530.0	540.0	44.47	0.00382
+Y. pestis CO92	NC_003143.1	540.0	550.0	51.46	0.03342
+Y. pestis CO92	NC_003143.1	550.0	560.0	50.29	0.01054
+Y. pestis CO92	NC_003143.1	560.0	570.0	50.61	0.02233
+Y. pestis CO92	NC_003143.1	570.0	580.0	48.08	-0.00541
+Y. pestis CO92	NC_003143.1	580.0	590.0	46.03	0.06322
+Y. pestis CO92	NC_003143.1	590.0	600.0	52.05	0.10202
+Y. pestis CO92	NC_003143.1	600.0	610.0	50.1	0.11218
+Y. pestis CO92	NC_003143.1	610.0	620.0	47.77	0.0404
+Y. pestis CO92	NC_003143.1	620.0	630.0	48.56	0.02471
+Y. pestis CO92	NC_003143.1	630.0	640.0	46.51	0.02301
+Y. pestis CO92	NC_003143.1	640.0	650.0	48.94	0.00082
+Y. pestis CO92	NC_003143.1	650.0	660.0	56.14	0.06128
+Y. pestis CO92	NC_003143.1	660.0	670.0	50.53	-0.00534
+Y. pestis CO92	NC_003143.1	670.0	680.0	52.16	0.00997
+Y. pestis CO92	NC_003143.1	680.0	690.0	44.83	-0.00468
+Y. pestis CO92	NC_003143.1	690.0	700.0	48.73	0.06628
+Y. pestis CO92	NC_003143.1	700.0	710.0	48.96	0.03064
+Y. pestis CO92	NC_003143.1	710.0	720.0	50.83	0.10486
+Y. pestis CO92	NC_003143.1	720.0	730.0	48.89	0.04561
+Y. pestis CO92	NC_003143.1	730.0	740.0	49.98	0.05002
+Y. pestis CO92	NC_003143.1	740.0	750.0	43.84	0.01825
+Y. pestis CO92	NC_003143.1	750.0	760.0	39.67	0.02798
+Y. pestis CO92	NC_003143.1	760.0	770.0	44.71	0.04138
+Y. pestis CO92	NC_003143.1	770.0	780.0	48.28	0.08616
+Y. pestis CO92	NC_003143.1	780.0	790.0	50.32	0.03975
+Y. pestis CO92	NC_003143.1	790.0	800.0	45.62	0.05129
+Y. pestis CO92	NC_003143.1	800.0	810.0	44.13	0.05416
+Y. pestis CO92	NC_003143.1	810.0	820.0	47.87	-0.04199
+Y. pestis CO92	NC_003143.1	820.0	830.0	49.58	-0.048
+Y. pestis CO92	NC_003143.1	830.0	840.0	44.54	-0.07723
+Y. pestis CO92	NC_003143.1	840.0	850.0	50.07	-0.05173
+Y. pestis CO92	NC_003143.1	850.0	860.0	49.98	-0.04682
+Y. pestis CO92	NC_003143.1	860.0	870.0	49.08	-0.08272
+Y. pestis CO92	NC_003143.1	870.0	880.0	49.98	-0.06523
+Y. pestis CO92	NC_003143.1	880.0	890.0	36.99	-0.12949
+Y. pestis CO92	NC_003143.1	890.0	900.0	35.9	-0.12981
+Y. pestis CO92	NC_003143.1	900.0	910.0	47.37	0.04285
+Y. pestis CO92	NC_003143.1	910.0	920.0	49.15	0.05229
+Y. pestis CO92	NC_003143.1	920.0	930.0	48.39	0.01757
+Y. pestis CO92	NC_003143.1	930.0	940.0	47.42	-0.02826
+Y. pestis CO92	NC_003143.1	940.0	950.0	44.56	0.00314
+Y. pestis CO92	NC_003143.1	950.0	960.0	43.44	-0.03591
+Y. pestis CO92	NC_003143.1	960.0	970.0	47.09	-0.02994
+Y. pestis CO92	NC_003143.1	970.0	980.0	48.22	-0.07466
+Y. pestis CO92	NC_003143.1	980.0	990.0	47.77	-0.08227
+Y. pestis CO92	NC_003143.1	990.0	1000.0	50.02	-0.08197
+Y. pestis CO92	NC_003143.1	1000.0	1010.0	48.2	-0.061
+Y. pestis CO92	NC_003143.1	1010.0	1020.0	49.42	-0.04694
+Y. pestis CO92	NC_003143.1	1020.0	1030.0	48.11	-0.03596
+Y. pestis CO92	NC_003143.1	1030.0	1040.0	47.08	-0.01529
+Y. pestis CO92	NC_003143.1	1040.0	1050.0	39.27	-0.14591
+Y. pestis CO92	NC_003143.1	1050.0	1060.0	49.22	-0.05607
+Y. pestis CO92	NC_003143.1	1060.0	1070.0	43.34	-0.06045
+Y. pestis CO92	NC_003143.1	1070.0	1080.0	49.88	-0.05894
+Y. pestis CO92	NC_003143.1	1080.0	1090.0	51.46	-0.04508
+Y. pestis CO92	NC_003143.1	1090.0	1100.0	45.55	-0.04105
+Y. pestis CO92	NC_003143.1	1100.0	1110.0	49.66	-0.04994
+Y. pestis CO92	NC_003143.1	1110.0	1120.0	46.22	0.04327
+Y. pestis CO92	NC_003143.1	1120.0	1130.0	53.35	0.11415
+Y. pestis CO92	NC_003143.1	1130.0	1140.0	46.55	0.05994
+Y. pestis CO92	NC_003143.1	1140.0	1150.0	44.71	0.06553
+Y. pestis CO92	NC_003143.1	1150.0	1160.0	48.2	0.05809
+Y. pestis CO92	NC_003143.1	1160.0	1170.0	46.45	0.04069
+Y. pestis CO92	NC_003143.1	1170.0	1180.0	46.54	0.08595
+Y. pestis CO92	NC_003143.1	1180.0	1190.0	47.42	0.02868
+Y. pestis CO92	NC_003143.1	1190.0	1200.0	46.79	0.12075
+Y. pestis CO92	NC_003143.1	1200.0	1210.0	47.56	0.10429
+Y. pestis CO92	NC_003143.1	1210.0	1220.0	47.82	0.0343
+Y. pestis CO92	NC_003143.1	1220.0	1230.0	47.29	0.09368
+Y. pestis CO92	NC_003143.1	1230.0	1240.0	49.62	0.03265
+Y. pestis CO92	NC_003143.1	1240.0	1250.0	42.03	-0.00071
+Y. pestis CO92	NC_003143.1	1250.0	1260.0	48.01	0.07394
+Y. pestis CO92	NC_003143.1	1260.0	1270.0	47.77	0.10823
+Y. pestis CO92	NC_003143.1	1270.0	1280.0	47.93	0.05404
+Y. pestis CO92	NC_003143.1	1280.0	1290.0	49.88	0.02446
+Y. pestis CO92	NC_003143.1	1290.0	1300.0	52.0	0.07038
+Y. pestis CO92	NC_003143.1	1300.0	1310.0	48.37	0.06182
+Y. pestis CO92	NC_003143.1	1310.0	1320.0	48.26	0.00041
+Y. pestis CO92	NC_003143.1	1320.0	1330.0	42.61	0.07252
+Y. pestis CO92	NC_003143.1	1330.0	1340.0	44.99	0.10558
+Y. pestis CO92	NC_003143.1	1340.0	1350.0	46.47	0.09576
+Y. pestis CO92	NC_003143.1	1350.0	1360.0	46.65	0.0731
+Y. pestis CO92	NC_003143.1	1360.0	1370.0	47.97	0.05608
+Y. pestis CO92	NC_003143.1	1370.0	1380.0	45.17	0.05822
+Y. pestis CO92	NC_003143.1	1380.0	1390.0	45.87	0.03423
+Y. pestis CO92	NC_003143.1	1390.0	1400.0	45.83	0.05564
+Y. pestis CO92	NC_003143.1	1400.0	1410.0	51.08	0.07126
+Y. pestis CO92	NC_003143.1	1410.0	1420.0	45.22	0.01681
+Y. pestis CO92	NC_003143.1	1420.0	1430.0	48.77	0.03629
+Y. pestis CO92	NC_003143.1	1430.0	1440.0	45.07	0.01309
+Y. pestis CO92	NC_003143.1	1440.0	1450.0	52.4	0.05076
+Y. pestis CO92	NC_003143.1	1450.0	1460.0	54.15	0.09621
+Y. pestis CO92	NC_003143.1	1460.0	1470.0	44.25	0.06893
+Y. pestis CO92	NC_003143.1	1470.0	1480.0	47.56	0.06434
+Y. pestis CO92	NC_003143.1	1480.0	1490.0	46.47	0.05573
+Y. pestis CO92	NC_003143.1	1490.0	1500.0	47.3	0.0444
+Y. pestis CO92	NC_003143.1	1500.0	1510.0	47.89	0.04406
+Y. pestis CO92	NC_003143.1	1510.0	1520.0	50.2	0.0243
+Y. pestis CO92	NC_003143.1	1520.0	1530.0	50.45	0.02279
+Y. pestis CO92	NC_003143.1	1530.0	1540.0	47.46	0.10577
+Y. pestis CO92	NC_003143.1	1540.0	1550.0	49.19	0.00183
+Y. pestis CO92	NC_003143.1	1550.0	1560.0	46.52	0.0632
+Y. pestis CO92	NC_003143.1	1560.0	1570.0	44.01	0.05749
+Y. pestis CO92	NC_003143.1	1570.0	1580.0	47.81	0.09099
+Y. pestis CO92	NC_003143.1	1580.0	1590.0	47.93	0.06989
+Y. pestis CO92	NC_003143.1	1590.0	1600.0	48.88	0.07038
+Y. pestis CO92	NC_003143.1	1600.0	1610.0	45.13	0.03346
+Y. pestis CO92	NC_003143.1	1610.0	1620.0	48.58	0.10086
+Y. pestis CO92	NC_003143.1	1620.0	1630.0	47.51	0.00526
+Y. pestis CO92	NC_003143.1	1630.0	1640.0	46.14	0.06372
+Y. pestis CO92	NC_003143.1	1640.0	1650.0	40.76	0.01766
+Y. pestis CO92	NC_003143.1	1650.0	1660.0	46.02	0.05606
+Y. pestis CO92	NC_003143.1	1660.0	1670.0	55.94	0.03075
+Y. pestis CO92	NC_003143.1	1670.0	1680.0	44.87	0.07511
+Y. pestis CO92	NC_003143.1	1680.0	1690.0	53.96	0.07635
+Y. pestis CO92	NC_003143.1	1690.0	1700.0	43.01	0.01372
+Y. pestis CO92	NC_003143.1	1700.0	1710.0	43.79	0.06052
+Y. pestis CO92	NC_003143.1	1710.0	1720.0	45.49	0.07628
+Y. pestis CO92	NC_003143.1	1720.0	1730.0	45.94	0.02612
+Y. pestis CO92	NC_003143.1	1730.0	1740.0	45.33	0.0439
+Y. pestis CO92	NC_003143.1	1740.0	1750.0	48.88	0.03723
+Y. pestis CO92	NC_003143.1	1750.0	1760.0	46.21	0.03484
+Y. pestis CO92	NC_003143.1	1760.0	1770.0	50.39	-0.0002
+Y. pestis CO92	NC_003143.1	1770.0	1780.0	47.69	0.05599
+Y. pestis CO92	NC_003143.1	1780.0	1790.0	47.69	0.04424
+Y. pestis CO92	NC_003143.1	1790.0	1800.0	47.21	0.02944
+Y. pestis CO92	NC_003143.1	1800.0	1810.0	46.44	0.01852
+Y. pestis CO92	NC_003143.1	1810.0	1820.0	48.36	0.04715
+Y. pestis CO92	NC_003143.1	1820.0	1830.0	49.03	0.11034
+Y. pestis CO92	NC_003143.1	1830.0	1840.0	47.48	0.07835
+Y. pestis CO92	NC_003143.1	1840.0	1850.0	48.36	0.02316
+Y. pestis CO92	NC_003143.1	1850.0	1860.0	48.07	0.0776
+Y. pestis CO92	NC_003143.1	1860.0	1870.0	47.43	0.02846
+Y. pestis CO92	NC_003143.1	1870.0	1880.0	45.14	0.0514
+Y. pestis CO92	NC_003143.1	1880.0	1890.0	46.39	0.05712
+Y. pestis CO92	NC_003143.1	1890.0	1900.0	45.75	0.06973
+Y. pestis CO92	NC_003143.1	1900.0	1910.0	47.73	0.05217
+Y. pestis CO92	NC_003143.1	1910.0	1920.0	47.13	0.09187
+Y. pestis CO92	NC_003143.1	1920.0	1930.0	47.84	0.08278
+Y. pestis CO92	NC_003143.1	1930.0	1940.0	45.53	0.04327
+Y. pestis CO92	NC_003143.1	1940.0	1950.0	45.17	0.07018
+Y. pestis CO92	NC_003143.1	1950.0	1960.0	46.72	0.08005
+Y. pestis CO92	NC_003143.1	1960.0	1970.0	43.62	0.00504
+Y. pestis CO92	NC_003143.1	1970.0	1980.0	47.81	0.03075
+Y. pestis CO92	NC_003143.1	1980.0	1990.0	42.49	0.07366
+Y. pestis CO92	NC_003143.1	1990.0	2000.0	47.88	0.00125
+Y. pestis CO92	NC_003143.1	2000.0	2010.0	47.4	0.01814
+Y. pestis CO92	NC_003143.1	2010.0	2020.0	49.05	0.03568
+Y. pestis CO92	NC_003143.1	2020.0	2030.0	46.6	0.06867
+Y. pestis CO92	NC_003143.1	2030.0	2040.0	46.5	0.0671
+Y. pestis CO92	NC_003143.1	2040.0	2050.0	51.17	0.02443
+Y. pestis CO92	NC_003143.1	2050.0	2060.0	50.56	0.05498
+Y. pestis CO92	NC_003143.1	2060.0	2070.0	50.51	0.04336
+Y. pestis CO92	NC_003143.1	2070.0	2080.0	50.64	-0.00039
+Y. pestis CO92	NC_003143.1	2080.0	2090.0	44.37	0.0169
+Y. pestis CO92	NC_003143.1	2090.0	2100.0	49.19	0.0681
+Y. pestis CO92	NC_003143.1	2100.0	2110.0	45.08	0.07675
+Y. pestis CO92	NC_003143.1	2110.0	2120.0	43.05	0.04623
+Y. pestis CO92	NC_003143.1	2120.0	2130.0	44.06	0.01997
+Y. pestis CO92	NC_003143.1	2130.0	2140.0	49.18	0.04067
+Y. pestis CO92	NC_003143.1	2140.0	2150.0	56.4	0.03794
+Y. pestis CO92	NC_003143.1	2150.0	2160.0	60.8	0.02862
+Y. pestis CO92	NC_003143.1	2160.0	2170.0	57.17	0.08309
+Y. pestis CO92	NC_003143.1	2170.0	2180.0	47.53	0.01873
+Y. pestis CO92	NC_003143.1	2180.0	2190.0	46.84	0.02092
+Y. pestis CO92	NC_003143.1	2190.0	2200.0	44.26	0.01988
+Y. pestis CO92	NC_003143.1	2200.0	2210.0	48.5	0.10969
+Y. pestis CO92	NC_003143.1	2210.0	2220.0	46.1	0.07158
+Y. pestis CO92	NC_003143.1	2220.0	2230.0	46.79	0.06348
+Y. pestis CO92	NC_003143.1	2230.0	2240.0	48.09	0.05968
+Y. pestis CO92	NC_003143.1	2240.0	2250.0	48.81	0.08379
+Y. pestis CO92	NC_003143.1	2250.0	2260.0	45.07	0.0193
+Y. pestis CO92	NC_003143.1	2260.0	2270.0	41.53	0.03058
+Y. pestis CO92	NC_003143.1	2270.0	2280.0	47.66	0.00504
+Y. pestis CO92	NC_003143.1	2280.0	2290.0	47.94	0.00918
+Y. pestis CO92	NC_003143.1	2290.0	2300.0	49.08	0.06031
+Y. pestis CO92	NC_003143.1	2300.0	2310.0	49.88	0.0433
+Y. pestis CO92	NC_003143.1	2310.0	2320.0	44.11	0.07821
+Y. pestis CO92	NC_003143.1	2320.0	2330.0	46.69	0.06747
+Y. pestis CO92	NC_003143.1	2330.0	2340.0	48.84	0.05364
+Y. pestis CO92	NC_003143.1	2340.0	2350.0	47.23	0.05314
+Y. pestis CO92	NC_003143.1	2350.0	2360.0	47.25	0.06878
+Y. pestis CO92	NC_003143.1	2360.0	2370.0	47.62	0.02646
+Y. pestis CO92	NC_003143.1	2370.0	2380.0	47.57	0.05991
+Y. pestis CO92	NC_003143.1	2380.0	2390.0	47.84	0.08152
+Y. pestis CO92	NC_003143.1	2390.0	2400.0	46.18	0.08099
+Y. pestis CO92	NC_003143.1	2400.0	2410.0	46.04	0.05778
+Y. pestis CO92	NC_003143.1	2410.0	2420.0	47.22	0.02457
+Y. pestis CO92	NC_003143.1	2420.0	2430.0	46.47	0.00538
+Y. pestis CO92	NC_003143.1	2430.0	2440.0	45.2	0.05752
+Y. pestis CO92	NC_003143.1	2440.0	2450.0	41.69	0.06788
+Y. pestis CO92	NC_003143.1	2450.0	2460.0	44.54	0.03862
+Y. pestis CO92	NC_003143.1	2460.0	2470.0	42.78	0.04722
+Y. pestis CO92	NC_003143.1	2470.0	2480.0	46.36	0.00949
+Y. pestis CO92	NC_003143.1	2480.0	2490.0	49.53	0.03533
+Y. pestis CO92	NC_003143.1	2490.0	2500.0	44.9	0.08552
+Y. pestis CO92	NC_003143.1	2500.0	2510.0	46.75	0.0785
+Y. pestis CO92	NC_003143.1	2510.0	2520.0	47.24	0.03683
+Y. pestis CO92	NC_003143.1	2520.0	2530.0	48.6	0.03827
+Y. pestis CO92	NC_003143.1	2530.0	2540.0	49.0	0.03837
+Y. pestis CO92	NC_003143.1	2540.0	2550.0	44.53	0.03885
+Y. pestis CO92	NC_003143.1	2550.0	2560.0	42.79	0.02407
+Y. pestis CO92	NC_003143.1	2560.0	2570.0	45.62	0.01271
+Y. pestis CO92	NC_003143.1	2570.0	2580.0	47.79	-0.04666
+Y. pestis CO92	NC_003143.1	2580.0	2590.0	46.2	-0.03593
+Y. pestis CO92	NC_003143.1	2590.0	2600.0	46.57	-0.03242
+Y. pestis CO92	NC_003143.1	2600.0	2610.0	46.81	-0.04379
+Y. pestis CO92	NC_003143.1	2610.0	2620.0	49.24	-0.0723
+Y. pestis CO92	NC_003143.1	2620.0	2630.0	46.0	-0.02043
+Y. pestis CO92	NC_003143.1	2630.0	2640.0	45.52	-0.05888
+Y. pestis CO92	NC_003143.1	2640.0	2650.0	48.82	-0.06882
+Y. pestis CO92	NC_003143.1	2650.0	2660.0	48.17	-0.03135
+Y. pestis CO92	NC_003143.1	2660.0	2670.0	46.08	-0.06033
+Y. pestis CO92	NC_003143.1	2670.0	2680.0	49.03	-0.03651
+Y. pestis CO92	NC_003143.1	2680.0	2690.0	46.76	-0.01796
+Y. pestis CO92	NC_003143.1	2690.0	2700.0	48.31	-0.03415
+Y. pestis CO92	NC_003143.1	2700.0	2710.0	47.81	-0.07425
+Y. pestis CO92	NC_003143.1	2710.0	2720.0	46.85	-0.07108
+Y. pestis CO92	NC_003143.1	2720.0	2730.0	45.92	-0.1054
+Y. pestis CO92	NC_003143.1	2730.0	2740.0	44.78	-0.06119
+Y. pestis CO92	NC_003143.1	2740.0	2750.0	44.75	-0.01765
+Y. pestis CO92	NC_003143.1	2750.0	2760.0	44.26	-0.05197
+Y. pestis CO92	NC_003143.1	2760.0	2770.0	47.38	-0.07598
+Y. pestis CO92	NC_003143.1	2770.0	2780.0	45.24	-0.04332
+Y. pestis CO92	NC_003143.1	2780.0	2790.0	44.66	-0.0936
+Y. pestis CO92	NC_003143.1	2790.0	2800.0	55.02	-0.05889
+Y. pestis CO92	NC_003143.1	2800.0	2810.0	47.18	-0.06825
+Y. pestis CO92	NC_003143.1	2810.0	2820.0	43.61	-0.10296
+Y. pestis CO92	NC_003143.1	2820.0	2830.0	46.64	-0.01844
+Y. pestis CO92	NC_003143.1	2830.0	2840.0	53.0	-0.06717
+Y. pestis CO92	NC_003143.1	2840.0	2850.0	46.88	-0.06954
+Y. pestis CO92	NC_003143.1	2850.0	2860.0	48.65	-0.03597
+Y. pestis CO92	NC_003143.1	2860.0	2870.0	52.6	-0.07567
+Y. pestis CO92	NC_003143.1	2870.0	2880.0	45.32	-0.06575
+Y. pestis CO92	NC_003143.1	2880.0	2890.0	50.46	0.00515
+Y. pestis CO92	NC_003143.1	2890.0	2900.0	50.86	0.02635
+Y. pestis CO92	NC_003143.1	2900.0	2910.0	54.43	0.07514
+Y. pestis CO92	NC_003143.1	2910.0	2920.0	41.97	0.05456
+Y. pestis CO92	NC_003143.1	2920.0	2930.0	48.94	-0.01144
+Y. pestis CO92	NC_003143.1	2930.0	2940.0	48.27	0.00104
+Y. pestis CO92	NC_003143.1	2940.0	2950.0	48.68	0.02917
+Y. pestis CO92	NC_003143.1	2950.0	2960.0	47.14	0.06406
+Y. pestis CO92	NC_003143.1	2960.0	2970.0	46.54	0.03567
+Y. pestis CO92	NC_003143.1	2970.0	2980.0	47.28	0.01819
+Y. pestis CO92	NC_003143.1	2980.0	2990.0	45.28	0.04019
+Y. pestis CO92	NC_003143.1	2990.0	3000.0	46.12	0.11969
+Y. pestis CO92	NC_003143.1	3000.0	3010.0	42.91	0.03519
+Y. pestis CO92	NC_003143.1	3010.0	3020.0	51.96	-0.01386
+Y. pestis CO92	NC_003143.1	3020.0	3030.0	49.07	0.08213
+Y. pestis CO92	NC_003143.1	3030.0	3040.0	47.71	0.05848
+Y. pestis CO92	NC_003143.1	3040.0	3050.0	46.27	0.08969
+Y. pestis CO92	NC_003143.1	3050.0	3060.0	48.01	0.07728
+Y. pestis CO92	NC_003143.1	3060.0	3070.0	46.63	0.05254
+Y. pestis CO92	NC_003143.1	3070.0	3080.0	49.69	0.09157
+Y. pestis CO92	NC_003143.1	3080.0	3090.0	49.76	0.05788
+Y. pestis CO92	NC_003143.1	3090.0	3100.0	47.5	0.05895
+Y. pestis CO92	NC_003143.1	3100.0	3110.0	47.69	0.10044
+Y. pestis CO92	NC_003143.1	3110.0	3120.0	48.2	0.01743
+Y. pestis CO92	NC_003143.1	3120.0	3130.0	41.98	0.0
+Y. pestis CO92	NC_003143.1	3130.0	3140.0	49.33	-0.00669
+Y. pestis CO92	NC_003143.1	3140.0	3150.0	50.05	-0.03656
+Y. pestis CO92	NC_003143.1	3150.0	3160.0	46.77	-0.00492
+Y. pestis CO92	NC_003143.1	3160.0	3170.0	49.91	-0.02424
+Y. pestis CO92	NC_003143.1	3170.0	3180.0	51.68	-0.03289
+Y. pestis CO92	NC_003143.1	3180.0	3190.0	53.65	0.00466
+Y. pestis CO92	NC_003143.1	3190.0	3200.0	47.25	-0.00995
+Y. pestis CO92	NC_003143.1	3200.0	3210.0	44.32	-0.06543
+Y. pestis CO92	NC_003143.1	3210.0	3220.0	48.18	-0.10917
+Y. pestis CO92	NC_003143.1	3220.0	3230.0	43.33	-0.04685
+Y. pestis CO92	NC_003143.1	3230.0	3240.0	50.93	-0.06381
+Y. pestis CO92	NC_003143.1	3240.0	3250.0	47.52	-0.05345
+Y. pestis CO92	NC_003143.1	3250.0	3260.0	47.61	-0.06994
+Y. pestis CO92	NC_003143.1	3260.0	3270.0	47.69	-0.07234
+Y. pestis CO92	NC_003143.1	3270.0	3280.0	48.02	-0.07622
+Y. pestis CO92	NC_003143.1	3280.0	3290.0	44.13	-0.09993
+Y. pestis CO92	NC_003143.1	3290.0	3300.0	47.58	-0.02228
+Y. pestis CO92	NC_003143.1	3300.0	3310.0	45.5	-0.03648
+Y. pestis CO92	NC_003143.1	3310.0	3320.0	45.44	-0.04093
+Y. pestis CO92	NC_003143.1	3320.0	3330.0	46.88	-0.06826
+Y. pestis CO92	NC_003143.1	3330.0	3340.0	46.81	-0.02329
+Y. pestis CO92	NC_003143.1	3340.0	3350.0	46.94	-0.01704
+Y. pestis CO92	NC_003143.1	3350.0	3360.0	42.49	-0.05672
+Y. pestis CO92	NC_003143.1	3360.0	3370.0	47.55	-0.07087
+Y. pestis CO92	NC_003143.1	3370.0	3380.0	47.6	-0.09034
+Y. pestis CO92	NC_003143.1	3380.0	3390.0	46.03	-0.04541
+Y. pestis CO92	NC_003143.1	3390.0	3400.0	49.16	-0.01221
+Y. pestis CO92	NC_003143.1	3400.0	3410.0	44.9	-0.05256
+Y. pestis CO92	NC_003143.1	3410.0	3420.0	50.67	-0.07282
+Y. pestis CO92	NC_003143.1	3420.0	3430.0	46.31	-0.07018
+Y. pestis CO92	NC_003143.1	3430.0	3440.0	50.79	-0.04903
+Y. pestis CO92	NC_003143.1	3440.0	3450.0	47.85	-0.00899
+Y. pestis CO92	NC_003143.1	3450.0	3460.0	41.69	-0.077
+Y. pestis CO92	NC_003143.1	3460.0	3470.0	32.76	-0.14896
+Y. pestis CO92	NC_003143.1	3470.0	3480.0	44.83	-0.07071
+Y. pestis CO92	NC_003143.1	3480.0	3490.0	46.93	-0.04326
+Y. pestis CO92	NC_003143.1	3490.0	3500.0	45.46	0.01892
+Y. pestis CO92	NC_003143.1	3500.0	3510.0	47.92	-0.08097
+Y. pestis CO92	NC_003143.1	3510.0	3520.0	46.69	-0.11287
+Y. pestis CO92	NC_003143.1	3520.0	3530.0	45.41	-0.04074
+Y. pestis CO92	NC_003143.1	3530.0	3540.0	46.83	0.0032
+Y. pestis CO92	NC_003143.1	3540.0	3550.0	46.17	-0.10548
+Y. pestis CO92	NC_003143.1	3550.0	3560.0	47.52	-0.05135
+Y. pestis CO92	NC_003143.1	3560.0	3570.0	47.69	-0.09876
+Y. pestis CO92	NC_003143.1	3570.0	3580.0	47.86	-0.03719
+Y. pestis CO92	NC_003143.1	3580.0	3590.0	44.88	-0.08111
+Y. pestis CO92	NC_003143.1	3590.0	3600.0	40.98	-0.06833
+Y. pestis CO92	NC_003143.1	3600.0	3610.0	47.26	-0.09733
+Y. pestis CO92	NC_003143.1	3610.0	3620.0	46.83	-0.0946
+Y. pestis CO92	NC_003143.1	3620.0	3630.0	49.97	-0.07945
+Y. pestis CO92	NC_003143.1	3630.0	3640.0	50.18	-0.01515
+Y. pestis CO92	NC_003143.1	3640.0	3650.0	50.49	-0.06397
+Y. pestis CO92	NC_003143.1	3650.0	3660.0	49.67	-0.11174
+Y. pestis CO92	NC_003143.1	3660.0	3670.0	46.57	-0.05261
+Y. pestis CO92	NC_003143.1	3670.0	3680.0	46.65	-0.1074
+Y. pestis CO92	NC_003143.1	3680.0	3690.0	46.93	-0.09994
+Y. pestis CO92	NC_003143.1	3690.0	3700.0	51.92	-0.08513
+Y. pestis CO92	NC_003143.1	3700.0	3710.0	48.38	-0.01695
+Y. pestis CO92	NC_003143.1	3710.0	3720.0	48.93	0.04598
+Y. pestis CO92	NC_003143.1	3720.0	3730.0	46.41	-0.039
+Y. pestis CO92	NC_003143.1	3730.0	3740.0	45.43	-0.06934
+Y. pestis CO92	NC_003143.1	3740.0	3750.0	48.54	-0.06675
+Y. pestis CO92	NC_003143.1	3750.0	3760.0	49.89	-0.08479
+Y. pestis CO92	NC_003143.1	3760.0	3770.0	48.79	-0.06866
+Y. pestis CO92	NC_003143.1	3770.0	3780.0	47.59	-0.0561
+Y. pestis CO92	NC_003143.1	3780.0	3790.0	51.22	-0.07731
+Y. pestis CO92	NC_003143.1	3790.0	3800.0	52.17	-0.03891
+Y. pestis CO92	NC_003143.1	3800.0	3810.0	47.83	-0.03742
+Y. pestis CO92	NC_003143.1	3810.0	3820.0	49.04	-0.07993
+Y. pestis CO92	NC_003143.1	3820.0	3830.0	47.13	-0.04392
+Y. pestis CO92	NC_003143.1	3830.0	3840.0	47.35	-0.03738
+Y. pestis CO92	NC_003143.1	3840.0	3850.0	49.4	-0.02672
+Y. pestis CO92	NC_003143.1	3850.0	3860.0	49.88	0.01403
+Y. pestis CO92	NC_003143.1	3860.0	3870.0	52.25	-0.03426
+Y. pestis CO92	NC_003143.1	3870.0	3880.0	49.79	-0.0468
+Y. pestis CO92	NC_003143.1	3880.0	3890.0	50.78	-0.0512
+Y. pestis CO92	NC_003143.1	3890.0	3900.0	49.72	-0.0712
+Y. pestis CO92	NC_003143.1	3900.0	3910.0	48.21	-0.10268
+Y. pestis CO92	NC_003143.1	3910.0	3920.0	46.41	-0.09287
+Y. pestis CO92	NC_003143.1	3920.0	3930.0	45.93	-0.06292
+Y. pestis CO92	NC_003143.1	3930.0	3940.0	49.71	-0.07664
+Y. pestis CO92	NC_003143.1	3940.0	3950.0	47.58	-0.04708
+Y. pestis CO92	NC_003143.1	3950.0	3960.0	50.79	-0.04588
+Y. pestis CO92	NC_003143.1	3960.0	3970.0	49.06	-0.06523
+Y. pestis CO92	NC_003143.1	3970.0	3980.0	48.9	0.00941
+Y. pestis CO92	NC_003143.1	3980.0	3990.0	48.24	-0.05763
+Y. pestis CO92	NC_003143.1	3990.0	4000.0	48.37	0.02171
+Y. pestis CO92	NC_003143.1	4000.0	4010.0	50.99	0.03314
+Y. pestis CO92	NC_003143.1	4010.0	4020.0	55.39	0.01679
+Y. pestis CO92	NC_003143.1	4020.0	4030.0	53.04	0.08333
+Y. pestis CO92	NC_003143.1	4030.0	4040.0	48.86	0.06058
+Y. pestis CO92	NC_003143.1	4040.0	4050.0	50.73	0.07629
+Y. pestis CO92	NC_003143.1	4050.0	4060.0	49.13	0.09587
+Y. pestis CO92	NC_003143.1	4060.0	4070.0	47.39	0.04748
+Y. pestis CO92	NC_003143.1	4070.0	4080.0	47.14	0.01527
+Y. pestis CO92	NC_003143.1	4080.0	4090.0	49.16	0.05248
+Y. pestis CO92	NC_003143.1	4090.0	4100.0	49.1	0.08187
+Y. pestis CO92	NC_003143.1	4100.0	4110.0	50.27	0.05868
+Y. pestis CO92	NC_003143.1	4110.0	4120.0	41.59	0.01274
+Y. pestis CO92	NC_003143.1	4120.0	4130.0	49.18	0.06873
+Y. pestis CO92	NC_003143.1	4130.0	4140.0	49.2	-0.00894
+Y. pestis CO92	NC_003143.1	4140.0	4150.0	47.63	-0.03674
+Y. pestis CO92	NC_003143.1	4150.0	4160.0	46.5	-0.01548
+Y. pestis CO92	NC_003143.1	4160.0	4170.0	48.9	-0.03926
+Y. pestis CO92	NC_003143.1	4170.0	4180.0	49.02	-0.10812
+Y. pestis CO92	NC_003143.1	4180.0	4190.0	48.82	-0.05858
+Y. pestis CO92	NC_003143.1	4190.0	4200.0	51.2	-0.01953
+Y. pestis CO92	NC_003143.1	4200.0	4210.0	48.29	-0.0876
+Y. pestis CO92	NC_003143.1	4210.0	4220.0	46.45	-0.07901
+Y. pestis CO92	NC_003143.1	4220.0	4230.0	47.68	-0.0927
+Y. pestis CO92	NC_003143.1	4230.0	4240.0	48.09	-0.03265
+Y. pestis CO92	NC_003143.1	4240.0	4250.0	46.57	-0.08267
+Y. pestis CO92	NC_003143.1	4250.0	4260.0	50.01	-0.04819
+Y. pestis CO92	NC_003143.1	4260.0	4270.0	45.43	-0.04204
+Y. pestis CO92	NC_003143.1	4270.0	4280.0	49.39	-0.10792
+Y. pestis CO92	NC_003143.1	4280.0	4290.0	48.14	-0.03074
+Y. pestis CO92	NC_003143.1	4290.0	4300.0	48.02	-0.04207
+Y. pestis CO92	NC_003143.1	4300.0	4310.0	48.9	-0.0638
+Y. pestis CO92	NC_003143.1	4310.0	4320.0	50.88	-0.05621
+Y. pestis CO92	NC_003143.1	4320.0	4330.0	49.7	-0.05352
+Y. pestis CO92	NC_003143.1	4330.0	4340.0	49.75	-0.09266
+Y. pestis CO92	NC_003143.1	4340.0	4350.0	46.26	-0.05058
+Y. pestis CO92	NC_003143.1	4350.0	4360.0	43.84	-0.00547
+Y. pestis CO92	NC_003143.1	4360.0	4370.0	44.59	-0.06885
+Y. pestis CO92	NC_003143.1	4370.0	4380.0	49.99	-0.08382
+Y. pestis CO92	NC_003143.1	4380.0	4390.0	49.09	-0.14198
+Y. pestis CO92	NC_003143.1	4390.0	4400.0	47.61	-0.01995
+Y. pestis CO92	NC_003143.1	4400.0	4410.0	46.11	-0.04446
+Y. pestis CO92	NC_003143.1	4410.0	4420.0	48.63	-0.00062
+Y. pestis CO92	NC_003143.1	4420.0	4430.0	48.46	-0.06397
+Y. pestis CO92	NC_003143.1	4430.0	4440.0	50.31	-0.07016
+Y. pestis CO92	NC_003143.1	4440.0	4450.0	45.22	-0.03936
+Y. pestis CO92	NC_003143.1	4450.0	4460.0	49.52	-0.021
+Y. pestis CO92	NC_003143.1	4460.0	4470.0	51.02	-0.03528
+Y. pestis CO92	NC_003143.1	4470.0	4480.0	48.34	-0.01903
+Y. pestis CO92	NC_003143.1	4480.0	4490.0	45.37	-0.06811
+Y. pestis CO92	NC_003143.1	4490.0	4500.0	49.27	-0.04283
+Y. pestis CO92	NC_003143.1	4500.0	4510.0	48.04	-0.05412
+Y. pestis CO92	NC_003143.1	4510.0	4520.0	45.87	-0.10225
+Y. pestis CO92	NC_003143.1	4520.0	4530.0	48.13	-0.05631
+Y. pestis CO92	NC_003143.1	4530.0	4540.0	44.33	-0.0079
+Y. pestis CO92	NC_003143.1	4540.0	4550.0	44.25	-0.04904
+Y. pestis CO92	NC_003143.1	4550.0	4560.0	46.54	-0.04383
+Y. pestis CO92	NC_003143.1	4560.0	4570.0	43.65	-0.00206
+Y. pestis CO92	NC_003143.1	4570.0	4580.0	52.37	-0.08039
+Y. pestis CO92	NC_003143.1	4580.0	4590.0	47.53	-0.0465
+Y. pestis CO92	NC_003143.1	4590.0	4600.0	50.4	-0.04524
+Y. pestis CO92	NC_003143.1	4600.0	4610.0	46.8	-0.04829
+Y. pestis CO92	NC_003143.1	4610.0	4620.0	49.14	-0.06309
+Y. pestis CO92	NC_003143.1	4620.0	4630.0	45.84	-0.01789
+Y. pestis CO92	NC_003143.1	4630.0	4640.0	44.9	-0.09577
+Y. pestis CO92	NC_003143.1	4640.0	4650.0	47.9	-0.09478
+Y. pestis CO92	NC_003143.1	4650.0	4653.728	44.072	-0.05417

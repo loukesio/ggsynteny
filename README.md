@@ -14,6 +14,7 @@ figures/   every rendered view, PNG and PDF
 
 | Application | Data | What it shows |
 |---|---|---|
+| [The same genomes, annotated](#the-same-genomes-annotated) | the same records, plus GC, GC skew and mobile-element CDS | four annotation rings stacked on a rearrangement figure |
 | [Plague and its ancestor](#plague-and-its-ancestor) | three deposited *Yersinia* genomes, new megablast alignments | 404 blocks, 211 of them reversed: a genome rearranged against the one it descends from |
 | [Four *Bartonella* genomes](#four-bartonella-genomes) | NCBI RefSeq records; Mauve backbone from genoPlotR (GPL-2, retained) | whole-genome blocks with inversions, and the `rpoB` neighbourhood with protein links |
 | [Two malaria vectors](#two-anopheles-malaria-vectors) | Jiang et al. 2014, 380 published synteny blocks | chromosome-arm block order; coordinates are block ranks, not base pairs |
@@ -64,6 +65,37 @@ PDF versions of [the linear](figures/yersinia-linear.pdf) and
 These are local alignments between deposited sequences. A reversed block
 means the records align in opposite orientation; the counts are not an
 inference of how many inversion events happened, in what order, or when.
+
+## The same genomes, annotated
+
+The comparison above says *that* the genome moved. This one adds what the
+records themselves say about it. Four rings stack outside each genome with
+`syn_axis()` and the `syn_track_*()` wrappers, over the same ribbons:
+
+![The elements that moved, and the genome they moved in](figures/yersinia-ring.png)
+
+Reading outward from each arc: ticks every 500 kb, mobile-element CDS
+coloured by family, GC content in 10 kb windows with the genome mean dashed,
+and GC skew per window. The skew ring switches sign between the replication
+origin and terminus, which is why each genome reads red for half its length
+and blue for the other.
+
+The mobile-element ring is the point. Classifying CDS by their own product
+text gives:
+
+| Genome | Transposase | Integrase | Recombinase or resolvase |
+|---|---:|---:|---:|
+| *Y. pseudotuberculosis* | 50 | 16 | 6 |
+| *Y. pestis* CO92 | 203 | 14 | 4 |
+
+Four times as many transposase genes in plague as in the ancestor it came
+from, on a genome that is slightly *shorter*. The literature attributes the
+rearrangements to exactly these elements; the figure puts the two side by
+side without asserting the mechanism.
+
+[The tables and method](data/yersinia/README.md#annotation-track-tables) ·
+[rebuild](scripts/prepare_yersinia_tracks.py) ·
+[redraw](scripts/yersinia_ring.R) · [PDF](figures/yersinia-ring.pdf)
 
 ## Four Bartonella genomes
 

@@ -1,0 +1,294 @@
+species	chr	start	end	strand	family	product
+Y. pseudotuberculosis	NC_006155.1	17.955	19.165	+	Transposase	IS256 family transposase
+Y. pseudotuberculosis	NC_006155.1	82.758	83.091	-	Integrase	tyrosine-type recombinase/integrase
+Y. pseudotuberculosis	NC_006155.1	83.317	84.238	+	Transposase	Rpn family recombination-promoting nuclease/putative transposase
+Y. pseudotuberculosis	NC_006155.1	84.24	84.678	-	Transposase	IS5 family transposase
+Y. pseudotuberculosis	NC_006155.1	225.857	227.066	-	Transposase	IS256 family transposase
+Y. pseudotuberculosis	NC_006155.1	230.871	231.783	+	Recombinase or resolvase	tyrosine recombinase XerC xerC
+Y. pseudotuberculosis	NC_006155.1	366.223	367.323	+	Transposase	IS3-like element ISYpe1 family transposase
+Y. pseudotuberculosis	NC_006155.1	367.715	368.498	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pseudotuberculosis	NC_006155.1	368.494	369.517	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pseudotuberculosis	NC_006155.1	466.07	466.427	+	Transposase	IS1 family transposase
+Y. pseudotuberculosis	NC_006155.1	627.277	628.544	+	Integrase	tyrosine-type recombinase/integrase
+Y. pseudotuberculosis	NC_006155.1	663.709	663.934	-	Transposase	transposase
+Y. pseudotuberculosis	NC_006155.1	737.059	737.518	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pseudotuberculosis	NC_006155.1	795.782	796.001	-	Transposase	Rpn family recombination-promoting nuclease/putative transposase
+Y. pseudotuberculosis	NC_006155.1	796.002	796.423	-	Transposase	DDE-type integrase/transposase/recombinase
+Y. pseudotuberculosis	NC_006155.1	838.292	838.751	+	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pseudotuberculosis	NC_006155.1	842.256	843.465	+	Transposase	IS256 family transposase
+Y. pseudotuberculosis	NC_006155.1	864.517	864.595	-	Transposase	IS1 family transposase
+Y. pseudotuberculosis	NC_006155.1	932.042	933.251	-	Transposase	IS256 family transposase
+Y. pseudotuberculosis	NC_006155.1	988.498	989.569	+	Recombinase or resolvase	recombinase RecA recA
+Y. pseudotuberculosis	NC_006155.1	1247.188	1247.458	-	Integrase	tyrosine-type recombinase/integrase
+Y. pseudotuberculosis	NC_006155.1	1356.534	1356.795	-	Transposase	transposase
+Y. pseudotuberculosis	NC_006155.1	1356.864	1357.038	-	Integrase	phage integrase central domain-containing protein
+Y. pseudotuberculosis	NC_006155.1	1357.126	1358.149	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pseudotuberculosis	NC_006155.1	1358.145	1358.928	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pseudotuberculosis	NC_006155.1	1358.994	1359.333	-	Integrase	integrase arm-type DNA-binding domain-containing protein
+Y. pseudotuberculosis	NC_006155.1	1759.649	1760.143	+	Transposase	IS6 family transposase
+Y. pseudotuberculosis	NC_006155.1	1873.395	1873.854	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pseudotuberculosis	NC_006155.1	1914.025	1915.048	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pseudotuberculosis	NC_006155.1	1915.044	1915.827	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pseudotuberculosis	NC_006155.1	1948.342	1949.6	-	Integrase	tyrosine-type recombinase/integrase
+Y. pseudotuberculosis	NC_006155.1	2125.869	2126.925	+	Integrase	phage integrase
+Y. pseudotuberculosis	NC_006155.1	2128.302	2129.325	-	Integrase	tyrosine-type recombinase/integrase
+Y. pseudotuberculosis	NC_006155.1	2134.015	2135.62	-	Recombinase or resolvase	YqaJ viral recombinase family protein
+Y. pseudotuberculosis	NC_006155.1	2154.074	2155.097	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pseudotuberculosis	NC_006155.1	2155.093	2155.876	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pseudotuberculosis	NC_006155.1	2217.546	2217.879	+	Integrase	phage integrase
+Y. pseudotuberculosis	NC_006155.1	2218.414	2219.418	+	Integrase	phage integrase
+Y. pseudotuberculosis	NC_006155.1	2219.728	2219.953	-	Integrase	site-specific integrase
+Y. pseudotuberculosis	NC_006155.1	2222.907	2224.421	-	Transposase	IS3 family transposase
+Y. pseudotuberculosis	NC_006155.1	2232.46	2232.757	-	Transposase	transposase
+Y. pseudotuberculosis	NC_006155.1	2232.828	2233.05	+	Recombinase or resolvase	recombinase family protein
+Y. pseudotuberculosis	NC_006155.1	2233.094	2234.609	-	Transposase	IS3 family transposase
+Y. pseudotuberculosis	NC_006155.1	2238.876	2240.075	+	Transposase	IS256 family transposase
+Y. pseudotuberculosis	NC_006155.1	2241.805	2242.132	+	Integrase	integrase core domain-containing protein
+Y. pseudotuberculosis	NC_006155.1	2242.185	2242.385	+	Transposase	transposase
+Y. pseudotuberculosis	NC_006155.1	2365.74	2366.199	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pseudotuberculosis	NC_006155.1	2467.796	2469.005	+	Transposase	IS256 family transposase
+Y. pseudotuberculosis	NC_006155.1	2926.776	2926.92	-	Transposase	IS3 family transposase
+Y. pseudotuberculosis	NC_006155.1	3251.644	3252.162	+	Transposase	IS630 family transposase
+Y. pseudotuberculosis	NC_006155.1	3688.396	3689.38	-	Integrase	phage integrase
+Y. pseudotuberculosis	NC_006155.1	3718.037	3719.252	-	Integrase	tyrosine-type recombinase/integrase
+Y. pseudotuberculosis	NC_006155.1	3724.975	3725.875	-	Recombinase or resolvase	site-specific tyrosine recombinase XerD xerD
+Y. pseudotuberculosis	NC_006155.1	3765.451	3765.91	-	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pseudotuberculosis	NC_006155.1	3774.691	3775.114	+	Recombinase or resolvase	Holliday junction resolvase RuvX ruvX
+Y. pseudotuberculosis	NC_006155.1	3810.322	3810.628	-	Integrase	site-specific integrase
+Y. pseudotuberculosis	NC_006155.1	3811.897	3812.595	-	Transposase	IS1-like element ISYps7 family transposase
+Y. pseudotuberculosis	NC_006155.1	3817.015	3817.589	-	Transposase	IS1-like element ISYps7 family transposase
+Y. pseudotuberculosis	NC_006155.1	3833.728	3833.824	-	Transposase	IS1 family transposase
+Y. pseudotuberculosis	NC_006155.1	3834.366	3834.708	-	Transposase	IS1 family transposase
+Y. pseudotuberculosis	NC_006155.1	3947.087	3948.442	+	Transposase	IS3-like element IS1661 family transposase
+Y. pseudotuberculosis	NC_006155.1	3949.115	3950.324	+	Transposase	IS256 family transposase
+Y. pseudotuberculosis	NC_006155.1	4002.278	4002.578	+	Transposase	DDE-type integrase/transposase/recombinase
+Y. pseudotuberculosis	NC_006155.1	4067.277	4067.381	-	Transposase	IS21 family transposase
+Y. pseudotuberculosis	NC_006155.1	4623.748	4624.771	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pseudotuberculosis	NC_006155.1	4624.767	4625.55	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pseudotuberculosis	NC_006155.1	4634.659	4635.867	+	Transposase	IS4-like element ISVsa5 family transposase
+Y. pseudotuberculosis	NC_006155.1	4636.418	4637.633	-	Integrase	tyrosine-type recombinase/integrase
+Y. pseudotuberculosis	NC_006155.1	4653.98	4655.335	+	Transposase	IS3-like element IS1661 family transposase
+Y. pseudotuberculosis	NC_006155.1	4697.375	4697.777	-	Transposase	Tn3 family transposase
+Y. pseudotuberculosis	NC_006155.1	4701.469	4702.824	-	Transposase	IS3-like element IS1661 family transposase
+Y. pseudotuberculosis	NC_006155.1	4718.313	4718.462	+	Transposase	IS6 family transposase
+Y. pestis CO92	NC_003143.1	17.905	19.114	+	Transposase	IS256 family transposase
+Y. pestis CO92	NC_003143.1	26.127	26.586	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	39.335	40.118	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	40.114	41.137	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	85.127	85.46	-	Integrase	tyrosine-type recombinase/integrase
+Y. pestis CO92	NC_003143.1	85.686	86.607	+	Transposase	Rpn family recombination-promoting nuclease/putative transposase
+Y. pestis CO92	NC_003143.1	103.454	103.913	-	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	105.644	106.427	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	106.423	107.446	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	127.138	128.493	-	Transposase	IS3-like element IS1661 family transposase
+Y. pestis CO92	NC_003143.1	190.136	191.159	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	191.155	191.938	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	219.848	220.307	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	245.791	246.574	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	246.57	247.593	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	300.553	301.012	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	344.495	344.852	+	Transposase	IS1 family transposase
+Y. pestis CO92	NC_003143.1	366.945	367.404	-	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	401.113	401.896	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	401.892	402.915	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	406.859	407.31	-	Transposase	transposase
+Y. pestis CO92	NC_003143.1	509.901	510.36	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	519.792	520.251	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	571.25	572.033	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	572.029	573.052	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	578.483	578.942	-	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	586.439	586.898	+	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	613.032	613.815	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	613.811	614.834	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	628.167	628.626	-	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	691.801	691.948	+	Transposase	IS21 family transposase
+Y. pestis CO92	NC_003143.1	693.8	694.823	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	694.819	695.602	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	756.908	757.367	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	757.618	758.077	+	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	785.403	785.862	-	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	809.841	811.196	+	Transposase	IS3-like element IS1661 family transposase
+Y. pestis CO92	NC_003143.1	856.996	857.779	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	857.775	858.798	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	906.237	907.02	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	907.016	908.039	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	908.095	908.53	+	Transposase	IS200/IS605 family transposase tnpA
+Y. pestis CO92	NC_003143.1	970.096	971.311	-	Integrase	tyrosine-type recombinase/integrase
+Y. pestis CO92	NC_003143.1	977.034	977.934	-	Recombinase or resolvase	site-specific tyrosine recombinase XerD xerD
+Y. pestis CO92	NC_003143.1	1013.578	1014.361	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	1014.357	1015.38	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	1015.563	1016.022	-	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	1028.833	1029.256	+	Recombinase or resolvase	Holliday junction resolvase RuvX ruvX
+Y. pestis CO92	NC_003143.1	1064.253	1064.559	-	Integrase	site-specific integrase
+Y. pestis CO92	NC_003143.1	1065.828	1066.526	-	Transposase	IS1-like element ISYps7 family transposase
+Y. pestis CO92	NC_003143.1	1070.946	1071.52	-	Transposase	IS1 family transposase
+Y. pestis CO92	NC_003143.1	1087.622	1087.718	-	Transposase	IS1 family transposase
+Y. pestis CO92	NC_003143.1	1088.26	1088.619	-	Transposase	IS1 family transposase
+Y. pestis CO92	NC_003143.1	1107.519	1108.874	+	Transposase	IS3-like element IS1661 family transposase
+Y. pestis CO92	NC_003143.1	1146.014	1147.037	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	1147.033	1147.816	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	1177.5	1177.959	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	1232.348	1233.131	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	1233.127	1234.15	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	1234.223	1234.34	-	Integrase	integrase arm-type DNA-binding domain-containing protein
+Y. pestis CO92	NC_003143.1	1238.511	1239.399	-	Integrase	integrase domain-containing protein
+Y. pestis CO92	NC_003143.1	1243.483	1244.683	-	Integrase	integrase domain-containing protein
+Y. pestis CO92	NC_003143.1	1244.906	1245.365	-	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	1278.128	1278.911	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	1278.907	1279.93	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	1310.197	1310.656	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	1321.271	1321.73	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	1383.478	1383.937	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	1420.188	1420.647	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	1502.826	1503.849	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	1503.845	1504.628	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	1537.929	1538.388	+	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	1593.195	1593.654	+	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	1618.862	1619.321	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	1620.481	1621.264	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	1621.26	1622.283	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	1626.543	1627.002	-	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	1639.93	1640.424	+	Transposase	IS6 family transposase
+Y. pestis CO92	NC_003143.1	1674.952	1675.823	-	Transposase	transposase
+Y. pestis CO92	NC_003143.1	1693.965	1695.174	-	Transposase	IS256 family transposase
+Y. pestis CO92	NC_003143.1	1726.645	1727.428	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	1727.424	1728.447	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	1728.557	1729.016	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	1777.85	1779.059	+	Transposase	IS256 family transposase
+Y. pestis CO92	NC_003143.1	1807.068	1808.277	+	Transposase	IS256 family transposase
+Y. pestis CO92	NC_003143.1	1811.234	1811.378	+	Transposase	IS3 family transposase
+Y. pestis CO92	NC_003143.1	1811.444	1812.653	-	Transposase	IS256 family transposase
+Y. pestis CO92	NC_003143.1	1818.17	1818.629	+	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	1825.891	1826.35	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	1833.288	1833.747	+	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	1842.496	1843.705	+	Transposase	IS256 family transposase
+Y. pestis CO92	NC_003143.1	1844.088	1844.871	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	1844.867	1845.89	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	1928.938	1929.721	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	1929.717	1930.74	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	1972.183	1973.392	+	Transposase	IS256 family transposase
+Y. pestis CO92	NC_003143.1	1974.767	1975.79	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	1975.786	1976.569	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	1992.645	1993.668	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	1993.664	1994.447	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	2039.729	2040.188	+	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	2115.468	2115.693	-	Integrase	site-specific integrase
+Y. pestis CO92	NC_003143.1	2118.566	2120.08	-	Transposase	IS3 family transposase
+Y. pestis CO92	NC_003143.1	2124.366	2125.565	+	Transposase	IS256 family transposase
+Y. pestis CO92	NC_003143.1	2127.295	2127.622	+	Integrase	integrase core domain-containing protein
+Y. pestis CO92	NC_003143.1	2127.675	2127.875	+	Transposase	transposase
+Y. pestis CO92	NC_003143.1	2135.544	2136.567	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	2136.563	2137.346	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	2169.862	2171.125	-	Integrase	tyrosine-type recombinase/integrase
+Y. pestis CO92	NC_003143.1	2236.35	2237.397	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	2237.396	2238.149	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	2257.307	2258.516	+	Transposase	IS256 family transposase
+Y. pestis CO92	NC_003143.1	2281.002	2281.928	-	Transposase	IS3 family transposase
+Y. pestis CO92	NC_003143.1	2293.849	2294.308	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	2294.927	2295.71	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	2295.706	2296.729	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	2304.033	2304.492	+	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	2363.015	2364.254	-	Integrase	tyrosine-type recombinase/integrase
+Y. pestis CO92	NC_003143.1	2364.323	2365.346	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	2365.342	2366.125	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	2375.727	2376.936	+	Transposase	IS256 family transposase
+Y. pestis CO92	NC_003143.1	2390.423	2390.882	+	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	2403.284	2404.493	-	Transposase	IS256 family transposase
+Y. pestis CO92	NC_003143.1	2441.13	2442.339	+	Transposase	IS256 family transposase
+Y. pestis CO92	NC_003143.1	2450.263	2451.046	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	2451.042	2452.065	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	2470.208	2471.417	-	Transposase	IS256 family transposase
+Y. pestis CO92	NC_003143.1	2599.216	2599.675	-	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	2637.244	2637.703	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	2646.351	2646.81	-	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	2658.091	2658.874	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	2658.87	2659.893	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	2691.723	2692.182	+	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	2692.763	2693.786	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	2693.782	2694.565	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	2745.56	2746.769	-	Transposase	IS256 family transposase
+Y. pestis CO92	NC_003143.1	2826.264	2827.287	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	2827.283	2828.066	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	2885.811	2887.02	-	Transposase	IS256 family transposase
+Y. pestis CO92	NC_003143.1	2955.697	2956.156	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	2968.123	2968.384	-	Transposase	transposase
+Y. pestis CO92	NC_003143.1	2968.453	2968.864	-	Integrase	phage integrase central domain-containing protein
+Y. pestis CO92	NC_003143.1	2968.93	2969.713	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	2969.709	2970.732	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	2982.347	2983.556	+	Transposase	IS256 family transposase
+Y. pestis CO92	NC_003143.1	3049.02	3050.043	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	3050.039	3050.822	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	3098.414	3098.873	-	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	3117.328	3118.537	+	Transposase	IS256 family transposase
+Y. pestis CO92	NC_003143.1	3128.497	3129.706	-	Transposase	IS256 family transposase
+Y. pestis CO92	NC_003143.1	3140.515	3141.538	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	3141.534	3142.317	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	3149.503	3149.773	+	Integrase	tyrosine-type recombinase/integrase
+Y. pestis CO92	NC_003143.1	3153.206	3153.665	-	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	3198.26	3199.469	-	Transposase	IS256 family transposase
+Y. pestis CO92	NC_003143.1	3202.627	3203.086	-	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	3242.778	3243.237	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	3259.751	3260.21	-	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	3273.191	3273.65	-	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	3275.152	3275.935	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	3275.931	3276.954	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	3284.572	3285.781	+	Transposase	IS256 family transposase
+Y. pestis CO92	NC_003143.1	3335.083	3335.542	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	3346.105	3346.564	-	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	3417.605	3418.064	-	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	3427.813	3428.272	-	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	3482.564	3483.347	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	3483.343	3484.364	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	3541.826	3542.285	-	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	3548.647	3549.106	-	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	3556.8	3557.259	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	3574.486	3575.269	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	3575.265	3576.288	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	3625.343	3626.366	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	3626.362	3627.145	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	3661.019	3661.478	-	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	3662.78	3663.803	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	3663.799	3664.582	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	3671.3	3671.759	-	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	3678.031	3678.49	-	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	3687.181	3688.252	-	Recombinase or resolvase	recombinase RecA recA
+Y. pestis CO92	NC_003143.1	3714.226	3714.685	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	3811.296	3811.374	+	Transposase	IS1 family transposase
+Y. pestis CO92	NC_003143.1	3816.326	3816.785	-	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	3836.428	3836.887	-	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	3836.997	3838.02	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	3838.016	3838.799	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	3842.015	3843.275	-	Integrase	tyrosine-type recombinase/integrase
+Y. pestis CO92	NC_003143.1	3900.863	3902.218	-	Transposase	IS3-like element IS1661 family transposase
+Y. pestis CO92	NC_003143.1	3947.245	3947.704	-	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	3950.466	3951.489	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	3951.485	3952.268	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	3980.307	3980.766	-	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	3998.849	3999.872	+	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	3999.868	4000.651	+	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	4000.717	4000.924	-	Transposase	transposase
+Y. pestis CO92	NC_003143.1	4064.441	4064.9	+	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	4134.825	4135.608	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	4135.604	4136.627	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	4136.713	4137.867	+	Transposase	IS3-like element IS1661 family transposase
+Y. pestis CO92	NC_003143.1	4196.678	4197.137	+	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	4212.029	4212.812	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	4212.808	4213.831	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	4226.392	4226.851	-	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	4236.855	4237.638	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	4237.634	4238.657	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	4276.418	4276.877	-	Transposase	IS200/IS605-like element IS1541B family transposase tnpA
+Y. pestis CO92	NC_003143.1	4313.028	4313.94	-	Recombinase or resolvase	tyrosine recombinase XerC xerC
+Y. pestis CO92	NC_003143.1	4323.921	4324.38	-	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	4350.531	4351.74	+	Transposase	IS256 family transposase
+Y. pestis CO92	NC_003143.1	4417.57	4418.925	+	Transposase	IS3-like element IS1661 family transposase
+Y. pestis CO92	NC_003143.1	4445.466	4445.605	-	Transposase	IS66-like element accessory protein TnpA
+Y. pestis CO92	NC_003143.1	4468.527	4468.986	+	Transposase	IS200/IS605-like element IS1541A family transposase tnpA
+Y. pestis CO92	NC_003143.1	4520.109	4520.892	-	Transposase	IS21-like element IS100kyp family helper ATPase IstB istB
+Y. pestis CO92	NC_003143.1	4520.888	4521.911	-	Transposase	IS21-like element IS100 family transposase istA
+Y. pestis CO92	NC_003143.1	4543.682	4544.56	+	Transposase	IS5 family transposase
+Y. pestis CO92	NC_003143.1	4546.612	4547.806	-	Integrase	tyrosine-type recombinase/integrase
+Y. pestis CO92	NC_003143.1	4564.103	4565.458	+	Transposase	IS3-like element IS1661 family transposase
+Y. pestis CO92	NC_003143.1	4569.064	4569.466	+	Transposase	Tn3 family transposase
+Y. pestis CO92	NC_003143.1	4610.773	4612.128	+	Transposase	IS3-like element IS1661 family transposase
+Y. pestis CO92	NC_003143.1	4627.367	4627.516	+	Transposase	IS6 family transposase

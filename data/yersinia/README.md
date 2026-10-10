@@ -23,6 +23,31 @@ and is taken from the alignment, not inferred from block order.
 
 Total 404 blocks.
 
+## Annotation-track tables
+
+`ring-windows.tsv` and `ring-features.tsv` feed the annotated ring. Their
+coordinates are kilobases, like `blocks.tsv`, so all of them stack on one
+figure.
+
+| Table | Rows | Columns |
+|---|---:|---|
+| `ring-windows.tsv` | 941 | `species`, `chr`, `start`, `end`, `gc`, `skew` |
+| `ring-features.tsv` | 293 | `species`, `chr`, `start`, `end`, `strand`, `family`, `product` |
+
+`gc` is 100 * (G + C) / called bases in 10,000-base windows and `skew` is (G - C) / (G + C) per window. A feature row is a
+CDS whose own product or gene text matches transposase, insertion sequence,
+IS followed by a digit, integrase, recombinase or resolvase; nothing is
+inferred from position or similarity. The counts that result:
+
+| Genome | Transposase | Integrase | Recombinase or resolvase |
+|---|---:|---:|---:|
+| *Y. pseudotuberculosis* | 50 | 16 | 6 |
+| *Y. pestis CO92* | 203 | 14 | 4 |
+
+Rebuild with `python3 scripts/prepare_yersinia_tracks.py`, then
+`Rscript scripts/yersinia_ring.R`. Full settings are in
+`ring-provenance.json`.
+
 ## Method
 
 Downloaded from NCBI Nucleotide with E-utilities. `provenance.json` records
