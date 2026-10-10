@@ -26,7 +26,7 @@
          required = c("sample", "start", "end", "identity"), optional = character(),
          sample = "identity_five_genomes.tsv", input = "identity_file"))
   shiny::tagList(
-    shiny::div(class = "page-head", shiny::div(shiny::span(class = "kicker", "Step 1 · Data"),
+    shiny::div(class = "page-head", shiny::div(shiny::span(class = "kicker", "Step 1 \u00b7 Data"),
       shiny::h1(if (example) "The invented example" else "Bring your variant calls"),
       shiny::p("Every position is on one reference. The identity table is optional and comes from an alignment, never from the number of variants."))),
     shiny::div(class = "data-grid",
@@ -47,10 +47,10 @@
   ns <- shiny::NS(id)
   shiny::div(class = "reference-workbench",
     shiny::div(class = "ref-header",
-      shiny::div(shiny::div(class = "ref-kicker", "Step 2 · Figure · comparative genome ring"), shiny::h1(shiny::textOutput(ns("heading"), inline = TRUE))),
+      shiny::div(shiny::div(class = "ref-kicker", "Step 2 \u00b7 Figure \u00b7 comparative genome ring"), shiny::h1(shiny::textOutput(ns("heading"), inline = TRUE))),
       shiny::p("Reference at the centre, one ring per genome outward. Every ring shares the reference coordinates, so a line from the centre compares the same position across genomes.")),
     shiny::div(class = "ref-toolbar",
-      shiny::div(class = "ref-genomes", shiny::selectizeInput(ns("samples"), .studio_arg("Comparison genomes · inner to outer", "sample_order"), choices = samples, selected = samples, multiple = TRUE)),
+      shiny::div(class = "ref-genomes", shiny::selectizeInput(ns("samples"), .studio_arg("Comparison genomes \u00b7 inner to outer", "sample_order"), choices = samples, selected = samples, multiple = TRUE)),
       shiny::div(class = "ref-palette", shiny::selectInput(ns("palette"), .studio_arg("ltc palette", "palette"), choices = names(syn_palettes()), selected = "minou"), shiny::uiOutput(ns("swatches"))),
       shiny::div(class = "ref-palette", shiny::selectInput(ns("identity_palette"), .studio_arg("Identity shading", "identity_palette"),
         c("Grey ramp (default)" = "", "Sand to navy" = "sand", "heatmap0" = "heatmap0", "heatmap1" = "heatmap1", "heatmap3" = "heatmap3"))),
@@ -58,7 +58,7 @@
     shiny::div(class = "ref-status", shiny::uiOutput(ns("status"))),
     shiny::div(class = "ref-main-grid",
       shiny::div(class = "ref-figure", shiny::uiOutput(ns("preview")), shiny::uiOutput(ns("duplication_note"))),
-      shiny::div(class = "ref-side", shiny::div(class = "ref-section-heading", "Encoding · tick to show"),
+      shiny::div(class = "ref-side", shiny::div(class = "ref-section-heading", "Encoding \u00b7 tick to show"),
         shiny::div(class = "ref-encoding", shiny::uiOutput(ns("encoding"))),
         shiny::checkboxInput(ns("show_identity"), "Show identity shading", TRUE), shiny::uiOutput(ns("identity_key")), shiny::uiOutput(ns("events")))),
     shiny::div(class = "ref-bottom-grid", shiny::div(shiny::uiOutput(ns("locus"))),

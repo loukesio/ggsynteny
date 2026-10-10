@@ -66,8 +66,8 @@
 # ---- Step 1: data ------------------------------------------------------------
 .studio_file_card <- function(spec, input_id, example, ns = identity) {
   cols <- shiny::tags$ul(class = "cols",
-    lapply(spec$required, function(c) shiny::tags$li(shiny::span(class = "req", "●"), c)),
-    lapply(spec$optional, function(c) shiny::tags$li(shiny::span(class = "opt", "○"), paste(c, "(optional)"))))
+    lapply(spec$required, function(c) shiny::tags$li(shiny::span(class = "req", "\u25cf"), c)),
+    lapply(spec$optional, function(c) shiny::tags$li(shiny::span(class = "opt", "\u25cb"), paste(c, "(optional)"))))
   left <- if (example) shiny::div(shiny::span(class = "example-pill", "Example loaded"),
       shiny::p(class = "muted", "The bundled sample file is in use. Switch to Upload my data on the start screen to bring your own."))
     else shiny::div(class = "dropzone", shiny::fileInput(ns(input_id), NULL, accept = c(".tsv", ".csv", ".txt", ".gff", ".collinearity"),
@@ -159,7 +159,7 @@
         disabled = if (allowed[i]) NULL else NA))))
   })
   output$job_chip <- shiny::renderUI(if (!is.null(job())) shiny::span(class = "job-chip",
-    paste(.studio_jobs[[job()]]$name, "·", if (example()) "example" else "your data")))
+    paste(.studio_jobs[[job()]]$name, "\u00b7", if (example()) "example" else "your data")))
 
   # ---- synteny / tracks data ----
   chloroplast <- .tracks_chloroplast()
@@ -228,7 +228,7 @@
     shiny::req(job())
     if (job() == "reference") return(.reference_data_ui("reference_comparison", example()))
     shiny::tagList(
-      shiny::div(class = "page-head", shiny::div(shiny::span(class = "kicker", "Step 1 · Data"),
+      shiny::div(class = "page-head", shiny::div(shiny::span(class = "kicker", "Step 1 \u00b7 Data"),
         shiny::h1(if (example()) "The example tables" else "Bring your tables"),
         shiny::p(if (job() == "tracks") "Tracks need a figure to sit on. Choose the tables that draw it here; the track tables come in the next step."
                  else "Choose the format your results are in, then drop one file per card. The readout on the right says what was read and what was skipped."))),
@@ -298,7 +298,7 @@
       shiny::div(class = "btn-row", style = "margin-top:16px;justify-content:space-between",
         shiny::actionButton("back_data", "Back to data"), shiny::actionButton("to_export", "Continue to export", class = "btn-primary"))))
     shiny::tagList(
-      shiny::div(class = "page-head", shiny::div(shiny::span(class = "kicker", "Step 2 · Figure"),
+      shiny::div(class = "page-head", shiny::div(shiny::span(class = "kicker", "Step 2 \u00b7 Figure"),
         shiny::h1(if (job() == "tracks") "Stack the tracks" else "Shape the figure"),
         shiny::p("Controls are grouped by what they change; each one names its ggsynteny argument. The figure stays on screen."))),
       shiny::div(class = "figure-grid",
@@ -322,8 +322,8 @@
   })
   output$val_layout <- shiny::renderText(paste(if (identical(input$layout, "linear")) "linear" else "circular", "\u00b7", length(input$organisms %||% dataset()$organisms), "genomes"))
   output$val_colours <- shiny::renderText(input$palette %||% "casa_natal")
-  output$val_ribbons <- shiny::renderText(paste0("alpha ", input$alpha %||% 0.35, if (isTRUE(input$identity)) " · identity" else ""))
-  output$val_labels <- shiny::renderText(paste(if (isTRUE(input$labels %||% TRUE)) "labels on" else "labels off", if (!is.null(input$title) && nzchar(input$title)) "· titled" else ""))
+  output$val_ribbons <- shiny::renderText(paste0("alpha ", input$alpha %||% 0.35, if (isTRUE(input$identity)) " \u00b7 identity" else ""))
+  output$val_labels <- shiny::renderText(paste(if (isTRUE(input$labels %||% TRUE)) "labels on" else "labels off", if (!is.null(input$title) && nzchar(input$title)) "\u00b7 titled" else ""))
   output$interactive_ui <- shiny::renderUI({
     shiny::req(isTRUE(input$interactive))
     if (!requireNamespace("ggiraph", quietly = TRUE) || utils::packageVersion("ggiraph") < "0.9.2")
@@ -372,7 +372,7 @@
   })
   output$plot_meta <- shiny::renderText({
     d <- selected_data()
-    paste(input$palette %||% "casa_natal", "·", length(d$organisms), "genomes ·", nrow(d$second), "links")
+    paste(input$palette %||% "casa_natal", "\u00b7", length(d$organisms), "genomes \u00b7", nrow(d$second), "links")
   })
   output$plot <- shiny::renderPlot({ print(figure()) }, res = 110)
   output$plot_note <- shiny::renderUI({
@@ -407,7 +407,7 @@
                   c("pair-summary.tsv", "export_pairs")),
              if (identical(job(), "tracks")) lapply(seq_along(.tracks_data(tracks$tracks())), function(i) c(paste0("track", i, ".tsv"), paste0("export_track_", i))))
     shiny::tagList(
-      shiny::div(class = "page-head", shiny::div(shiny::span(class = "kicker", "Step 3 · Export"), shiny::h1("Take it with you"),
+      shiny::div(class = "page-head", shiny::div(shiny::span(class = "kicker", "Step 3 \u00b7 Export"), shiny::h1("Take it with you"),
         shiny::p("Four outputs in the order people need them. The script is the proof that every control was one function argument."))),
       shiny::div(class = "export-grid",
         shiny::div(shiny::div(class = "thumb", shiny::plotOutput("export_thumb", height = if (is_ref) "460px" else "300px")),

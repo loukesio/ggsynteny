@@ -153,7 +153,7 @@
 .tracks_panel_ui <- function(id) {
   ns <- shiny::NS(id)
   shiny::div(class = "tracks-panel",
-    shiny::div(class = "card-head", shiny::div(shiny::span(class = "kicker", "Tracks · list order is stacking order"),
+    shiny::div(class = "card-head", shiny::div(shiny::span(class = "kicker", "Tracks \u00b7 list order is stacking order"),
       shiny::h3("Annotation tracks")), shiny::span(class = "mono muted", shiny::textOutput(ns("count"), inline = TRUE))),
     shiny::uiOutput(ns("list")),
     shiny::div(class = "track-foot",
@@ -243,16 +243,16 @@
         shiny::span(class = "muted small", "No tracks yet. Drop an interval table below to add one.")))
       shiny::div(class = "track-list", lapply(seq_along(l), function(i) {
         t <- l[[i]]; uid <- t$uid
-        meta <- paste(c(t$geom, t$table %||% "", if (circular()) t$position %||% "outside"), collapse = " · ")
+        meta <- paste(c(t$geom, t$table %||% "", if (circular()) t$position %||% "outside"), collapse = " \u00b7 ")
         editable <- t$geom != "axis" && is.null(t$palette)   # example rings keep their curated options
         shiny::div(class = paste("track-row", if (!isTRUE(t$on)) "is-off"),
           shiny::checkboxInput(ns(paste0("on_", uid)), NULL, isTRUE(t$on)),
           shiny::span(class = "track-swatch", style = paste0("background:", t$swatch %||% "#6b6e76")),
           shiny::div(shiny::span(class = "track-name", t$label), shiny::span(class = "track-meta", meta)),
           shiny::div(class = "track-tools",
-            shiny::actionButton(ns(paste0("up_", uid)), "↑", class = "btn-icon", title = "Move up"),
-            shiny::actionButton(ns(paste0("down_", uid)), "↓", class = "btn-icon", title = "Move down"),
-            if (!isTRUE(example())) shiny::actionButton(ns(paste0("remove_", uid)), "×", class = "btn-icon", title = "Remove")),
+            shiny::actionButton(ns(paste0("up_", uid)), "\u2191", class = "btn-icon", title = "Move up"),
+            shiny::actionButton(ns(paste0("down_", uid)), "\u2193", class = "btn-icon", title = "Move down"),
+            if (!isTRUE(example())) shiny::actionButton(ns(paste0("remove_", uid)), "\u00d7", class = "btn-icon", title = "Remove")),
           shiny::tags$details(class = "track-edit", open = if (isTRUE(t$editing)) NA else NULL, shiny::tags$summary(class = "muted small", "Edit"),
             if (circular()) position_input(ns(paste0("position_", uid)), t$position %||% "outside"),
             shiny::sliderInput(ns(paste0("height_", uid)), .studio_arg("Lane height", "height"), min = 0.03, max = 0.3, value = t$height %||% 0.1, step = 0.01),
