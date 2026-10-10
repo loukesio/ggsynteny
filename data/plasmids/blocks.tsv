@@ -1,0 +1,9 @@
+species1	chr1	start1	end1	species2	chr2	start2	end2	orientation	block_id	identity
+E. coli ECONIH1	CP009862.1	0.0	41.762	K. pneumoniae KPNIH29	CP009864.1	0.0	41.762	plus	blastn_0_1_000	99.99
+E. coli ECONIH1	CP009862.1	59.446	73.962	K. pneumoniae KPNIH29	CP009864.1	41.918	56.434	plus	blastn_0_1_001	99.979
+E. coli ECONIH1	CP009862.1	74.016	80.186	K. pneumoniae KPNIH29	CP009864.1	56.419	62.589	plus	blastn_0_1_002	99.968
+E. coli ECONIH1	CP009862.1	0.0	29.595	E. cloacae ECNIH3	CP008901.1	0.0	29.595	plus	blastn_0_2_000	99.997
+E. coli ECONIH1	CP009862.1	59.445	80.186	E. cloacae ECNIH3	CP008901.1	29.592	50.333	plus	blastn_0_2_001	99.995
+K. pneumoniae KPNIH29	CP009864.1	0.0	29.595	E. cloacae ECNIH3	CP008901.1	0.0	29.595	plus	blastn_1_2_000	99.993
+K. pneumoniae KPNIH29	CP009864.1	41.918	56.434	E. cloacae ECNIH3	CP008901.1	29.593	44.109	plus	blastn_1_2_001	99.986
+K. pneumoniae KPNIH29	CP009864.1	56.419	62.589	E. cloacae ECNIH3	CP008901.1	44.163	50.333	plus	blastn_1_2_002	99.968

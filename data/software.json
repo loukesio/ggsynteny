@@ -1,0 +1,6 @@
+{
+  "python": "3.12.12",
+  "biopython": "1.86",
+  "blastn": "blastn: 2.16.0+",
+  "blastp": "blastp: 2.16.0+"
+}

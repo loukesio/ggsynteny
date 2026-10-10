@@ -1,0 +1,8 @@
+dataset	label	accession	strain_or_plasmid	length_bp	topology	organism	sequence_sha256	source_url
+bartonella	B. bacilliformis	NC_008783.1	KC583	1445021	circular	Bartonella bacilliformis KC583	d55bc36f256de6ffcf09122e72f0c0899e016c99a834e1c2104357b906310e5f	https://www.ncbi.nlm.nih.gov/nuccore/NC_008783.1
+bartonella	B. grahamii	NC_012846.1	as4aup	2341328	circular	Bartonella grahamii as4aup	4d3429e4ba76f2fac455ea8cce9a5cd76eecc675c6e6c770dfc7733dbb026b3d	https://www.ncbi.nlm.nih.gov/nuccore/NC_012846.1
+bartonella	B. henselae	NC_005956.1	Houston-1	1931047	circular	Bartonella henselae str. Houston-1	5ea74c145539cbe0ce6259da23891548d9d250d1aa8cb6e58dc3bbf2aeb2f51f	https://www.ncbi.nlm.nih.gov/nuccore/NC_005956.1
+bartonella	B. quintana	NC_005955.1	Toulouse	1581384	circular	Bartonella quintana str. Toulouse	738c01278fa28e3a0012b9524f7bd75fec009a39d31ddfd1eca16889cdb8f261	https://www.ncbi.nlm.nih.gov/nuccore/NC_005955.1
+plasmids	E. coli ECONIH1	CP009862.1	pKPC-629	80186	circular	Escherichia coli	5b0c6cad1e1f9269a3556f3cef13271a07c05428fc1d9a82a261062029b6f3f4	https://www.ncbi.nlm.nih.gov/nuccore/CP009862.1
+plasmids	K. pneumoniae KPNIH29	CP009864.1	pKPC-e4e	62589	circular	Klebsiella pneumoniae subsp. pneumoniae	256fa8934c83798725f7c1b6f42cf03f73a82b51a492f0e93e63c642dba5d399	https://www.ncbi.nlm.nih.gov/nuccore/CP009864.1
+plasmids	E. cloacae ECNIH3	CP008901.1	pKPC-47e	50333	circular	Enterobacter hormaechei subsp. hoffmannii ECNIH3	982e0f228beaf756a6fde3cc407be530b471a5310270bbf31a68504b0446c74d	https://www.ncbi.nlm.nih.gov/nuccore/CP008901.1

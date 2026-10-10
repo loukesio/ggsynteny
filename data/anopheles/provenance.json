@@ -1,0 +1,44 @@
+{
+  "title": "Published Anopheles block-order comparison",
+  "citation": "Jiang et al. (2014), Genome Biology 15:459",
+  "doi": "10.1186/s13059-014-0459-2",
+  "article_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4195908/",
+  "source_url": "https://static-content.springer.com/esm/art%3A10.1186%2Fs13059-014-0459-2/MediaObjects/13059_2014_459_MOESM2_ESM.zip",
+  "retrieved": "2026-09-17",
+  "archive_member": "Additional file 22: Synteny Blocks.xlsx",
+  "archive_sha256": "12df10ec854e6a64c40651b7f7c2ccf6567db97cf9ecb5885fa5051a906ae871",
+  "source_sha256": "0d4aaf7c1f9dd9c30c238bcd75c83ecbb0d20697d88dd579160403977dfe2adb",
+  "license": "Article CC BY 4.0; data CC0 unless otherwise stated",
+  "coordinate_unit": "ordinal block rank; zero-based half-open unit intervals",
+  "track_extent": "number of published blocks; not chromosome length",
+  "species": [
+    "An. gambiae",
+    "An. stephensi"
+  ],
+  "chromosome_arms_per_species": 5,
+  "blocks": 380,
+  "same_orientation": 182,
+  "opposite_orientation": 198,
+  "source_ortholog_count_reported_in_article": 6448,
+  "source_stephensi_mapped_fraction_reported_in_article": 0.62,
+  "limitations": [
+    "The source spreadsheet contains signed block orders, not bp coordinates.",
+    "The source physical map covers approximately 62% of the stephensi assembly.",
+    "Only 32 of 86 mapped stephensi scaffolds were oriented experimentally; others used default orientation in the published analysis.",
+    "Opposite-orientation block counts are not evolutionary inversion counts.",
+    "This visualization does not measure vector competence or insecticide resistance."
+  ],
+  "validation": [
+    "Publisher source checksum matches",
+    "Counts match the published Figure 7 caption",
+    "Every signed permutation is complete and one-to-one",
+    "All plotting intervals are bounded and one block wide",
+    "All plotting tables reconstruct the original signed orders"
+  ],
+  "output_sha256": {
+    "chromosomes.tsv": "2db536c54a1c094502882a313091da23e62ba9c31abd1c6752b551b94686c5ee",
+    "blocks.tsv": "a197eb777e3de7bc3f5524b2139948a35ecce771d555b5ecf9857eac25deaac7",
+    "source-permutations.tsv": "d31830f78e85dadaf38cdd62074cee2f77d1e220d7ed6f6d82618419daea4d17",
+    "arm-summary.tsv": "df06e6d96505f2475458ea8e1182dec24a35f3ecf327218421d752c3dcdad398"
+  }
+}
