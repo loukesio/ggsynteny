@@ -3,10 +3,6 @@ bartonella	macro	linear	bartonella-macro-linear
 bartonella	macro	circular	bartonella-macro-circular
 bartonella	micro	linear	bartonella-micro-linear
 bartonella	micro	circular	bartonella-micro-circular
-plasmids	macro	linear	plasmids-macro-linear
-plasmids	macro	circular	plasmids-macro-circular
-plasmids	micro	linear	plasmids-micro-linear
-plasmids	micro	circular	plasmids-micro-circular
 anopheles	macro	linear	anopheles-macro-linear
 anopheles	macro	circular	anopheles-macro-circular
 anopheles	x	linear	anopheles-x-linear

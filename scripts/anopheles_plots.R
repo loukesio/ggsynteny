@@ -12,7 +12,7 @@ stopifnot(nrow(ano_syn$chromosomes) == 10L, nrow(ano_syn$blocks) == 380L,
           sum(ano_syn$blocks$orientation == "minus") == 198L)
 
 # Match colours by the published homologous arms, including 2L <-> 3L.
-ano_arm_cols <- setNames(syn_pal("casa_natal", 5), c("2L", "2R", "3L", "3R", "X"))
+ano_arm_cols <- setNames(syn_palettes()$casa_natal[1:5], c("2L", "2R", "3L", "3R", "X"))
 ano_chr_cols <- c(setNames(ano_arm_cols, paste0(ano_species[1], "__", names(ano_arm_cols))),
               setNames(ano_arm_cols[ano_arms$gambiae_arm],
                        paste0(ano_species[2], "__", ano_arms$stephensi_arm)))

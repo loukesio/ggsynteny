@@ -29,11 +29,6 @@ BART = [
     ("NC_005956.1", "B. henselae", "Houston-1"),
     ("NC_005955.1", "B. quintana", "Toulouse"),
 ]
-PLASMIDS = [
-    ("CP009862.1", "E. coli ECONIH1", "pKPC-629"),
-    ("CP009864.1", "K. pneumoniae KPNIH29", "pKPC-e4e"),
-    ("CP008901.1", "E. cloacae ECNIH3", "pKPC-47e"),
-]
 BLOCK_COLS = "species1 chr1 start1 end1 species2 chr2 start2 end2 orientation block_id identity".split()
 FEATURE_COLS = "bin_id seq_id start end strand feat_id name locus_tag product protein_id".split()
 LINK_COLS = "feat_id_a feat_id_b identity query_coverage subject_coverage bitscore".split()
@@ -117,38 +112,6 @@ def macro_bartonella(records):
                     BART[j][1], records[j].id, y0/1000, y1/1000,
                     "plus" if a[0]*b[0] > 0 else "minus",
                     f"mauve_{index:04d}", "NA"])))
-    return rows
-
-
-def macro_plasmids(records):
-    rows, audit = [], []
-    for i, j in itertools.combinations(range(3), 2):
-        target = CACHE / f"plasmid_{i}_{j}.blastn.tsv"
-        hits = blast("blastn", CACHE / (records[i].id + ".fna"),
-                     CACHE / (records[j].id + ".fna"), target)
-        accepted = []
-        for n, h in enumerate(sorted(hits, key=lambda h: (-h["bitscore"], h["qstart"], h["sstart"]))):
-            x0, x1 = int(min(h["qstart"], h["qend"]))-1, int(max(h["qstart"], h["qend"]))
-            y0, y1 = int(min(h["sstart"], h["send"]))-1, int(max(h["sstart"], h["send"]))
-            reason = "retained"
-            if h["pident"] < 95 or min(x1-x0, y1-y0, h["length"]) < 1000:
-                reason = "below length or identity threshold"
-            # Allow short HSP-end overlaps; a strict zero-overlap rule loses
-            # long genuine matches because of a few shared terminal bases.
-            elif any((min(x1, b)-max(x0, a) > 50 or min(y1, d)-max(y0, c) > 50)
-                     for a, b, c, d in accepted):
-                reason = "overlaps higher-scoring match by more than 50 bp"
-            audit.append(dict(pair=f"{records[i].id}/{records[j].id}", **h, decision=reason))
-            if reason != "retained":
-                continue
-            accepted.append((x0, x1, y0, y1))
-            assert 0 <= x0 < x1 <= len(records[i]) and 0 <= y0 < y1 <= len(records[j])
-            rows.append(dict(zip(BLOCK_COLS, [
-                PLASMIDS[i][1], records[i].id, x0/1000, x1/1000,
-                PLASMIDS[j][1], records[j].id, y0/1000, y1/1000,
-                "plus" if (h["qend"]-h["qstart"])*(h["send"]-h["sstart"]) > 0 else "minus",
-                f"blastn_{i}_{j}_{n:03d}", h["pident"]])))
-    write_tsv(OUT / "plasmids/alignment_audit.tsv", audit, ["pair"] + BLAST_COLS + ["decision"])
     return rows
 
 
@@ -243,7 +206,6 @@ def main():
         path.mkdir(parents=True, exist_ok=True)
     downloads = [
         (genbank_url(BART), CACHE / "bartonella.gb"),
-        (genbank_url(PLASMIDS), CACHE / "plasmids.gb"),
         (f"https://raw.githubusercontent.com/cran/genoPlotR/{COMMIT}/inst/extdata/barto.backbone", SOURCE / "barto.backbone"),
     ]
     sources = []
@@ -256,7 +218,7 @@ def main():
     else:
         lockfile.write_text(json.dumps(sources, indent=2) + "\n")
     summary, manifest = {}, []
-    for kind, filename, specs in [("bartonella", "bartonella.gb", BART), ("plasmids", "plasmids.gb", PLASMIDS)]:
+    for kind, filename, specs in [("bartonella", "bartonella.gb", BART)]:
         records = load_records(filename, specs)
         for record, spec in zip(records, specs):
             SeqIO.write(record, CACHE / (record.id + ".fna"), "fasta")
@@ -265,7 +227,7 @@ def main():
                 organism=record.annotations["organism"],
                 sequence_sha256=hashlib.sha256(str(record.seq).upper().encode()).hexdigest(),
                 source_url="https://www.ncbi.nlm.nih.gov/nuccore/" + record.id))
-        blocks = macro_bartonella(records) if kind == "bartonella" else macro_plasmids(records)
+        blocks = macro_bartonella(records)
         chromosomes = [dict(species=spec[1], chr=r.id, size=len(r)/1000) for r, spec in zip(records, specs)]
         features = micro_features(records, specs, kind)
         links = micro_links(features, kind)

@@ -10,14 +10,12 @@ locks and checksums. To use the package, install `main`.
 data/      the published tables, with provenance and checksums
 scripts/   fetch, prepare, render and validate them
 figures/   every rendered view, PNG and PDF
-gallery/   one standalone interactive page
 ```
 
 | Application | Data | What it shows |
 |---|---|---|
 | [Plague and its ancestor](#plague-and-its-ancestor) | three deposited *Yersinia* genomes, new megablast alignments | 404 blocks, 211 of them reversed: a genome rearranged against the one it descends from |
 | [Four *Bartonella* genomes](#four-bartonella-genomes) | NCBI RefSeq records; Mauve backbone from genoPlotR (GPL-2, retained) | whole-genome blocks with inversions, and the `rpoB` neighbourhood with protein links |
-| [Three hospital plasmids](#three-hospital-associated-plasmids) | Conlan et al. 2014 complete sequences, new BLAST alignments | shared backbone and rearrangement among carbapenemase plasmids in three hosts |
 | [Two malaria vectors](#two-anopheles-malaria-vectors) | Jiang et al. 2014, 380 published synteny blocks | chromosome-arm block order; coordinates are block ranks, not base pairs |
 | [A chloroplast genome ring](#a-chloroplast-genome-ring) | *Arabidopsis thaliana* plastid, RefSeq NC_000932.1 | regions, kb ticks, genes by strand and function, GC content and skew, repeat links |
 
@@ -28,10 +26,9 @@ gallery/   one standalone interactive page
   <img src="figures/bartonella-macro-circular.png" alt="Circular comparison of four Bartonella genomes" width="49%" />
 </p>
 
-**View:** [all eleven bacterial and vector views as one PDF](figures/public-health-examples.pdf).
-**Interact:** download [the standalone HTML gallery](https://raw.githubusercontent.com/loukesio/ggsynteny/examples/real-data/gallery/index.html)
-and open it in a browser. Hover for identifiers and coordinates, scroll to
-zoom, drag to pan. GitHub's file viewer does not execute HTML widgets.
+**View:** [the seven Bartonella and Anopheles views as one PDF](figures/public-health-examples.pdf).
+`scripts/render.R` also builds a standalone interactive page when Pandoc is
+installed; it is generated, so it is not committed here.
 
 Gene links are computed from protein alignments; matching annotation names
 alone never create a link. All figures use `palette = "casa_natal"`.
@@ -102,43 +99,6 @@ are newly computed from the selected annotated windows. The reverse strand
 and reversed local order of the displayed *B. quintana* region are retained;
 we have not rotated or reverse-complemented the reference genomes.
 
-## Three hospital-associated plasmids
-
-These are the IncN plasmids compared in Figure 5 of
-[Conlan et al. (2014), *Single molecule sequencing to track plasmid diversity
-of hospital-associated carbapenemase-producing Enterobacteriaceae*](https://pmc.ncbi.nlm.nih.gov/articles/PMC4203314/).
-The study provides a clinical context for related plasmids in different
-bacterial hosts. Here the alignments are newly generated from deposited
-complete sequences; they are not the authors' original alignment files.
-
-| Host label used in the study | Plasmid | Versioned record | Length |
-|---|---|---|---:|
-| *E. coli* ECONIH1 | pKPC-629 | [CP009862.1](https://www.ncbi.nlm.nih.gov/nuccore/CP009862.1) | 80,186 bp |
-| *K. pneumoniae* KPNIH29 | pKPC-e4e | [CP009864.1](https://www.ncbi.nlm.nih.gov/nuccore/CP009864.1) | 62,589 bp |
-| *E. cloacae* ECNIH3 | pKPC-47e | [CP008901.1](https://www.ncbi.nlm.nih.gov/nuccore/CP008901.1) | 50,333 bp |
-
-ECNIH3 is now identified in the source record and
-[RefSeq](https://www.ncbi.nlm.nih.gov/nuccore/NZ_CP008901.1) as
-*Enterobacter hormaechei* subsp. *hoffmannii*. The plots retain the study's
-host label so they can be compared with its figures; `sequences.tsv` records
-the downloaded organism name separately.
-
-![Plasmid comparison](figures/plasmids-macro-linear.png)
-
-The three pairwise BLASTn comparisons retain **eight local nucleotide matches**
-across all pairs, or six between adjacent hosts. These show shared sequence
-and differences in its arrangement. Their presence does not by itself establish
-the direction, timing or route of plasmid transmission.
-
-![Plasmid gene windows](figures/plasmids-micro-linear.png)
-
-The close-up contains annotated CDS fully inside the same 2,000–10,700 bp
-window of each deposited plasmid: **33 CDS and 31 protein links**, or 21 links
-in the linear view. This shared-backbone window illustrates local annotation
-and gene-order differences. It is not the complete resistance region, and an
-absent arrow means no retained CDS annotation at that position, not necessarily
-absence of the underlying sequence.
-
 ## Two Anopheles malaria vectors
 
 The *An. gambiae*–*An. stephensi* comparison reuses **380 published synteny
@@ -162,7 +122,6 @@ or insecticide resistance.
 [Download the native tables, original spreadsheet and provenance](data/anopheles),
 read the [full methods](data/anopheles/README.md),
 or open the [composite PDF](figures/anopheles-block-order.pdf).
-The gallery includes interactive versions of all three Anopheles views.
 
 ## A chloroplast genome ring
 
@@ -207,8 +166,7 @@ plot_circular_microsynteny(read_table("bartonella", "features"),
                            palette = "casa_natal", ribbon_fill = "uniform")
 ```
 
-Replace `"bartonella"` with `"plasmids"` for the second dataset. For
-`"anopheles"` read only `chromosomes` and `blocks`; there are no gene-feature
+For `"anopheles"` read only `chromosomes` and `blocks`; there are no gene-feature
 or protein-link tables, and the coordinate unit is block rank. Use
 `plot_synteny(syn, unique(syn$chromosomes$species), show_inversions = TRUE)` or
 `plot_microsynteny(features, links)` for linear views; the figure scripts
@@ -219,8 +177,7 @@ plot, pass `interactive = TRUE` and give the result to `syn_girafe()`.
 
 Open [the public app](https://01a0ae1e-adb1-a4f8-1ced-261952037ebf.share.connect.posit.cloud/)
 or run `ggsynteny_app()` locally. Download the four relevant TSV files from
-[Bartonella](data/bartonella) or
-[plasmids](data/plasmids). For
+[Bartonella](data/bartonella). For
 [Anopheles](data/anopheles), download its two native
 chromosome/block tables; the values are block ranks, not base pairs.
 
@@ -233,7 +190,7 @@ Select Upload, choose the format and files, and select Linear or Circular.
 Enable the Interactive switch for tooltips and navigation. For whole-sequence
 views, enable the orientation option to retain reversed matches. Keep the link
 limit at 1,000 or higher to include every supplied link. Studio's labels and
-spacing use its own controls; the PDF/gallery use the documented figure script.
+spacing use its own controls; the committed PDFs use the figure scripts.
 
 ## Methods and reproduction
 
@@ -245,9 +202,9 @@ Rscript scripts/render.R
 ```
 
 Rendering requires the package's dependencies, devtools, ggiraph, htmlwidgets,
-htmltools, rmarkdown, and Pandoc. The output is eleven individual PNG/PDF views, an eleven-page combined
-PDF, the three-panel Anopheles composite, and one standalone HTML page
-containing seven interactive views. To rebuild the input tables as
+htmltools, rmarkdown, and Pandoc. The output is seven individual PNG/PDF views, a seven-page combined PDF and
+the three-panel Anopheles composite, plus a standalone interactive page when
+Pandoc is available. To rebuild the input tables as
 well, use Python 3.10+, Biopython and NCBI BLAST+:
 
 ```sh

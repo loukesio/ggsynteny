@@ -4,10 +4,10 @@ library(ggsynteny)
 root <- "data"
 records <- read.delim(file.path(root, "sequences.tsv"), stringsAsFactors = FALSE)
 stopifnot(identical(records$length_bp,
-                    c(1445021L, 2341328L, 1931047L, 1581384L, 80186L, 62589L, 50333L)),
+                    c(1445021L, 2341328L, 1931047L, 1581384L)),
           !anyDuplicated(records$accession), all(nchar(records$sequence_sha256) == 64L))
 checked <- 0L
-for (dataset in c("bartonella", "plasmids")) {
+for (dataset in c("bartonella")) {
   folder <- file.path(root, dataset)
   for (format in c("native", "genes")) {
     files <- if (format == "native") c("chromosomes.tsv", "blocks.tsv") else c("features.tsv", "links.tsv")

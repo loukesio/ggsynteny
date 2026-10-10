@@ -27,7 +27,7 @@ style <- function(p, title, subtitle, caption) {
   )
 }
 
-for (dataset in c("bartonella", "plasmids")) {
+for (dataset in c("bartonella")) {
   path <- file.path(input, dataset)
   syn <- list(chromosomes = read_table(file.path(path, "chromosomes.tsv")),
               blocks = read_table(file.path(path, "blocks.tsv")))
@@ -41,14 +41,10 @@ for (dataset in c("bartonella", "plasmids")) {
   a <- features$bin_id[match(links$feat_id_a, features$feat_id)]
   b <- features$bin_id[match(links$feat_id_b, features$feat_id)]
   linear_links <- links[abs(match(a, order) - match(b, order)) == 1L, ]
-  bart <- dataset == "bartonella"
-  name <- if (bart) "Four Bartonella genomes" else "Three hospital-associated plasmids"
-  source <- if (bart) "Mauve backbone distributed with genoPlotR; blocks >=10 kb on both genomes." else
-    "Conlan et al. (2014), Fig. 5 plasmids; new BLASTn matches >=1 kb and >=95% identity."
-  note <- if (bart) "Original reference coordinates; reversed ribbons retain alignment orientation." else
-    "Original sequence coordinates; short HSP overlaps <=50 bp retained. Similarity does not establish transmission."
-  micro_subtitle <- if (bart) "Nine annotated CDS around rpoB in each genome" else
-    "Annotated CDS fully inside the 2,000-10,700 bp backbone window"
+  name <- "Four Bartonella genomes"
+  source <- "Mauve backbone distributed with genoPlotR; blocks >=10 kb on both genomes."
+  note <- "Original reference coordinates; reversed ribbons retain alignment orientation."
+  micro_subtitle <- "Nine annotated CDS around rpoB in each genome"
 
   make_plot <- function(type, circular, interactive = FALSE) {
     if (type == "macro") {
@@ -69,7 +65,7 @@ for (dataset in c("bartonella", "plasmids")) {
         p <- suppressMessages(p + coord_cartesian(
           xlim = c(-width * 0.34, width * 1.03),
           ylim = c(-5, (length(order)-1)*18 + 5), clip = "off"))
-        scale_length <- if (bart) 500 else 20
+        scale_length <- 500
         p <- p + annotate("segment", x = width-scale_length, xend = width,
                           y = -4, yend = -4, linewidth = 0.65) +
           annotate("text", x = width-scale_length/2, y = -5.2,
@@ -215,10 +211,14 @@ page <- htmltools::tags$html(lang = "en",
     htmltools::tags$style(htmltools::HTML("body{font-family:Arial,sans-serif;color:#263f39;background:#f7f8f5;margin:0}main{max-width:1100px;margin:auto;padding:30px}h1{font-size:2.2rem}p{line-height:1.6}section{background:white;border:1px solid #dce4df;border-radius:12px;padding:18px;margin:24px 0}h2{font-size:1.25rem}a{color:#286459}.girafe{width:100%}"))),
   htmltools::tags$body(htmltools::tags$main(
     htmltools::tags$h1("Public-health examples"),
-    htmltools::tags$p("Four Bartonella genomes, three hospital-associated plasmids and two Anopheles malaria vectors, drawn with ggsynteny and casa_natal. Hover for identifiers and coordinates; scroll to zoom, drag to pan, and use the toolbar to reset."),
+    htmltools::tags$p("Four Bartonella genomes and two Anopheles malaria vectors, drawn with ggsynteny and casa_natal. Hover for identifiers and coordinates; scroll to zoom, drag to pan, and use the toolbar to reset."),
     htmltools::tags$p("Bacterial whole-sequence coordinates are in kb; gene-window coordinates are in bp. Anopheles coordinates are block ranks, not base pairs. Gene links are reciprocal best matches within the selected windows. Circular gene views show local regions, not complete circular molecules."),
     htmltools::tags$p(htmltools::tags$a(href = "https://github.com/loukesio/ggsynteny/tree/examples/real-data", "Methods, source records, download tables and PDFs")),
     htmltools::tagList(widgets))))
+have_pandoc <- isTRUE(tryCatch(rmarkdown::pandoc_available(), error = function(e) FALSE))
+if (!have_pandoc) {
+  message("Pandoc not available: skipping the interactive gallery.")
+} else {
 htmltools::save_html(page, file.path(gallery, "index-source.html"), libdir = "widget-libs")
 pandoc_template <- normalizePath("scripts/gallery-template.html")
 rmarkdown::pandoc_convert(file.path(gallery, "index-source.html"), from = "markdown", to = "html",
@@ -229,5 +229,8 @@ rmarkdown::pandoc_convert(file.path(gallery, "index-source.html"), from = "markd
 # clean for repository whitespace checks without changing the widget payloads.
 html_file <- file.path(gallery, "index.html")
 writeLines(sub("[ \t]+$", "", readLines(html_file, warn = FALSE)), html_file)
+}
 writeLines(capture.output(sessionInfo()), "validation/render-session.txt")
-cat("Rendered", length(all_plots), "individual views, an eleven-page PDF, an Anopheles composite and seven interactive views.\n")
+cat("Rendered", length(all_plots), "individual views, a", length(all_plots),
+    "page combined PDF and an Anopheles composite.",
+    if (have_pandoc) "Interactive gallery written." else "Interactive gallery skipped: no pandoc.", "\n")
